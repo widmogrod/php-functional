@@ -13,6 +13,7 @@ class UnitSpec extends ObjectBehavior
     {
         $this->beConstructedWith(null);
         $this->shouldHaveType('Monad\Unit');
+        $this->shouldHaveType('Monad\MonadInterface');
     }
 
     public function it_should_bind_value_from_constructor_to_given_function()
