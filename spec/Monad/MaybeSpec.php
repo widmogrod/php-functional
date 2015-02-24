@@ -1,5 +1,4 @@
 <?php
-
 namespace spec\Monad;
 
 use PhpSpec\ObjectBehavior;
