@@ -20,7 +20,7 @@ If you want to contribute, just fallow [GitHub workflow](https://guides.github.c
 Quality assurance is brought to you by [PHPSpec](http://www.phpspec.net/)
 
 ```
-composer test run
+composer test
 ```
 
 ## TODO

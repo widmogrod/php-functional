@@ -14,7 +14,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {
-    "test": "phpspec"
+    "test": "phpspec run"
   },
   "autoload": {
     "psr-0": {
