@@ -1,0 +1,20 @@
+{
+    "name": "widmogrod/php-monad",
+    "description": "Monads are fascinating concept. Purpose of this library is to explore them in OOP PHP world.",
+    "require-dev": {
+        "phpspec/phpspec": "^2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gabriel Habryn",
+            "email": "widmogrod@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "bin-dit": "vendor/bin",
+    "scripts": {
+        "test": "phpspec"
+    }
+}
