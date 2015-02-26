@@ -1,4 +1,6 @@
 # PHP Monad
+[![Build Status](https://travis-ci.org/widmogrod/php-monads.svg)](https://travis-ci.org/widmogrod/php-monads)
+
 ## Introduction
 
 Monads are fascinating concept. 
