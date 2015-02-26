@@ -25,8 +25,8 @@ composer test
 
 ## TODO
 
-- [√] Unit monad
-- [√] Maybe monad
+- [x] Unit monad
+- [x] Maybe monad
 - [ ] List monad
 - [ ] Promise monad
 - [ ] Thread monad
