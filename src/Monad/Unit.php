@@ -3,6 +3,10 @@ namespace Monad;
 
 class Unit implements MonadInterface
 {
+    use CreateTrait;
+
+    const create = 'Monad\Unit::create';
+
     /**
      * @var mixed
      */

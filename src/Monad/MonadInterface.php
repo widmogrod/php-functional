@@ -10,4 +10,12 @@ interface MonadInterface
      * @return MonadInterface|mixed
      */
     public function bind(callable $transformation);
+
+    /**
+     * Convert value to monad
+     *
+     * @param mixed $value
+     * @return MonadInterface
+     */
+    public static function create($value);
 }

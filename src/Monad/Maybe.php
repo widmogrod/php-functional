@@ -3,6 +3,10 @@ namespace Monad;
 
 class Maybe implements MonadInterface
 {
+    use CreateTrait;
+
+    const create = 'Monad\Maybe::create';
+
     /**
      * @var
      */

@@ -4,6 +4,9 @@ namespace spec\Monad;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
+/**
+ * @mixin \Monad\Maybe
+ */
 class MaybeSpec extends ObjectBehavior
 {
     function it_is_initializable()
@@ -32,5 +35,64 @@ class MaybeSpec extends ObjectBehavior
         $result->bind(function($value) {
             return $value;
         })->shouldReturn(null);
+    }
+
+
+    public function it_should_bind_value_from_constructor_to_given_function()
+    {
+        $this->beConstructedWith(2);
+        $this->bind(function ($value) {
+            return $value * $value;
+        })->shouldReturn(4);
+    }
+
+    public function it_should_obey_first_monad_law()
+    {
+        $mAddOne = function ($value) {
+            return \Monad\Maybe::create($value + 1);
+        };
+        $unWrap = function ($x) {
+            return $x;
+        };
+
+        $this->beConstructedWith(3);
+        $right = $this->bind($mAddOne);
+        $left = $mAddOne(3);
+
+        $right->bind($unWrap)->shouldReturn($left->bind($unWrap));
+    }
+
+    public function it_should_obey_second_monad_law()
+    {
+        $unWrap = function ($x) {
+            return $x;
+        };
+
+        $this->beConstructedWith(3);
+        $right = $this->bind(\Monad\Maybe::create);
+        $left = \Monad\Unit::create(3);
+
+        $right->bind($unWrap)->shouldReturn($left->bind($unWrap));
+    }
+
+    public function it_should_obey_third_monad_law()
+    {
+        $mAddOne = function ($value) {
+            return \Monad\Maybe::create($value + 1);
+        };
+        $mAddTwo = function ($value) {
+            return \Monad\Maybe::create($value + 2);
+        };
+        $unWrap = function ($x) {
+            return $x;
+        };
+
+        $this->beConstructedWith(3);
+        $right = $this->bind($mAddOne)->bind($mAddTwo);
+        $left = $this->bind(function($x) use($mAddOne, $mAddTwo){
+            return $mAddOne($x)->bind($mAddTwo);
+        });
+
+        $right->bind($unWrap)->shouldReturn($left->bind($unWrap));
     }
 }
