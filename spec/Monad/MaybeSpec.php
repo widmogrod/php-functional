@@ -14,12 +14,13 @@ class MaybeSpec extends ObjectBehavior
         $this->beConstructedWith(null);
         $this->shouldHaveType('Monad\Maybe');
         $this->shouldHaveType('Monad\MonadInterface');
+        $this->shouldHaveType('Monad\LiftInterface');
     }
 
     public function it_should_bind_value_from_constructor_to_given_function_if_value_is_not_null()
     {
         $this->beConstructedWith(2);
-        $this->bind(function($value) {
+        $this->bind(function ($value) {
             return $value * $value;
         })->shouldReturn(4);
     }
@@ -27,14 +28,11 @@ class MaybeSpec extends ObjectBehavior
     public function it_should_not_bind_value_from_constructor_to_given_function_if_value_is_null()
     {
         $this->beConstructedWith(null);
-        $result = $this->bind(function($value) {
+        $result = $this->bind(function ($value) {
             return $value * $value;
         });
 
-        $result->shouldBeAnInstanceOf('Monad\Unit');
-        $result->bind(function($value) {
-            return $value;
-        })->shouldReturn(null);
+        $result->shouldReturn(null);
     }
 
 
@@ -89,10 +87,23 @@ class MaybeSpec extends ObjectBehavior
 
         $this->beConstructedWith(3);
         $right = $this->bind($mAddOne)->bind($mAddTwo);
-        $left = $this->bind(function($x) use($mAddOne, $mAddTwo){
+        $left = $this->bind(function ($x) use ($mAddOne, $mAddTwo) {
             return $mAddOne($x)->bind($mAddTwo);
         });
 
         $right->bind($unWrap)->shouldReturn($left->bind($unWrap));
+    }
+
+
+    public function it_shoud_lift_functions()
+    {
+        $this->beConstructedWith(2);
+        $result = $this->lift(function ($x) {
+            return $x + 1;
+        });
+        $result->shouldHaveType('Monad\Maybe');
+        $result->bind(function ($x) {
+            return $x;
+        })->shouldReturn(3);
     }
 }

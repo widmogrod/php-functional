@@ -20,5 +20,8 @@
     "psr-0": {
       "Monad": "src"
     }
+  },
+  "require": {
+    "widmogrod/php-exceptions": "dev-master"
   }
 }

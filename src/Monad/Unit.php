@@ -1,9 +1,12 @@
 <?php
 namespace Monad;
 
-class Unit implements MonadInterface
+class Unit implements
+    MonadInterface,
+    LiftInterface
 {
     use CreateTrait;
+    use LiftTrait;
 
     const create = 'Monad\Unit::create';
 

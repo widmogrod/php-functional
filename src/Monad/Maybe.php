@@ -1,9 +1,12 @@
 <?php
 namespace Monad;
 
-class Maybe implements MonadInterface
+class Maybe implements
+    MonadInterface,
+    LiftInterface
 {
     use CreateTrait;
+    use LiftTrait;
 
     const create = 'Monad\Maybe::create';
 
@@ -26,7 +29,7 @@ class Maybe implements MonadInterface
     public function bind(callable $transformation)
     {
         if (null === $this->value) {
-            return new Unit(null);
+            return null;
         }
 
         return call_user_func($transformation, $this->value);

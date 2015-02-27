@@ -4,8 +4,45 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a6a0f4c77a6f4580f95f834d615787f6",
-    "packages": [],
+    "hash": "8fa011b650ec7cea6716cc783d7c5af4",
+    "packages": [
+        {
+            "name": "widmogrod/php-exceptions",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/widmogrod/php-exceptions.git",
+                "reference": "b35baeb03aaeb91670f6247e0583d03c52f31e85"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/widmogrod/php-exceptions/zipball/b35baeb03aaeb91670f6247e0583d03c52f31e85",
+                "reference": "b35baeb03aaeb91670f6247e0583d03c52f31e85",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpspec/phpspec": "^2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Exception": "src"
+                }
+            },
+            "notification-url": "http://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gabriel Habryn",
+                    "email": "widmogrod@gmail.com"
+                }
+            ],
+            "description": "Collection PHP exceptions grouped by functionality with nice ::assert API",
+            "time": "2015-02-26 22:34:01"
+        }
+    ],
     "packages-dev": [
         {
             "name": "doctrine/instantiator",
@@ -657,7 +694,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "widmogrod/php-exceptions": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
