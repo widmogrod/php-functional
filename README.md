@@ -28,7 +28,7 @@ composer test
 Extract list of first images from collection.
 
 ``` php
-use Monad\Maybe
+use Monad\Maybe;
 use Monad\Collection;
 
 $data = [
