@@ -57,7 +57,7 @@ assert($listOfFirstImages === ['//first.jpg', '//third.jpg', null]);
 
 - [x] Unit monad
 - [x] Maybe monad
-- [ ] List monad
+- [x] List monad (named here Collection because list is protected keyword)
 - [ ] Promise monad
 - [ ] Thread monad
 
