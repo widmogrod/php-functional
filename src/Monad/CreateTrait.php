@@ -7,7 +7,7 @@ trait CreateTrait
      * Convert value to monad
      *
      * @param mixed $value
-     * @return MonadInterface|self
+     * @return MonadInterface|LiftInterface
      */
     public static function create($value)
     {
