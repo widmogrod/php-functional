@@ -6,7 +6,7 @@ use Exception;
 class Collection implements
     MonadInterface,
     LiftInterface,
-    ValueOfInterface
+    Feature\ValueOfInterface
 {
     use CreateTrait;
 
@@ -40,7 +40,7 @@ class Collection implements
     {
         $result = [];
         foreach ($this->traversable as $index => $value) {
-            $result[$index] = $value instanceof BindInterface
+            $result[$index] = $value instanceof MonadInterface
                 ? $value->bind($transformation)
                 : call_user_func($transformation, $value, $index);
         }
@@ -60,7 +60,7 @@ class Collection implements
         foreach ($this->traversable as $index => $value) {
             $result[$index] = $value instanceof LiftInterface
                 ? $value->lift($transformation)
-                : ($value instanceof BindInterface
+                : ($value instanceof MonadInterface
                     ? $value->bind($transformation)
                     : call_user_func($transformation, $value, $index));
         }
@@ -76,7 +76,7 @@ class Collection implements
     public function valueOf()
     {
         return array_map(function($value) {
-            return $value instanceof ValueOfInterface
+            return $value instanceof Feature\ValueOfInterface
                 ? $value->valueOf()
                 : $value;
         }, $this->traversable);

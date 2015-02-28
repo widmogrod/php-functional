@@ -1,5 +1,4 @@
 <?php
-
 namespace spec\Monad;
 
 use PhpSpec\ObjectBehavior;
@@ -10,6 +9,21 @@ use Prophecy\Argument;
  */
 class UtilsSpec extends ObjectBehavior
 {
+    public function it_should_reduce_to_base_monad_values()
+    {
+        $result = $this::reduce([
+            \Monad\Unit::create(1),
+            \Monad\Unit::create(2),
+            \Monad\Unit::create(3),
+        ], function ($base, $value) {
+            return $base + $value;
+        }, \Monad\Unit::create(0));
+
+        $result->shouldBeAnInstanceOf('Monad\MonadInterface');
+        $result->shouldBeAnInstanceOf('Monad\Feature\ValueOfInterface');
+        $result->valueOf()->shouldReturn(6);
+    }
+
     public function it_should_aggregate_monad_values()
     {
         $result = $this::aggregate([
@@ -19,7 +33,7 @@ class UtilsSpec extends ObjectBehavior
         ]);
 
         $result->shouldBeAnInstanceOf('Monad\MonadInterface');
-        $result->shouldBeAnInstanceOf('Monad\ValueOfInterface');
+        $result->shouldBeAnInstanceOf('Monad\Feature\ValueOfInterface');
         $result->valueOf()->shouldReturn([1, 2, 3]);
     }
 
@@ -30,7 +44,7 @@ class UtilsSpec extends ObjectBehavior
         });
 
         $result->shouldBeAnInstanceOf('Monad\MonadInterface');
-        $result->shouldBeAnInstanceOf('Monad\ValueOfInterface');
+        $result->shouldBeAnInstanceOf('Monad\Feature\ValueOfInterface');
         $result->valueOf()->shouldReturn(6);
     }
 

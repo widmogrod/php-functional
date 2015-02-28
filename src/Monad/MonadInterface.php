@@ -1,8 +1,16 @@
 <?php
 namespace Monad;
 
-interface MonadInterface extends BindInterface
+interface MonadInterface
 {
+    /**
+     * Bind monad value to given $transformation function.
+     *
+     * @param callable $transformation
+     * @return mixed
+     */
+    public function bind(callable $transformation);
+
     /**
      * Convert value to a monad.
      *

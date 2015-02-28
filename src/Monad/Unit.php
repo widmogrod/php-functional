@@ -4,7 +4,7 @@ namespace Monad;
 class Unit implements
     MonadInterface,
     LiftInterface,
-    ValueOfInterface
+    Feature\ValueOfInterface
 {
     use CreateTrait;
     use LiftTrait;

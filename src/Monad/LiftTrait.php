@@ -7,7 +7,7 @@ trait LiftTrait
      * Converts values returned by regular function to monadic value.
      *
      * @param callable $transformation
-     * @return MonadInterface
+     * @return LiftInterface
      */
     public function lift(callable $transformation)
     {
