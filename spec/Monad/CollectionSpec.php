@@ -42,19 +42,19 @@ class CollectionSpec extends ObjectBehavior
 
     public function it_should_obey_third_monad_law()
     {
-        $addOne = function ($value) {
-            return $value + 1;
+        $mAddOne = function ($value) {
+            return \Monad\Unit::create($value + 1);
         };
-        $multiplyTwo = function ($value) {
-            return $value * 2;
+        $mMultiplyTwo = function ($value) {
+            return\Monad\Unit::create($value * 2);
         };
 
         $this->beConstructedWith([1, 2, 3]);
-        $right = $this->lift($addOne);
-        $right = $right->lift($multiplyTwo);
+        $right = $this->lift($mAddOne);
+        $right = $right->lift($mMultiplyTwo);
 
-        $left = $this->lift(function($x) use($addOne, $multiplyTwo){
-            return $multiplyTwo($addOne($x));
+        $left = $this->lift(function($x) use($mAddOne, $mMultiplyTwo){
+            return $mAddOne($x)->bind($mMultiplyTwo);
         });
 
         $right->valueOf()->shouldReturn($left->valueOf());
