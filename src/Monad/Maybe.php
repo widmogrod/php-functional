@@ -3,18 +3,25 @@ namespace Monad;
 
 class Maybe implements
     MonadInterface,
-    LiftInterface
+    LiftInterface,
+    ValueOfInterface
 {
     use CreateTrait;
     use LiftTrait;
+    use ValueOfTrait;
 
     const create = 'Monad\Maybe::create';
 
     /**
-     * @var
+     * @var mixed
      */
     private $value;
 
+    /**
+     * Ensure everything on start.
+     *
+     * @param $value
+     */
     public function __construct($value)
     {
         $this->value = $value;

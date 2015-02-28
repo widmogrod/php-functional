@@ -5,10 +5,10 @@ use Exception;
 
 class Collection implements
     MonadInterface,
-    LiftInterface
+    LiftInterface,
+    ValueOfInterface
 {
     use CreateTrait;
-    use LiftTrait;
 
     const create = 'Monad\Collection::create';
 
@@ -18,6 +18,8 @@ class Collection implements
     private $traversable;
 
     /**
+     * Ensure everything on start.
+     *
      * @param array|\Traversable $traversable
      * @throws Exception\InvalidTypeException
      */
@@ -38,9 +40,45 @@ class Collection implements
     {
         $result = [];
         foreach ($this->traversable as $index => $value) {
-            $result[] = call_user_func($transformation, $value, $index);
+            $result[$index] = $value instanceof BindInterface
+                ? $value->bind($transformation)
+                : call_user_func($transformation, $value, $index);
         }
 
         return $result;
+    }
+
+    /**
+     * Converts values returned by regular function to monadic value.
+     *
+     * @param callable $transformation
+     * @return Collection
+     */
+    public function lift(callable $transformation)
+    {
+        $result = [];
+        foreach ($this->traversable as $index => $value) {
+            $result[$index] = $value instanceof LiftInterface
+                ? $value->lift($transformation)
+                : ($value instanceof BindInterface
+                    ? $value->bind($transformation)
+                    : call_user_func($transformation, $value, $index));
+        }
+
+        return $this::create($result);
+    }
+
+    /**
+     * Return value wrapped by Monad
+     *
+     * @return array
+     */
+    public function valueOf()
+    {
+        return array_map(function($value) {
+            return $value instanceof ValueOfInterface
+                ? $value->valueOf()
+                : $value;
+        }, $this->traversable);
     }
 }

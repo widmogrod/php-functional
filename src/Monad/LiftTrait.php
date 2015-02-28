@@ -1,7 +1,7 @@
 <?php
 namespace Monad;
 
-trait LiftTrait 
+trait LiftTrait
 {
     /**
      * Converts values returned by regular function to monadic value.

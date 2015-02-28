@@ -35,7 +35,6 @@ class MaybeSpec extends ObjectBehavior
         $result->shouldReturn(null);
     }
 
-
     public function it_should_bind_value_from_constructor_to_given_function()
     {
         $this->beConstructedWith(2);
@@ -49,28 +48,21 @@ class MaybeSpec extends ObjectBehavior
         $mAddOne = function ($value) {
             return \Monad\Maybe::create($value + 1);
         };
-        $unWrap = function ($x) {
-            return $x;
-        };
 
         $this->beConstructedWith(3);
         $right = $this->bind($mAddOne);
         $left = $mAddOne(3);
 
-        $right->bind($unWrap)->shouldReturn($left->bind($unWrap));
+        $right->valueOf()->shouldReturn($left->valueOf());
     }
 
     public function it_should_obey_second_monad_law()
     {
-        $unWrap = function ($x) {
-            return $x;
-        };
-
         $this->beConstructedWith(3);
         $right = $this->bind(\Monad\Maybe::create);
         $left = \Monad\Unit::create(3);
 
-        $right->bind($unWrap)->shouldReturn($left->bind($unWrap));
+        $right->valueOf()->shouldReturn($left->valueOf());
     }
 
     public function it_should_obey_third_monad_law()
@@ -81,9 +73,6 @@ class MaybeSpec extends ObjectBehavior
         $mAddTwo = function ($value) {
             return \Monad\Maybe::create($value + 2);
         };
-        $unWrap = function ($x) {
-            return $x;
-        };
 
         $this->beConstructedWith(3);
         $right = $this->bind($mAddOne)->bind($mAddTwo);
@@ -91,7 +80,7 @@ class MaybeSpec extends ObjectBehavior
             return $mAddOne($x)->bind($mAddTwo);
         });
 
-        $right->bind($unWrap)->shouldReturn($left->bind($unWrap));
+        $right->valueOf()->shouldReturn($left->valueOf());
     }
 
 

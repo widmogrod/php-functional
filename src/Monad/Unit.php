@@ -3,10 +3,12 @@ namespace Monad;
 
 class Unit implements
     MonadInterface,
-    LiftInterface
+    LiftInterface,
+    ValueOfInterface
 {
     use CreateTrait;
     use LiftTrait;
+    use ValueOfTrait;
 
     const create = 'Monad\Unit::create';
 
@@ -16,6 +18,8 @@ class Unit implements
     private $value;
 
     /**
+     * Ensure everything on start.
+     *
      * @param mixed $value
      */
     public function __construct($value)
