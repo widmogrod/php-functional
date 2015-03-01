@@ -52,12 +52,3 @@ $listOfFirstImages = Collection::create($data)
 
 assert($listOfFirstImages === ['//first.jpg', '//third.jpg', null]);
 ```
-
-## TODO
-
-- [x] Unit monad
-- [x] Maybe monad
-- [x] List monad (named here Collection because list is protected keyword)
-- [ ] Promise monad
-- [ ] Thread monad
-
