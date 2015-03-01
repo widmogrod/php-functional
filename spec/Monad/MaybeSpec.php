@@ -14,7 +14,6 @@ class MaybeSpec extends ObjectBehavior
         $this->beConstructedWith(null);
         $this->shouldHaveType('Monad\Maybe');
         $this->shouldHaveType('Monad\MonadInterface');
-        $this->shouldHaveType('Monad\LiftInterface');
     }
 
     public function it_should_bind_value_from_constructor_to_given_function_if_value_is_not_null()
@@ -81,18 +80,5 @@ class MaybeSpec extends ObjectBehavior
         });
 
         $right->valueOf()->shouldReturn($left->valueOf());
-    }
-
-
-    public function it_shoud_lift_functions()
-    {
-        $this->beConstructedWith(2);
-        $result = $this->lift(function ($x) {
-            return $x + 1;
-        });
-        $result->shouldHaveType('Monad\Maybe');
-        $result->bind(function ($x) {
-            return $x;
-        })->shouldReturn(3);
     }
 }

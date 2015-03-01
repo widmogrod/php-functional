@@ -3,6 +3,57 @@ namespace Monad;
 
 final class Utils
 {
+    const returns = 'Monad\Utils::returns';
+
+    /**
+     * Return passed value.
+     *
+     * @param mixed $value
+     * @return mixed
+     */
+    public static function returns($value)
+    {
+        return $value;
+    }
+
+    /**
+     * Lift result of monad bind to monad
+     *
+     * @param MonadInterface $monad
+     * @param callable $transformation
+     * @return MonadInterface
+     */
+    public static function lift(MonadInterface $monad, callable $transformation)
+    {
+        if ($monad instanceof Feature\LiftInterface) {
+            return $monad->lift($transformation);
+        }
+
+        $result = $monad->bind($transformation);
+        if ($result instanceof MonadInterface) {
+            return $result;
+        }
+
+        return $monad::create($monad->bind($transformation));
+    }
+
+    /**
+     * Apply two monads to
+     *
+     * @param MonadInterface $m1
+     * @param MonadInterface $m2
+     * @param callable $transformation
+     * @return MonadInterface
+     */
+    public static function liftM2(MonadInterface $m1, MonadInterface $m2, callable $transformation)
+    {
+        return self::lift($m1, function ($a) use ($m2, $transformation) {
+            return self::lift($m2, function ($b) use ($a, $transformation) {
+                return call_user_func($transformation, $a, $b);
+            });
+        });
+    }
+
     /**
      * Reduce list of monads to single monad
      *
@@ -15,60 +66,14 @@ final class Utils
     {
         return array_reduce(
             $listOfMonads,
-            function (LiftInterface $base, MonadInterface $monad) use ($reduce) {
+            function (MonadInterface $base, MonadInterface $monad) use ($reduce) {
                 return $monad->bind(function ($value) use ($reduce, $base) {
-                    return $base->lift(function ($base) use ($reduce, $value) {
+                    return self::lift($base, function ($base) use ($reduce, $value) {
                         return $reduce($base, $value);
                     });
                 });
             },
             Unit::create($base)
         );
-    }
-
-    /**
-     * Aggregate values from list of Monads into single monad with list of values.
-     *
-     * @param MonadInterface[] $listOfMonads
-     * @return MonadInterface
-     */
-    public static function aggregate(array $listOfMonads)
-    {
-        return self::reduce(
-            $listOfMonads,
-            function ($base, $value) {
-                $base[] = $value;
-                return $base;
-            },
-            []
-        );
-    }
-
-    /**
-     * Apply values from monad to $transformation function and return result of this function
-     *
-     * @param MonadInterface $arguments
-     * @param callable $transformation
-     * @return mixed
-     */
-    public static function applyBind(MonadInterface $arguments, callable $transformation)
-    {
-        return $arguments->bind(function (array $arguments) use ($transformation) {
-            return call_user_func_array($transformation, $arguments);
-        });
-    }
-
-    /**
-     * Apply values from monad to $transformation function and return result of this function
-     *
-     * @param LiftInterface $arguments
-     * @param callable $transformation
-     * @return LiftInterface
-     */
-    public static function applyLift(LiftInterface $arguments, callable $transformation)
-    {
-        return $arguments->lift(function (array $arguments) use ($transformation) {
-            return call_user_func_array($transformation, $arguments);
-        });
     }
 }

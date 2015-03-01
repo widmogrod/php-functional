@@ -24,6 +24,7 @@ composer test
 ```
 
 ## Use Cases
+### Maybe and List Monad
 
 Extract list of first images from collection.
 
@@ -51,4 +52,31 @@ $listOfFirstImages = Collection::create($data)
     ->valueOf();
 
 assert($listOfFirstImages === ['//first.jpg', '//third.jpg', null]);
+```
+
+### Either Monad
+
+Combine content of two files into one, but if one of those files does not exists fail gracefully.
+
+``` php
+use Monad\Either;
+use Monad\Utils;
+
+function read($file)
+{
+    return is_file($file)
+        ? Either\Right::create(file_get_contents($file))
+        : Either\Left::create(sprintf('File "%s" does not exists', $file));
+}
+
+$concat = Utils::liftM2(
+    read(__DIR__ . '/e1.php'),
+    read('aaa'),
+    function ($first, $second) {
+        return $first . $second;
+    }
+);
+
+assert($concat instanceof Either\Left);
+assert($concat->orElse(Utils::returns) === 'File "aaa" does not exists');
 ```

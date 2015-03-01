@@ -5,7 +5,7 @@ use Exception;
 
 class Collection implements
     MonadInterface,
-    LiftInterface,
+    Feature\LiftInterface,
     Feature\ValueOfInterface
 {
     use CreateTrait;
@@ -58,11 +58,9 @@ class Collection implements
     {
         $result = [];
         foreach ($this->traversable as $index => $value) {
-            $result[$index] = $value instanceof LiftInterface
-                ? $value->lift($transformation)
-                : ($value instanceof MonadInterface
-                    ? $value->bind($transformation)
-                    : call_user_func($transformation, $value, $index));
+            $result[$index] = $value instanceof MonadInterface
+                    ? Utils::lift($value, $transformation)
+                    : call_user_func($transformation, $value, $index);
         }
 
         return $this::create($result);

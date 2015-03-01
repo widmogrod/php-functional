@@ -1,13 +1,15 @@
 <?php
-namespace Monad;
+namespace Monad\Feature;
 
-interface LiftInterface extends MonadInterface
+use Monad\MonadInterface;
+
+interface LiftInterface
 {
     /**
      * Converts values returned by regular function to monadic value.
      *
      * @param callable $transformation
-     * @return LiftInterface
+     * @return MonadInterface
      */
     public function lift(callable $transformation);
 }

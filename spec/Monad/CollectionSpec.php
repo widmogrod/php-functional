@@ -14,7 +14,7 @@ class CollectionSpec extends ObjectBehavior
         $this->beConstructedWith([1, 2, 3]);
         $this->shouldHaveType('Monad\Collection');
         $this->shouldHaveType('Monad\MonadInterface');
-        $this->shouldHaveType('Monad\LiftInterface');
+        $this->shouldHaveType('Monad\Feature\LiftInterface');
     }
 
     public function it_should_obey_first_monad_law()

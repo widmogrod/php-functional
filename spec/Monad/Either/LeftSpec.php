@@ -1,27 +1,29 @@
 <?php
-namespace spec\Monad;
+namespace spec\Monad\Either;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 /**
- * @mixin \Monad\Unit
+ * @mixin \Monad\Either\Left
  */
-class UnitSpec extends ObjectBehavior
+class LeftSpec extends ObjectBehavior
 {
-    public function it_is_initializable()
+    function it_is_initializable()
     {
         $this->beConstructedWith(null);
-        $this->shouldHaveType('Monad\Unit');
+        $this->shouldHaveType('Monad\Either\Left');
         $this->shouldHaveType('Monad\MonadInterface');
+        $this->shouldHaveType('Monad\Either\EitherInterface');
     }
 
-    public function it_should_bind_value_from_constructor_to_given_function()
+    public function it_should_not_bind()
     {
-        $this->beConstructedWith(2);
-        $this->bind(function ($value) {
-            return $value * $value;
-        })->shouldReturn(4);
+        $this->beConstructedWith(3);
+        $right = $this->bind(function($e) {
+            throw new \Exception('This should never been thrown');
+        });
+        $right->shouldReturn(null);
     }
 
     public function it_should_obey_first_monad_law()
@@ -31,7 +33,7 @@ class UnitSpec extends ObjectBehavior
         };
 
         $this->beConstructedWith(3);
-        $right = $this->bind($mAddOne);
+        $right = $this->orElse($mAddOne);
         $left = $mAddOne(3);
 
         $right->bind(\Monad\Utils::returns)->shouldReturn($left->bind(\Monad\Utils::returns));
@@ -40,8 +42,8 @@ class UnitSpec extends ObjectBehavior
     public function it_should_obey_second_monad_law()
     {
         $this->beConstructedWith(3);
-        $right = $this->bind(\Monad\Unit::create);
-        $left = \Monad\Unit::create(3);
+        $right = $this->orElse(\Monad\Either\Left::create);
+        $left = \Monad\Either\Left::create(3);
 
         $right->bind(\Monad\Utils::returns)->shouldReturn($left->bind(\Monad\Utils::returns));
     }
@@ -49,16 +51,16 @@ class UnitSpec extends ObjectBehavior
     public function it_should_obey_third_monad_law()
     {
         $mAddOne = function ($value) {
-            return \Monad\Unit::create($value + 1);
+            return \Monad\Either\Left::create($value + 1);
         };
         $mAddTwo = function ($value) {
-            return \Monad\Unit::create($value + 2);
+            return \Monad\Either\Left::create($value + 2);
         };
 
         $this->beConstructedWith(3);
-        $right = $this->bind($mAddOne)->bind($mAddTwo);
-        $left = $this->bind(function ($x) use ($mAddOne, $mAddTwo) {
-            return $mAddOne($x)->bind($mAddTwo);
+        $right = $this->orElse($mAddOne)->orElse($mAddTwo);
+        $left = $this->orElse(function ($x) use ($mAddOne, $mAddTwo) {
+            return $mAddOne($x)->orElse($mAddTwo);
         });
 
         $right->bind(\Monad\Utils::returns)->shouldReturn($left->bind(\Monad\Utils::returns));

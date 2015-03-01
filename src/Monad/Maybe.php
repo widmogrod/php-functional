@@ -3,11 +3,9 @@ namespace Monad;
 
 class Maybe implements
     MonadInterface,
-    LiftInterface,
     Feature\ValueOfInterface
 {
     use CreateTrait;
-    use LiftTrait;
     use ValueOfTrait;
 
     const create = 'Monad\Maybe::create';
