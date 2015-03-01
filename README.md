@@ -70,7 +70,7 @@ function read($file)
 }
 
 $concat = Utils::liftM2(
-    read(__DIR__ . '/e1.php'),
+    read(__FILE__),
     read('aaa'),
     function ($first, $second) {
         return $first . $second;
