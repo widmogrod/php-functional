@@ -2,7 +2,7 @@
 ## Introduction
 
 Monads are fascinating concept. 
-Purpose of this library is to explore them in OOP PHP world.
+Purpose of this library is to explore monads in OOP PHP and provide few real world use cases.
 
 ## Installation
 
