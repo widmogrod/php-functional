@@ -1,11 +1,11 @@
 <?php
 namespace Monad\Either;
 
-use Monad\CreateTrait;
+use Common;
 
 class Right implements EitherInterface
 {
-    use CreateTrait;
+    use Common\CreateTrait;
 
     const create = 'Monad\Either\Right::create';
 

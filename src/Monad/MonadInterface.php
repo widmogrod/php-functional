@@ -1,7 +1,9 @@
 <?php
 namespace Monad;
 
-interface MonadInterface
+use Common;
+
+interface MonadInterface extends Common\CreateInterface
 {
     /**
      * Bind monad value to given $transformation function.
@@ -10,12 +12,4 @@ interface MonadInterface
      * @return mixed
      */
     public function bind(callable $transformation);
-
-    /**
-     * Convert value to a monad.
-     *
-     * @param mixed $value
-     * @return MonadInterface
-     */
-    public static function create($value);
 }

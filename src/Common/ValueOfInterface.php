@@ -1,5 +1,5 @@
 <?php
-namespace Monad\Feature;
+namespace Common;
 
 interface ValueOfInterface 
 {

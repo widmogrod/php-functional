@@ -20,7 +20,7 @@ class UtilsSpec extends ObjectBehavior
         }, 0);
 
         $result->shouldBeAnInstanceOf('Monad\MonadInterface');
-        $result->shouldBeAnInstanceOf('Monad\Feature\ValueOfInterface');
+        $result->shouldBeAnInstanceOf('Common\ValueOfInterface');
         $result->valueOf()->shouldReturn(6);
     }
 

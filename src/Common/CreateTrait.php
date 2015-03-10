@@ -1,13 +1,20 @@
 <?php
-namespace Monad;
+namespace Common;
 
 trait CreateTrait
 {
+    private $value;
+
+    private function __construct($value)
+    {
+        $this->value = $value;
+    }
+
     /**
      * Convert value to monad
      *
      * @param mixed $value
-     * @return MonadInterface|LiftInterface
+     * @return self
      */
     public static function create($value)
     {

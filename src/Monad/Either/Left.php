@@ -1,14 +1,14 @@
 <?php
 namespace Monad\Either;
 
-use Monad\CreateTrait;
+use Common;
 use Monad\Feature\LiftInterface;
 
 class Left implements
     EitherInterface,
     LiftInterface
 {
-    use CreateTrait;
+    use Common\CreateTrait;
 
     const create = 'Monad\Either\Left::create';
 

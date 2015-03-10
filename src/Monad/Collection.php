@@ -2,13 +2,14 @@
 namespace Monad;
 
 use Exception;
+use Common;
 
 class Collection implements
     MonadInterface,
     Feature\LiftInterface,
-    Feature\ValueOfInterface
+    Common\ValueOfInterface
 {
-    use CreateTrait;
+    use Common\CreateTrait;
 
     const create = 'Monad\Collection::create';
 
@@ -74,7 +75,7 @@ class Collection implements
     public function valueOf()
     {
         return array_map(function($value) {
-            return $value instanceof Feature\ValueOfInterface
+            return $value instanceof Common\ValueOfInterface
                 ? $value->valueOf()
                 : $value;
         }, $this->traversable);

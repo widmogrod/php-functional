@@ -18,7 +18,10 @@
   },
   "autoload": {
     "psr-0": {
-      "Monad": "src"
+      "Common": "src",
+      "Monad": "src",
+      "Functor": "src",
+      "Applicative": "src"
     }
   },
   "require": {

@@ -1,5 +1,5 @@
 <?php
-namespace Monad;
+namespace Common;
 
 trait ValueOfTrait 
 {

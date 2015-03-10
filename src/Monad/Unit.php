@@ -1,12 +1,14 @@
 <?php
 namespace Monad;
 
+use Common;
+
 class Unit implements
     MonadInterface,
-    Feature\ValueOfInterface
+    Common\ValueOfInterface
 {
-    use CreateTrait;
-    use ValueOfTrait;
+    use Common\CreateTrait;
+    use Common\ValueOfTrait;
 
     const create = 'Monad\Unit::create';
 
