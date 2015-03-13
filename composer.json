@@ -22,7 +22,10 @@
       "Monad": "src",
       "Functor": "src",
       "Applicative": "src"
-    }
+    },
+    "files": [
+      "src/Functional/functions.php"
+    ]
   },
   "require": {
     "widmogrod/php-exceptions": "dev-master"
