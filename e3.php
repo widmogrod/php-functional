@@ -33,3 +33,4 @@ function isPasswordValid($password)
 }
 
 var_dump(isPasswordValid("foo"));
+var_dump(isPasswordValid("asdqMf67123!oo"));
