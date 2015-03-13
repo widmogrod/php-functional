@@ -29,7 +29,7 @@ class LeftSpec extends ObjectBehavior
     public function it_should_obey_first_monad_law()
     {
         $mAddOne = function ($value) {
-            return \Monad\Unit::create($value + 1);
+            return \Monad\Identity::create($value + 1);
         };
 
         $this->beConstructedWith(3);

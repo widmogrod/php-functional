@@ -13,19 +13,6 @@ class Left implements
     const create = 'Monad\Either\Left::create';
 
     /**
-     * @var mixed
-     */
-    private $value;
-
-    /**
-     * @param mixed
-     */
-    public function __construct($value)
-    {
-        $this->value = $value;
-    }
-
-    /**
      * Converts values returned by regular function to monadic value.
      *
      * @param callable $transformation

@@ -5,14 +5,14 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 /**
- * @mixin \Monad\Unit
+ * @mixin \Monad\Identity
  */
-class UnitSpec extends ObjectBehavior
+class IdentitySpec extends ObjectBehavior
 {
     public function it_is_initializable()
     {
         $this->beConstructedWith(null);
-        $this->shouldHaveType('Monad\Unit');
+        $this->shouldHaveType('Monad\Identity');
         $this->shouldHaveType('Monad\MonadInterface');
     }
 
@@ -27,7 +27,7 @@ class UnitSpec extends ObjectBehavior
     public function it_should_obey_first_monad_law()
     {
         $mAddOne = function ($value) {
-            return \Monad\Unit::create($value + 1);
+            return \Monad\Identity::create($value + 1);
         };
 
         $this->beConstructedWith(3);
@@ -40,8 +40,8 @@ class UnitSpec extends ObjectBehavior
     public function it_should_obey_second_monad_law()
     {
         $this->beConstructedWith(3);
-        $right = $this->bind(\Monad\Unit::create);
-        $left = \Monad\Unit::create(3);
+        $right = $this->bind(\Monad\Identity::create);
+        $left = \Monad\Identity::create(3);
 
         $right->bind(\Monad\Utils::returns)->shouldReturn($left->bind(\Monad\Utils::returns));
     }
@@ -49,10 +49,10 @@ class UnitSpec extends ObjectBehavior
     public function it_should_obey_third_monad_law()
     {
         $mAddOne = function ($value) {
-            return \Monad\Unit::create($value + 1);
+            return \Monad\Identity::create($value + 1);
         };
         $mAddTwo = function ($value) {
-            return \Monad\Unit::create($value + 2);
+            return \Monad\Identity::create($value + 2);
         };
 
         $this->beConstructedWith(3);

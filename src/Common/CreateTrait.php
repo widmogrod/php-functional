@@ -5,7 +5,7 @@ trait CreateTrait
 {
     private $value;
 
-    private function __construct($value)
+    public function __construct($value)
     {
         $this->value = $value;
     }

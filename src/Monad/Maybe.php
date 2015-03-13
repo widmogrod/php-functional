@@ -13,21 +13,6 @@ class Maybe implements
     const create = 'Monad\Maybe::create';
 
     /**
-     * @var mixed
-     */
-    private $value;
-
-    /**
-     * Ensure everything on start.
-     *
-     * @param $value
-     */
-    public function __construct($value)
-    {
-        $this->value = $value;
-    }
-
-    /**
      * Bind monad value to given $transformation function
      *
      * @param callable $transformation

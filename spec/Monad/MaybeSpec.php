@@ -59,7 +59,7 @@ class MaybeSpec extends ObjectBehavior
     {
         $this->beConstructedWith(3);
         $right = $this->bind(\Monad\Maybe::create);
-        $left = \Monad\Unit::create(3);
+        $left = \Monad\Identity::create(3);
 
         $right->valueOf()->shouldReturn($left->valueOf());
     }

@@ -10,19 +10,6 @@ class Right implements EitherInterface
     const create = 'Monad\Either\Right::create';
 
     /**
-     * @var mixed
-     */
-    private $value;
-
-    /**
-     * @param mixed $value
-     */
-    public function __construct($value)
-    {
-        $this->value = $value;
-    }
-
-    /**
      * Handle situation when error occur in monad computation chain.
      *
      * @param callable $fn

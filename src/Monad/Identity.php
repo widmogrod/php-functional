@@ -3,29 +3,14 @@ namespace Monad;
 
 use Common;
 
-class Unit implements
+class Identity implements
     MonadInterface,
     Common\ValueOfInterface
 {
     use Common\CreateTrait;
     use Common\ValueOfTrait;
 
-    const create = 'Monad\Unit::create';
-
-    /**
-     * @var mixed
-     */
-    private $value;
-
-    /**
-     * Ensure everything on start.
-     *
-     * @param mixed $value
-     */
-    public function __construct($value)
-    {
-        $this->value = $value;
-    }
+    const create = 'Monad\Identity::create';
 
     /**
      * Bind monad value to given $transformation function

@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8fa011b650ec7cea6716cc783d7c5af4",
+    "hash": "074972aed1cd54957687a040f9053e95",
     "packages": [
         {
             "name": "widmogrod/php-exceptions",

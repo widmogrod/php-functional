@@ -43,10 +43,10 @@ class CollectionSpec extends ObjectBehavior
     public function it_should_obey_third_monad_law()
     {
         $mAddOne = function ($value) {
-            return \Monad\Unit::create($value + 1);
+            return \Monad\Identity::create($value + 1);
         };
         $mMultiplyTwo = function ($value) {
-            return\Monad\Unit::create($value * 2);
+            return\Monad\Identity::create($value * 2);
         };
 
         $this->beConstructedWith([1, 2, 3]);
