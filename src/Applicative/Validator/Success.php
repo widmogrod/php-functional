@@ -10,13 +10,6 @@ class Success implements ApplicativeInterface
     use CreateTrait;
     use MapTrait;
 
-    private $value;
-
-    private function __construct($value)
-    {
-        $this->value = $value;
-    }
-
     public function ap(ApplicativeInterface $applicative)
     {
         if ($applicative instanceof Failure) {
