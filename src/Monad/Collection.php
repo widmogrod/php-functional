@@ -1,8 +1,9 @@
 <?php
 namespace Monad;
 
-use Exception;
 use Common;
+use Exception;
+use Functional as f;
 
 class Collection implements
     MonadInterface,
@@ -60,7 +61,7 @@ class Collection implements
         $result = [];
         foreach ($this->traversable as $index => $value) {
             $result[$index] = $value instanceof MonadInterface
-                    ? Utils::lift($value, $transformation)
+                    ? f\lift($value, $transformation)
                     : call_user_func($transformation, $value, $index);
         }
 

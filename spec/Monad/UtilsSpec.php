@@ -23,18 +23,4 @@ class UtilsSpec extends ObjectBehavior
         $result->shouldBeAnInstanceOf('Common\ValueOfInterface');
         $result->valueOf()->shouldReturn(6);
     }
-
-    public function it_should_apply_two_monads_to_function()
-    {
-        $result = $this::liftM2(
-            \Monad\Identity::create(1),
-            \Monad\Identity::create(2),
-            function ($a, $b) {
-                return $a + $b;
-            }
-        );
-
-        $result->shouldBeAnInstanceOf('Monad\MonadInterface');
-        $result->valueOf()->shouldReturn(3);
-    }
 }
