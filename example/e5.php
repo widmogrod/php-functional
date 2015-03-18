@@ -1,6 +1,8 @@
 <?php
 require_once 'vendor/autoload.php';
 
+use Functional as f;
+
 $collectionA = Applicative\Collection::create([
     function($a) {
         return 3 + $a;
@@ -10,11 +12,11 @@ $collectionA = Applicative\Collection::create([
     },
 ]);
 $collectionB = Applicative\Collection::create([
-    4, 5, 6
+    1, 2
 ]);
 
-$collectionC = $collectionA->ap($collectionB);
+$result = $collectionA->ap($collectionB);
 
-var_dump($collectionC);
-
+assert($result instanceof Applicative\Collection);
+assert(f\valueOf($result) === [4, 5, 5, 6]);
 
