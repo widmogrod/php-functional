@@ -1,25 +1,18 @@
 <?php
 namespace Applicative;
 
-use Common;
+use Functor;
 
-class Just implements
-    ApplicativeInterface,
-    Common\CreateInterface
+class Just extends Functor\Just implements ApplicativeInterface
 {
-    use Common\CreateTrait;
-
     /**
+     * Apply applicative on applicative.
+     *
      * @param ApplicativeInterface $applicative
      * @return ApplicativeInterface
      */
     public function ap(ApplicativeInterface $applicative)
     {
-        // TODO: Implement ap() method.
-    }
-
-    public function map(callable $transformation)
-    {
-        // TODO: Implement map() method.
+        return $applicative->map($this->value);
     }
 }

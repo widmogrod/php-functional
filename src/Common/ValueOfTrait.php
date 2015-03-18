@@ -10,6 +10,6 @@ trait ValueOfTrait
      */
     public function valueOf()
     {
-        return $this->value;
+        return \Functional\valueOf($this->value);
     }
 }

@@ -2,6 +2,16 @@
 namespace Functional;
 
 use Monad;
+use Common;
+use Applicative;
+
+function push(array $array, array $values)
+{
+    foreach ($values as $value) {
+        $array[] = $value;
+    }
+    return $array;
+}
 
 /**
  * Curry function
@@ -16,17 +26,29 @@ function curryN($numberOfArguments, callable $function, array $args = [])
     return function () use ($numberOfArguments, $function, $args) {
         $argsLeft = $numberOfArguments - func_num_args();
         if ($argsLeft <= 0) {
-            foreach (func_get_args() as $arg) {
-                $args[] = $arg;
-            }
+            push($args, func_get_args());
 
             return call_user_func_array($function, $args);
         } else {
-            array_push($args, func_num_args());
+            push($args, func_get_args());
+//            array_push($args, func_num_args());
 
             return curryN($argsLeft, $function, $args);
         }
     };
+}
+
+/**
+ * Retrieve value of a object
+ *
+ * @param Common\ValueOfInterface|mixed $value
+ * @return mixed
+ */
+function valueOf($value)
+{
+    return $value instanceof Common\ValueOfInterface
+        ? $value->valueOf()
+        : $value;
 }
 
 /**
@@ -51,7 +73,13 @@ function lift(Monad\MonadInterface $monad, callable $transformation)
 }
 
 /**
- * Apply two monads to
+ * Lift result of transformation function , called with values from two monads.
+ *
+ * liftM2 :: Monad m => (a1 -> a2 -> r) -> m a1 -> m a2 -> m r
+ *
+ * Promote a function to a monad, scanning the monadic arguments from left to right. For example,
+ *  liftM2 (+) [0,1] [0,2] = [0,2,1,3]
+ *  liftM2 (+) (Just 1) Nothing = Nothing
  *
  * @param Monad\MonadInterface $m1
  * @param Monad\MonadInterface $m2
@@ -65,4 +93,21 @@ function liftM2(Monad\MonadInterface $m1, Monad\MonadInterface $m2, callable $tr
             return call_user_func($transformation, $a, $b);
         });
     });
+}
+
+/**
+ * liftA2 :: Applicative f => (a -> b -> c) -> f a -> f b -> f c
+ *
+ * @param Applicative\ApplicativeInterface $a1
+ * @param Applicative\ApplicativeInterface $a2
+ * @param callable $transformation
+ * @return Applicative\ApplicativeInterface
+ */
+function liftA2(Applicative\ApplicativeInterface $a1, Applicative\ApplicativeInterface $a2, callable $transformation)
+{
+    return $a1->map(function ($a) use ($transformation) {
+        return function ($b) use ($a, $transformation) {
+            return call_user_func($transformation, $a, $b);
+        };
+    })->ap($a2);
 }

@@ -23,11 +23,9 @@ function isPasswordStrongEnough($password)
 
 function isPasswordValid($password)
 {
-    return Validator\Success::create(function () use ($password) {
-        return function () use ($password) {
+    return Validator\Success::create(Functional\curryN(2, function () use ($password) {
             return $password;
-        };
-    })
+    }))
     ->ap(isPasswordLongEnough($password))
     ->ap(isPasswordStrongEnough($password));
 }

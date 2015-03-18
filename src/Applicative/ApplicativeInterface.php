@@ -6,6 +6,8 @@ use Functor;
 interface ApplicativeInterface extends Functor\FunctorInterface
 {
     /**
+     * Apply applicative on applicative.
+     *
      * @param ApplicativeInterface $applicative
      * @return ApplicativeInterface
      */
