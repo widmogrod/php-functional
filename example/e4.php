@@ -1,28 +1,28 @@
 <?php
 require_once 'vendor/autoload.php';
 
-$justA = Applicative\Just::create(1);
-$collectionA = Applicative\Collection::create([
-    1, 2, 3
-]);
-$collectionB = Applicative\Collection::create([
-    4, 5, 6
-]);
+use Functional as f;
 
-$collectionC = \Functional\liftA2($collectionA, $collectionB, function($a, $b) {
+$justA       = Applicative\Just::create(1);
+$collectionA = Applicative\Collection::create([1, 2]);
+$collectionB = Applicative\Collection::create([4, 5]);
+
+$plus = function($a, $b) {
     return $a + $b;
-});
-var_dump(\Functional\valueOf($collectionC), get_class($collectionC));
+};
 
-$collectionD = \Functional\liftA2($justA, $collectionB, function($a, $b) {
-    return $a + $b;
-});
-var_dump(\Functional\valueOf($collectionD), get_class($collectionD));
+// $plus <*> [1, 2] <*> [4, 5]
+$resultA = \Functional\liftA2($collectionA, $collectionB, $plus);
+assert($resultA instanceof Applicative\Collection);
+assert(f\valueOf($resultA) === [5, 6, 6, 7]);
 
-$collectionE = \Functional\liftA2($collectionA, $justA, function($a, $b) {
-    return $a + $b;
-});
+// $plus <*> Just 1 <*> [4, 5]
+$resultB = \Functional\liftA2($justA, $collectionB, $plus);
+assert($resultB instanceof Applicative\Collection);
+assert(f\valueOf($resultB) === [5, 6]);
 
-var_dump(\Functional\valueOf($collectionE), get_class($collectionE));
-
+// $plus <*> [1, 2] <*> Just 1
+$resultC = \Functional\liftA2($collectionA, $justA, $plus);
+assert($resultC instanceof Applicative\Just);
+assert(f\valueOf($resultC) === [2, 3]);
 
