@@ -1,6 +1,7 @@
 <?php
 require_once 'vendor/autoload.php';
 
+use Functional as f;
 use Applicative\Validator;
 
 function isPasswordLongEnough($password)
@@ -24,11 +25,19 @@ function isPasswordStrongEnough($password)
 function isPasswordValid($password)
 {
     return Validator\Success::create(Functional\curryN(2, function () use ($password) {
-            return $password;
+        return $password;
     }))
-    ->ap(isPasswordLongEnough($password))
-    ->ap(isPasswordStrongEnough($password));
+        ->ap(isPasswordLongEnough($password))
+        ->ap(isPasswordStrongEnough($password));
 }
 
-var_dump(isPasswordValid("foo"));
-var_dump(isPasswordValid("asdqMf67123!oo"));
+$resultA = isPasswordValid("foo");
+assert($resultA instanceof Applicative\Validator\Failure);
+assert(f\valueOf($resultA) === [
+    'Password must have more than 6 characters',
+    'Password must contain special characters',
+]);
+
+$resultB = isPasswordValid("asdqMf67123!oo");
+assert($resultB instanceof Applicative\Validator\Success);
+assert(f\valueOf($resultB) === 'asdqMf67123!oo');
