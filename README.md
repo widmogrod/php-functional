@@ -183,9 +183,9 @@ assert($concat->orElse('Functional\identity') === 'File "aaa" does not exists');
 ## Credits & Beers
 This library exists only thanks **great people** who share their knowledge about Monads, Functors, Applicatives.
 Thank you:
- * @egonSchiele
- * @folktale
- * @robotlolita
+ * [@egonSchiele](https://github.com/egonSchiele)
+ * [@folktale](https://github.com/folktale)
+ * [@robotlolita](https://github.com/robotlolita)
  * and more
 
 If you going to visit Cracow (Poland), let me know - It's my treat!
