@@ -36,7 +36,7 @@ class LeftSpec extends ObjectBehavior
         $right = $this->orElse($mAddOne);
         $left = $mAddOne(3);
 
-        $right->bind(\Monad\Utils::returns)->shouldReturn($left->bind(\Monad\Utils::returns));
+        $right->bind('Functional\identity')->shouldReturn($left->bind('Functional\identity'));
     }
 
     public function it_should_obey_second_monad_law()
@@ -45,7 +45,7 @@ class LeftSpec extends ObjectBehavior
         $right = $this->orElse(\Monad\Either\Left::create);
         $left = \Monad\Either\Left::create(3);
 
-        $right->bind(\Monad\Utils::returns)->shouldReturn($left->bind(\Monad\Utils::returns));
+        $right->bind('Functional\identity')->shouldReturn($left->bind('Functional\identity'));
     }
 
     public function it_should_obey_third_monad_law()
@@ -63,6 +63,6 @@ class LeftSpec extends ObjectBehavior
             return $mAddOne($x)->orElse($mAddTwo);
         });
 
-        $right->bind(\Monad\Utils::returns)->shouldReturn($left->bind(\Monad\Utils::returns));
+        $right->bind('Functional\identity')->shouldReturn($left->bind('Functional\identity'));
     }
 }

@@ -34,7 +34,7 @@ class IdentitySpec extends ObjectBehavior
         $right = $this->bind($mAddOne);
         $left = $mAddOne(3);
 
-        $right->bind(\Monad\Utils::returns)->shouldReturn($left->bind(\Monad\Utils::returns));
+        $right->bind('Functional\identity')->shouldReturn($left->bind('Functional\identity'));
     }
 
     public function it_should_obey_second_monad_law()
@@ -43,7 +43,7 @@ class IdentitySpec extends ObjectBehavior
         $right = $this->bind(\Monad\Identity::create);
         $left = \Monad\Identity::create(3);
 
-        $right->bind(\Monad\Utils::returns)->shouldReturn($left->bind(\Monad\Utils::returns));
+        $right->bind('Functional\identity')->shouldReturn($left->bind('Functional\identity'));
     }
 
     public function it_should_obey_third_monad_law()
@@ -61,6 +61,6 @@ class IdentitySpec extends ObjectBehavior
             return $mAddOne($x)->bind($mAddTwo);
         });
 
-        $right->bind(\Monad\Utils::returns)->shouldReturn($left->bind(\Monad\Utils::returns));
+        $right->bind('Functional\identity')->shouldReturn($left->bind('Functional\identity'));
     }
 }

@@ -129,3 +129,26 @@ function liftA2(Applicative\ApplicativeInterface $a1, Applicative\ApplicativeInt
         };
     })->ap($a2);
 }
+
+/**
+ * Reduce list of monads to single monad
+ *
+ * @param Monad\MonadInterface[] $listOfMonads
+ * @param callable $reduce
+ * @param mixed $base
+ * @return Monad\MonadInterface
+ */
+function reduce($listOfMonads, callable $reduce, $base)
+{
+    return array_reduce(
+        $listOfMonads,
+        function (Monad\MonadInterface $base, Monad\MonadInterface $monad) use ($reduce) {
+            return $monad->bind(function ($value) use ($reduce, $base) {
+                return lift($base, function ($base) use ($reduce, $value) {
+                    return $reduce($base, $value);
+                });
+            });
+        },
+        Monad\Identity::create($base)
+    );
+}

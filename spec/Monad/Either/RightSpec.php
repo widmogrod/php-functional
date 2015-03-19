@@ -37,7 +37,7 @@ class RightSpec extends ObjectBehavior
         $right = $this->bind($mAddOne);
         $left = $mAddOne(3);
 
-        $right->bind(\Monad\Utils::returns)->shouldReturn($left->bind(\Monad\Utils::returns));
+        $right->bind('Functional\identity')->shouldReturn($left->bind('Functional\identity'));
     }
 
     public function it_should_obey_second_monad_law()
@@ -46,7 +46,7 @@ class RightSpec extends ObjectBehavior
         $right = $this->bind(\Monad\Either\Right::create);
         $left = \Monad\Either\Right::create(3);
 
-        $right->bind(\Monad\Utils::returns)->shouldReturn($left->bind(\Monad\Utils::returns));
+        $right->bind('Functional\identity')->shouldReturn($left->bind('Functional\identity'));
     }
 
     public function it_should_obey_third_monad_law()
@@ -64,6 +64,6 @@ class RightSpec extends ObjectBehavior
             return $mAddOne($x)->bind($mAddTwo);
         });
 
-        $right->bind(\Monad\Utils::returns)->shouldReturn($left->bind(\Monad\Utils::returns));
+        $right->bind('Functional\identity')->shouldReturn($left->bind('Functional\identity'));
     }
 }
