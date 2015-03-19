@@ -1,6 +1,6 @@
 {
   "name": "widmogrod/php-monads",
-  "description": "Functors, Applicators and Monads are fascinating concept. Purpose of this library is to explore them in OOP PHP world.",
+  "description": "Functors, Applicative and Monads are fascinating concept. Purpose of this library is to explore them in OOP PHP world.",
   "require-dev": {
     "phpspec/phpspec": "^2"
   },

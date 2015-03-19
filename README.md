@@ -2,7 +2,7 @@
 ## Introduction
 
 Functional programing is fascinating concept.
-Purpose of this library is to explore Functors, Applicators and Monads in OOP PHP, and provide examples of real world use case.
+Purpose of this library is to explore `Functors`, `Applicative Functors` and `Monads` in OOP PHP, and provide examples of real world use case.
 
 ## Installation
 
