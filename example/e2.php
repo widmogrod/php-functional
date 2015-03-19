@@ -3,7 +3,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Functional as f;
 use Monad\Either;
-use Monad\Utils;
 
 function read($file)
 {
@@ -21,4 +20,4 @@ $concat = f\liftM2(
 );
 
 assert($concat instanceof Either\Left);
-assert($concat->orElse(Utils::returns) === 'File "aaa" does not exists');
+assert($concat->orElse('Functional\identity') === 'File "aaa" does not exists');
