@@ -10,9 +10,11 @@ class Collection implements FunctorInterface, Common\ValueOfInterface
     /**
      * @param array $value
      */
-    public function __construct(array $value)
+    public function __construct($value)
     {
-        $this->value = $value;
+        $this->value = is_array($value) || $value instanceof \Traversable
+            ? $value
+            : [$value];
     }
 
     /**
