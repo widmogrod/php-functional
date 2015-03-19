@@ -8,9 +8,9 @@ function isPasswordLongEnough($password)
 {
     return strlen($password) > 6
         ? Validator\Success::create($password)
-        : Validator\Failure::create([
+        : Validator\Failure::create(
             'Password must have more than 6 characters'
-        ]);
+        );
 }
 
 function isPasswordStrongEnough($password)

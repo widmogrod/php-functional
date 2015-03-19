@@ -13,6 +13,13 @@ class Failure implements
     use Common\ValueOfTrait;
     use Functor\MapTrait;
 
+    public function __construct($value)
+    {
+        $this->value = is_array($value) || $value instanceof \Traversable
+            ? $value
+            : [$value];
+    }
+
     /**
      * Apply applicative on applicative.
      *
@@ -22,7 +29,7 @@ class Failure implements
     public function ap(Applicative\ApplicativeInterface $applicative)
     {
         if ($applicative instanceof Failure) {
-            return $applicative->map(function($v) {
+            return $applicative->map(function ($v) {
                 return array_merge($this->value, $v);
             });
         } else {
