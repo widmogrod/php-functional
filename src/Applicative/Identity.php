@@ -3,7 +3,7 @@ namespace Applicative;
 
 use Functor;
 
-class Just extends Functor\Just implements ApplicativeInterface
+class Identity extends Functor\Identity implements ApplicativeInterface
 {
     /**
      * Apply applicative on applicative.

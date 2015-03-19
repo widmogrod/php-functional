@@ -3,7 +3,7 @@ namespace Functor;
 
 use Common;
 
-class Just implements FunctorInterface, Common\ValueOfInterface
+class Identity implements FunctorInterface, Common\ValueOfInterface
 {
     use Common\CreateTrait;
     use Common\ValueOfTrait;

@@ -3,7 +3,7 @@ require_once 'vendor/autoload.php';
 
 use Functional as f;
 
-$justA       = Applicative\Just::create(1);
+$justA       = Applicative\Identity::create(1);
 $collectionA = Applicative\Collection::create([1, 2]);
 $collectionB = Applicative\Collection::create([4, 5]);
 
@@ -23,6 +23,6 @@ assert(f\valueOf($resultB) === [5, 6]);
 
 // $plus <*> [1, 2] <*> Just 1
 $resultC = \Functional\liftA2($collectionA, $justA, $plus);
-assert($resultC instanceof Applicative\Just);
+assert($resultC instanceof Applicative\Identity);
 assert(f\valueOf($resultC) === [2, 3]);
 

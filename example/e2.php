@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use Functional as f;
 use Monad\Either;
 use Monad\Utils;
 
@@ -11,7 +12,7 @@ function read($file)
         : Either\Left::create(sprintf('File "%s" does not exists', $file));
 }
 
-$concat = Utils::liftM2(
+$concat = f\liftM2(
     read(__DIR__ . '/e1.php'),
     read('aaa'),
     function ($first, $second) {
