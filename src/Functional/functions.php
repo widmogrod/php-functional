@@ -76,7 +76,7 @@ function valueOf($value)
  * @param callable $transformation
  * @return Monad\MonadInterface
  */
-function lift(Monad\MonadInterface $monad, callable $transformation)
+function liftM(Monad\MonadInterface $monad, callable $transformation)
 {
     if ($monad instanceof Monad\Feature\LiftInterface) {
         return $monad->lift($transformation);
@@ -106,8 +106,8 @@ function lift(Monad\MonadInterface $monad, callable $transformation)
  */
 function liftM2(Monad\MonadInterface $m1, Monad\MonadInterface $m2, callable $transformation)
 {
-    return lift($m1, function ($a) use ($m2, $transformation) {
-        return lift($m2, function ($b) use ($a, $transformation) {
+    return liftM($m1, function ($a) use ($m2, $transformation) {
+        return liftM($m2, function ($b) use ($a, $transformation) {
             return call_user_func($transformation, $a, $b);
         });
     });
@@ -138,13 +138,13 @@ function liftA2(Applicative\ApplicativeInterface $a1, Applicative\ApplicativeInt
  * @param mixed $base
  * @return Monad\MonadInterface
  */
-function reduce($listOfMonads, callable $reduce, $base)
+function reduceM($listOfMonads, callable $reduce, $base)
 {
     return array_reduce(
         $listOfMonads,
         function (Monad\MonadInterface $base, Monad\MonadInterface $monad) use ($reduce) {
             return $monad->bind(function ($value) use ($reduce, $base) {
-                return lift($base, function ($base) use ($reduce, $value) {
+                return liftM($base, function ($base) use ($reduce, $value) {
                     return $reduce($base, $value);
                 });
             });

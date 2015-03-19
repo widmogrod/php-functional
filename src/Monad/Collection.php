@@ -41,7 +41,7 @@ class Collection extends Applicative\Collection implements
         $result = [];
         foreach ($this->value as $index => $value) {
             $result[$index] = $value instanceof MonadInterface
-                    ? f\lift($value, $transformation)
+                    ? f\liftM($value, $transformation)
                     : call_user_func($transformation, $value, $index);
         }
 
