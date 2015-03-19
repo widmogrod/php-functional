@@ -179,3 +179,21 @@ $concat = f\liftM2(
 assert($concat instanceof Either\Left);
 assert($concat->orElse('Functional\identity') === 'File "aaa" does not exists');
 ```
+
+## Credits & Beers
+This library exists only thanks **great people** who share their knowledge about Monads, Functors, Applicatives.
+Thank you:
+ * @egonSchiele
+ * @folktale
+ * @robotlolita
+ * and more
+
+If you going to visit Cracow (Poland), let me know - It's my treat!
+
+Here links to their articles`/`libraries that help me understood the domain:
+ * http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html
+ * http://learnyouahaskell.com/functors-applicative-functors-and-monoids
+ * http://learnyouahaskell.com/starting-out#im-a-list-comprehension
+ * http://robotlolita.me/2013/12/08/a-monad-in-practicality-first-class-failures.html
+ * http://robotlolita.me/2014/03/20/a-monad-in-practicality-controlling-time.html
+ * https://github.com/folktale/data.either
