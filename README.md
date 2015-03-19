@@ -1,4 +1,4 @@
-# PHP Monad [![Build Status](https://travis-ci.org/widmogrod/php-monads.svg)](https://travis-ci.org/widmogrod/php-monads)
+# PHP Monad [![Build Status](https://travis-ci.org/widmogrod/php-functional.svg)](https://travis-ci.org/widmogrod/php-functional)
 ## Introduction
 
 Functional programing is fascinating concept.
