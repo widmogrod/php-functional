@@ -49,8 +49,6 @@ function curryN($numberOfArguments, callable $function, array $args = [])
             return call_user_func_array($function, $args);
         } else {
             push($args, func_get_args());
-//            array_push($args, func_num_args());
-
             return curryN($argsLeft, $function, $args);
         }
     };
