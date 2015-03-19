@@ -5,6 +5,8 @@ use Functor;
 
 class Identity extends Functor\Identity implements ApplicativeInterface
 {
+    const create = 'Applicative\Identity::create';
+
     /**
      * Apply applicative on applicative.
      *

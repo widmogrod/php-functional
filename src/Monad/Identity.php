@@ -2,14 +2,10 @@
 namespace Monad;
 
 use Common;
+use Applicative;
 
-class Identity implements
-    MonadInterface,
-    Common\ValueOfInterface
+class Identity extends Applicative\Identity implements MonadInterface
 {
-    use Common\CreateTrait;
-    use Common\ValueOfTrait;
-
     const create = 'Monad\Identity::create';
 
     /**

@@ -5,6 +5,8 @@ use Functor;
 
 class Maybe extends Functor\Maybe implements ApplicativeInterface
 {
+    const create = 'Applicative\Maybe::create';
+
     /**
      * Apply applicative on applicative.
      *

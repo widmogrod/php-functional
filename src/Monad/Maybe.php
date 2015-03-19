@@ -2,14 +2,10 @@
 namespace Monad;
 
 use Common;
+use Applicative;
 
-class Maybe implements
-    MonadInterface,
-    Common\ValueOfInterface
+class Maybe extends Applicative\Maybe implements MonadInterface
 {
-    use Common\CreateTrait;
-    use Common\ValueOfTrait;
-
     const create = 'Monad\Maybe::create';
 
     /**

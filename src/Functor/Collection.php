@@ -7,6 +7,8 @@ class Collection implements FunctorInterface, Common\ValueOfInterface
 {
     use Common\CreateTrait;
 
+    const create = 'Functor\Collection::create';
+
     /**
      * @param array $value
      */

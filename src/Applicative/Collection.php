@@ -5,6 +5,8 @@ use Functor;
 
 class Collection extends Functor\Collection implements ApplicativeInterface
 {
+    const create = 'Applicative\Collection::create';
+
     /**
      * Apply applicative on applicative.
      *
