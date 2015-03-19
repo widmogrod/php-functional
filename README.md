@@ -24,9 +24,106 @@ composer test
 ```
 
 ## Use Cases
-### Maybe and List Monad
+More use cases and examples you can find in the `example` directory.
 
-Extract list of first images from collection.
+### List Functor
+``` php
+use Functional as f;
+
+$collection = Functor\Collection::create([
+   ['id' => 1, 'name' => 'One'],
+   ['id' => 2, 'name' => 'Two'],
+   ['id' => 3, 'name' => 'Three'],
+]);
+
+$result = $collection->map(function($a) {
+    return $a['id'] + 1;
+});
+
+assert(f\valueOf($result) === [2, 3, 4]);
+```
+
+### List Applicative Functor
+Apply function on list of values and as a result, receive list of all possible combinations 
+of applying function from the left list to a value in the right one.
+
+``` haskel
+[(+3),(+4)] <*> [1, 2] == [4, 5, 5, 6]
+```
+
+``` php
+use Functional as f;
+
+$collectionA = Applicative\Collection::create([
+    function($a) {
+        return 3 + $a;
+    },
+    function($a) {
+        return 4 + $a;
+    },
+]);
+$collectionB = Applicative\Collection::create([
+    1, 2
+]);
+
+$result = $collectionA->ap($collectionB);
+
+assert($result instanceof Applicative\Collection);
+assert(f\valueOf($result) === [4, 5, 5, 6]);
+```
+
+### Applicative Validation
+
+When validating input values, sometimes is better to collect information of all possible failures 
+than breaking chain on first failure like in Either Monad.
+
+
+``` php
+use Functional as f;
+use Applicative\Validator;
+
+function isPasswordLongEnough($password)
+{
+    return strlen($password) > 6
+        ? Validator\Success::create($password)
+        : Validator\Failure::create(
+            'Password must have more than 6 characters'
+        );
+}
+
+function isPasswordStrongEnough($password)
+{
+    return preg_match('/[\W]/', $password)
+        ? Validator\Success::create($password)
+        : Validator\Failure::create([
+            'Password must contain special characters'
+        ]);
+}
+
+function isPasswordValid($password)
+{
+    return Validator\Success::create(Functional\curryN(2, function () use ($password) {
+        return $password;
+    }))
+        ->ap(isPasswordLongEnough($password))
+        ->ap(isPasswordStrongEnough($password));
+}
+
+$resultA = isPasswordValid("foo");
+assert($resultA instanceof Applicative\Validator\Failure);
+assert(f\valueOf($resultA) === [
+    'Password must have more than 6 characters',
+    'Password must contain special characters',
+]);
+
+$resultB = isPasswordValid("asdqMf67123!oo");
+assert($resultB instanceof Applicative\Validator\Success);
+assert(f\valueOf($resultB) === 'asdqMf67123!oo');
+```
+
+### Maybe and List Monad
+Extract from list of uneven values can be tricky and produce nasty code full of `if (isset)` statements.
+Combining List and Maybe Monad this process becomes simpler and more readable.
 
 ``` php
 use Monad\Maybe;
@@ -55,12 +152,14 @@ assert($listOfFirstImages === ['//first.jpg', '//third.jpg', null]);
 ```
 
 ### Either Monad
-
-Combine content of two files into one, but if one of those files does not exists fail gracefully.
+In `php` world, most popular way of saying that something went wrong is to throw an exception.
+This results in nasty `try catch` blocks and many of if statements.
+Either Monad shows how we can fail gracefully without breaking execution chain and making code more readable.
+Following example, try to combine content of two files into one, but if one of those files does not exists and operation fails smoothly.
 
 ``` php
+use Functional as f;
 use Monad\Either;
-use Monad\Utils;
 
 function read($file)
 {
@@ -69,8 +168,8 @@ function read($file)
         : Either\Left::create(sprintf('File "%s" does not exists', $file));
 }
 
-$concat = Utils::liftM2(
-    read(__FILE__),
+$concat = f\liftM2(
+    read(__DIR__ . '/e1.php'),
     read('aaa'),
     function ($first, $second) {
         return $first . $second;
@@ -78,5 +177,5 @@ $concat = Utils::liftM2(
 );
 
 assert($concat instanceof Either\Left);
-assert($concat->orElse(Utils::returns) === 'File "aaa" does not exists');
+assert($concat->orElse('Functional\identity') === 'File "aaa" does not exists');
 ```
