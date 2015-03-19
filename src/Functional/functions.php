@@ -5,12 +5,30 @@ use Monad;
 use Common;
 use Applicative;
 
+/**
+ * Append array with values.
+ *
+ * @param array $array
+ * @param array $values
+ * @return array
+ */
 function push(array $array, array $values)
 {
     foreach ($values as $value) {
         $array[] = $value;
     }
     return $array;
+}
+
+/**
+ * Return value passed to function
+ *
+ * @param mixed $x
+ * @return mixed
+ */
+function identity($x)
+{
+    return $x;
 }
 
 /**
