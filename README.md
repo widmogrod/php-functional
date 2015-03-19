@@ -1,8 +1,8 @@
 # PHP Monad [![Build Status](https://travis-ci.org/widmogrod/php-monads.svg)](https://travis-ci.org/widmogrod/php-monads)
 ## Introduction
 
-Monads are fascinating concept. 
-Purpose of this library is to explore monads in OOP PHP, and provide examples of real world use case.
+Functional programing is fascinating concept.
+Purpose of this library is to explore Functors, Applicators and Monads in OOP PHP, and provide examples of real world use case.
 
 ## Installation
 
