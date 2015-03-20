@@ -19,4 +19,4 @@ script:
  - composer test
 
 notifications:
-  email: "widmogrod+php-monads@gmail.com"
+  email: "widmogrod+php-functional@gmail.com"
