@@ -1,8 +1,8 @@
 # PHP Monad [![Build Status](https://travis-ci.org/widmogrod/php-functional.svg)](https://travis-ci.org/widmogrod/php-functional)
 ## Introduction
 
-Functional programing is fascinating concept.
-Purpose of this library is to explore `Functors`, `Applicative Functors` and `Monads` in OOP PHP, and provide examples of real world use case.
+Functional programing is a fascinating concept.
+The purpose of this library is to explore `Functors`, `Applicative Functors` and `Monads` in OOP PHP, and provide examples of real world use case.
 
 ## Installation
 
@@ -12,8 +12,8 @@ composer require widmogrod/php-monads
 
 ## Development
 
-This repository fallows [semantic versioning concept](http://semver.org/). 
-If you want to contribute, just fallow [GitHub workflow](https://guides.github.com/introduction/flow/) and open pull request. 
+This repository follows [semantic versioning concept](http://semver.org/). 
+If you want to contribute, just follow [GitHub workflow](https://guides.github.com/introduction/flow/) and open a pull request. 
 
 ## Testing
 
@@ -24,7 +24,7 @@ composer test
 ```
 
 ## Use Cases
-More use cases and examples you can find in the `example` directory.
+You can find more use cases and examples in the `example` directory.
 
 ### List Functor
 ``` php
@@ -74,8 +74,8 @@ assert(f\valueOf($result) === [4, 5, 5, 6]);
 
 ### Applicative Validation
 
-When validating input values, sometimes is better to collect information of all possible failures 
-than breaking chain on first failure like in Either Monad.
+When validating input values, sometimes it's better to collect information of all possible failures 
+than breaking the chain on the first failure like in Either Monad.
 
 
 ``` php
@@ -122,8 +122,8 @@ assert(f\valueOf($resultB) === 'asdqMf67123!oo');
 ```
 
 ### Maybe and List Monad
-Extract from list of uneven values can be tricky and produce nasty code full of `if (isset)` statements.
-Combining List and Maybe Monad this process becomes simpler and more readable.
+Extracting from a list of uneven values can be tricky and produce nasty code full of `if (isset)` statements.
+By combining List and Maybe Monad, this process becomes simpler and more readable.
 
 ``` php
 use Monad\Maybe;
@@ -152,10 +152,10 @@ assert($listOfFirstImages === ['//first.jpg', '//third.jpg', null]);
 ```
 
 ### Either Monad
-In `php` world, most popular way of saying that something went wrong is to throw an exception.
+In `php` world, the most popular way of saying that something went wrong is to throw an exception.
 This results in nasty `try catch` blocks and many of if statements.
-Either Monad shows how we can fail gracefully without breaking execution chain and making code more readable.
-Following example, try to combine content of two files into one, but if one of those files does not exists and operation fails smoothly.
+Either Monad shows how we can fail gracefully without breaking the execution chain and making the code more readable.
+The following example demonstrates combining the contents of two files into one. If one of those files does not exist the operation fails gracefully.
 
 ``` php
 use Functional as f;
