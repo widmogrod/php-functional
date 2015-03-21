@@ -43,15 +43,9 @@ function curryN($numberOfArguments, callable $function, array $args = [])
 {
     return function () use ($numberOfArguments, $function, $args) {
         $argsLeft = $numberOfArguments - func_num_args();
-        if ($argsLeft <= 0) {
-            $args = push($args, func_get_args());
-
-            return call_user_func_array($function, $args);
-        } else {
-            $args =push($args, func_get_args());
-
-            return curryN($argsLeft, $function, $args);
-        }
+        return $argsLeft <= 0
+            ? call_user_func_array($function, push($args, func_get_args()))
+            : curryN($argsLeft, $function, push($args, func_get_args()));
     };
 }
 
