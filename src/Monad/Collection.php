@@ -22,9 +22,12 @@ class Collection extends Applicative\Collection implements
     {
         $result = [];
         foreach ($this->value as $index => $value) {
-            $result[$index] = $value instanceof MonadInterface
-                ? $value->bind($transformation)
-                : call_user_func($transformation, $value, $index);
+            $result = f\concat(
+                $result,
+                $value instanceof MonadInterface
+                    ? $value->bind($transformation)
+                    : call_user_func($transformation, $value, $index)
+            );
         }
 
         return $result;
@@ -40,9 +43,12 @@ class Collection extends Applicative\Collection implements
     {
         $result = [];
         foreach ($this->value as $index => $value) {
-            $result[$index] = $value instanceof MonadInterface
+            $result = f\concat(
+                $result,
+                $value instanceof MonadInterface
                     ? f\liftM($value, $transformation)
-                    : call_user_func($transformation, $value, $index);
+                    : call_user_func($transformation, $value, $index)
+            );
         }
 
         return $this::create($result);
