@@ -17,6 +17,24 @@ function push(array $array, array $values)
     foreach ($values as $value) {
         $array[] = $value;
     }
+
+    return $array;
+}
+
+/**
+ * Return new array comprised of values from first array, and value from second value or array.
+ *
+ * @param array $array
+ * @param mixed|array $value
+ * @return array
+ */
+function concat(array $array, $value)
+{
+    if (is_array($value)) {
+        return push($array, $value);
+    }
+    $array[] = $value;
+
     return $array;
 }
 
