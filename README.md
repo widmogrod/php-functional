@@ -7,7 +7,7 @@ The purpose of this library is to explore `Functors`, `Applicative Functors` and
 ## Installation
 
 ```
-composer require widmogrod/php-monads
+composer require widmogrod/php-functional
 ```
 
 ## Development
