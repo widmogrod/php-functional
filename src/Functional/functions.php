@@ -68,6 +68,20 @@ function curryN($numberOfArguments, callable $function, array $args = [])
 }
 
 /**
+ * Curry function
+ *
+ * @param callable $function
+ * @param array $args
+ * @return callable
+ */
+function curry(callable $function, array $args = []) {
+    $reflectionOfFunction = new ReflectionFunction($function);
+    $numberOfArguments = count($reflectionOfFunction->getParameters());
+
+    return curryN($numberOfArguments, $fn, $args);
+}
+
+/**
  * Retrieve value of a object
  *
  * @param Common\ValueOfInterface|mixed $value
