@@ -28,6 +28,6 @@
     ]
   },
   "require": {
-    "widmogrod/php-exceptions": "dev-master"
+    "widmogrod/php-exceptions": "^0.1"
   }
 }
