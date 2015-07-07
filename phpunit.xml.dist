@@ -26,5 +26,8 @@
         <testsuite name="Functional">
             <directory>./test/Functional</directory>
         </testsuite>
+        <testsuite name="Examples">
+            <directory>./example/</directory>
+        </testsuite>
     </testsuites>
 </phpunit>
