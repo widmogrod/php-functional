@@ -13,10 +13,11 @@ matrix:
   - php: 7.0
 
 before_script:
- - composer install --prefer-source
+ - composer install --prefer-sourcet
 
 script:
- - composer test
+ - vendor/bin/phpspec run
+ - vendor/bin/phpunit
 
 notifications:
   email: "widmogrod+php-functional@gmail.com"
