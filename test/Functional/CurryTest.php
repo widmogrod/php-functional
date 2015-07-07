@@ -41,11 +41,11 @@ class CurryTest extends \PHPUnit_Framework_TestCase
                 '$resultAfterCurries' => 1,
             ],
             'args = 2' => [
-                '$fn' => function ($a, $a) {},
+                '$fn' => function ($a, $b) {},
                 '$resultAfterCurries' => 2,
             ],
             'args = 2 with default' => [
-                '$fn' => function ($a, $a = null) {},
+                '$fn' => function ($a, $b = null) {},
                 '$resultAfterCurries' => 2,
             ],
         ];
