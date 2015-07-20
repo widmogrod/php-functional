@@ -73,7 +73,6 @@ assert(f\valueOf($result) === [4, 5, 5, 6]);
 ```
 
 ### Applicative Validation
-
 When validating input values, sometimes it's better to collect information of all possible failures 
 than breaking the chain on the first failure like in Either Monad.
 
