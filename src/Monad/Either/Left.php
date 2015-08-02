@@ -2,20 +2,22 @@
 namespace Monad\Either;
 
 use Common;
-use Monad\Feature;
+use Functor;
 
 class Left implements
     EitherInterface,
-    Feature\LiftInterface
+    Functor\FunctorInterface,
+    Common\ValueOfInterface
 {
     use Common\CreateTrait;
+    use Common\ValueOfTrait;
 
     const create = 'Monad\Either\Left::create';
 
     /**
      * @inheritdoc
      */
-    public function lift(callable $transformation)
+    public function map(callable $transformation)
     {
         return $this;
     }

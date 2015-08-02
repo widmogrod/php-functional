@@ -38,24 +38,36 @@ function either(callable $succeed, callable $failure, EitherInterface $either)
     }
 }
 
-function bind(callable $function, EitherInterface $value)
+/**
+ * Apply map function on both cases.
+ *
+ * @return Left|Right
+ * @param callable $success
+ * @param callable $failure
+ * @param EitherInterface $either
+ */
+function doubleMap(callable $success, callable $failure, EitherInterface $either)
 {
-    return either($function, fail(), $value);
+    return either(
+        f\compose(succeed(), $success),
+        f\compose(fail(), $failure),
+        $either
+    );
 }
 
 /**
  * Adapt function that may throws exceptions to Either monad.
  *
  * @return EitherInterface|\Closure
- * @param callable $function
+ * @param callable $success
  * @param callable $catchFunction
  * @param mixed $value
  */
-function tryCatch(callable $function = null, callable $catchFunction = null, $value = null)
+function tryCatch(callable $success = null, callable $catchFunction = null, $value = null)
 {
-    return call_user_func_array(f\curryN(3, function (callable $function, callable $catchFunction, $value) {
+    return call_user_func_array(f\curryN(3, function (callable $success, callable $catchFunction, $value) {
         try {
-            return succeed(call_user_func($function, $value));
+            return succeed(call_user_func($success, $value));
         } catch (\Exception $e) {
             return fail(call_user_func($catchFunction, $e));
         }

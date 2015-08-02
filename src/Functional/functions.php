@@ -1,6 +1,7 @@
 <?php
 namespace Functional;
 
+use Functor;
 use Monad;
 use Common;
 use Applicative;
@@ -113,6 +114,92 @@ function tee(callable $function = null, $value = null)
         call_user_func($function, $value);
 
         return $value;
+    }), func_get_args());
+}
+
+/**
+ * Compose multiple functions into one.
+ * Composition starts from right to left.
+ *
+ * <code>
+ * compose('strtolower', 'strtoupper')('aBc') ≡ 'abc'
+ * strtolower(strtouppser('aBc'))  ≡ 'abc'
+ * </code>
+ *
+ * @param callable $a
+ * @param callable $b,...
+ * @return \Closure         func($value) : mixed
+ */
+function compose(callable $a, callable $b)
+{
+    return call_user_func_array(
+        reverse('Functional\pipeline'),
+        func_get_args()
+    );
+}
+
+/**
+ * Compose multiple functions into one.
+ * Composition starts from left.
+ *
+ * <code>
+ * compose('strtolower', 'strtoupper')('aBc') ≡ 'ABC'
+ * strtouppser(strtolower('aBc'))  ≡ 'ABC'
+ * </code>
+ *
+ * @param callable $a
+ * @param callable $b,...
+ * @return \Closure         func($value) : mixed
+ */
+function pipeline(callable $a, callable $b)
+{
+    $list = func_get_args();
+
+    return function ($value) use (&$list) {
+        return array_reduce($list, function ($accumulator, callable $a) {
+            return call_user_func($a, $accumulator);
+        }, $value);
+    };
+}
+
+/**
+ * Call $function with arguments in reversed order
+ *
+ * @return \Closure
+ * @param callable $function
+ */
+function reverse(callable $function)
+{
+    return function () use ($function) {
+        return call_user_func_array($function, array_reverse(func_get_args()));
+    };
+}
+
+/**
+ * @return mixed|\Closure
+ * @param callable $transformation
+ * @param mixed $value
+ */
+function map(callable $transformation = null, $value = null)
+{
+    return call_user_func_array(curryN(2, function (callable $transformation, $value) {
+        if ($value instanceof Functor\FunctorInterface) {
+            return $value->map($transformation);
+        }
+
+        return call_user_func($transformation, $value);
+    }), func_get_args());
+}
+
+/**
+ * @return mixed|\Closure
+ * @param callable $function
+ * @param Monad\MonadInterface $value
+ */
+function bind(callable $function = null, Monad\MonadInterface $value = null)
+{
+    return call_user_func_array(curryN(2, function (callable $function, Monad\MonadInterface $value) {
+        return $value->bind($function);
     }), func_get_args());
 }
 
