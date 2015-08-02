@@ -153,7 +153,7 @@ function liftM(Monad\MonadInterface $monad, callable $transformation)
  */
 function liftM2(Monad\MonadInterface $m1, Monad\MonadInterface $m2, callable $transformation)
 {
-    return liftM($m1, function ($a) use ($m2, $transformation) {
+    return $m1->bind(function ($a) use ($m2, $transformation) {
         return liftM($m2, function ($b) use ($a, $transformation) {
             return call_user_func($transformation, $a, $b);
         });
