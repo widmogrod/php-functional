@@ -2,29 +2,35 @@
 namespace Monad\Either;
 
 use Common;
+use Monad\Feature;
 
-class Right implements EitherInterface
+class Right implements
+    EitherInterface,
+    Feature\LiftInterface
 {
     use Common\CreateTrait;
 
     const create = 'Monad\Either\Right::create';
 
     /**
-     * Handle situation when error occur in monad computation chain.
-     *
-     * @param callable $fn
-     * @return mixed
+     * @inheritdoc
+     */
+    public function lift(callable $transformation)
+    {
+        return self::create($this->bind($transformation));
+    }
+
+    /**
+     * @inheritdoc
      */
     public function orElse(callable $fn)
     {
+        return $this;
         // Ignore, in the Right monad there is no else
     }
 
     /**
-     * Bind monad value to given $transformation function.
-     *
-     * @param callable $transformation
-     * @return mixed
+     * @inheritdoc
      */
     public function bind(callable $transformation)
     {

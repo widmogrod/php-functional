@@ -2,21 +2,18 @@
 namespace Monad\Either;
 
 use Common;
-use Monad\Feature\LiftInterface;
+use Monad\Feature;
 
 class Left implements
     EitherInterface,
-    LiftInterface
+    Feature\LiftInterface
 {
     use Common\CreateTrait;
 
     const create = 'Monad\Either\Left::create';
 
     /**
-     * Converts values returned by regular function to monadic value.
-     *
-     * @param callable $transformation
-     * @return LiftInterface
+     * @inheritdoc
      */
     public function lift(callable $transformation)
     {
@@ -24,21 +21,16 @@ class Left implements
     }
 
     /**
-     * Bind monad value to given $transformation function.
-     *
-     * @param callable $transformation
-     * @return mixed
+     * @inheritdoc
      */
     public function bind(callable $transformation)
     {
         // Don't do anything
+        return $this;
     }
 
     /**
-     * Handle situation when error occur in monad computation chain.
-     *
-     * @param callable $fn
-     * @return mixed
+     * @inheritdoc
      */
     public function orElse(callable $fn)
     {

@@ -61,6 +61,7 @@ function curryN($numberOfArguments, callable $function, array $args = [])
 {
     return function () use ($numberOfArguments, $function, $args) {
         $argsLeft = $numberOfArguments - func_num_args();
+
         return $argsLeft <= 0
             ? call_user_func_array($function, push($args, func_get_args()))
             : curryN($argsLeft, $function, push($args, func_get_args()));
@@ -74,7 +75,8 @@ function curryN($numberOfArguments, callable $function, array $args = [])
  * @param array $args
  * @return callable
  */
-function curry(callable $function, array $args = []) {
+function curry(callable $function, array $args = [])
+{
     $reflectionOfFunction = new \ReflectionFunction($function);
 
     $numberOfArguments = count($reflectionOfFunction->getParameters());
@@ -96,6 +98,22 @@ function valueOf($value)
     return $value instanceof Common\ValueOfInterface
         ? $value->valueOf()
         : $value;
+}
+
+/**
+ * Call $function with $value and return $value
+ *
+ * @param callable $function
+ * @param mixed $value
+ * @return \Closure
+ */
+function tee(callable $function = null, $value = null)
+{
+    return call_user_func_array(curryN(2, function (callable $function, $value) {
+        call_user_func($function, $value);
+
+        return $value;
+    }), func_get_args());
 }
 
 /**

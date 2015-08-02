@@ -24,7 +24,8 @@
       "Applicative": "src"
     },
     "files": [
-      "src/Functional/functions.php"
+      "src/Functional/functions.php",
+      "src/Monad/Either/functions.php"
     ]
   },
   "require": {
