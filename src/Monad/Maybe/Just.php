@@ -4,6 +4,7 @@ namespace Monad\Maybe;
 use Common;
 use Monad;
 use Functor;
+use FantasyLand;
 use Applicative;
 
 class Just implements Maybe
@@ -12,7 +13,12 @@ class Just implements Maybe
 
     const create = 'Monad\Maybe\Just::create';
 
-    public function ap(Applicative\ApplicativeInterface $applicative)
+    public static function of(callable $b)
+    {
+        return self::create($b);
+    }
+
+    public function ap(FantasyLand\ApplyInterface $applicative)
     {
         return $applicative->map($this->value);
     }

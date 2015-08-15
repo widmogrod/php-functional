@@ -13,7 +13,7 @@ class LeftSpec extends ObjectBehavior
     {
         $this->beConstructedWith(null);
         $this->shouldHaveType('Monad\Either\Left');
-        $this->shouldHaveType('Monad\MonadInterface');
+        $this->shouldHaveType('FantasyLand\MonadInterface');
         $this->shouldHaveType('Monad\Either\Either');
     }
 

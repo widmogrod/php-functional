@@ -7,5 +7,5 @@ interface ChainInterface extends ApplyInterface
      * @param callable $function
      * @return self
      */
-    public function chain(callable $function);
+    public function bind(callable $function);
 }

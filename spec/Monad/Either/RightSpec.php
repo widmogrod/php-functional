@@ -13,7 +13,7 @@ class RightSpec extends ObjectBehavior
     {
         $this->beConstructedWith(null);
         $this->shouldHaveType('Monad\Either\Right');
-        $this->shouldHaveType('Monad\MonadInterface');
+        $this->shouldHaveType('FantasyLand\MonadInterface');
         $this->shouldHaveType('Monad\Either\Either');
     }
 

@@ -13,7 +13,7 @@ class JustSpec extends ObjectBehavior
     {
         $this->beConstructedWith(1);
         $this->shouldHaveType('Monad\Maybe\Maybe');
-        $this->shouldHaveType('Monad\MonadInterface');
+        $this->shouldHaveType('FantasyLand\MonadInterface');
     }
 
     public function it_should_bind_value_from_constructor_to_given_function_if_value_is_not_null()

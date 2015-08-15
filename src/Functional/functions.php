@@ -4,6 +4,7 @@ namespace Functional;
 use Functor;
 use Monad;
 use Common;
+use FantasyLand;
 use Applicative;
 
 /**
@@ -187,7 +188,7 @@ function reverse(callable $function)
 function map(callable $transformation = null, $value = null)
 {
     return call_user_func_array(curryN(2, function (callable $transformation, $value) {
-        if ($value instanceof Functor\FunctorInterface) {
+        if ($value instanceof FantasyLand\FunctorInterface) {
             return $value->map($transformation);
         }
 
@@ -198,34 +199,13 @@ function map(callable $transformation = null, $value = null)
 /**
  * @return mixed|\Closure
  * @param callable $function
- * @param Monad\MonadInterface $value
+ * @param FantasyLand\MonadInterface $value
  */
-function bind(callable $function = null, Monad\MonadInterface $value = null)
+function bind(callable $function = null, FantasyLand\MonadInterface $value = null)
 {
-    return call_user_func_array(curryN(2, function (callable $function, Monad\MonadInterface $value) {
+    return call_user_func_array(curryN(2, function (callable $function, FantasyLand\MonadInterface $value) {
         return $value->bind($function);
     }), func_get_args());
-}
-
-/**
- * Lift result of monad bind to monad
- *
- * @param Monad\MonadInterface $monad
- * @param callable $transformation
- * @return Monad\MonadInterface
- */
-function liftM(Monad\MonadInterface $monad, callable $transformation)
-{
-    if ($monad instanceof Monad\Feature\LiftInterface) {
-        return $monad->lift($transformation);
-    }
-
-    $result = $monad->bind($transformation);
-    if ($result instanceof Monad\MonadInterface) {
-        return $result;
-    }
-
-    return $monad::create($monad->bind($transformation));
 }
 
 /**
@@ -237,15 +217,15 @@ function liftM(Monad\MonadInterface $monad, callable $transformation)
  *  liftM2 (+) [0,1] [0,2] = [0,2,1,3]
  *  liftM2 (+) (Just 1) Nothing = Nothing
  *
- * @param Monad\MonadInterface $m1
- * @param Monad\MonadInterface $m2
+ * @param FantasyLand\MonadInterface $m1
+ * @param FantasyLand\MonadInterface $m2
  * @param callable $transformation
- * @return Monad\MonadInterface
+ * @return FantasyLand\MonadInterface
  */
-function liftM2(Monad\MonadInterface $m1, Monad\MonadInterface $m2, callable $transformation)
+function liftM2(FantasyLand\MonadInterface $m1, FantasyLand\MonadInterface $m2, callable $transformation)
 {
     return $m1->bind(function ($a) use ($m2, $transformation) {
-        return liftM($m2, function ($b) use ($a, $transformation) {
+        return $m2->bind(function ($b) use ($a, $transformation) {
             return call_user_func($transformation, $a, $b);
         });
     });
@@ -254,39 +234,16 @@ function liftM2(Monad\MonadInterface $m1, Monad\MonadInterface $m2, callable $tr
 /**
  * liftA2 :: Applicative f => (a -> b -> c) -> f a -> f b -> f c
  *
- * @param Applicative\ApplicativeInterface $a1
- * @param Applicative\ApplicativeInterface $a2
+ * @param FantasyLand\ApplicativeInterface $a1
+ * @param FantasyLand\ApplicativeInterface $a2
  * @param callable $transformation
- * @return Applicative\ApplicativeInterface
+ * @return FantasyLand\ApplicativeInterface
  */
-function liftA2(Applicative\ApplicativeInterface $a1, Applicative\ApplicativeInterface $a2, callable $transformation)
+function liftA2(FantasyLand\ApplicativeInterface $a1, FantasyLand\ApplicativeInterface $a2, callable $transformation)
 {
     return $a1->map(function ($a) use ($transformation) {
         return function ($b) use ($a, $transformation) {
             return call_user_func($transformation, $a, $b);
         };
     })->ap($a2);
-}
-
-/**
- * Reduce list of monads to single monad
- *
- * @param Monad\MonadInterface[] $listOfMonads
- * @param callable $reduce
- * @param mixed $base
- * @return Monad\MonadInterface
- */
-function reduceM($listOfMonads, callable $reduce, $base)
-{
-    return array_reduce(
-        $listOfMonads,
-        function (Monad\MonadInterface $base, Monad\MonadInterface $monad) use ($reduce) {
-            return $monad->bind(function ($value) use ($reduce, $base) {
-                return liftM($base, function ($base) use ($reduce, $value) {
-                    return $reduce($base, $value);
-                });
-            });
-        },
-        Monad\Identity::create($base)
-    );
 }

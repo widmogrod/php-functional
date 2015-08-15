@@ -3,6 +3,7 @@ namespace Monad\Either;
 
 use Common;
 use Functor;
+use FantasyLand;
 
 class Right implements Either
 {
@@ -10,6 +11,16 @@ class Right implements Either
     use Common\ValueOfTrait;
 
     const create = 'Monad\Either\Right::create';
+
+    public static function of(callable $b)
+    {
+        return self::create($b);
+    }
+
+    public function ap(FantasyLand\ApplyInterface $b)
+    {
+        return $b->map($this->value);
+    }
 
     /**
      * @inheritdoc

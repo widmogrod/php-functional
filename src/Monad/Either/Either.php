@@ -4,10 +4,10 @@ namespace Monad\Either;
 use Monad;
 use Functor;
 use Common;
+use FantasyLand;
 
 interface Either extends
-    Monad\MonadInterface,
-    Functor\FunctorInterface,
+    FantasyLand\MonadInterface,
     Common\ValueOfInterface
 {
     /**

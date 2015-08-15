@@ -4,6 +4,7 @@ namespace Monad\Maybe;
 use Common;
 use Monad;
 use Functor;
+use FantasyLand;
 use Applicative;
 
 class Nothing implements Maybe
@@ -15,7 +16,12 @@ class Nothing implements Maybe
         return new self();
     }
 
-    public function ap(Applicative\ApplicativeInterface $applicative)
+    public static function of(callable $b)
+    {
+        return self::create($b);
+    }
+
+    public function ap(FantasyLand\ApplyInterface $applicative)
     {
         return $this;
     }

@@ -2,6 +2,7 @@
 namespace Monad\Either;
 
 use Common;
+use FantasyLand;
 use Functor;
 
 class Left implements Either
@@ -10,6 +11,16 @@ class Left implements Either
     use Common\ValueOfTrait;
 
     const create = 'Monad\Either\Left::create';
+
+    public static function of(callable $b)
+    {
+        return self::create($b);
+    }
+
+    public function ap(FantasyLand\ApplyInterface $b)
+    {
+        return $this;
+    }
 
     /**
      * @inheritdoc

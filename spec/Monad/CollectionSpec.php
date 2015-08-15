@@ -14,7 +14,7 @@ class CollectionSpec extends ObjectBehavior
     {
         $this->beConstructedWith([1, 2, 3]);
         $this->shouldHaveType('Monad\Collection');
-        $this->shouldHaveType('Monad\MonadInterface');
+        $this->shouldHaveType('FantasyLand\MonadInterface');
         $this->shouldHaveType('Common\ConcatInterface');
     }
 
@@ -61,6 +61,60 @@ class CollectionSpec extends ObjectBehavior
         });
 
         $right->valueOf()->shouldReturn($left->valueOf());
+    }
+
+    public function it_should_obey_identity_law_applicative()
+    {
+        $this->beConstructedWith(function($x) { return $x; });
+        $result = $this->ap($this::create([1,2]));
+
+        $result->valueOf()->shouldReturn([1,2]);
+    }
+
+    public function it_should_obey_homomorphism_law_applicative()
+    {
+        $id = function($x) { return $x; };
+        $this->beConstructedWith($id);
+        $result = $this->ap($this::create([1,2]));
+
+        $result->valueOf()->shouldReturn(
+            $this::create($id([1,2]))->valueOf()
+        );
+    }
+
+    public function it_should_obey_interchange_law_applicative()
+    {
+        $y = 1;
+        $f = function($x) { return $x / 2; };
+
+        $this->beConstructedWith($f);
+        $result = $this->ap($this::create($y));
+
+        $result->valueOf()->shouldReturn(
+            $this::create(function($f) use ($y) {
+                return $f($y);
+            })->ap($this)->valueOf()
+        );
+    }
+
+    public function it_should_obey_identity_law_functor()
+    {
+        $this->beConstructedWith([1, 2]);
+        $result = $this->map(function ($x) {
+            return $x;
+        });
+
+        $result->valueOf()->shouldReturn([1, 2]);
+    }
+
+    public function it_should_obey_composition_law_functor()
+    {
+        $a = function($x) { return $x + 1; };
+        $b = function($x) { return $x + 2; };
+        $this->beConstructedWith([1, 2]);
+
+        $result = $this->map($a)->map($b);
+        $result->valueOf()->shouldReturn([$b($a(1)), $b($a(2))]);
     }
 
     public function getMatchers()
