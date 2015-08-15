@@ -7,9 +7,15 @@ use Common;
 
 interface EitherInterface extends
     Monad\MonadInterface,
-    Monad\Feature\OrElseInterface,
     Functor\FunctorInterface,
     Common\ValueOfInterface
 {
-
+    /**
+     * Depending on if is Left or is Right then it apply corresponding function and wrap it as a new monad
+     *
+     * @param callable $left
+     * @param callable $right
+     * @return EitherInterface
+     */
+    public function bimap(callable $left, callable $right);
 }

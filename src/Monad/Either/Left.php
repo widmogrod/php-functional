@@ -31,8 +31,8 @@ class Left implements EitherInterface
     /**
      * @inheritdoc
      */
-    public function orElse(callable $fn)
+    public function bimap(callable $left, callable $right)
     {
-        return call_user_func($fn, $this->value);
+        return self::create(call_user_func($left, $this->value));
     }
 }

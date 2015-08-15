@@ -31,11 +31,7 @@ function fail($value = null)
  */
 function either(callable $succeed, callable $failure, EitherInterface $either)
 {
-    if ($either instanceof Right) {
-        return $either->bind($succeed);
-    } else {
-        return $either->orElse($failure);
-    }
+    return $either->bimap($failure, $succeed);
 }
 
 /**
