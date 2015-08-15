@@ -8,7 +8,7 @@ use Functional as f;
 
 class Collection extends Applicative\Collection implements
     MonadInterface,
-    Feature\LiftInterface
+    Common\ConcatInterface
 {
     const create = 'Monad\Collection::create';
 
@@ -30,27 +30,15 @@ class Collection extends Applicative\Collection implements
             );
         }
 
-        return $result;
+        return static::create($result);
     }
 
-    /**
-     * Converts values returned by regular function to monadic value.
-     *
-     * @param callable $transformation
-     * @return Collection
-     */
-    public function lift(callable $transformation)
+    public function concat($value)
     {
-        $result = [];
-        foreach ($this->value as $index => $value) {
-            $result = f\concat(
-                $result,
-                $value instanceof MonadInterface
-                    ? f\liftM($value, $transformation)
-                    : call_user_func($transformation, $value, $index)
-            );
+        if ($value instanceof self) {
+            return $value->concat($this->value);
         }
 
-        return $this::create($result);
+        return f\concat($value, $this->value);
     }
 }

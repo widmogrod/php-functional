@@ -1,6 +1,7 @@
 <?php
 namespace Functional;
 
+use Functor;
 use Monad;
 use Common;
 use Applicative;
@@ -30,6 +31,10 @@ function push(array $array, array $values)
  */
 function concat(array $array, $value)
 {
+    if ($value instanceof Common\ConcatInterface) {
+        return $value->concat($array);
+    }
+
     if (is_array($value)) {
         return push($array, $value);
     }
@@ -61,6 +66,7 @@ function curryN($numberOfArguments, callable $function, array $args = [])
 {
     return function () use ($numberOfArguments, $function, $args) {
         $argsLeft = $numberOfArguments - func_num_args();
+
         return $argsLeft <= 0
             ? call_user_func_array($function, push($args, func_get_args()))
             : curryN($argsLeft, $function, push($args, func_get_args()));
@@ -74,7 +80,8 @@ function curryN($numberOfArguments, callable $function, array $args = [])
  * @param array $args
  * @return callable
  */
-function curry(callable $function, array $args = []) {
+function curry(callable $function, array $args = [])
+{
     $reflectionOfFunction = new \ReflectionFunction($function);
 
     $numberOfArguments = count($reflectionOfFunction->getParameters());
@@ -96,6 +103,108 @@ function valueOf($value)
     return $value instanceof Common\ValueOfInterface
         ? $value->valueOf()
         : $value;
+}
+
+/**
+ * Call $function with $value and return $value
+ *
+ * @param callable $function
+ * @param mixed $value
+ * @return \Closure
+ */
+function tee(callable $function = null, $value = null)
+{
+    return call_user_func_array(curryN(2, function (callable $function, $value) {
+        call_user_func($function, $value);
+
+        return $value;
+    }), func_get_args());
+}
+
+/**
+ * Compose multiple functions into one.
+ * Composition starts from right to left.
+ *
+ * <code>
+ * compose('strtolower', 'strtoupper')('aBc') ≡ 'abc'
+ * strtolower(strtouppser('aBc'))  ≡ 'abc'
+ * </code>
+ *
+ * @param callable $a
+ * @param callable $b,...
+ * @return \Closure         func($value) : mixed
+ */
+function compose(callable $a, callable $b)
+{
+    return call_user_func_array(
+        reverse('Functional\pipeline'),
+        func_get_args()
+    );
+}
+
+/**
+ * Compose multiple functions into one.
+ * Composition starts from left.
+ *
+ * <code>
+ * compose('strtolower', 'strtoupper')('aBc') ≡ 'ABC'
+ * strtouppser(strtolower('aBc'))  ≡ 'ABC'
+ * </code>
+ *
+ * @param callable $a
+ * @param callable $b,...
+ * @return \Closure         func($value) : mixed
+ */
+function pipeline(callable $a, callable $b)
+{
+    $list = func_get_args();
+
+    return function ($value) use (&$list) {
+        return array_reduce($list, function ($accumulator, callable $a) {
+            return call_user_func($a, $accumulator);
+        }, $value);
+    };
+}
+
+/**
+ * Call $function with arguments in reversed order
+ *
+ * @return \Closure
+ * @param callable $function
+ */
+function reverse(callable $function)
+{
+    return function () use ($function) {
+        return call_user_func_array($function, array_reverse(func_get_args()));
+    };
+}
+
+/**
+ * @return mixed|\Closure
+ * @param callable $transformation
+ * @param mixed $value
+ */
+function map(callable $transformation = null, $value = null)
+{
+    return call_user_func_array(curryN(2, function (callable $transformation, $value) {
+        if ($value instanceof Functor\FunctorInterface) {
+            return $value->map($transformation);
+        }
+
+        return call_user_func($transformation, $value);
+    }), func_get_args());
+}
+
+/**
+ * @return mixed|\Closure
+ * @param callable $function
+ * @param Monad\MonadInterface $value
+ */
+function bind(callable $function = null, Monad\MonadInterface $value = null)
+{
+    return call_user_func_array(curryN(2, function (callable $function, Monad\MonadInterface $value) {
+        return $value->bind($function);
+    }), func_get_args());
 }
 
 /**
@@ -135,7 +244,7 @@ function liftM(Monad\MonadInterface $monad, callable $transformation)
  */
 function liftM2(Monad\MonadInterface $m1, Monad\MonadInterface $m2, callable $transformation)
 {
-    return liftM($m1, function ($a) use ($m2, $transformation) {
+    return $m1->bind(function ($a) use ($m2, $transformation) {
         return liftM($m2, function ($b) use ($a, $transformation) {
             return call_user_func($transformation, $a, $b);
         });

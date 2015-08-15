@@ -16,18 +16,26 @@ class MaybeMonadAndCollectionTest extends \PHPUnit_Framework_TestCase
         ];
 
         $get = function ($key) {
-            return function (array $array) use ($key) {
-                return isset($array[$key]) ? $array[$key] : null;
+            return function ($array) use ($key) {
+                return isset($array[$key])
+                    ? Maybe\just($array[$key])
+                    : Maybe\nothing();
             };
         };
 
-        $listOfFirstImages = Collection::create($data)
-            ->lift(Maybe::create)
-            ->lift($get('meta'))
-            ->lift($get('images'))
-            ->lift($get(0))
-            ->valueOf();
+        $listOfFirstImages = f\pipeline(
+            Collection::create,
+            f\bind($get('meta')),
+            f\bind($get('images')),
+            f\bind($get(0))
+        );
 
-        $this->assertEquals(['//first.jpg', '//third.jpg', null], $listOfFirstImages);
+        $result = $listOfFirstImages($data);
+        $result = f\valueOf($result);
+
+        $this->assertEquals(
+            ['//first.jpg', '//third.jpg', null],
+            $result
+        );
     }
 }

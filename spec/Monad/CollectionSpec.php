@@ -3,6 +3,7 @@ namespace spec\Monad;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Functional as f;
 
 /**
  * @mixin \Monad\Collection
@@ -14,10 +15,20 @@ class CollectionSpec extends ObjectBehavior
         $this->beConstructedWith([1, 2, 3]);
         $this->shouldHaveType('Monad\Collection');
         $this->shouldHaveType('Monad\MonadInterface');
-        $this->shouldHaveType('Monad\Feature\LiftInterface');
+        $this->shouldHaveType('Common\ConcatInterface');
     }
 
     public function it_should_obey_first_monad_law()
+    {
+        $this->beConstructedWith([1, 2, 3]);
+        /** @var \PhpSpec\Wrapper\Subject $right */
+        $left = $this->bind(\Monad\Collection::create);
+        $right = $this::create([1, 2, 3]);
+
+        $left->shouldHaveSameLike($right);
+    }
+
+    public function it_should_obey_second_monad_law()
     {
         $mAddOne = function ($value) {
             return $value + 1;
@@ -27,15 +38,7 @@ class CollectionSpec extends ObjectBehavior
         /** @var \PhpSpec\Wrapper\Subject $right */
         $left = $this->bind($mAddOne);
         $right = array_map($mAddOne, [1, 2, 3]);
-
-        $left->shouldReturn($right);
-    }
-
-    public function it_should_obey_second_monad_law()
-    {
-        $this->beConstructedWith([[1, 2, 3]]);
-        $left = $this->bind(\Monad\Collection::create);
-        $right = [\Monad\Collection::create([1, 2, 3])];
+        $right = $this::create($right);
 
         $left->shouldHaveSameLike($right);
     }
@@ -46,55 +49,27 @@ class CollectionSpec extends ObjectBehavior
             return \Monad\Identity::create($value + 1);
         };
         $mMultiplyTwo = function ($value) {
-            return\Monad\Identity::create($value * 2);
+            return \Monad\Identity::create($value * 2);
         };
 
         $this->beConstructedWith([1, 2, 3]);
-        $right = $this->lift($mAddOne);
-        $right = $right->lift($mMultiplyTwo);
+        $right = $this->bind($mAddOne);
+        $right = $right->bind($mMultiplyTwo);
 
-        $left = $this->lift(function($x) use($mAddOne, $mMultiplyTwo){
+        $left = $this->bind(function ($x) use ($mAddOne, $mMultiplyTwo) {
             return $mAddOne($x)->bind($mMultiplyTwo);
         });
 
         $right->valueOf()->shouldReturn($left->valueOf());
     }
 
-    public function it_should_extract_value_from_each_array_item()
-    {
-        $ref = ['a' => 2];
-        $this->beConstructedWith([
-            null,
-            ['id' => 1, 'name' => 'A'],
-            ['id' => 2, 'nick' => 'B', 'meta' => ['ref' => $ref]],
-        ]);
-
-        $get = function ($key) {
-            return function (array $array) use ($key) {
-                return isset($array[$key]) ? $array[$key] : null;
-            };
-        };
-
-        $value = $this
-            ->lift(\Monad\Maybe::create)
-            ->lift($get('meta'))
-            ->lift($get('ref'))
-            ->valueOf();
-
-        $value->shouldhaveKeyValue(2, $ref);
-    }
-
     public function getMatchers()
     {
-        $unWrap = function ($x) {
-            return $x;
-        };
-
         return [
-            'haveSameLike' => function ($left, $right) use ($unWrap) {
-                return $left[0]->bind($unWrap) === $right[0]->bind($unWrap);
+            'haveSameLike' => function ($left, $right) {
+                return f\valueOf($left) === f\valueOf($right);
             },
-            'haveKeyValue' => function($array, $key, $value) {
+            'haveKeyValue' => function ($array, $key, $value) {
                 return $array[$key] === $value;
             }
         ];

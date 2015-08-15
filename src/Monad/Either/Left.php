@@ -2,46 +2,37 @@
 namespace Monad\Either;
 
 use Common;
-use Monad\Feature\LiftInterface;
+use Functor;
 
-class Left implements
-    EitherInterface,
-    LiftInterface
+class Left implements Either
 {
     use Common\CreateTrait;
+    use Common\ValueOfTrait;
 
     const create = 'Monad\Either\Left::create';
 
     /**
-     * Converts values returned by regular function to monadic value.
-     *
-     * @param callable $transformation
-     * @return LiftInterface
+     * @inheritdoc
      */
-    public function lift(callable $transformation)
+    public function map(callable $transformation)
     {
         return $this;
     }
 
     /**
-     * Bind monad value to given $transformation function.
-     *
-     * @param callable $transformation
-     * @return mixed
+     * @inheritdoc
      */
     public function bind(callable $transformation)
     {
         // Don't do anything
+        return $this;
     }
 
     /**
-     * Handle situation when error occur in monad computation chain.
-     *
-     * @param callable $fn
-     * @return mixed
+     * @inheritdoc
      */
-    public function orElse(callable $fn)
+    public function bimap(callable $left, callable $right)
     {
-        return call_user_func($fn, $this->value);
+        return self::create(call_user_func($left, $this->value));
     }
 }

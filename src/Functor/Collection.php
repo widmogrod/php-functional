@@ -2,6 +2,7 @@
 namespace Functor;
 
 use Common;
+use Functional as f;
 
 class Collection implements FunctorInterface, Common\ValueOfInterface
 {
@@ -29,7 +30,7 @@ class Collection implements FunctorInterface, Common\ValueOfInterface
     {
         $result = [];
         foreach ($this->value as $key => $value) {
-            $result[$key] = call_user_func($transformation, $value);
+            $result[$key] = f\map($transformation, $value);
         }
 
         return self::create($result);

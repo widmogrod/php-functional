@@ -2,32 +2,36 @@
 namespace Monad\Either;
 
 use Common;
+use Functor;
 
-class Right implements EitherInterface
+class Right implements Either
 {
     use Common\CreateTrait;
+    use Common\ValueOfTrait;
 
     const create = 'Monad\Either\Right::create';
 
     /**
-     * Handle situation when error occur in monad computation chain.
-     *
-     * @param callable $fn
-     * @return mixed
+     * @inheritdoc
      */
-    public function orElse(callable $fn)
+    public function map(callable $transformation)
     {
-        // Ignore, in the Right monad there is no else
+        return self::create($this->bind($transformation));
     }
 
     /**
-     * Bind monad value to given $transformation function.
-     *
-     * @param callable $transformation
-     * @return mixed
+     * @inheritdoc
      */
     public function bind(callable $transformation)
     {
         return call_user_func($transformation, $this->value);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function bimap(callable $left, callable $right)
+    {
+        return self::create(call_user_func($right, $this->value));
     }
 }
