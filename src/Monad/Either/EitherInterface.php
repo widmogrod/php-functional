@@ -1,15 +1,15 @@
 <?php
 namespace Monad\Either;
 
-use Monad\MonadInterface;
+use Monad;
+use Functor;
+use Common;
 
-interface EitherInterface extends MonadInterface
+interface EitherInterface extends
+    Monad\MonadInterface,
+    Monad\Feature\OrElseInterface,
+    Functor\FunctorInterface,
+    Common\ValueOfInterface
 {
-    /**
-     * Handle situation when error occur in monad computation chain.
-     *
-     * @param callable $fn
-     * @return mixed
-     */
-    public function orElse(callable $fn);
+
 }
