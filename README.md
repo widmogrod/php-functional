@@ -135,19 +135,20 @@ $data = [
 ];
 
 $get = function ($key) {
-    return function (array $array) use ($key) {
-        return isset($array[$key]) ? $array[$key] : null;
+    return function ($array) use ($key) {
+        return isset($array[$key])
+            ? Maybe\just($array[$key])
+            : Maybe\nothing();
     };
 };
 
 $listOfFirstImages = Collection::create($data)
-    ->lift(Maybe::create)
-    ->lift($get('meta'))
-    ->lift($get('images'))
-    ->lift($get(0))
+    ->bind($get('meta'))
+    ->bind($get('images'))
+    ->bind($get(0))
     ->valueOf();
 
-assert($listOfFirstImages === ['//first.jpg', '//third.jpg', null]);
+assert($listOfFirstImages->valueOf() === ['//first.jpg', '//third.jpg', null]);
 ```
 
 ### Either Monad
@@ -176,7 +177,7 @@ $concat = f\liftM2(
 );
 
 assert($concat instanceof Either\Left);
-assert($concat->orElse('Functional\identity') === 'File "aaa" does not exists');
+assert($concat->valueOf() === 'File "aaa" does not exists');
 ```
 
 ## Credits & Beers
