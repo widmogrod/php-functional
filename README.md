@@ -15,6 +15,8 @@ composer require widmogrod/php-functional
 This repository follows [semantic versioning concept](http://semver.org/). 
 If you want to contribute, just follow [GitHub workflow](https://guides.github.com/introduction/flow/) and open a pull request. 
 
+More information about changes you can find in [change log](/CHANGELOG.md)
+
 ## Testing
 
 Quality assurance is brought to you by [PHPSpec](http://www.phpspec.net/)
