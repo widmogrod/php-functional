@@ -5,7 +5,7 @@ use Monad;
 use Functor;
 use Common;
 
-interface EitherInterface extends
+interface Either extends
     Monad\MonadInterface,
     Functor\FunctorInterface,
     Common\ValueOfInterface
@@ -15,7 +15,7 @@ interface EitherInterface extends
      *
      * @param callable $left
      * @param callable $right
-     * @return EitherInterface
+     * @return Either
      */
     public function bimap(callable $left, callable $right);
 }

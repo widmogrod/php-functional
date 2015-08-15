@@ -4,7 +4,7 @@ namespace Monad\Either;
 use Common;
 use Functor;
 
-class Right implements EitherInterface
+class Right implements Either
 {
     use Common\CreateTrait;
     use Common\ValueOfTrait;

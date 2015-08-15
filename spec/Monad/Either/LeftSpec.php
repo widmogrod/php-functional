@@ -14,7 +14,7 @@ class LeftSpec extends ObjectBehavior
         $this->beConstructedWith(null);
         $this->shouldHaveType('Monad\Either\Left');
         $this->shouldHaveType('Monad\MonadInterface');
-        $this->shouldHaveType('Monad\Either\EitherInterface');
+        $this->shouldHaveType('Monad\Either\Either');
     }
 
     public function it_should_not_bind()

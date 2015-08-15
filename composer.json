@@ -25,7 +25,8 @@
     },
     "files": [
       "src/Functional/functions.php",
-      "src/Monad/Either/functions.php"
+      "src/Monad/Either/functions.php",
+      "src/Monad/Maybe/functions.php"
     ]
   },
   "require": {

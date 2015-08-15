@@ -16,6 +16,8 @@ class ListComprehensionWithMonadTest extends \PHPUnit_Framework_TestCase
                 });
         });
 
+        $result = f\valueOf($result);
+
         $this->assertEquals([
             [1, 'a'],
             [1, 'b'],
