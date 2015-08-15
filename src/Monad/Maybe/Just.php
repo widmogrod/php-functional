@@ -40,7 +40,7 @@ class Just implements Maybe
         return $this;
     }
 
-    public function valueOf()
+    public function extract()
     {
         return $this->value;
     }

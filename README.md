@@ -42,7 +42,7 @@ $result = $collection->map(function($a) {
     return $a['id'] + 1;
 });
 
-assert(f\valueOf($result) === [2, 3, 4]);
+assert(f\extract($result) === [2, 3, 4]);
 ```
 
 ### List Applicative Functor
@@ -71,7 +71,7 @@ $collectionB = Applicative\Collection::create([
 $result = $collectionA->ap($collectionB);
 
 assert($result instanceof Applicative\Collection);
-assert(f\valueOf($result) === [4, 5, 5, 6]);
+assert(f\extract($result) === [4, 5, 5, 6]);
 ```
 
 ### Applicative Validation
@@ -112,14 +112,14 @@ function isPasswordValid($password)
 
 $resultA = isPasswordValid("foo");
 assert($resultA instanceof Applicative\Validator\Failure);
-assert(f\valueOf($resultA) === [
+assert(f\extract($resultA) === [
     'Password must have more than 6 characters',
     'Password must contain special characters',
 ]);
 
 $resultB = isPasswordValid("asdqMf67123!oo");
 assert($resultB instanceof Applicative\Validator\Success);
-assert(f\valueOf($resultB) === 'asdqMf67123!oo');
+assert(f\extract($resultB) === 'asdqMf67123!oo');
 ```
 
 ### Maybe and List Monad
@@ -148,9 +148,9 @@ $listOfFirstImages = Collection::create($data)
     ->bind($get('meta'))
     ->bind($get('images'))
     ->bind($get(0))
-    ->valueOf();
+    ->extract();
 
-assert($listOfFirstImages->valueOf() === ['//first.jpg', '//third.jpg', null]);
+assert($listOfFirstImages->extract() === ['//first.jpg', '//third.jpg', null]);
 ```
 
 ### Either Monad
@@ -179,7 +179,7 @@ $concat = f\liftM2(
 );
 
 assert($concat instanceof Either\Left);
-assert($concat->valueOf() === 'File "aaa" does not exists');
+assert($concat->extract() === 'File "aaa" does not exists');
 ```
 
 ## Credits & Beers

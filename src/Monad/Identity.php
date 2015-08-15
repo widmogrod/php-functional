@@ -39,7 +39,7 @@ class Identity implements
         return call_user_func($transformation, $this->value);
     }
 
-    public function valueOf()
+    public function extract()
     {
         return $this->value;
     }

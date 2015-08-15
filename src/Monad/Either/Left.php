@@ -3,7 +3,6 @@ namespace Monad\Either;
 
 use Common;
 use FantasyLand;
-use Functor;
 
 class Left implements Either
 {

@@ -60,7 +60,7 @@ class CollectionSpec extends ObjectBehavior
             return $mAddOne($x)->bind($mMultiplyTwo);
         });
 
-        $right->valueOf()->shouldReturn($left->valueOf());
+        $right->extract()->shouldReturn($left->extract());
     }
 
     public function it_should_obey_identity_law_applicative()
@@ -68,7 +68,7 @@ class CollectionSpec extends ObjectBehavior
         $this->beConstructedWith(function($x) { return $x; });
         $result = $this->ap($this::create([1,2]));
 
-        $result->valueOf()->shouldReturn([1,2]);
+        $result->extract()->shouldReturn([1,2]);
     }
 
     public function it_should_obey_homomorphism_law_applicative()
@@ -77,8 +77,8 @@ class CollectionSpec extends ObjectBehavior
         $this->beConstructedWith($id);
         $result = $this->ap($this::create([1,2]));
 
-        $result->valueOf()->shouldReturn(
-            $this::create($id([1,2]))->valueOf()
+        $result->extract()->shouldReturn(
+            $this::create($id([1,2]))->extract()
         );
     }
 
@@ -90,10 +90,10 @@ class CollectionSpec extends ObjectBehavior
         $this->beConstructedWith($f);
         $result = $this->ap($this::create($y));
 
-        $result->valueOf()->shouldReturn(
+        $result->extract()->shouldReturn(
             $this::create(function($f) use ($y) {
                 return $f($y);
-            })->ap($this)->valueOf()
+            })->ap($this)->extract()
         );
     }
 
@@ -104,7 +104,7 @@ class CollectionSpec extends ObjectBehavior
             return $x;
         });
 
-        $result->valueOf()->shouldReturn([1, 2]);
+        $result->extract()->shouldReturn([1, 2]);
     }
 
     public function it_should_obey_composition_law_functor()
@@ -114,7 +114,7 @@ class CollectionSpec extends ObjectBehavior
         $this->beConstructedWith([1, 2]);
 
         $result = $this->map($a)->map($b);
-        $result->valueOf()->shouldReturn([$b($a(1)), $b($a(2))]);
+        $result->extract()->shouldReturn([$b($a(1)), $b($a(2))]);
     }
 
     public function getMatchers()

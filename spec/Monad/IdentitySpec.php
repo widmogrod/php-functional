@@ -71,7 +71,7 @@ class IdentitySpec extends ObjectBehavior
         });
         $result = $this->ap($this::create(1));
 
-        $result->valueOf()->shouldReturn(1);
+        $result->extract()->shouldReturn(1);
     }
 
     public function it_should_obey_homomorphism_law_applicative()
@@ -82,8 +82,8 @@ class IdentitySpec extends ObjectBehavior
         $this->beConstructedWith($id);
         $result = $this->ap($this::create(1));
 
-        $result->valueOf()->shouldReturn(
-            $this::create($id(1))->valueOf()
+        $result->extract()->shouldReturn(
+            $this::create($id(1))->extract()
         );
     }
 
@@ -97,10 +97,10 @@ class IdentitySpec extends ObjectBehavior
         $this->beConstructedWith($f);
         $result = $this->ap($this::create($y));
 
-        $result->valueOf()->shouldReturn(
+        $result->extract()->shouldReturn(
             $this::create(function ($f) use ($y) {
                 return $f($y);
-            })->ap($this)->valueOf()
+            })->ap($this)->extract()
         );
     }
 
@@ -111,7 +111,7 @@ class IdentitySpec extends ObjectBehavior
             return $x;
         });
 
-        $result->valueOf()->shouldReturn(1);
+        $result->extract()->shouldReturn(1);
     }
 
     public function it_should_obey_composition_law_functor()
@@ -125,6 +125,6 @@ class IdentitySpec extends ObjectBehavior
         $this->beConstructedWith(1);
 
         $result = $this->map($a)->map($b);
-        $result->valueOf()->shouldReturn($b($a(1)));
+        $result->extract()->shouldReturn($b($a(1)));
     }
 }

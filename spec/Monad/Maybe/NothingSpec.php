@@ -16,7 +16,7 @@ class JustSpec extends ObjectBehavior
             return 666;
         });
 
-        $result->valueOf()->shouldReturn(null);
+        $result->extract()->shouldReturn(null);
     }
 
     public function it_should_not_apply_if_null()
@@ -26,6 +26,6 @@ class JustSpec extends ObjectBehavior
         $this->beConstructedWith(null);
         $result = $this->ap($this::create($f));
 
-        $result->valueOf()->shouldReturn(null);
+        $result->extract()->shouldReturn(null);
     }
 }

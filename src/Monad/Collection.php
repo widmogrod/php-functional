@@ -56,8 +56,8 @@ class Collection implements
         $result = [];
         $isCollection = $applicative instanceof Collection;
 
-        foreach ($this->valueOf() as $value) {
-            $partial = $applicative->map($value)->valueOf();
+        foreach ($this->extract() as $value) {
+            $partial = $applicative->map($value)->extract();
             if ($isCollection) {
                 $result = \Functional\push($result, $partial);
             } else {
@@ -91,11 +91,11 @@ class Collection implements
      *
      * @return mixed
      */
-    public function valueOf()
+    public function extract()
     {
         return array_map(function ($value) {
             return $value instanceof Common\ValueOfInterface
-                ? $value->valueOf()
+                ? $value->extract()
                 : $value;
         }, $this->value);
     }

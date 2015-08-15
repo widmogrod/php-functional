@@ -102,7 +102,7 @@ function curry(callable $function, array $args = [])
 function valueOf($value)
 {
     return $value instanceof Common\ValueOfInterface
-        ? $value->valueOf()
+        ? $value->extract()
         : $value;
 }
 

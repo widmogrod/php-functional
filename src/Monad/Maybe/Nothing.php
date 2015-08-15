@@ -41,7 +41,7 @@ class Nothing implements Maybe
         return call_user_func($fn);
     }
 
-    public function valueOf()
+    public function extract()
     {
         return null;
     }
