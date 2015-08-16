@@ -9,14 +9,9 @@ use Applicative;
 
 class Just implements Maybe
 {
-    use Common\CreateTrait;
+    use Common\PointedTrait;
 
-    const create = 'Monad\Maybe\Just::create';
-
-    public static function of(callable $b)
-    {
-        return self::create($b);
-    }
+    const of = 'Monad\Maybe\Just::of';
 
     public function ap(FantasyLand\ApplyInterface $applicative)
     {
@@ -26,7 +21,7 @@ class Just implements Maybe
     public function map(callable $transformation)
     {
         return $this->bind(function ($value) use ($transformation) {
-            return self::create(call_user_func($transformation, $value));
+            return self::of(call_user_func($transformation, $value));
         });
     }
 

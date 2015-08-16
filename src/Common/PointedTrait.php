@@ -1,7 +1,7 @@
 <?php
 namespace Common;
 
-trait CreateTrait
+trait PointedTrait
 {
     /**
      * @var mixed
@@ -9,6 +9,7 @@ trait CreateTrait
     protected $value;
 
     /**
+     * Ensure everything on start.
      * @param mixed $value
      */
     public function __construct($value)
@@ -17,15 +18,10 @@ trait CreateTrait
     }
 
     /**
-     * Convert value to monad
-     *
-     * @param mixed $value
-     * @return static
+     * @inheritdoc
      */
-    public static function create($value)
+    public static function of($value)
     {
-        return $value instanceof static
-            ? $value
-            : new static($value);
+        return new static($value);
     }
 }

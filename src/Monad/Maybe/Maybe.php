@@ -3,9 +3,7 @@ namespace Monad\Maybe;
 
 use Monad;
 use Common;
-use Functor;
 use FantasyLand;
-use Applicative;
 
 interface Maybe extends
     FantasyLand\MonadInterface,

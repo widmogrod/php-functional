@@ -13,8 +13,8 @@ class ApplicatorLiftTest extends \PHPUnit_Framework_TestCase
 {
     public function test_it_should_sum_all_from_one_collection_with_elements_from_second()
     {
-        $collectionA = Monad\Collection::create([1, 2]);
-        $collectionB = Monad\Collection::create([4, 5]);
+        $collectionA = Monad\Collection::of([1, 2]);
+        $collectionB = Monad\Collection::of([4, 5]);
 
         // sum <*> [1, 2] <*> [4, 5]
         $result = f\liftA2($collectionA, $collectionB, 'example\sum');
@@ -24,8 +24,8 @@ class ApplicatorLiftTest extends \PHPUnit_Framework_TestCase
 
     public function test_it_should_sum_all_from_one_collection_with_single_element()
     {
-        $justA = Monad\Identity::create(1);
-        $collectionB = Monad\Collection::create([4, 5]);
+        $justA = Monad\Identity::of(1);
+        $collectionB = Monad\Collection::of([4, 5]);
 
         // sum <*> Just 1 <*> [4, 5]
         $result = f\liftA2($justA, $collectionB, 'example\sum');
@@ -35,8 +35,8 @@ class ApplicatorLiftTest extends \PHPUnit_Framework_TestCase
 
     public function test_it_should_sum_value_with_elements_from_collection()
     {
-        $justA = Monad\Identity::create(1);
-        $collectionB = Monad\Collection::create([4, 5]);
+        $justA = Monad\Identity::of(1);
+        $collectionB = Monad\Collection::of([4, 5]);
 
         // sum <*> Just 1 <*> [4, 5]
         $result = f\liftA2($collectionB, $justA, 'example\sum');

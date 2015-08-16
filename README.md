@@ -32,7 +32,7 @@ You can find more use cases and examples in the `example` directory.
 ``` php
 use Functional as f;
 
-$collection = Functor\Collection::create([
+$collection = Functor\Collection::of([
    ['id' => 1, 'name' => 'One'],
    ['id' => 2, 'name' => 'Two'],
    ['id' => 3, 'name' => 'Three'],
@@ -56,7 +56,7 @@ of applying function from the left list to a value in the right one.
 ``` php
 use Functional as f;
 
-$collectionA = Applicative\Collection::create([
+$collectionA = Applicative\Collection::of([
     function($a) {
         return 3 + $a;
     },
@@ -64,7 +64,7 @@ $collectionA = Applicative\Collection::create([
         return 4 + $a;
     },
 ]);
-$collectionB = Applicative\Collection::create([
+$collectionB = Applicative\Collection::of([
     1, 2
 ]);
 
@@ -86,8 +86,8 @@ use Applicative\Validator;
 function isPasswordLongEnough($password)
 {
     return strlen($password) > 6
-        ? Validator\Success::create($password)
-        : Validator\Failure::create(
+        ? Validator\Success::of($password)
+        : Validator\Failure::of(
             'Password must have more than 6 characters'
         );
 }
@@ -95,15 +95,15 @@ function isPasswordLongEnough($password)
 function isPasswordStrongEnough($password)
 {
     return preg_match('/[\W]/', $password)
-        ? Validator\Success::create($password)
-        : Validator\Failure::create([
+        ? Validator\Success::of($password)
+        : Validator\Failure::of([
             'Password must contain special characters'
         ]);
 }
 
 function isPasswordValid($password)
 {
-    return Validator\Success::create(Functional\curryN(2, function () use ($password) {
+    return Validator\Success::of(Functional\curryN(2, function () use ($password) {
         return $password;
     }))
         ->ap(isPasswordLongEnough($password))
@@ -144,7 +144,7 @@ $get = function ($key) {
     };
 };
 
-$listOfFirstImages = Collection::create($data)
+$listOfFirstImages = Collection::of($data)
     ->bind($get('meta'))
     ->bind($get('images'))
     ->bind($get(0))
@@ -166,8 +166,8 @@ use Monad\Either;
 function read($file)
 {
     return is_file($file)
-        ? Either\Right::create(file_get_contents($file))
-        : Either\Left::create(sprintf('File "%s" does not exists', $file));
+        ? Either\Right::of(file_get_contents($file))
+        : Either\Left::of(sprintf('File "%s" does not exists', $file));
 }
 
 $concat = f\liftM2(

@@ -6,15 +6,10 @@ use FantasyLand;
 
 class Left implements Either
 {
-    use Common\CreateTrait;
+    use Common\PointedTrait;
     use Common\ValueOfTrait;
 
-    const create = 'Monad\Either\Left::create';
-
-    public static function of(callable $b)
-    {
-        return self::create($b);
-    }
+    const of = 'Monad\Either\Left::of';
 
     public function ap(FantasyLand\ApplyInterface $b)
     {
@@ -43,6 +38,6 @@ class Left implements Either
      */
     public function bimap(callable $left, callable $right)
     {
-        return self::create(call_user_func($left, $this->value));
+        return self::of(call_user_func($left, $this->value));
     }
 }

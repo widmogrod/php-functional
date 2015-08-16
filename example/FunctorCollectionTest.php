@@ -8,7 +8,7 @@ class MonadCollectionTest extends \PHPUnit_Framework_TestCase
 {
     public function test_it_should_return_new_map()
     {
-        $collection = Monad\Collection::create([
+        $collection = Monad\Collection::of([
             ['id' => 1, 'name' => 'One'],
             ['id' => 2, 'name' => 'Two'],
             ['id' => 3, 'name' => 'Three'],

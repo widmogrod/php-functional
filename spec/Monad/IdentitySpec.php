@@ -27,7 +27,7 @@ class IdentitySpec extends ObjectBehavior
     public function it_should_obey_first_monad_law()
     {
         $mAddOne = function ($value) {
-            return \Monad\Identity::create($value + 1);
+            return \Monad\Identity::of($value + 1);
         };
 
         $this->beConstructedWith(3);
@@ -40,8 +40,8 @@ class IdentitySpec extends ObjectBehavior
     public function it_should_obey_second_monad_law()
     {
         $this->beConstructedWith(3);
-        $right = $this->bind(\Monad\Identity::create);
-        $left = \Monad\Identity::create(3);
+        $right = $this->bind(\Monad\Identity::of);
+        $left = \Monad\Identity::of(3);
 
         $right->bind('Functional\identity')->shouldReturn($left->bind('Functional\identity'));
     }
@@ -49,10 +49,10 @@ class IdentitySpec extends ObjectBehavior
     public function it_should_obey_third_monad_law()
     {
         $mAddOne = function ($value) {
-            return \Monad\Identity::create($value + 1);
+            return \Monad\Identity::of($value + 1);
         };
         $mAddTwo = function ($value) {
-            return \Monad\Identity::create($value + 2);
+            return \Monad\Identity::of($value + 2);
         };
 
         $this->beConstructedWith(3);
@@ -69,7 +69,7 @@ class IdentitySpec extends ObjectBehavior
         $this->beConstructedWith(function ($x) {
             return $x;
         });
-        $result = $this->ap($this::create(1));
+        $result = $this->ap($this::of(1));
 
         $result->extract()->shouldReturn(1);
     }
@@ -80,10 +80,10 @@ class IdentitySpec extends ObjectBehavior
             return $x;
         };
         $this->beConstructedWith($id);
-        $result = $this->ap($this::create(1));
+        $result = $this->ap($this::of(1));
 
         $result->extract()->shouldReturn(
-            $this::create($id(1))->extract()
+            $this::of($id(1))->extract()
         );
     }
 
@@ -95,10 +95,10 @@ class IdentitySpec extends ObjectBehavior
         };
 
         $this->beConstructedWith($f);
-        $result = $this->ap($this::create($y));
+        $result = $this->ap($this::of($y));
 
         $result->extract()->shouldReturn(
-            $this::create(function ($f) use ($y) {
+            $this::of(function ($f) use ($y) {
                 return $f($y);
             })->ap($this)->extract()
         );

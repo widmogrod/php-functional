@@ -8,7 +8,7 @@ use Functional as f;
  */
 function nothing()
 {
-    return Nothing::create(null);
+    return Nothing::of(null);
 }
 
 /**
@@ -18,7 +18,7 @@ function nothing()
 function just($value = null)
 {
     return call_user_func_array(
-        f\curryN(1, Just::create),
+        f\curryN(1, Just::of),
         func_get_args()
     );
 }

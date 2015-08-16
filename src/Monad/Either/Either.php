@@ -2,7 +2,6 @@
 namespace Monad\Either;
 
 use Monad;
-use Functor;
 use Common;
 use FantasyLand;
 

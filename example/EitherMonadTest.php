@@ -7,8 +7,8 @@ use Monad\Either;
 function read($file)
 {
     return is_file($file)
-        ? Either\Right::create(file_get_contents($file))
-        : Either\Left::create(sprintf('File "%s" does not exists', $file));
+        ? Either\Right::of(file_get_contents($file))
+        : Either\Left::of(sprintf('File "%s" does not exists', $file));
 }
 
 class EitherMonadTest extends \PHPUnit_Framework_TestCase

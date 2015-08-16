@@ -1,11 +1,8 @@
 <?php
 namespace FantasyLand;
 
-interface ApplicativeInterface extends ApplyInterface
+interface ApplicativeInterface extends
+    ApplyInterface,
+    PointedInterface
 {
-    /**
-     * @param callable $b
-     * @return self
-     */
-    public static function of(callable $b);
 }

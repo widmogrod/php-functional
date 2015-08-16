@@ -9,7 +9,7 @@ use Functional as f;
  */
 function succeed($value = null)
 {
-    return call_user_func_array(f\curryN(1, Right::create), func_get_args());
+    return call_user_func_array(f\curryN(1, Right::of), func_get_args());
 }
 
 /**
@@ -18,7 +18,7 @@ function succeed($value = null)
  */
 function fail($value = null)
 {
-    return call_user_func_array(f\curryN(1, Left::create), func_get_args());
+    return call_user_func_array(f\curryN(1, Left::of), func_get_args());
 }
 
 /**

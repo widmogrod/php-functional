@@ -22,8 +22,8 @@ class CollectionSpec extends ObjectBehavior
     {
         $this->beConstructedWith([1, 2, 3]);
         /** @var \PhpSpec\Wrapper\Subject $right */
-        $left = $this->bind(\Monad\Collection::create);
-        $right = $this::create([1, 2, 3]);
+        $left = $this->bind(\Monad\Collection::of);
+        $right = $this::of([1, 2, 3]);
 
         $left->shouldHaveSameLike($right);
     }
@@ -38,7 +38,7 @@ class CollectionSpec extends ObjectBehavior
         /** @var \PhpSpec\Wrapper\Subject $right */
         $left = $this->bind($mAddOne);
         $right = array_map($mAddOne, [1, 2, 3]);
-        $right = $this::create($right);
+        $right = $this::of($right);
 
         $left->shouldHaveSameLike($right);
     }
@@ -46,10 +46,10 @@ class CollectionSpec extends ObjectBehavior
     public function it_should_obey_third_monad_law()
     {
         $mAddOne = function ($value) {
-            return \Monad\Identity::create($value + 1);
+            return \Monad\Identity::of($value + 1);
         };
         $mMultiplyTwo = function ($value) {
-            return \Monad\Identity::create($value * 2);
+            return \Monad\Identity::of($value * 2);
         };
 
         $this->beConstructedWith([1, 2, 3]);
@@ -66,7 +66,7 @@ class CollectionSpec extends ObjectBehavior
     public function it_should_obey_identity_law_applicative()
     {
         $this->beConstructedWith(function($x) { return $x; });
-        $result = $this->ap($this::create([1,2]));
+        $result = $this->ap($this::of([1,2]));
 
         $result->extract()->shouldReturn([1,2]);
     }
@@ -75,10 +75,10 @@ class CollectionSpec extends ObjectBehavior
     {
         $id = function($x) { return $x; };
         $this->beConstructedWith($id);
-        $result = $this->ap($this::create([1,2]));
+        $result = $this->ap($this::of([1,2]));
 
         $result->extract()->shouldReturn(
-            $this::create($id([1,2]))->extract()
+            $this::of($id([1,2]))->extract()
         );
     }
 
@@ -88,10 +88,10 @@ class CollectionSpec extends ObjectBehavior
         $f = function($x) { return $x / 2; };
 
         $this->beConstructedWith($f);
-        $result = $this->ap($this::create($y));
+        $result = $this->ap($this::of($y));
 
         $result->extract()->shouldReturn(
-            $this::create(function($f) use ($y) {
+            $this::of(function($f) use ($y) {
                 return $f($y);
             })->ap($this)->extract()
         );

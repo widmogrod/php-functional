@@ -11,14 +11,9 @@ class Collection implements
     Common\ValueOfInterface,
     Common\ConcatInterface
 {
-    use Common\CreateTrait;
+    use Common\PointedTrait;
 
-    const create = 'Monad\Collection::create';
-
-    public static function of(callable $b)
-    {
-        return self::create($b);
-    }
+    const of = 'Monad\Collection::of';
 
     /**
      * @param array $value
@@ -43,7 +38,7 @@ class Collection implements
             $result[$key] = call_user_func($transformation, $value);
         }
 
-        return self::create($result);
+        return self::of($result);
     }
 
 
@@ -65,7 +60,7 @@ class Collection implements
             }
         }
 
-        return $applicative::create($result);
+        return $applicative::of($result);
     }
 
     /**
@@ -83,7 +78,7 @@ class Collection implements
             );
         }
 
-        return static::create($result);
+        return static::of($result);
     }
 
     /**

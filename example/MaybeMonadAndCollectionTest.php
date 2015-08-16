@@ -24,7 +24,7 @@ class MaybeMonadAndCollectionTest extends \PHPUnit_Framework_TestCase
         };
 
         $listOfFirstImages = f\pipeline(
-            Collection::create,
+            Collection::of,
             f\bind($get('meta')),
             f\bind($get('images')),
             f\bind($get(0))

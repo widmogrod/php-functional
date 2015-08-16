@@ -8,19 +8,14 @@ class Identity implements
     FantasyLand\MonadInterface,
     Common\ValueOfInterface
 {
-    const create = 'Monad\Identity::create';
+    const of = 'Monad\Identity::of';
 
-    use Common\CreateTrait;
+    use Common\PointedTrait;
     use Common\ValueOfTrait;
-
-    public static function of(callable $b)
-    {
-        return self::create($b);
-    }
 
     public function map(callable $transformation)
     {
-        return static::create(call_user_func($transformation, $this->value));
+        return static::of(call_user_func($transformation, $this->value));
     }
 
     /**

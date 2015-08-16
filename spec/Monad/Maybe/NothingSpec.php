@@ -24,7 +24,7 @@ class JustSpec extends ObjectBehavior
         $f = function($x) { return $x / 2; };
 
         $this->beConstructedWith(null);
-        $result = $this->ap($this::create($f));
+        $result = $this->ap($this::of($f));
 
         $result->extract()->shouldReturn(null);
     }
