@@ -26,16 +26,12 @@ function fail($value = null)
  *
  * @param callable $succeed
  * @param callable $failure
- * @param EitherInterface $either
+ * @param Either $either
  * @return mixed
  */
-function either(callable $succeed, callable $failure, EitherInterface $either)
+function either(callable $succeed, callable $failure, Either $either)
 {
-    if ($either instanceof Right) {
-        return $either->bind($succeed);
-    } else {
-        return $either->orElse($failure);
-    }
+    return $either->bimap($failure, $succeed);
 }
 
 /**
@@ -44,9 +40,9 @@ function either(callable $succeed, callable $failure, EitherInterface $either)
  * @return Left|Right
  * @param callable $success
  * @param callable $failure
- * @param EitherInterface $either
+ * @param Either $either
  */
-function doubleMap(callable $success, callable $failure, EitherInterface $either)
+function doubleMap(callable $success, callable $failure, Either $either)
 {
     return either(
         f\compose(succeed(), $success),
@@ -58,7 +54,7 @@ function doubleMap(callable $success, callable $failure, EitherInterface $either
 /**
  * Adapt function that may throws exceptions to Either monad.
  *
- * @return EitherInterface|\Closure
+ * @return Either|\Closure
  * @param callable $success
  * @param callable $catchFunction
  * @param mixed $value

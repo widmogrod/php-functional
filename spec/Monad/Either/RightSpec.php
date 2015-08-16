@@ -14,16 +14,7 @@ class RightSpec extends ObjectBehavior
         $this->beConstructedWith(null);
         $this->shouldHaveType('Monad\Either\Right');
         $this->shouldHaveType('Monad\MonadInterface');
-        $this->shouldHaveType('Monad\Either\EitherInterface');
-    }
-
-    public function it_should_not_orElse()
-    {
-        $this->beConstructedWith(3);
-        $right = $this->orElse(function($e) {
-            throw new \Exception('This should never been thrown');
-        });
-        $right->shouldReturn($right);
+        $this->shouldHaveType('Monad\Either\Either');
     }
 
     public function it_should_obey_first_monad_law()

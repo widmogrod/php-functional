@@ -55,7 +55,7 @@ function updateDatabaseStep(array $request)
     ), $request);
 }
 
-function sendMessage(E\EitherInterface $either)
+function sendMessage(E\Either $either)
 {
     return E\doubleMap('returnMessage', 'returnFailure', $either);
 }

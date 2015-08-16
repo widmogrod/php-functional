@@ -31,6 +31,10 @@ function push(array $array, array $values)
  */
 function concat(array $array, $value)
 {
+    if ($value instanceof Common\ConcatInterface) {
+        return $value->concat($array);
+    }
+
     if (is_array($value)) {
         return push($array, $value);
     }

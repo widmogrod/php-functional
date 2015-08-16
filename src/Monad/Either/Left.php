@@ -4,10 +4,7 @@ namespace Monad\Either;
 use Common;
 use Functor;
 
-class Left implements
-    EitherInterface,
-    Functor\FunctorInterface,
-    Common\ValueOfInterface
+class Left implements Either
 {
     use Common\CreateTrait;
     use Common\ValueOfTrait;
@@ -34,8 +31,8 @@ class Left implements
     /**
      * @inheritdoc
      */
-    public function orElse(callable $fn)
+    public function bimap(callable $left, callable $right)
     {
-        return call_user_func($fn, $this->value);
+        return self::create(call_user_func($left, $this->value));
     }
 }
