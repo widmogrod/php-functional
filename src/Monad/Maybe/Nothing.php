@@ -9,7 +9,7 @@ class Nothing implements Maybe
 {
     const of = 'Monad\Maybe\None::of';
 
-    public static function of($b)
+    public static function of($value)
     {
         return new static();
     }

@@ -4,10 +4,10 @@ namespace FantasyLand;
 interface PointedInterface
 {
     /**
-     * Put value $b in default minimal context.
+     * Put $value in default minimal context.
      *
-     * @param mixed $b
+     * @param mixed $value
      * @return self
      */
-    public static function of($b);
+    public static function of($value);
 }
