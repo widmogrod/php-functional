@@ -16,14 +16,6 @@ class JustSpec extends ObjectBehavior
         $this->shouldHaveType('Monad\MonadInterface');
     }
 
-    public function it_should_bind_value_from_constructor_to_given_function_if_value_is_not_null()
-    {
-        $this->beConstructedWith(2);
-        $this->bind(function ($value) {
-            return $value * $value;
-        })->shouldReturn(4);
-    }
-
     public function it_should_bind_value_from_constructor_to_given_function()
     {
         $this->beConstructedWith(2);
