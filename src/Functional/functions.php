@@ -1,11 +1,9 @@
 <?php
 namespace Functional;
 
-use Functor;
 use Monad;
 use Common;
 use FantasyLand;
-use Applicative;
 
 /**
  * Append array with values.
@@ -50,9 +48,11 @@ function concat(array $array, $value)
  * @param mixed $x
  * @return mixed
  */
-function identity($x)
+function identity($x = null)
 {
-    return $x;
+    return call_user_func_array(curryN(1, function ($x) {
+        return $x;
+    }), func_get_args());
 }
 
 /**

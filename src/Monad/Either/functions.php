@@ -29,9 +29,25 @@ function fail($value = null)
  * @param Either $either
  * @return mixed
  */
-function either(callable $succeed, callable $failure, Either $either)
+function eitherF(callable $succeed, callable $failure, Either $either)
 {
     return $either->bimap($failure, $succeed);
+}
+
+/**
+ * Apply either a success function or failure function
+ *
+ * @param callable $succeed
+ * @param callable $failure
+ * @param Either $either
+ * @return mixed
+ */
+function either(callable $succeed = null, callable $failure = null, Either $either = null)
+{
+    return call_user_func_array(
+        f\curryN(3, 'Monad\Either\eitherF'),
+        func_get_args()
+    );
 }
 
 /**
