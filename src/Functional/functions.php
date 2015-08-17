@@ -209,6 +209,18 @@ function bind(callable $function = null, FantasyLand\MonadInterface $value = nul
 }
 
 /**
+ * join :: Monad (Monad m) -> Monad m
+ *
+ * @return FantasyLand\MonadInterface
+ */
+function join(FantasyLand\MonadInterface $monad = null)
+{
+    return call_user_func_array(curryN(1, function (FantasyLand\MonadInterface $monad) {
+        return $monad->bind(identity());
+    }), func_get_args());
+}
+
+/**
  * Lift result of transformation function , called with values from two monads.
  *
  * liftM2 :: Monad m => (a1 -> a2 -> r) -> m a1 -> m a2 -> m r
