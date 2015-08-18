@@ -7,22 +7,41 @@ use Functional as f;
 
 class IOMonadTest extends \PHPUnit_Framework_TestCase
 {
-    public function test_io()
+    private $global = [];
+
+    public function setUp()
+    {
+        $this->global = [];
+    }
+
+    /**
+     * @dataProvider provideData
+     */
+    public function test_io($expected, $userName, $filePath)
     {
         // $log :: String -> IO String
         $log = function ($x) {
             return M\IO::of(function () use ($x) {
-                var_dump($x);
+                // should log to standard output
+                // but I just capturing it into array
+                $this->global[] = (array) $x;
 
                 return $x;
             });
         };
 
-        $setStyle = f\curryN(2, function ($path, $prop) {
-            return M\IO::of(function () use ($path, $prop) {
-                var_dump('stype set to', $path, $path);
-            });
-        });
+//        $setStyle = f\curryN(2, function (\DOMDocument $dom, $path, $prop) {
+//            $xpath = new \DOMXPath($dom);
+//            $list = $xpath->query($path);
+//            foreach ($list as $item) {
+//                /** @var \DOMNode $item */
+//                $item->attributes;
+//            }
+//
+//            return M\IO::of(function () use ($path, $prop) {
+//                var_dump('stype set to', $path, $path);
+//            });
+//        });
 
         // $getItem :: String -> IO String
         $getItem = function ($key) {
@@ -58,34 +77,50 @@ class IOMonadTest extends \PHPUnit_Framework_TestCase
 
         // $fileToDom :: String -> IO (Either String (Maybe DOMDocument))
         $fileToDom = f\pipeline(
-            $readFile,
-            f\bind(E\either(f\identity(), f\tee('var_dump'))),
-            f\bind($parseDom)
+            $readFile
+            , f\map(f\map(f\compose(f\join(), $parseDom)))
         );
 
-        // TODO make it as a helper
-        $file = tempnam(sys_get_temp_dir(), 'test');
-        file_put_contents($file, <<<HTML
+        // $domOrError :: Either String (Maybe DOMDocument)
+        $domOrError = $fileToDom($filePath)->run();
+
+
+        $applyPreferences = f\pipeline(
+            $getItem
+            , f\map('json_decode')
+            , f\bind($log)
+//            , f\bind($setStyle('//[@id="main"]'))
+        );
+
+        $applyPreferences($userName)->run();
+
+        $this->assertEquals(
+            $expected,
+            $this->global
+        );
+    }
+
+    public function provideData()
+    {
+        $filePath = tempnam(sys_get_temp_dir(), 'test');
+        file_put_contents($filePath, <<<HTML
 <html>
 <head></head>
 <body>
-<div id="name">Guest?</div>
+<div id="main">Guest?</div>
 </body>
 </html>
 HTML
         );
 
-
-        $file = 'asd';
-        print_r($fileToDom($file)->run());
-
-//        $applyPreferences = f\pipeline(
-//            $getItem,
-//            f\map('json_decode'),
-//            f\bind($log),
-//            f\bind($setStyle('#main'))
-//        );
-//
-//        $applyPreferences('tom')->run();
+        return [
+            'default' => [
+                '$expected' => [
+                    ['color' => 'red is tom']
+                ],
+                '$userName' => 'tom',
+                '$filePath' => $filePath
+            ],
+        ];
     }
 }
