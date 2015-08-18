@@ -11,16 +11,15 @@ function nothing()
     return Nothing::of(null);
 }
 
+const just = 'Monad\Maybe\just';
+
 /**
  * @return Just
  * @param mixed $value
  */
-function just($value = null)
+function just($value)
 {
-    return call_user_func_array(
-        f\curryN(1, Just::of),
-        func_get_args()
-    );
+    return Just::of($value);
 }
 
 

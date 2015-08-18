@@ -42,6 +42,8 @@ function concat(array $array, $value)
     return $array;
 }
 
+const identity = 'Functional\identity';
+
 /**
  * Return value passed to function
  *
@@ -50,9 +52,7 @@ function concat(array $array, $value)
  */
 function identity($x = null)
 {
-    return call_user_func_array(curryN(1, function ($x) {
-        return $x;
-    }), func_get_args());
+    return $x;
 }
 
 /**
@@ -92,6 +92,8 @@ function curry(callable $function, array $args = [])
 
     return curryN($numberOfArguments, $function, $args);
 }
+
+const valueOf = 'Functional\valueOf';
 
 /**
  * Retrieve value of a object
@@ -167,6 +169,8 @@ function pipeline(callable $a, callable $b)
     };
 }
 
+const reverse = 'Functional\reverse';
+
 /**
  * Call $function with arguments in reversed order
  *
@@ -179,6 +183,8 @@ function reverse(callable $function)
         return call_user_func_array($function, array_reverse(func_get_args()));
     };
 }
+
+const map = 'Functional\map';
 
 /**
  * @return mixed|\Closure
@@ -196,6 +202,8 @@ function map(callable $transformation = null, $value = null)
     }), func_get_args());
 }
 
+const bind = 'Functional\bind';
+
 /**
  * @return mixed|\Closure
  * @param callable $function
@@ -208,6 +216,8 @@ function bind(callable $function = null, FantasyLand\MonadInterface $value = nul
     }), func_get_args());
 }
 
+const join = 'Functional\join';
+
 /**
  * join :: Monad (Monad m) -> Monad m
  *
@@ -215,9 +225,7 @@ function bind(callable $function = null, FantasyLand\MonadInterface $value = nul
  */
 function join(FantasyLand\MonadInterface $monad = null)
 {
-    return call_user_func_array(curryN(1, function (FantasyLand\MonadInterface $monad) {
-        return $monad->bind(identity());
-    }), func_get_args());
+    return $monad->bind(identity);
 }
 
 /**

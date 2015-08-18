@@ -78,7 +78,7 @@ class IOMonadTest extends \PHPUnit_Framework_TestCase
         // $fileToDom :: String -> IO (Either String (Maybe DOMDocument))
         $fileToDom = f\pipeline(
             $readFile
-            , f\map(f\map(f\compose(f\join(), $parseDom)))
+            , f\map(f\map(f\compose(f\join, $parseDom)))
         );
 
         // $domOrError :: Either String (Maybe DOMDocument)
