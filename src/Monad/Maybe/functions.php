@@ -27,6 +27,8 @@ const maybeNull = 'Monad\Maybe\maybeNull';
 /**
  * Create maybe for value
  *
+ * maybeNull :: a -> Maybe a
+ *
  * @param mixed|null
  * @return Maybe
  */
