@@ -228,6 +228,77 @@ function join(FantasyLand\MonadInterface $monad = null)
     return $monad->bind(identity);
 }
 
+const flip = 'Functional\flip';
+
+/**
+ * flip :: (a -> b -> c) -> (b -> a -> c)
+ *
+ * @param callable $func
+ * @return callable
+ */
+function flip(callable $func, $b = null, $a = null)
+{
+    $args = func_get_args();
+    array_shift($args);
+    return call_user_func_array(curryN(2, function ($a, $b) use ($func) {
+        $args = func_get_args();
+        $args[0] = $b;
+        $args[1] = $a;
+
+        return call_user_func_array($func, $args);
+    }), $args);
+}
+
+const isTraversable = 'Functional\isTraversable';
+
+/**
+ * Evaluate if value is a traversable
+ *
+ * @param mixed $value
+ * @return bool
+ */
+function isTraversable($value)
+{
+    return is_array($value) || $value instanceof \Traversable;
+}
+
+const head = 'Functional\head';
+
+/**
+ * Return head of a traversable
+ *
+ * @param array|\Traversable $list
+ * @return null|array|\Traversable
+ */
+function head($list)
+{
+    if (!isTraversable($list)) {
+        return null;
+    }
+    foreach ($list as $item) {
+        return $item;
+    }
+}
+
+const tail = 'Functional\tail';
+
+/**
+ * Return tail of a traversable
+ *
+ * @param array|\Traversable $list
+ * @return null|array|\Traversable
+ */
+function tail($list)
+{
+    if (!isTraversable($list)) {
+        return null;
+    }
+
+    $clone = $list;
+    array_shift($clone);
+    return $clone;
+}
+
 /**
  * Lift result of transformation function , called with values from two monads.
  *
