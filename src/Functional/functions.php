@@ -162,7 +162,7 @@ function pipeline(callable $a, callable $b)
 {
     $list = func_get_args();
 
-    return function ($value) use (&$list) {
+    return function ($value = null) use (&$list) {
         return array_reduce($list, function ($accumulator, callable $a) {
             return call_user_func($a, $accumulator);
         }, $value);
