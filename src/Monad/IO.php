@@ -7,6 +7,8 @@ use FantasyLand\MonadInterface;
 
 class IO implements MonadInterface
 {
+    const of = 'Monad\IO::of';
+
     /**
      * @var callable
      */
@@ -15,6 +17,14 @@ class IO implements MonadInterface
     public function __construct(callable $unsafe)
     {
         $this->unsafe = $unsafe;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function of($value)
+    {
+        return new static($value);
     }
 
     /**
@@ -38,19 +48,11 @@ class IO implements MonadInterface
      */
     public function map(callable $function)
     {
-        return $this->bind(function($value) use ($function) {
-            return static::of(function() use ($function, $value) {
+        return $this->bind(function ($value) use ($function) {
+            return static::of(function () use ($function, $value) {
                 return call_user_func($function, $value);
             });
         });
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public static function of($value)
-    {
-        return new static($value);
     }
 
     /**
