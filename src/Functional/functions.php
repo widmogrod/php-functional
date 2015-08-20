@@ -285,12 +285,14 @@ const tail = 'Functional\tail';
 /**
  * Return tail of a traversable
  *
- * @param array|\Traversable $list
- * @return null|array|\Traversable
+ * TODO support \Traversable
+ *
+ * @param array $list
+ * @return null
  */
-function tail($list)
+function tail(array $list)
 {
-    if (!isTraversable($list)) {
+    if (count($list) === 0) {
         return null;
     }
 
