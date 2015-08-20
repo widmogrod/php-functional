@@ -36,11 +36,16 @@ class IO implements MonadInterface
     }
 
     /**
+     * bind :: IO a -> (a -> IO b) -> IO b
+     *
      * @inheritdoc
      */
     public function bind(callable $function)
     {
-        return call_user_func($function, $this->run());
+        return static::of(function () use ($function) {
+            $io = call_user_func($function, $this->run());
+            return $io->run();
+        });
     }
 
     /**
