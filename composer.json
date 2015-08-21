@@ -20,6 +20,7 @@
     "psr-0": {
       "Common": "src",
       "Monad": "src",
+      "Helpful": "src",
       "FantasyLand": "src"
     },
     "files": [
