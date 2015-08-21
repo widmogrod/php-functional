@@ -26,10 +26,7 @@ class Collection implements
     }
 
     /**
-     * Transforms one category into another category.
-     *
-     * @param callable $transformation
-     * @return mixed
+     * @inheritdoc
      */
     public function map(callable $transformation)
     {
@@ -40,7 +37,6 @@ class Collection implements
 
         return self::of($result);
     }
-
 
     /**
      * @inheritdoc
@@ -82,9 +78,7 @@ class Collection implements
     }
 
     /**
-     * Return value wrapped by Monad
-     *
-     * @return mixed
+     * @inheritdoc
      */
     public function extract()
     {
@@ -95,6 +89,9 @@ class Collection implements
         }, $this->value);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function concat($value)
     {
         if ($value instanceof self) {

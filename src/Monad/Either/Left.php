@@ -11,6 +11,9 @@ class Left implements Either
 
     const of = 'Monad\Either\Left::of';
 
+    /**
+     * @inheritdoc
+     */
     public function ap(FantasyLand\ApplyInterface $b)
     {
         return $this;

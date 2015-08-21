@@ -13,6 +13,9 @@ class Identity implements
     use Common\PointedTrait;
     use Common\ValueOfTrait;
 
+    /**
+     * @inheritdoc
+     */
     public function map(callable $transformation)
     {
         return static::of(call_user_func($transformation, $this->value));
@@ -34,6 +37,9 @@ class Identity implements
         return call_user_func($transformation, $this->value);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function extract()
     {
         return $this->value;

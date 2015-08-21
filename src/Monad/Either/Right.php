@@ -11,6 +11,9 @@ class Right implements Either
 
     const of = 'Monad\Either\Right::of';
 
+    /**
+     * @inheritdoc
+     */
     public function ap(FantasyLand\ApplyInterface $b)
     {
         return $b->map($this->value);
