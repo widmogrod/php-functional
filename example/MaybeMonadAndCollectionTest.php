@@ -15,13 +15,12 @@ class MaybeMonadAndCollectionTest extends \PHPUnit_Framework_TestCase
             ['id' => 3],
         ];
 
-        $get = function ($key) {
-            return function ($array) use ($key) {
-                return isset($array[$key])
-                    ? Maybe\just($array[$key])
-                    : Maybe\nothing();
-            };
-        };
+        // $get :: String a -> [b] -> Maybe b
+        $get = f\curryN(2, function ($key, $array) {
+            return isset($array[$key])
+                ? Maybe\just($array[$key])
+                : Maybe\nothing();
+        });
 
         $listOfFirstImages = f\pipeline(
             Collection::of,
