@@ -1,6 +1,7 @@
 <?php
 namespace Monad;
 
+use Common;
 use Functional as f;
 use FantasyLand\ApplyInterface;
 use FantasyLand\MonadInterface;
@@ -8,6 +9,8 @@ use FantasyLand\MonadInterface;
 class IO implements MonadInterface
 {
     const of = 'Monad\IO::of';
+
+    use Common\PointedTrait;
 
     /**
      * @var callable
@@ -17,14 +20,6 @@ class IO implements MonadInterface
     public function __construct(callable $unsafe)
     {
         $this->unsafe = $unsafe;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public static function of($value)
-    {
-        return new static($value);
     }
 
     /**
@@ -42,9 +37,15 @@ class IO implements MonadInterface
      */
     public function bind(callable $function)
     {
+        // Theoretical here should be call like this:
+        //  call_user_func($function, $this->run())
+        // But this do not make things lazy, to cheat little bit
+        // IO monad is returned and inside of it is little switch
         return static::of(function () use ($function) {
-            $io = call_user_func($function, $this->run());
-            return $io->run();
+            $m = call_user_func($function, $this->run());
+            return $m instanceof IO
+                ? $m->run()
+                : $m;
         });
     }
 
