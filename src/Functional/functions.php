@@ -108,6 +108,8 @@ function valueOf($value)
         : $value;
 }
 
+const tee = 'Functional\tee';
+
 /**
  * Call $function with $value and return $value
  *
@@ -123,6 +125,8 @@ function tee(callable $function = null, $value = null)
         return $value;
     }), func_get_args());
 }
+
+const compose = 'Functional\compose';
 
 /**
  * Compose multiple functions into one.
@@ -144,6 +148,8 @@ function compose(callable $a, callable $b)
         func_get_args()
     );
 }
+
+const pipeline = 'Functional\pipeline';
 
 /**
  * Compose multiple functions into one.
@@ -226,6 +232,40 @@ const join = 'Functional\join';
 function join(FantasyLand\MonadInterface $monad = null)
 {
     return $monad->bind(identity);
+}
+
+const mpipeline = 'Functional\mpipeline';
+
+/**
+ * mpipeline :: Monad m => (a -> m b) -> (b -> m c) -> m a -> m c
+ *
+ * @param callable $a
+ * @param callable $b,...
+ * @return \Closure         func($mValue) : mixed
+ */
+function mpipeline(callable $a, callable $b)
+{
+    return call_user_func_array(
+        pipeline,
+        array_map(bind, func_get_args())
+    );
+}
+
+const mcompose = 'Functional\mcompose';
+
+/**
+ * compose :: Monad m => (b -> m c) -> (a -> m b) -> m a -> m c
+ *
+ * @param callable $a
+ * @param callable $b,...
+ * @return \Closure         func($mValue) : mixed
+ */
+function mcompose(callable $a, callable $b)
+{
+    return call_user_func_array(
+        reverse(mpipeline),
+        func_get_args()
+    );
 }
 
 const flip = 'Functional\flip';
