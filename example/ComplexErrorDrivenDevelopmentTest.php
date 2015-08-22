@@ -57,7 +57,7 @@ function updateDatabaseStep(array $request)
 
 function sendMessage(E\Either $either)
 {
-    return E\doubleMap('returnMessage', 'returnFailure', $either);
+    return E\doubleMap('returnFailure', 'returnMessage', $either);
 }
 
 function returnMessage(array $request)
