@@ -342,6 +342,38 @@ function tail(array $list)
 }
 
 /**
+ * tryCatch :: Exception e => (a -> b) -> (e -> b) -> a -> b
+ *
+ * @param callable $function
+ * @param callable $catchFunction
+ * @param $value
+ * @return mixed
+ */
+function tryCatch(callable $function, callable $catchFunction, $value)
+{
+    return call_user_func_array(curryN(3, function (callable $function, callable $catchFunction, $value) {
+        try {
+            return call_user_func($function, $value);
+        } catch (\Exception $e) {
+            return call_user_func($catchFunction, $e);
+        }
+    }), func_get_args());
+}
+
+const reThrow = 'Functional\reThrow';
+
+/**
+ * reThrow :: Exception e => e -> a
+ *
+ * @param \Exception $e
+ * @throws \Exception
+ */
+function reThrow(\Exception $e)
+{
+    throw $e;
+}
+
+/**
  * Lift result of transformation function , called with values from two monads.
  *
  * liftM2 :: Monad m => (a1 -> a2 -> r) -> m a1 -> m a2 -> m r

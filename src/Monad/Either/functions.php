@@ -78,10 +78,10 @@ function doubleMap(callable $left, callable $right, Either $either)
 function tryCatch(callable $function = null, callable $catchFunction = null, $value = null)
 {
     return call_user_func_array(f\curryN(3, function (callable $function, callable $catchFunction, $value) {
-        try {
-            return right(call_user_func($function, $value));
-        } catch (\Exception $e) {
-            return left(call_user_func($catchFunction, $e));
-        }
+        return f\tryCatch(
+            f\compose(right, $function),
+            f\compose(left, $catchFunction),
+            $value
+        );
     }), func_get_args());
 }
