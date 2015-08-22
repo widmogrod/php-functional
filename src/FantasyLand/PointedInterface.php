@@ -7,7 +7,7 @@ interface PointedInterface
      * Put $value in default minimal context.
      *
      * @param mixed $value
-     * @return self
+     * @return mixed
      */
     public static function of($value);
 }

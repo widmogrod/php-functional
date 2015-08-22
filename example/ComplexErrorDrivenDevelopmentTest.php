@@ -55,6 +55,7 @@ function updateDatabaseStep(array $request)
     ), $request);
 }
 
+// sendMessage :: Either a b -> Either c d
 function sendMessage(E\Either $either)
 {
     return E\doubleMap('returnFailure', 'returnMessage', $either);

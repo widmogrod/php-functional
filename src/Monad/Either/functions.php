@@ -6,6 +6,8 @@ use Functional as f;
 const right = 'Monad\Either\right';
 
 /**
+ * right :: a -> Right a
+ *
  * @param mixed $value
  * @return Right
  */
@@ -17,6 +19,8 @@ function right($value)
 const left = 'Monad\Either\left';
 
 /**
+ * left :: a -> Left a
+ *
  * @param mixed $value
  * @return Left
  */
@@ -28,34 +32,24 @@ function left($value)
 /**
  * Apply either a success function or failure function
  *
- * @param callable $left
- * @param callable $right
- * @param Either $either
- * @return mixed
- */
-function eitherF(callable $left, callable $right, Either $either)
-{
-    return $either->bimap($left, $right);
-}
-
-/**
- * Apply either a success function or failure function
+ * either :: (a -> c) -> (b -> c) -> Either a b -> c
  *
  * @param callable $left
  * @param callable $right
  * @param Either $either
  * @return mixed
  */
-function either(callable $left = null, callable $right, Either $either = null)
+function either(callable $left = null, callable $right = null, Either $either = null)
 {
-    return call_user_func_array(
-        f\curryN(3, 'Monad\Either\eitherF'),
-        func_get_args()
-    );
+    return call_user_func_array(f\curryN(3, function (callable $left, callable $right, Either $either) {
+        return $either->bimap($left, $right);
+    }), func_get_args());
 }
 
 /**
  * Apply map function on both cases.
+ *
+ * doubleMap :: (a -> c) -> (b -> d) -> Either a b -> Either c d
  *
  * @return Left|Right
  * @param callable $left
@@ -83,9 +77,9 @@ function doubleMap(callable $left, callable $right, Either $either)
  */
 function tryCatch(callable $function = null, callable $catchFunction = null, $value = null)
 {
-    return call_user_func_array(f\curryN(3, function (callable $success, callable $catchFunction, $value) {
+    return call_user_func_array(f\curryN(3, function (callable $function, callable $catchFunction, $value) {
         try {
-            return right(call_user_func($success, $value));
+            return right(call_user_func($function, $value));
         } catch (\Exception $e) {
             return left(call_user_func($catchFunction, $e));
         }
