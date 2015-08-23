@@ -193,18 +193,16 @@ function reverse(callable $function)
 const map = 'Functional\map';
 
 /**
+ * map :: Functor f => (a -> b) -> f a -> f b
+ *
  * @return mixed|\Closure
  * @param callable $transformation
- * @param mixed $value
+ * @param FantasyLand\FunctorInterface $value
  */
-function map(callable $transformation = null, $value = null)
+function map(callable $transformation = null, FantasyLand\FunctorInterface $value = null)
 {
-    return call_user_func_array(curryN(2, function (callable $transformation, $value) {
-        if ($value instanceof FantasyLand\FunctorInterface) {
-            return $value->map($transformation);
-        }
-
-        return call_user_func($transformation, $value);
+    return call_user_func_array(curryN(2, function (callable $transformation, FantasyLand\FunctorInterface $value) {
+        return $value->map($transformation);
     }), func_get_args());
 }
 
