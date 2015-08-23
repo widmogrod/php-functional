@@ -209,6 +209,8 @@ function map(callable $transformation = null, FantasyLand\FunctorInterface $valu
 const bind = 'Functional\bind';
 
 /**
+ * bind :: Monad m => (a -> m b) -> m a -> m b
+ *
  * @return mixed|\Closure
  * @param callable $function
  * @param FantasyLand\MonadInterface $value
