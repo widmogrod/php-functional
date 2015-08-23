@@ -3,6 +3,8 @@ namespace Monad\Maybe;
 
 use Functional as f;
 
+const nothing = 'Monad\Maybe\nothing';
+
 /**
  * @return Nothing
  */
