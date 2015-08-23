@@ -154,8 +154,5 @@ const lookupEnv = 'Monad\IO\lookupEnv';
  */
 function lookupEnv($name)
 {
-    return tryCatch(
-        f\bind(M\Maybe\just, getEnv($name)),
-        M\Maybe\nothing
-    );
+    return tryMaybe(getEnv($name));
 }

@@ -72,3 +72,17 @@ function tryEither(M\IO $io)
         E\left
     );
 }
+
+/**
+ * tryMaybe :: IO a -> IO (Maybe a)
+ *
+ * @param M\IO $io
+ * @return M\IO
+ */
+function tryMaybe(M\IO $io)
+{
+    return tryCatch(
+        f\bind(M\Maybe\just, $io),
+        M\Maybe\nothing
+    );
+}
