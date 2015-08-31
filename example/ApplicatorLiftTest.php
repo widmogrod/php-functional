@@ -17,7 +17,7 @@ class ApplicatorLiftTest extends \PHPUnit_Framework_TestCase
         $collectionB = Monad\Collection::of([4, 5]);
 
         // sum <*> [1, 2] <*> [4, 5]
-        $result = f\liftA2($collectionA, $collectionB, 'example\sum');
+        $result = f\liftA2('example\sum', $collectionA, $collectionB);
         $this->assertInstanceOf(Monad\Collection::class, $result);
         $this->assertEquals([5, 6, 6, 7], f\valueOf($result));
     }
@@ -28,7 +28,7 @@ class ApplicatorLiftTest extends \PHPUnit_Framework_TestCase
         $collectionB = Monad\Collection::of([4, 5]);
 
         // sum <*> Just 1 <*> [4, 5]
-        $result = f\liftA2($justA, $collectionB, 'example\sum');
+        $result = f\liftA2('example\sum', $justA, $collectionB);
         $this->assertInstanceOf(Monad\Collection::class, $result);
         $this->assertEquals([5, 6], f\valueOf($result));
     }
@@ -39,7 +39,7 @@ class ApplicatorLiftTest extends \PHPUnit_Framework_TestCase
         $collectionB = Monad\Collection::of([4, 5]);
 
         // sum <*> Just 1 <*> [4, 5]
-        $result = f\liftA2($collectionB, $justA, 'example\sum');
+        $result = f\liftA2('example\sum', $collectionB, $justA);
         $this->assertInstanceOf(Monad\Identity::class, $result);
         $this->assertEquals([5, 6], f\valueOf($result));
     }

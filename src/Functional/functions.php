@@ -1,9 +1,11 @@
 <?php
 namespace Functional;
 
-use Monad;
-use Common;
-use FantasyLand;
+use Common\ConcatInterface;
+use Common\ValueOfInterface;
+use FantasyLand\ApplicativeInterface;
+use FantasyLand\FunctorInterface;
+use FantasyLand\MonadInterface;
 
 /**
  * Append array with values.
@@ -30,7 +32,7 @@ function push(array $array, array $values)
  */
 function concat(array $array, $value)
 {
-    if ($value instanceof Common\ConcatInterface) {
+    if ($value instanceof ConcatInterface) {
         return $value->concat($array);
     }
 
@@ -98,12 +100,12 @@ const valueOf = 'Functional\valueOf';
 /**
  * Retrieve value of a object
  *
- * @param Common\ValueOfInterface|mixed $value
+ * @param ValueOfInterface|mixed $value
  * @return mixed
  */
 function valueOf($value)
 {
-    return $value instanceof Common\ValueOfInterface
+    return $value instanceof ValueOfInterface
         ? $value->extract()
         : $value;
 }
@@ -197,11 +199,11 @@ const map = 'Functional\map';
  *
  * @return mixed|\Closure
  * @param callable $transformation
- * @param FantasyLand\FunctorInterface $value
+ * @param FunctorInterface $value
  */
-function map(callable $transformation = null, FantasyLand\FunctorInterface $value = null)
+function map(callable $transformation = null, FunctorInterface $value = null)
 {
-    return call_user_func_array(curryN(2, function (callable $transformation, FantasyLand\FunctorInterface $value) {
+    return call_user_func_array(curryN(2, function (callable $transformation, FunctorInterface $value) {
         return $value->map($transformation);
     }), func_get_args());
 }
@@ -213,11 +215,11 @@ const bind = 'Functional\bind';
  *
  * @return mixed|\Closure
  * @param callable $function
- * @param FantasyLand\MonadInterface $value
+ * @param MonadInterface $value
  */
-function bind(callable $function = null, FantasyLand\MonadInterface $value = null)
+function bind(callable $function = null, MonadInterface $value = null)
 {
-    return call_user_func_array(curryN(2, function (callable $function, FantasyLand\MonadInterface $value) {
+    return call_user_func_array(curryN(2, function (callable $function, MonadInterface $value) {
         return $value->bind($function);
     }), func_get_args());
 }
@@ -227,9 +229,9 @@ const join = 'Functional\join';
 /**
  * join :: Monad (Monad m) -> Monad m
  *
- * @return FantasyLand\MonadInterface
+ * @return MonadInterface
  */
-function join(FantasyLand\MonadInterface $monad = null)
+function join(MonadInterface $monad = null)
 {
     return $monad->bind(identity);
 }
@@ -373,42 +375,65 @@ function reThrow(\Exception $e)
     throw $e;
 }
 
+const liftM2 = 'Functional\liftM2';
+
 /**
  * Lift result of transformation function , called with values from two monads.
  *
- * liftM2 :: Monad m => (a1 -> a2 -> r) -> m a1 -> m a2 -> m r
+ * liftM2 :: Monad m => (a -> b -> c) -> m a -> m b -> m c
  *
  * Promote a function to a monad, scanning the monadic arguments from left to right. For example,
  *  liftM2 (+) [0,1] [0,2] = [0,2,1,3]
  *  liftM2 (+) (Just 1) Nothing = Nothing
  *
- * @param FantasyLand\MonadInterface $m1
- * @param FantasyLand\MonadInterface $m2
  * @param callable $transformation
- * @return FantasyLand\MonadInterface
+ * @param MonadInterface $ma
+ * @param MonadInterface $mb
+ * @return MonadInterface|\Closure
  */
-function liftM2(FantasyLand\MonadInterface $m1, FantasyLand\MonadInterface $m2, callable $transformation)
-{
-    return $m1->bind(function ($a) use ($m2, $transformation) {
-        return $m2->bind(function ($b) use ($a, $transformation) {
-            return call_user_func($transformation, $a, $b);
-        });
-    });
+function liftM2(
+    callable $transformation = null,
+    MonadInterface $ma = null,
+    MonadInterface $mb = null
+) {
+    return call_user_func_array(curryN(3,
+        function (
+            callable $transformation,
+            MonadInterface $ma,
+            MonadInterface $mb
+        ) {
+            return $ma->bind(function ($a) use ($mb, $transformation) {
+                return $mb->bind(function ($b) use ($a, $transformation) {
+                    return call_user_func($transformation, $a, $b);
+                });
+            });
+        }), func_get_args());
 }
+
+const liftA2 = 'Functional\liftA2';
 
 /**
  * liftA2 :: Applicative f => (a -> b -> c) -> f a -> f b -> f c
  *
- * @param FantasyLand\ApplicativeInterface $a1
- * @param FantasyLand\ApplicativeInterface $a2
  * @param callable $transformation
- * @return FantasyLand\ApplicativeInterface
+ * @param ApplicativeInterface $fa
+ * @param ApplicativeInterface $fb
+ * @return ApplicativeInterface|\Closure
  */
-function liftA2(FantasyLand\ApplicativeInterface $a1, FantasyLand\ApplicativeInterface $a2, callable $transformation)
-{
-    return $a1->map(function ($a) use ($transformation) {
-        return function ($b) use ($a, $transformation) {
-            return call_user_func($transformation, $a, $b);
-        };
-    })->ap($a2);
+function liftA2(
+    callable $transformation = null,
+    ApplicativeInterface $fa = null,
+    ApplicativeInterface $fb = null
+) {
+    return call_user_func_array(curryN(3, function (
+        callable $transformation,
+        ApplicativeInterface $fa,
+        ApplicativeInterface $fb
+    ) {
+        return $fa->map(function ($a) use ($transformation) {
+            return function ($b) use ($a, $transformation) {
+                return call_user_func($transformation, $a, $b);
+            };
+        })->ap($fb);
+    }), func_get_args());
 }
