@@ -8,8 +8,8 @@ use Functional as f;
 
 class Collection implements
     FantasyLand\MonadInterface,
-    Common\ValueOfInterface,
-    Common\ConcatInterface
+    FantasyLand\FoldableInterface,
+    Common\ValueOfInterface
 {
     use Common\PointedTrait;
 
@@ -50,7 +50,7 @@ class Collection implements
         foreach ($this->extract() as $value) {
             $partial = $applicative->map($value)->extract();
             if ($isCollection) {
-                $result = \Functional\push($result, $partial);
+                $result = f\push($result, $partial);
             } else {
                 $result[] = $partial;
             }
@@ -64,17 +64,8 @@ class Collection implements
      */
     public function bind(callable $transformation)
     {
-        $result = [];
-        foreach ($this->value as $index => $value) {
-            $result = f\concat(
-                $result,
-                $value instanceof FantasyLand\MonadInterface
-                    ? $value->bind($transformation)
-                    : call_user_func($transformation, $value, $index)
-            );
-        }
-
-        return static::of($result);
+        // xs >>= f = concat (map f xs)
+        return self::of(f\concat(f\map($transformation, $this)));
     }
 
     /**
@@ -92,12 +83,12 @@ class Collection implements
     /**
      * @inheritdoc
      */
-    public function concat($value)
+    public function reduce(callable $function, $accumulator)
     {
-        if ($value instanceof self) {
-            return $value->concat($this->value);
+        foreach ($this->value as $item) {
+            $accumulator = call_user_func($function, $accumulator, $item);
         }
 
-        return f\concat($value, $this->value);
+        return $accumulator;
     }
 }

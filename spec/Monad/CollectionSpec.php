@@ -15,7 +15,7 @@ class CollectionSpec extends ObjectBehavior
         $this->beConstructedWith([1, 2, 3]);
         $this->shouldHaveType('Monad\Collection');
         $this->shouldHaveType('FantasyLand\MonadInterface');
-        $this->shouldHaveType('Common\ConcatInterface');
+        $this->shouldHaveType('FantasyLand\FoldableInterface');
     }
 
     public function it_should_obey_first_monad_law()
@@ -46,10 +46,10 @@ class CollectionSpec extends ObjectBehavior
     public function it_should_obey_third_monad_law()
     {
         $mAddOne = function ($value) {
-            return \Monad\Identity::of($value + 1);
+            return \Monad\Collection::of($value + 1);
         };
         $mMultiplyTwo = function ($value) {
-            return \Monad\Identity::of($value * 2);
+            return \Monad\Collection::of($value * 2);
         };
 
         $this->beConstructedWith([1, 2, 3]);
@@ -65,33 +65,39 @@ class CollectionSpec extends ObjectBehavior
 
     public function it_should_obey_identity_law_applicative()
     {
-        $this->beConstructedWith(function($x) { return $x; });
-        $result = $this->ap($this::of([1,2]));
+        $this->beConstructedWith(function ($x) {
+            return $x;
+        });
+        $result = $this->ap($this::of([1, 2]));
 
-        $result->extract()->shouldReturn([1,2]);
+        $result->extract()->shouldReturn([1, 2]);
     }
 
     public function it_should_obey_homomorphism_law_applicative()
     {
-        $id = function($x) { return $x; };
+        $id = function ($x) {
+            return $x;
+        };
         $this->beConstructedWith($id);
-        $result = $this->ap($this::of([1,2]));
+        $result = $this->ap($this::of([1, 2]));
 
         $result->extract()->shouldReturn(
-            $this::of($id([1,2]))->extract()
+            $this::of($id([1, 2]))->extract()
         );
     }
 
     public function it_should_obey_interchange_law_applicative()
     {
         $y = 1;
-        $f = function($x) { return $x / 2; };
+        $f = function ($x) {
+            return $x / 2;
+        };
 
         $this->beConstructedWith($f);
         $result = $this->ap($this::of($y));
 
         $result->extract()->shouldReturn(
-            $this::of(function($f) use ($y) {
+            $this::of(function ($f) use ($y) {
                 return $f($y);
             })->ap($this)->extract()
         );
@@ -109,8 +115,12 @@ class CollectionSpec extends ObjectBehavior
 
     public function it_should_obey_composition_law_functor()
     {
-        $a = function($x) { return $x + 1; };
-        $b = function($x) { return $x + 2; };
+        $a = function ($x) {
+            return $x + 1;
+        };
+        $b = function ($x) {
+            return $x + 2;
+        };
         $this->beConstructedWith([1, 2]);
 
         $result = $this->map($a)->map($b);
