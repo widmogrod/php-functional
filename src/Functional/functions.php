@@ -11,6 +11,8 @@ use Monad\Collection;
 const push = 'Functional\push';
 
 /**
+ * push :: [a] -> [a] -> [a]
+ *
  * Append array with values.
  *
  * @param array $array
@@ -28,13 +30,26 @@ function push(array $array, array $values)
 
 const concatArray = 'Functional\concatArray';
 
-function concatArray($list, $value)
+/**
+ * concatArray :: [a] -> a -> [a]
+ *
+ * @param array $list
+ * @param mixed $value
+ * @return array
+ */
+function concatArray(array $list, $value)
 {
     return push($list, (array)$value);
 }
 
 const toFoldable = 'Functional\toFoldable';
 
+/**
+ * toFoldable :: Foldable t => a -> t a
+ *
+ * @param FoldableInterface|\Traversable|array|mixed $value
+ * @return FoldableInterface
+ */
 function toFoldable($value)
 {
     return $value instanceof FoldableInterface
