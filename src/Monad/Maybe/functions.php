@@ -24,7 +24,7 @@ function just($value)
     return Just::of($value);
 }
 
-const maybeNull = 'Monad\Maybe\maybeNull';
+const maybe = 'Monad\Maybe\maybe';
 
 /**
  * maybe :: b -> (a -> b) -> Maybe a -> b
@@ -34,7 +34,7 @@ const maybeNull = 'Monad\Maybe\maybeNull';
  * @param Maybe $maybe
  * @return mixed|\Closure
  */
-function maybe($default = null, callable $fn = null, Maybe $maybe = null)
+function maybe($default, callable $fn = null, Maybe $maybe = null)
 {
     return call_user_func_array(f\curryN(3, function ($default, callable $fn, Maybe $maybe) {
         if ($maybe instanceof Nothing) {
@@ -44,6 +44,8 @@ function maybe($default = null, callable $fn = null, Maybe $maybe = null)
         return call_user_func($fn, $maybe->extract());
     }), func_get_args());
 }
+
+const maybeNull = 'Monad\Maybe\maybeNull';
 
 /**
  * Create maybe for value
