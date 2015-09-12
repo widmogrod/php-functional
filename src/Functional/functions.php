@@ -1,11 +1,14 @@
 <?php
 namespace Functional;
 
-use Common\ConcatInterface;
 use Common\ValueOfInterface;
 use FantasyLand\ApplicativeInterface;
+use FantasyLand\FoldableInterface;
 use FantasyLand\FunctorInterface;
 use FantasyLand\MonadInterface;
+use Monad\Collection;
+
+const push = 'Functional\push';
 
 /**
  * Append array with values.
@@ -23,25 +26,58 @@ function push(array $array, array $values)
     return $array;
 }
 
+const concatArray = 'Functional\concatArray';
+
+function concatArray($list, $value)
+{
+    return push($list, (array)$value);
+}
+
+const toFoldable = 'Functional\toFoldable';
+
+function toFoldable($value)
+{
+    return $value instanceof FoldableInterface
+        ? $value
+        : Collection::of(toNativeTraversable($value));
+}
+
+const concat = 'Functional\concat';
+
 /**
- * Return new array comprised of values from first array, and value from second value or array.
+ * concat :: Foldable t => t [a] -> [a]
  *
- * @param array $array
- * @param mixed|array $value
+ * <code>
+ * concat([[1, 2], [3, 4]]) == [1, 2, 3, 4]
+ * </code>
+ *
+ * The concatenation of all the elements of a container of lists.
+ *
+ * @param FoldableInterface $foldable
  * @return array
  */
-function concat(array $array, $value)
+function concat(FoldableInterface $foldable)
 {
-    if ($value instanceof ConcatInterface) {
-        return $value->concat($array);
-    }
+    return foldr(function ($agg, $value) {
+        return foldr(function ($agg, $v) {
+            $agg[] = $v;
 
-    if (is_array($value)) {
-        return push($array, $value);
-    }
-    $array[] = $value;
+            return $agg;
+        }, $agg, toFoldable($value));
+    }, [], $foldable);
+}
 
-    return $array;
+const toList = 'Functional\toList';
+
+/**
+ * toList :: Traversable t -> t a -> [a]
+ *
+ * @param FoldableInterface $traversable
+ * @return mixed
+ */
+function toList(FoldableInterface $traversable)
+{
+    return foldr(concatArray, [], $traversable);
 }
 
 const identity = 'Functional\identity';
@@ -236,6 +272,27 @@ function join(MonadInterface $monad = null)
     return $monad->bind(identity);
 }
 
+const foldr = 'Functional\foldr';
+
+/**
+ * foldr :: Foldable t => (b -> a -> b) -> b -> t a -> b
+ *
+ * @param callable $callable
+ * @param mixed $accumulator
+ * @param FoldableInterface $foldable
+ * @return mixed
+ */
+function foldr(callable $callable, $accumulator = null, FoldableInterface $foldable = null)
+{
+    return call_user_func_array(curryN(2, function (
+        callable $callable,
+        $accumulator,
+        FoldableInterface $foldable
+    ) {
+        return $foldable->reduce($callable, $accumulator);
+    }), func_get_args());
+}
+
 const mpipeline = 'Functional\mpipeline';
 
 /**
@@ -282,6 +339,7 @@ function flip(callable $func, $b = null, $a = null)
 {
     $args = func_get_args();
     array_shift($args);
+
     return call_user_func_array(curryN(2, function ($a, $b) use ($func) {
         $args = func_get_args();
         $args[0] = $b;
@@ -291,17 +349,32 @@ function flip(callable $func, $b = null, $a = null)
     }), $args);
 }
 
-const isTraversable = 'Functional\isTraversable';
+const isNativeTraversable = 'Functional\isNativeTraversable';
 
 /**
+ * isNativeTraversable :: a -> Boolean
+ *
  * Evaluate if value is a traversable
  *
  * @param mixed $value
  * @return bool
  */
-function isTraversable($value)
+function isNativeTraversable($value)
 {
     return is_array($value) || $value instanceof \Traversable;
+}
+
+const toNativeTraversable = 'Functional\toNativeTraversable';
+
+/**
+ * toNativeTraversable :: a -> [a]
+ *
+ * @param mixed $value
+ * @return array
+ */
+function toNativeTraversable($value)
+{
+    return isNativeTraversable($value) ? $value : [$value];
 }
 
 const head = 'Functional\head';
@@ -314,7 +387,7 @@ const head = 'Functional\head';
  */
 function head($list)
 {
-    if (!isTraversable($list)) {
+    if (!isNativeTraversable($list)) {
         return null;
     }
     foreach ($list as $item) {
@@ -340,6 +413,7 @@ function tail(array $list)
 
     $clone = $list;
     array_shift($clone);
+
     return $clone;
 }
 
