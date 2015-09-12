@@ -26,7 +26,7 @@ composer test
 ```
 
 ## Use Cases
-You can find more use cases and examples in the `example` directory.
+You can find more use cases and examples in the [example directory](/example/).
 
 ### List Functor
 ``` php
@@ -88,21 +88,22 @@ $data = [
     ['id' => 3],
 ];
 
+// $get :: String a -> Maybe [b] -> Maybe b
 $get = function ($key) {
-    return function ($array) use ($key) {
+    return f\bind(function ($array) use ($key) {
         return isset($array[$key])
             ? Maybe\just($array[$key])
             : Maybe\nothing();
-    };
+    });
 };
 
-$listOfFirstImages = Collection::of($data)
+$result = Collection::of($data)
+    ->map(Maybe\maybeNull)
     ->bind($get('meta'))
     ->bind($get('images'))
-    ->bind($get(0))
-    ->extract();
+    ->bind($get(0));
 
-assert($listOfFirstImages->extract() === ['//first.jpg', '//third.jpg', null]);
+assert(f\valueOf($result) === ['//first.jpg', '//third.jpg', null]);
 ```
 
 ### Either Monad
