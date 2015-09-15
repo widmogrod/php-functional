@@ -7,6 +7,7 @@ use FantasyLand\FoldableInterface;
 use FantasyLand\FunctorInterface;
 use FantasyLand\MonadInterface;
 use Monad\Collection;
+use Monad\Identity;
 
 const push = 'Functional\push';
 
@@ -539,9 +540,6 @@ const sequence_ = 'Functional\sequence_';
  */
 function sequence_($monads)
 {
-    $head = head($monads);
-    $tail = tail($monads);
-
     return reduce(function (
         MonadInterface $monad,
         MonadInterface $next
@@ -549,5 +547,5 @@ function sequence_($monads)
         return $monad->bind(function () use ($next) {
             return $next;
         });
-    }, $head, toFoldable($tail));
+    }, Identity::of([]), toFoldable($monads));
 }
