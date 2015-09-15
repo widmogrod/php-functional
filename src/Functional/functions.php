@@ -528,6 +528,26 @@ function liftA2(
     }), func_get_args());
 }
 
+const sequenceM = 'Functional\sequenceM';
+
+/**
+ * sequenceM :: Monad m => m a -> m b -> m b
+ *
+ * a.k.a haskell >>
+ *
+ * Sequentially compose two actions, discarding any value produced by the first, like sequencing operators (such as the semicolon) in imperative languages.
+ *
+ * @param MonadInterface $a
+ * @param MonadInterface $b
+ * @return MonadInterface
+ */
+function sequenceM(MonadInterface $a, MonadInterface $b)
+{
+    return $a->bind(function () use ($b) {
+        return $b;
+    });
+}
+
 const sequence_ = 'Functional\sequence_';
 
 /**
@@ -540,12 +560,5 @@ const sequence_ = 'Functional\sequence_';
  */
 function sequence_($monads)
 {
-    return reduce(function (
-        MonadInterface $monad,
-        MonadInterface $next
-    ) {
-        return $monad->bind(function () use ($next) {
-            return $next;
-        });
-    }, Identity::of([]), toFoldable($monads));
+    return reduce(sequenceM, Identity::of([]), toFoldable($monads));
 }
