@@ -5,8 +5,11 @@ use Common;
 use Functional as f;
 use FantasyLand\ApplyInterface;
 use FantasyLand\MonadInterface;
+use FantasyLand\FoldableInterface;
 
-class IO implements MonadInterface
+class IO implements
+    MonadInterface,
+    FoldableInterface
 {
     const of = 'Monad\IO::of';
 
@@ -69,5 +72,15 @@ class IO implements MonadInterface
     public function run()
     {
         return call_user_func($this->unsafe);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function reduce(callable $function, $accumulator)
+    {
+        return static::of(function () use ($function, $accumulator) {
+            return call_user_func($function, $accumulator, $this->run());
+        });
     }
 }
