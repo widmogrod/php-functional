@@ -73,8 +73,8 @@ const concat = 'Functional\concat';
  */
 function concat(FoldableInterface $foldable)
 {
-    return foldl(function ($agg, $value) {
-        return foldl(function ($agg, $v) {
+    return reduce(function ($agg, $value) {
+        return reduce(function ($agg, $v) {
             $agg[] = $v;
 
             return $agg;
@@ -92,7 +92,7 @@ const toList = 'Functional\toList';
  */
 function toList(FoldableInterface $traversable)
 {
-    return foldl(append, [], $traversable);
+    return reduce(append, [], $traversable);
 }
 
 const identity = 'Functional\identity';
@@ -287,17 +287,17 @@ function join(MonadInterface $monad = null)
     return $monad->bind(identity);
 }
 
-const foldl = 'Functional\foldl';
+const reduce = 'Functional\reduce';
 
 /**
- * foldl :: Foldable t => (b -> a -> b) -> b -> t a -> b
+ * reduce :: Foldable t => (b -> a -> b) -> b -> t a -> b
  *
  * @param callable $callable            Binary function ($accumulator, $value)
  * @param mixed $accumulator
  * @param FoldableInterface $foldable
  * @return mixed
  */
-function foldl(callable $callable, $accumulator = null, FoldableInterface $foldable = null)
+function reduce(callable $callable, $accumulator = null, FoldableInterface $foldable = null)
 {
     return call_user_func_array(curryN(2, function (
         callable $callable,
@@ -542,7 +542,7 @@ function sequence_($monads)
     $head = head($monads);
     $tail = tail($monads);
 
-    return foldl(function (
+    return reduce(function (
         MonadInterface $monad,
         MonadInterface $next
     ) {
