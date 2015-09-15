@@ -28,16 +28,16 @@ function push(array $array, array $values)
     return $array;
 }
 
-const concatArray = 'Functional\concatArray';
+const append = 'Functional\append';
 
 /**
- * concatArray :: [a] -> a -> [a]
+ * append :: [a] -> a -> [a]
  *
  * @param array $list
  * @param mixed $value
  * @return array
  */
-function concatArray(array $list, $value)
+function append(array $list, $value)
 {
     return push($list, (array)$value);
 }
@@ -73,8 +73,8 @@ const concat = 'Functional\concat';
  */
 function concat(FoldableInterface $foldable)
 {
-    return foldr(function ($agg, $value) {
-        return foldr(function ($agg, $v) {
+    return foldl(function ($agg, $value) {
+        return foldl(function ($agg, $v) {
             $agg[] = $v;
 
             return $agg;
@@ -92,7 +92,7 @@ const toList = 'Functional\toList';
  */
 function toList(FoldableInterface $traversable)
 {
-    return foldr(concatArray, [], $traversable);
+    return foldl(append, [], $traversable);
 }
 
 const identity = 'Functional\identity';
@@ -287,17 +287,17 @@ function join(MonadInterface $monad = null)
     return $monad->bind(identity);
 }
 
-const foldr = 'Functional\foldr';
+const foldl = 'Functional\foldl';
 
 /**
- * foldr :: Foldable t => (b -> a -> b) -> b -> t a -> b
+ * foldl :: Foldable t => (b -> a -> b) -> b -> t a -> b
  *
- * @param callable $callable
+ * @param callable $callable            Binary function ($accumulator, $value)
  * @param mixed $accumulator
  * @param FoldableInterface $foldable
  * @return mixed
  */
-function foldr(callable $callable, $accumulator = null, FoldableInterface $foldable = null)
+function foldl(callable $callable, $accumulator = null, FoldableInterface $foldable = null)
 {
     return call_user_func_array(curryN(2, function (
         callable $callable,
@@ -525,4 +525,29 @@ function liftA2(
             };
         })->ap($fb);
     }), func_get_args());
+}
+
+const sequence_ = 'Functional\sequence_';
+
+/**
+ * sequence_ :: Monad m => [m a] -> m ()
+ *
+ * @todo consider to do it like this: foldr (>>) (return ())
+ *
+ * @param MonadInterface[] $monads
+ * @return MonadInterface
+ */
+function sequence_($monads)
+{
+    $head = head($monads);
+    $tail = tail($monads);
+
+    return foldl(function (
+        MonadInterface $monad,
+        MonadInterface $next
+    ) {
+        return $monad->bind(function () use ($next) {
+            return $next;
+        });
+    }, $head, toFoldable($tail));
 }
