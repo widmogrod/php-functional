@@ -151,12 +151,12 @@ $readFromInput(Monad\Identity::of('Enter something and press <enter>'))->run();
 ``` php
 $do = M\Control\doM([
     M\IO\putStrLn('Your name:'),
-        'name' => M\IO\getLine(),                   // prompt for the name
+        'name' => M\IO\getLine(),                   // prompt for the name, and store it in 'name' key
 
     M\Control\doWith(M\IO\putStrLn, ['name']),      // display entered name
 
     M\IO\putStrLn('Your surname:'),
-        'surname' => M\IO\getLine(),                // prompt for surname
+        'surname' => M\IO\getLine(),                // prompt for surname, and store it in 'surname' key
 
     M\Control\doWith(function($name, $surname) {    // display result
         return M\IO\putStrLn(sprintf("Hello %s, %s", $name, $surname));
@@ -164,6 +164,19 @@ $do = M\Control\doM([
 ]);
 
 $do->run(); // performs operation
+```
+
+### Sequencing Monad operations
+This variant of `sequence_` ignores the result.
+
+``` php
+f\sequence_([
+    M\IO\putStrLn('Your name:'),
+    M\IO\getLine(),
+    M\IO\putStrLn('Your surname:'),
+    M\IO\getLine(),
+    M\IO\putStrLn('Than you'),
+])->run();
 ```
 
 ## References
