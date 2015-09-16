@@ -309,6 +309,22 @@ function reduce(callable $callable, $accumulator = null, FoldableInterface $fold
     }), func_get_args());
 }
 
+/**
+ * filter :: (a -> Bool) -> [a] -> [a]
+ *
+ * @param callable $predicate
+ * @param FoldableInterface $list
+ * @return FoldableInterface
+ */
+function filter(callable $predicate, FoldableInterface $list)
+{
+    return reduce(function ($list, $x) use ($predicate) {
+        return call_user_func($predicate, $x)
+            ? append($list, $x)
+            : $list;
+    }, [], $list);
+}
+
 const mpipeline = 'Functional\mpipeline';
 
 /**
