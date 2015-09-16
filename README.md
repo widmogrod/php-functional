@@ -147,6 +147,25 @@ $readFromInput = f\mcompose(IO\putStrLn, IO\getLine, IO\putStrLn);
 $readFromInput(Monad\Identity::of('Enter something and press <enter>'))->run();
 ```
 
+### Haskell Do Notation in PHP
+``` php
+$do = M\Control\doM([
+    M\IO\putStrLn('Your name:'),
+        'name' => M\IO\getLine(),                   // prompt for the name
+
+    M\Control\doWith(M\IO\putStrLn, ['name']),      // display entered name
+
+    M\IO\putStrLn('Your surname:'),
+        'surname' => M\IO\getLine(),                // prompt for surname
+
+    M\Control\doWith(function($name, $surname) {    // display result
+        return M\IO\putStrLn(sprintf("Hello %s, %s", $name, $surname));
+    }, ['surname', 'name']),
+]);
+
+$do->run(); // performs operation
+```
+
 ## References
 Here links to their articles`/`libraries that help me understood the domain:
  * http://drboolean.gitbooks.io/mostly-adequate-guide
