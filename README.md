@@ -149,17 +149,21 @@ $readFromInput(Monad\Identity::of('Enter something and press <enter>'))->run();
 
 ### Haskell Do Notation in PHP
 ``` php
-$do = M\Control\doM([
-    M\IO\putStrLn('Your name:'),
-        'name' => M\IO\getLine(),                   // prompt for the name, and store it in 'name' key
+use Monad\IO as IO;
+use Monad\Control as C;
+use Functional as f;
 
-    M\Control\doWith(M\IO\putStrLn, ['name']),      // display entered name
+$do = C\doM([
+    IO\putStrLn('Your name:'),
+        'name' => IO\getLine(),                 // prompt for the name, and store it in 'name' key
 
-    M\IO\putStrLn('Your surname:'),
-        'surname' => M\IO\getLine(),                // prompt for surname, and store it in 'surname' key
+    C\doWith(M\IO\putStrLn, ['name']),          // display entered name
 
-    M\Control\doWith(function($name, $surname) {    // display result
-        return M\IO\putStrLn(sprintf("Hello %s, %s", $name, $surname));
+    IO\putStrLn('Your surname:'),
+        'surname' => IO\getLine(),              // prompt for surname, and store it in 'surname' key
+
+    C\doWith(function($name, $surname) {        // display result
+        return IO\putStrLn(sprintf("Hello %s, %s", $name, $surname));
     }, ['surname', 'name']),
 ]);
 
@@ -170,12 +174,15 @@ $do->run(); // performs operation
 This variant of `sequence_` ignores the result.
 
 ``` php
+use Monad\IO as IO;
+use Functional as f;
+
 f\sequence_([
-    M\IO\putStrLn('Your name:'),
-    M\IO\getLine(),
-    M\IO\putStrLn('Your surname:'),
-    M\IO\getLine(),
-    M\IO\putStrLn('Than you'),
+    IO\putStrLn('Your name:'),
+    IO\getLine(),
+    IO\putStrLn('Your surname:'),
+    IO\getLine(),
+    IO\putStrLn('Than you'),
 ])->run();
 ```
 
