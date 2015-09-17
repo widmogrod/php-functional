@@ -6,6 +6,7 @@ use FantasyLand\ApplicativeInterface;
 use FantasyLand\FoldableInterface;
 use FantasyLand\FunctorInterface;
 use FantasyLand\MonadInterface;
+use FantasyLand\TraversableInterface;
 use Monad\Collection;
 use Monad\Identity;
 
@@ -38,9 +39,11 @@ const append = 'Functional\append';
  * @param mixed $value
  * @return array
  */
-function append(array $list, $value)
+function append($list, $value = null)
 {
-    return push($list, (array)$value);
+    return call_user_func_array(curryN(2, function ($list, $value) {
+        return push((array)$list, (array)$value);
+    }), func_get_args());
 }
 
 const toFoldable = 'Functional\toFoldable';
@@ -54,6 +57,21 @@ const toFoldable = 'Functional\toFoldable';
 function toFoldable($value)
 {
     return $value instanceof FoldableInterface
+        ? $value
+        : Collection::of(toNativeTraversable($value));
+}
+
+const toTraversable = 'Functional\toTraversable';
+
+/**
+ * toTraversable :: TraversableInterface t => a -> t a
+ *
+ * @param TraversableInterface|\Traversable|array|mixed $value
+ * @return TraversableInterface
+ */
+function toTraversable($value)
+{
+    return $value instanceof TraversableInterface
         ? $value
         : Collection::of(toNativeTraversable($value));
 }
@@ -300,12 +318,40 @@ const reduce = 'Functional\reduce';
  */
 function reduce(callable $callable, $accumulator = null, FoldableInterface $foldable = null)
 {
-    return call_user_func_array(curryN(2, function (
+    return call_user_func_array(curryN(3, function (
         callable $callable,
         $accumulator,
         FoldableInterface $foldable
     ) {
         return $foldable->reduce($callable, $accumulator);
+    }), func_get_args());
+}
+
+const foldr = 'Functional\foldr';
+
+/**
+ * foldr :: Foldable t => (a -> b -> b) -> b -> t a -> b
+ *
+ * Foldr is expresed by foldl (reduce) so it loose some properties.
+ * For more reading please read this article https://wiki.haskell.org/Foldl_as_foldr
+ *
+ * @param callable $callable            Binary function ($value, $accumulator)
+ * @param mixed $accumulator
+ * @param FoldableInterface $foldable
+ * @return mixed
+ */
+function foldr(callable $callable, $accumulator = null, FoldableInterface $foldable = null)
+{
+    return call_user_func_array(curryN(3, function (
+        callable $callable,
+        $accumulator,
+        FoldableInterface $foldable
+    ) {
+        return reduce(
+            $callable,
+            $accumulator,
+            toFoldable(reduce(flip(append), [], $foldable))
+        );
     }), func_get_args());
 }
 
@@ -578,3 +624,35 @@ function sequence_($monads)
 {
     return reduce(sequenceM, Identity::of([]), toFoldable($monads));
 }
+
+/*
+traverse :: Applicative f => (a -> f b) -> t a -> f (t b)
+sequenceA :: Applicative f => t (f a) -> f (t a)
+mapM :: Monad m => (a -> m b) -> t a -> m (t b)
+sequence :: Monad m => t (m a) -> m (t a)
+*/
+
+/**
+ * traverse :: Applicative f => (a -> f b) -> t a -> f (t b)
+ *
+ * Map each element of a structure to an action, evaluate these actions from left to right, and collect the results
+ *
+ * @param callable $transformation  (a -> f b)
+ * @param TraversableInterface $t   t a
+ * @return ApplicativeInterface     f (t b)
+ */
+function traverse(callable $transformation, TraversableInterface $t)
+{
+    return $t->traverse($transformation);
+}
+
+/**
+ * sequence :: Monad m => t (m a) -> m (t a)
+ *
+ * @param TraversableInterface $monads
+ * @return MonadInterface
+ */
+//function sequence($monads)
+//{
+//    return traverse(Identity::of, toTraversable($monads));
+//}

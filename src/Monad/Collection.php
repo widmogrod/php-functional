@@ -9,6 +9,7 @@ use Functional as f;
 class Collection implements
     FantasyLand\MonadInterface,
     FantasyLand\FoldableInterface,
+    FantasyLand\TraversableInterface,
     Common\ValueOfInterface
 {
     use Common\PointedTrait;
@@ -40,6 +41,8 @@ class Collection implements
 
     /**
      * @inheritdoc
+     *
+     * fs <*> xs = [f x | f <- fs, x <- xs]
      */
     public function ap(FantasyLand\ApplyInterface $applicative)
     {
@@ -90,5 +93,21 @@ class Collection implements
         }
 
         return $accumulator;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * Example from haskell source code:
+     * ``` haskell
+     * traverse f = List.foldr cons_f (pure [])
+     *  where cons_f x ys = (:) <$> f x <*> ys
+     * ```
+     */
+    public function traverse(callable $transformation)
+    {
+        return f\foldr(function ($ys, $x) use ($transformation) {
+            return call_user_func($transformation, $x)->map(f\append)->ap($ys);
+        }, self::of([[]]), $this);
     }
 }
