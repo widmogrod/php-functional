@@ -26,9 +26,7 @@ class Just implements Maybe
      */
     public function map(callable $transformation)
     {
-        return $this->bind(function ($value) use ($transformation) {
-            return self::of(call_user_func($transformation, $value));
-        });
+        return self::of($this->bind($transformation));
     }
 
     /**
