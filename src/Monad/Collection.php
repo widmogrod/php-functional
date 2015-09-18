@@ -21,7 +21,7 @@ class Collection implements
      */
     public function __construct($value)
     {
-        $this->value = is_array($value) || $value instanceof \Traversable
+        $this->value = f\isNativeTraversable($value)
             ? $value
             : [$value];
     }
