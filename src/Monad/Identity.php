@@ -18,7 +18,7 @@ class Identity implements
      */
     public function map(callable $transformation)
     {
-        return static::of(call_user_func($transformation, $this->value));
+        return static::of($this->bind($transformation));
     }
 
     /**
