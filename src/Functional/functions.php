@@ -42,7 +42,10 @@ const append = 'Functional\append';
 function append($list, $value = null)
 {
     return call_user_func_array(curryN(2, function ($list, $value) {
-        return push((array)$list, (array)$value);
+        return push(
+            toNativeTraversable($list),
+            toNativeTraversable($value)
+        );
     }), func_get_args());
 }
 
@@ -122,7 +125,7 @@ const identity = 'Functional\identity';
  * @param mixed $x
  * @return mixed
  */
-function identity($x = null)
+function identity($x)
 {
     return $x;
 }
@@ -311,7 +314,7 @@ const reduce = 'Functional\reduce';
 /**
  * reduce :: Foldable t => (b -> a -> b) -> b -> t a -> b
  *
- * @param callable $callable            Binary function ($accumulator, $value)
+ * @param callable $callable Binary function ($accumulator, $value)
  * @param mixed $accumulator
  * @param FoldableInterface $foldable
  * @return mixed
@@ -335,7 +338,7 @@ const foldr = 'Functional\foldr';
  * Foldr is expresed by foldl (reduce) so it loose some properties.
  * For more reading please read this article https://wiki.haskell.org/Foldl_as_foldr
  *
- * @param callable $callable            Binary function ($value, $accumulator)
+ * @param callable $callable Binary function ($value, $accumulator)
  * @param mixed $accumulator
  * @param FoldableInterface $foldable
  * @return mixed
@@ -625,12 +628,7 @@ function sequence_($monads)
     return reduce(sequenceM, Identity::of([]), toFoldable($monads));
 }
 
-/*
-traverse :: Applicative f => (a -> f b) -> t a -> f (t b)
-sequenceA :: Applicative f => t (f a) -> f (t a)
-mapM :: Monad m => (a -> m b) -> t a -> m (t b)
-sequence :: Monad m => t (m a) -> m (t a)
-*/
+const traverse = 'Functional\traverse';
 
 /**
  * traverse :: Applicative f => (a -> f b) -> t a -> f (t b)
@@ -638,21 +636,28 @@ sequence :: Monad m => t (m a) -> m (t a)
  * Map each element of a structure to an action, evaluate these actions from left to right, and collect the results
  *
  * @param callable $transformation  (a -> f b)
- * @param TraversableInterface $t   t a
+ * @param TraversableInterface      $t t a
  * @return ApplicativeInterface     f (t b)
  */
-function traverse(callable $transformation, TraversableInterface $t)
+function traverse(callable $transformation, TraversableInterface $t = null)
 {
-    return $t->traverse($transformation);
+    return call_user_func_array(curryN(2, function (
+        callable $transformation,
+        TraversableInterface $t
+    ) {
+        return $t->traverse($transformation);
+    }), func_get_args());
 }
+
+const sequence = 'Functional\sequence';
 
 /**
  * sequence :: Monad m => t (m a) -> m (t a)
  *
- * @param TraversableInterface $monads
+ * @param TraversableInterface|MonadInterface[] $monads
  * @return MonadInterface
  */
-//function sequence($monads)
-//{
-//    return traverse(Identity::of, toTraversable($monads));
-//}
+function sequence($monads)
+{
+    return traverse(identity, toTraversable($monads));
+}
