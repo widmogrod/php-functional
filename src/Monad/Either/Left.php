@@ -2,14 +2,22 @@
 namespace Monad\Either;
 
 use Common;
-use Functor;
+use FantasyLand;
 
 class Left implements Either
 {
-    use Common\CreateTrait;
+    use Common\PointedTrait;
     use Common\ValueOfTrait;
 
-    const create = 'Monad\Either\Left::create';
+    const of = 'Monad\Either\Left::of';
+
+    /**
+     * @inheritdoc
+     */
+    public function ap(FantasyLand\ApplyInterface $b)
+    {
+        return $this;
+    }
 
     /**
      * @inheritdoc
@@ -33,6 +41,6 @@ class Left implements Either
      */
     public function bimap(callable $left, callable $right)
     {
-        return self::create(call_user_func($left, $this->value));
+        return self::of(call_user_func($left, $this->value));
     }
 }

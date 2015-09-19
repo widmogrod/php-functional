@@ -13,14 +13,14 @@ class RightSpec extends ObjectBehavior
     {
         $this->beConstructedWith(null);
         $this->shouldHaveType('Monad\Either\Right');
-        $this->shouldHaveType('Monad\MonadInterface');
+        $this->shouldHaveType('FantasyLand\MonadInterface');
         $this->shouldHaveType('Monad\Either\Either');
     }
 
     public function it_should_obey_first_monad_law()
     {
         $mAddOne = function ($value) {
-            return \Monad\Either\Right::create($value + 1);
+            return \Monad\Either\Right::of($value + 1);
         };
 
         $this->beConstructedWith(3);
@@ -33,8 +33,8 @@ class RightSpec extends ObjectBehavior
     public function it_should_obey_second_monad_law()
     {
         $this->beConstructedWith(3);
-        $right = $this->bind(\Monad\Either\Right::create);
-        $left = \Monad\Either\Right::create(3);
+        $right = $this->bind(\Monad\Either\Right::of);
+        $left = \Monad\Either\Right::of(3);
 
         $right->bind('Functional\identity')->shouldReturn($left->bind('Functional\identity'));
     }
@@ -42,10 +42,10 @@ class RightSpec extends ObjectBehavior
     public function it_should_obey_third_monad_law()
     {
         $mAddOne = function ($value) {
-            return \Monad\Either\Right::create($value + 1);
+            return \Monad\Either\Right::of($value + 1);
         };
         $mAddTwo = function ($value) {
-            return \Monad\Either\Right::create($value + 2);
+            return \Monad\Either\Right::of($value + 2);
         };
 
         $this->beConstructedWith(3);

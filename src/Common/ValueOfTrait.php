@@ -8,7 +8,7 @@ trait ValueOfTrait
      *
      * @return mixed
      */
-    public function valueOf()
+    public function extract()
     {
         return \Functional\valueOf($this->value);
     }

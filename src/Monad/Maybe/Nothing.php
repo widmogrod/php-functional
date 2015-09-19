@@ -3,39 +3,56 @@ namespace Monad\Maybe;
 
 use Common;
 use Monad;
-use Functor;
-use Applicative;
+use FantasyLand;
 
 class Nothing implements Maybe
 {
-    const create = 'Monad\Maybe\None::create';
+    const of = 'Monad\Maybe\None::of';
 
-    public static function create($value)
+    /**
+     * @inheritdoc
+     */
+    public static function of($value)
     {
-        return new self();
+        return new static();
     }
 
-    public function ap(Applicative\ApplicativeInterface $applicative)
+    /**
+     * @inheritdoc
+     */
+    public function ap(FantasyLand\ApplyInterface $applicative)
     {
         return $this;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function map(callable $transformation)
     {
         return $this;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function bind(callable $transformation)
     {
         return $this;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function orElse(callable $fn)
     {
         return call_user_func($fn);
     }
 
-    public function valueOf()
+    /**
+     * @inheritdoc
+     */
+    public function extract()
     {
         return null;
     }

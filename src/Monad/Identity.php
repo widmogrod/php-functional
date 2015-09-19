@@ -2,20 +2,46 @@
 namespace Monad;
 
 use Common;
-use Applicative;
+use FantasyLand;
 
-class Identity extends Applicative\Identity implements MonadInterface
+class Identity implements
+    FantasyLand\MonadInterface,
+    Common\ValueOfInterface
 {
-    const create = 'Monad\Identity::create';
+    const of = 'Monad\Identity::of';
+
+    use Common\PointedTrait;
+    use Common\ValueOfTrait;
 
     /**
-     * Bind monad value to given $transformation function
-     *
-     * @param callable $transformation
-     * @return MonadInterface|mixed
+     * @inheritdoc
+     */
+    public function map(callable $transformation)
+    {
+        return static::of($this->bind($transformation));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function ap(FantasyLand\ApplyInterface $applicative)
+    {
+        return $applicative->map($this->value);
+    }
+
+    /**
+     * @inheritdoc
      */
     public function bind(callable $transformation)
     {
         return call_user_func($transformation, $this->value);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function extract()
+    {
+        return $this->value;
     }
 }

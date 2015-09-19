@@ -7,27 +7,27 @@ use Functional as f;
 function validateName(array $request)
 {
     return $request['name'] === ''
-        ? E\Left::create('Request name is empty')
-        : E\Right::create($request);
+        ? E\Left::of('Request name is empty')
+        : E\Right::of($request);
 }
 
 function validateEmail(array $request)
 {
     return $request['email'] === ''
-        ? E\Left::create('Request e-mail is empty')
-        : E\Right::create($request);
+        ? E\Left::of('Request e-mail is empty')
+        : E\Right::of($request);
 }
 
 function validateNameLength(array $request)
 {
     return strlen($request['name']) > 30
-        ? E\Left::create('Request name is to long')
-        : E\Right::create($request);
+        ? E\Left::of('Request name is to long')
+        : E\Right::of($request);
 }
 
 function validateInput(array $request)
 {
-    return E\Right::create($request)
+    return E\Right::of($request)
         ->bind('validateName')
         ->bind('validateEmail')
         ->bind('validateNameLength');
@@ -55,9 +55,10 @@ function updateDatabaseStep(array $request)
     ), $request);
 }
 
+// sendMessage :: Either a b -> Either c d
 function sendMessage(E\Either $either)
 {
-    return E\doubleMap('returnMessage', 'returnFailure', $either);
+    return E\doubleMap('returnFailure', 'returnMessage', $either);
 }
 
 function returnMessage(array $request)

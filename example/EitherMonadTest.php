@@ -7,20 +7,21 @@ use Monad\Either;
 function read($file)
 {
     return is_file($file)
-        ? Either\Right::create(file_get_contents($file))
-        : Either\Left::create(sprintf('File "%s" does not exists', $file));
+        ? Either\Right::of(file_get_contents($file))
+        : Either\Left::of(sprintf('File "%s" does not exists', $file));
 }
 
 class EitherMonadTest extends \PHPUnit_Framework_TestCase
 {
     public function test_it_should_concat_content_of_two_files_only_when_files_exists()
     {
-        $concat = f\liftM2(
+        $concatF = f\liftM2(function ($first, $second) {
+            return $first . $second;
+        });
+
+        $concat = $concatF(
             read(__FILE__),
-            read('aaa'),
-            function ($first, $second) {
-                return $first . $second;
-            }
+            read('aaa')
         );
 
         $this->assertInstanceOf(Either\Left::class, $concat);

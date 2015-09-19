@@ -1,12 +1,12 @@
 <?php
 namespace Common;
 
-interface ValueOfInterface 
+interface ValueOfInterface
 {
     /**
      * Return value wrapped by Monad
      *
      * @return mixed
      */
-    public function valueOf();
+    public function extract();
 }

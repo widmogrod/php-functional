@@ -26,13 +26,13 @@ composer test
 ```
 
 ## Use Cases
-You can find more use cases and examples in the `example` directory.
+You can find more use cases and examples in the [example directory](/example/).
 
 ### List Functor
 ``` php
 use Functional as f;
 
-$collection = Functor\Collection::create([
+$collection = Functor\Collection::of([
    ['id' => 1, 'name' => 'One'],
    ['id' => 2, 'name' => 'Two'],
    ['id' => 3, 'name' => 'Three'],
@@ -42,21 +42,21 @@ $result = $collection->map(function($a) {
     return $a['id'] + 1;
 });
 
-assert(f\valueOf($result) === [2, 3, 4]);
+assert(f\extract($result) === [2, 3, 4]);
 ```
 
 ### List Applicative Functor
 Apply function on list of values and as a result, receive list of all possible combinations 
 of applying function from the left list to a value in the right one.
 
-``` haskel
+``` haskell
 [(+3),(+4)] <*> [1, 2] == [4, 5, 5, 6]
 ```
 
 ``` php
 use Functional as f;
 
-$collectionA = Applicative\Collection::create([
+$collectionA = Applicative\Collection::of([
     function($a) {
         return 3 + $a;
     },
@@ -64,62 +64,14 @@ $collectionA = Applicative\Collection::create([
         return 4 + $a;
     },
 ]);
-$collectionB = Applicative\Collection::create([
+$collectionB = Applicative\Collection::of([
     1, 2
 ]);
 
 $result = $collectionA->ap($collectionB);
 
 assert($result instanceof Applicative\Collection);
-assert(f\valueOf($result) === [4, 5, 5, 6]);
-```
-
-### Applicative Validation
-When validating input values, sometimes it's better to collect information of all possible failures 
-than breaking the chain on the first failure like in Either Monad.
-
-
-``` php
-use Functional as f;
-use Applicative\Validator;
-
-function isPasswordLongEnough($password)
-{
-    return strlen($password) > 6
-        ? Validator\Success::create($password)
-        : Validator\Failure::create(
-            'Password must have more than 6 characters'
-        );
-}
-
-function isPasswordStrongEnough($password)
-{
-    return preg_match('/[\W]/', $password)
-        ? Validator\Success::create($password)
-        : Validator\Failure::create([
-            'Password must contain special characters'
-        ]);
-}
-
-function isPasswordValid($password)
-{
-    return Validator\Success::create(Functional\curryN(2, function () use ($password) {
-        return $password;
-    }))
-        ->ap(isPasswordLongEnough($password))
-        ->ap(isPasswordStrongEnough($password));
-}
-
-$resultA = isPasswordValid("foo");
-assert($resultA instanceof Applicative\Validator\Failure);
-assert(f\valueOf($resultA) === [
-    'Password must have more than 6 characters',
-    'Password must contain special characters',
-]);
-
-$resultB = isPasswordValid("asdqMf67123!oo");
-assert($resultB instanceof Applicative\Validator\Success);
-assert(f\valueOf($resultB) === 'asdqMf67123!oo');
+assert(f\extract($result) === [4, 5, 5, 6]);
 ```
 
 ### Maybe and List Monad
@@ -136,21 +88,22 @@ $data = [
     ['id' => 3],
 ];
 
+// $get :: String a -> Maybe [b] -> Maybe b
 $get = function ($key) {
-    return function ($array) use ($key) {
+    return f\bind(function ($array) use ($key) {
         return isset($array[$key])
             ? Maybe\just($array[$key])
             : Maybe\nothing();
-    };
+    });
 };
 
-$listOfFirstImages = Collection::create($data)
+$result = Collection::of($data)
+    ->map(Maybe\maybeNull)
     ->bind($get('meta'))
     ->bind($get('images'))
-    ->bind($get(0))
-    ->valueOf();
+    ->bind($get(0));
 
-assert($listOfFirstImages->valueOf() === ['//first.jpg', '//third.jpg', null]);
+assert(f\valueOf($result) === ['//first.jpg', '//third.jpg', null]);
 ```
 
 ### Either Monad
@@ -166,8 +119,8 @@ use Monad\Either;
 function read($file)
 {
     return is_file($file)
-        ? Either\Right::create(file_get_contents($file))
-        : Either\Left::create(sprintf('File "%s" does not exists', $file));
+        ? Either\Right::of(file_get_contents($file))
+        : Either\Left::of(sprintf('File "%s" does not exists', $file));
 }
 
 $concat = f\liftM2(
@@ -179,20 +132,64 @@ $concat = f\liftM2(
 );
 
 assert($concat instanceof Either\Left);
-assert($concat->valueOf() === 'File "aaa" does not exists');
+assert($concat->extract() === 'File "aaa" does not exists');
 ```
 
-## Credits & Beers
-This library exists only thanks **great people** who share their knowledge about Monads, Functors, Applicatives.
-Thank you:
- * [@egonSchiele](https://github.com/egonSchiele)
- * [@folktale](https://github.com/folktale)
- * [@robotlolita](https://github.com/robotlolita)
- * and more
+### IO Monad
+Example usage of `IO Monad`. Read input from `stdin`, and print it to `stdout`.
 
-If you going to visit Cracow (Poland), let me know - It's my treat!
+``` php
+use Monad\IO as IO;
+use Functional as f;
 
+// $readFromInput :: Monad a -> IO ()
+$readFromInput = f\mcompose(IO\putStrLn, IO\getLine, IO\putStrLn);
+$readFromInput(Monad\Identity::of('Enter something and press <enter>'))->run();
+```
+
+### Haskell Do Notation in PHP
+``` php
+use Monad\IO as IO;
+use Monad\Control as C;
+use Functional as f;
+
+$do = C\doM([
+    IO\putStrLn('Your name:'),
+        'name' => IO\getLine(),                 // prompt for the name, and store it in 'name' key
+
+    C\doWith(M\IO\putStrLn, ['name']),          // display entered name
+
+    IO\putStrLn('Your surname:'),
+        'surname' => IO\getLine(),              // prompt for surname, and store it in 'surname' key
+
+    C\doWith(function($name, $surname) {        // display result
+        return IO\putStrLn(sprintf("Hello %s, %s", $name, $surname));
+    }, ['surname', 'name']),
+]);
+
+$do->run(); // performs operation
+```
+
+### Sequencing Monad operations
+This variant of `sequence_` ignores the result.
+
+``` php
+use Monad\IO as IO;
+use Functional as f;
+
+f\sequence_([
+    IO\putStrLn('Your name:'),
+    IO\getLine(),
+    IO\putStrLn('Your surname:'),
+    IO\getLine(),
+    IO\putStrLn('Than you'),
+])->run();
+```
+
+## References
 Here links to their articles`/`libraries that help me understood the domain:
+ * http://drboolean.gitbooks.io/mostly-adequate-guide
+ * https://github.com/fantasyland/fantasy-land
  * http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html
  * http://learnyouahaskell.com/functors-applicative-functors-and-monoids
  * http://learnyouahaskell.com/starting-out#im-a-list-comprehension

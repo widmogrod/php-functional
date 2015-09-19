@@ -20,13 +20,16 @@
     "psr-0": {
       "Common": "src",
       "Monad": "src",
-      "Functor": "src",
-      "Applicative": "src"
+      "Helpful": "src",
+      "FantasyLand": "src"
     },
     "files": [
       "src/Functional/functions.php",
       "src/Monad/Either/functions.php",
-      "src/Monad/Maybe/functions.php"
+      "src/Monad/Maybe/functions.php",
+      "src/Monad/IO/functions.php",
+      "src/Monad/IO/errors.php",
+      "src/Monad/Control/functions.php"
     ]
   },
   "require": {

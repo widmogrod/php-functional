@@ -3,14 +3,11 @@ namespace Monad\Maybe;
 
 use Monad;
 use Common;
-use Functor;
-use Applicative;
+use FantasyLand;
 
 interface Maybe extends
-    Monad\MonadInterface,
-    Common\ValueOfInterface,
-    Functor\FunctorInterface,
-    Applicative\ApplicativeInterface
+    FantasyLand\MonadInterface,
+    Common\ValueOfInterface
 {
     /**
      * Handle situation when error occur in monad computation chain.
