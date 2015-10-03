@@ -37,6 +37,8 @@ function state(callable $stateFunction)
     });
 }
 
+const value = 'Monad\State\value';
+
 // state :: a -> State (s, a)
 function value($value)
 {
