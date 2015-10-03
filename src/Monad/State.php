@@ -24,8 +24,9 @@ class State implements MonadInterface
      */
     public function ap(ApplyInterface $b)
     {
-        // TODO: Not sure about this
-        $b->map([$this, 'run']);
+        return $this->bind(function($f) use ($b) {
+            return $b->map($f);
+        });
     }
 
     /**
