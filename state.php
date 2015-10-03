@@ -64,7 +64,7 @@ function searchRelated($productName)
         ->bind(function (Maybe\Maybe $products) use ($productName) {
             switch (get_class($products)) {
                 case Monad\Maybe\Just::class:
-                    return State\state($products->extract());
+                    return State\value($products->extract());
 //                    return State::of(function ($s) use ($products) {
 //                        return [$s, $products->extract()];
 //                    });

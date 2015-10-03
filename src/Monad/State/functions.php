@@ -30,7 +30,7 @@ function gets(callable $transformation)
 }
 
 // state :: (s -> (a, s)) -> m a
-function state1(callable $stateFunction)
+function state(callable $stateFunction)
 {
     return M\State::of(function ($state) use ($stateFunction) {
         return call_user_func($stateFunction, $state);
@@ -38,7 +38,7 @@ function state1(callable $stateFunction)
 }
 
 // state :: a -> State (s, a)
-function state($value)
+function value($value)
 {
     return M\State::of(function ($state) use ($value) {
         return [$value, $state];
