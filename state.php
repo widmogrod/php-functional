@@ -86,12 +86,12 @@ function retrieveRelated($productName)
 
 $s1 = new InMemoryCache([]);
 $r1 = searchRelated('asia')
-    ->run($s1);
+    ->runState($s1);
 
 var_dump($r1);
 
 $s2 = $r1[1];
 $r2 = searchRelated('asia')
-    ->run($s2);
+    ->runState($s2);
 
 var_dump($r2);

@@ -12,10 +12,10 @@ class StateTest extends \PHPUnit_Framework_TestCase
     public function test_if_state_monad_obeys_the_laws($f, $g, $x, $state)
     {
         MonadLaws::test(
-            function ($a, $b, $message) use ($state) {
+            function (State $a, State $b, $message) use ($state) {
                 $this->assertEquals(
-                    $a->run($state),
-                    $b->run($state),
+                    $a->runState($state),
+                    $b->runState($state),
                     $message
                 );
             },

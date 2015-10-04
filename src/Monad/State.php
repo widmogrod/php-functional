@@ -35,8 +35,8 @@ class State implements MonadInterface
     public function bind(callable $function)
     {
         return self::of(function ($state) use ($function) {
-            list($value, $newState) = $this->run($state);
-            return call_user_func($function, $value)->run($newState);
+            list($value, $newState) = $this->runState($state);
+            return call_user_func($function, $value)->runState($newState);
         });
     }
 
@@ -46,16 +46,20 @@ class State implements MonadInterface
     public function map(callable $function)
     {
         return self::of(function ($state) use ($function) {
-            list($value, $newState) = $this->run($state);
+            list($value, $newState) = $this->runState($state);
             return [call_user_func($function, $value), $newState];
         });
     }
 
     /**
+     * runState :: s
+     *
+     * Run computation on a monad with initial state
+     *
      * @param mixed $state
-     * @return mixed
+     * @return Array
      */
-    public function run($state)
+    public function runState($state)
     {
         return call_user_func($this->value, $state);
     }
