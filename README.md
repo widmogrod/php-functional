@@ -4,6 +4,13 @@
 Functional programing is a fascinating concept.
 The purpose of this library is to explore `Functors`, `Applicative Functors` and `Monads` in OOP PHP, and provide examples of real world use case.
 
+Monad types available in the project:
+ * State Monad
+ * IO Monad
+ * Collection Monad (a.k.a List Monad, since `list` is a protected keyword in PHP I name it `collection`)
+ * Either Monad
+ * Maybe Monad
+
 ## Installation
 
 ```
