@@ -2,6 +2,7 @@
 namespace test\Monad;
 
 use Monad\Maybe\Just;
+use Monad\Maybe\Nothing;
 use Helpful\MonadLaws;
 
 class MaybeTest extends \PHPUnit_Framework_TestCase
@@ -9,11 +10,11 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideData
      */
-    public function test_if_maybe_monad_obeys_the_laws($f, $g, $x)
+    public function test_if_maybe_monad_obeys_the_laws($return, $f, $g, $x)
     {
         MonadLaws::test(
             [$this, 'assertEquals'],
-            Just::of,
+            $return,
             $f,
             $g,
             $x
@@ -22,17 +23,25 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
 
     public function provideData()
     {
-        $addOne = function ($x) {
-            return Just::of($x + 1);
-        };
-        $addTwo = function ($x) {
-            return Just::of($x + 2);
-        };
-
         return [
-            'state 0' => [
-                '$f' => $addOne,
-                '$g' => $addTwo,
+            'Just' => [
+                '$return' => Just::of,
+                '$f' => function ($x) {
+                    return Just::of($x + 1);
+                },
+                '$g' => function ($x) {
+                    return Just::of($x + 2);
+                },
+                '$x' => 10,
+            ],
+            'Nothing' => [
+                '$return' => Nothing::of,
+                '$f' => function ($x) {
+                    return Nothing::of($x + 1);
+                },
+                '$g' => function ($x) {
+                    return Nothing::of($x + 2);
+                },
                 '$x' => 10,
             ],
         ];

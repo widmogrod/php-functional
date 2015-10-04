@@ -7,7 +7,7 @@ use FantasyLand;
 
 class Nothing implements Maybe
 {
-    const of = 'Monad\Maybe\None::of';
+    const of = 'Monad\Maybe\Nothing::of';
 
     /**
      * @inheritdoc
