@@ -52,7 +52,7 @@ class State implements MonadInterface
     }
 
     /**
-     * runState :: s
+     * runState :: s -> (a, s)
      *
      * Run computation on a monad with initial state
      *

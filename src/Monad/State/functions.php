@@ -106,3 +106,19 @@ function modify(callable $transformation)
         return [null, $transformation($state)];
     });
 }
+
+const runState = 'Monad\State\runState';
+
+/**
+ * runState :: State s a -> s -> (a, s)
+ *
+ * Unwrap a state monad computation as a function.
+ *
+ * @param M\State $state
+ * @param mixed $initialState
+ * @return mixed
+ */
+function runState(M\State $state, $initialState)
+{
+    return $state->runState($initialState);
+}
