@@ -122,3 +122,35 @@ function runState(M\State $state, $initialState)
 {
     return $state->runState($initialState);
 }
+
+const evalState = 'Monad\State\evalState';
+
+/**
+ * evalState :: State s a -> s -> a
+ *
+ * Evaluate a state computation with the given initial state and return the final value, discarding the final state.
+ *
+ * @param M\State $state
+ * @param mixed $initialState
+ * @return mixed
+ */
+function evalState(M\State $state, $initialState)
+{
+    return runState($state, $initialState)[1];
+}
+
+const execState = 'Monad\State\execState';
+
+/**
+ * execState :: State s a -> s -> s
+ *
+ * Evaluate a state computation with the given initial state and return the final state, discarding the final value.
+ *
+ * @param M\State $state
+ * @param mixed $initialState
+ * @return mixed
+ */
+function execState(M\State $state, $initialState)
+{
+    return runState($state, $initialState)[1];
+}
