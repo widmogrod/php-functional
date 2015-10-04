@@ -1,10 +1,13 @@
 <?php
-require_once 'vendor/autoload.php';
+namespace example;
 
-use Monad\State;
+use Monad\State as S;
 use Monad\Maybe;
 use Functional as f;
 
+/**
+ * Caching is an example state that you could have in your application.
+ */
 interface Cacher
 {
     /**
@@ -50,7 +53,7 @@ class InMemoryCache implements Cacher
 // checkRelatedInCache :: String -> State (Maybe a, s)
 function checkRelatedInCache($productName)
 {
-    return State::of(function (Cacher $cache) use ($productName) {
+    return S::of(function (Cacher $cache) use ($productName) {
         return [$cache->get($productName), $cache];
     });
 }
@@ -63,12 +66,9 @@ function searchRelated($productName)
     return checkRelatedInCache($productName)
         ->bind(function (Maybe\Maybe $products) use ($productName) {
             switch (get_class($products)) {
-                case Monad\Maybe\Just::class:
-                    return State\value($products->extract());
-//                    return State::of(function ($s) use ($products) {
-//                        return [$s, $products->extract()];
-//                    });
-                case Monad\Maybe\Nothing::class:
+                case Maybe\Just::class:
+                    return S\value($products->extract());
+                case Maybe\Nothing::class:
                     return retrieveRelated($productName);
             }
         });
@@ -77,21 +77,45 @@ function searchRelated($productName)
 // retrieveRelated :: String -> State (Cacher, [])
 function retrieveRelated($productName)
 {
-    return State::of(function (Cacher $cache) use ($productName) {
+    return S::of(function (Cacher $cache) use ($productName) {
         // do some database work
         $products = ['iPhone 5', 'iPhone 6s'];
         return [$products, $cache->put($productName, $products)];
     });
 }
 
-$s1 = new InMemoryCache([]);
-$r1 = searchRelated('asia')
-    ->runState($s1);
 
-var_dump($r1);
+class StateMonadTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @dataProvider provideData
+     */
+    public function test_demonstrate_state_monad($expectedProducts)
+    {
+        $initialState = new InMemoryCache([]);
+        list($result1, $outputState1) = S\runState(
+            searchRelated('asia'),
+            $initialState
+        );
+        $this->assertEquals($expectedProducts, $result1);
 
-$s2 = $r1[1];
-$r2 = searchRelated('asia')
-    ->runState($s2);
+        list($result2, $outputState2) = S\runState(
+            searchRelated('asia'),
+            $outputState1
+        );
+        $this->assertEquals($expectedProducts, $result2);
 
-var_dump($r2);
+        // After second computation, state shouldn't be modified
+        // Because we have item already in cache
+        $this->assertSame($outputState1, $outputState2);
+    }
+
+    public function provideData()
+    {
+        return [
+            'default' => [
+                '$expectedProducts' => ['iPhone 5', 'iPhone 6s'],
+            ],
+        ];
+    }
+}
