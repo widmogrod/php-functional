@@ -56,11 +56,11 @@ class State implements MonadInterface
      *
      * Run computation on a monad with initial state
      *
-     * @param mixed $state
+     * @param mixed $initialState
      * @return Array
      */
-    public function runState($state)
+    public function runState($initialState)
     {
-        return call_user_func($this->value, $state);
+        return call_user_func($this->value, $initialState);
     }
 }
