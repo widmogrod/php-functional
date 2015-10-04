@@ -30,7 +30,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         };
 
         return [
-            'state 0' => [
+            'Collection' => [
                 '$f' => $addOne,
                 '$g' => $addTwo,
                 '$x' => 10,

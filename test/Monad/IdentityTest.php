@@ -30,7 +30,7 @@ class IdentityTest extends \PHPUnit_Framework_TestCase
         };
 
         return [
-            'state 0' => [
+            'Identity' => [
                 '$f' => $addOne,
                 '$g' => $addTwo,
                 '$x' => 10,
