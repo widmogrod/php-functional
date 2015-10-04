@@ -2,7 +2,6 @@
   "name": "widmogrod/php-functional",
   "description": "Functors, Applicative and Monads are fascinating concept. Purpose of this library is to explore them in OOP PHP world.",
   "require-dev": {
-    "phpspec/phpspec": "^2",
     "phpunit/phpunit": "^4.7"
   },
   "license": "MIT",
@@ -14,7 +13,7 @@
   ],
   "prefer-stable": true,
   "scripts": {
-    "test": "phpspec run"
+    "test": "phpunit"
   },
   "autoload": {
     "psr-0": {
@@ -32,8 +31,5 @@
       "src/Monad/State/functions.php",
       "src/Monad/Control/functions.php"
     ]
-  },
-  "require": {
-    "widmogrod/php-exceptions": "^0.1"
   }
 }

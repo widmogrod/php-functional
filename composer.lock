@@ -4,45 +4,9 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "524a13415bb7d451af979007dab6d9d9",
-    "packages": [
-        {
-            "name": "widmogrod/php-exceptions",
-            "version": "0.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/widmogrod/php-exceptions.git",
-                "reference": "3af4e7c1cd9fe11717b5bc5f674b2cf9b96c6f11"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/widmogrod/php-exceptions/zipball/3af4e7c1cd9fe11717b5bc5f674b2cf9b96c6f11",
-                "reference": "3af4e7c1cd9fe11717b5bc5f674b2cf9b96c6f11",
-                "shasum": ""
-            },
-            "require-dev": {
-                "phpspec/phpspec": "^2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Exception": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Gabriel Habryn",
-                    "email": "widmogrod@gmail.com"
-                }
-            ],
-            "description": "Collection PHP exceptions grouped by functionality with nice ::assert API",
-            "time": "2015-02-26 22:25:54"
-        }
-    ],
+    "hash": "166b0bcf4c729fbcf2b0c1697c0f60d8",
+    "content-hash": "96df06b0bf3e03e458d90b2dd4f8b91b",
+    "packages": [],
     "packages-dev": [
         {
             "name": "doctrine/instantiator",
@@ -148,118 +112,6 @@
             "time": "2015-02-03 12:10:50"
         },
         {
-            "name": "phpspec/php-diff",
-            "version": "v1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpspec/php-diff.git",
-                "reference": "30e103d19519fe678ae64a60d77884ef3d71b28a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/php-diff/zipball/30e103d19519fe678ae64a60d77884ef3d71b28a",
-                "reference": "30e103d19519fe678ae64a60d77884ef3d71b28a",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Diff": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Chris Boulton",
-                    "homepage": "http://github.com/chrisboulton",
-                    "role": "Original developer"
-                }
-            ],
-            "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
-            "time": "2013-11-01 13:02:21"
-        },
-        {
-            "name": "phpspec/phpspec",
-            "version": "2.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpspec/phpspec.git",
-                "reference": "e9a40577323e67f1de2e214abf32976a0352d8f8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/e9a40577323e67f1de2e214abf32976a0352d8f8",
-                "reference": "e9a40577323e67f1de2e214abf32976a0352d8f8",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/instantiator": "^1.0.1",
-                "php": ">=5.3.3",
-                "phpspec/php-diff": "~1.0.0",
-                "phpspec/prophecy": "~1.4",
-                "sebastian/exporter": "~1.0",
-                "symfony/console": "~2.3",
-                "symfony/event-dispatcher": "~2.1",
-                "symfony/finder": "~2.1",
-                "symfony/process": "~2.1",
-                "symfony/yaml": "~2.1"
-            },
-            "require-dev": {
-                "behat/behat": "^3.0.11",
-                "bossa/phpspec2-expect": "~1.0",
-                "phpunit/phpunit": "~4.4",
-                "symfony/filesystem": "~2.1",
-                "symfony/process": "~2.1"
-            },
-            "suggest": {
-                "phpspec/nyan-formatters": "~1.0 – Adds Nyan formatters"
-            },
-            "bin": [
-                "bin/phpspec"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "PhpSpec": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Konstantin Kudryashov",
-                    "email": "ever.zet@gmail.com",
-                    "homepage": "http://everzet.com"
-                },
-                {
-                    "name": "Marcello Duarte",
-                    "homepage": "http://marcelloduarte.net/"
-                }
-            ],
-            "description": "Specification-oriented BDD framework for PHP 5.3+",
-            "homepage": "http://phpspec.net/",
-            "keywords": [
-                "BDD",
-                "SpecBDD",
-                "TDD",
-                "spec",
-                "specification",
-                "testing",
-                "tests"
-            ],
-            "time": "2015-05-30 15:21:40"
-        },
-        {
             "name": "phpspec/prophecy",
             "version": "v1.5.0",
             "source": {
@@ -321,16 +173,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "2.2.2",
+            "version": "2.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "2d7c03c0e4e080901b8f33b2897b0577be18a13c"
+                "reference": "ef1ca6835468857944d5c3b48fa503d5554cff2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/2d7c03c0e4e080901b8f33b2897b0577be18a13c",
-                "reference": "2d7c03c0e4e080901b8f33b2897b0577be18a13c",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/ef1ca6835468857944d5c3b48fa503d5554cff2f",
+                "reference": "ef1ca6835468857944d5c3b48fa503d5554cff2f",
                 "shasum": ""
             },
             "require": {
@@ -379,7 +231,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-08-04 03:42:39"
+            "time": "2015-09-14 06:51:16"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -512,16 +364,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "1.4.6",
+            "version": "1.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "3ab72c62e550370a6cd5dc873e1a04ab57562f5b"
+                "reference": "3144ae21711fb6cac0b1ab4cbe63b75ce3d4e8da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/3ab72c62e550370a6cd5dc873e1a04ab57562f5b",
-                "reference": "3ab72c62e550370a6cd5dc873e1a04ab57562f5b",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/3144ae21711fb6cac0b1ab4cbe63b75ce3d4e8da",
+                "reference": "3144ae21711fb6cac0b1ab4cbe63b75ce3d4e8da",
                 "shasum": ""
             },
             "require": {
@@ -557,20 +409,20 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2015-08-16 08:51:00"
+            "time": "2015-09-15 10:49:45"
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.4",
+            "version": "4.8.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "55bf1d6092b0e13a1f26bd5eaffeef3d8ad85ea7"
+                "reference": "463163747474815c5ccd4ae12b5b355ec12158e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/55bf1d6092b0e13a1f26bd5eaffeef3d8ad85ea7",
-                "reference": "55bf1d6092b0e13a1f26bd5eaffeef3d8ad85ea7",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/463163747474815c5ccd4ae12b5b355ec12158e8",
+                "reference": "463163747474815c5ccd4ae12b5b355ec12158e8",
                 "shasum": ""
             },
             "require": {
@@ -629,24 +481,24 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-08-15 04:21:23"
+            "time": "2015-10-01 09:14:30"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "2.3.6",
+            "version": "2.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "18dfbcb81d05e2296c0bcddd4db96cade75e6f42"
+                "reference": "ac8e7a3db35738d56ee9a76e78a4e03d97628983"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/18dfbcb81d05e2296c0bcddd4db96cade75e6f42",
-                "reference": "18dfbcb81d05e2296c0bcddd4db96cade75e6f42",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/ac8e7a3db35738d56ee9a76e78a4e03d97628983",
+                "reference": "ac8e7a3db35738d56ee9a76e78a4e03d97628983",
                 "shasum": ""
             },
             "require": {
-                "doctrine/instantiator": "~1.0,>=1.0.2",
+                "doctrine/instantiator": "^1.0.2",
                 "php": ">=5.3.3",
                 "phpunit/php-text-template": "~1.2",
                 "sebastian/exporter": "~1.2"
@@ -685,7 +537,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2015-07-10 06:54:24"
+            "time": "2015-10-02 06:51:40"
         },
         {
             "name": "sebastian/comparator",
@@ -1059,230 +911,17 @@
             "time": "2015-06-21 13:59:46"
         },
         {
-            "name": "symfony/console",
-            "version": "v2.7.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/Console.git",
-                "reference": "d6cf02fe73634c96677e428f840704bfbcaec29e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/d6cf02fe73634c96677e428f840704bfbcaec29e",
-                "reference": "d6cf02fe73634c96677e428f840704bfbcaec29e",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9"
-            },
-            "require-dev": {
-                "psr/log": "~1.0",
-                "symfony/event-dispatcher": "~2.1",
-                "symfony/phpunit-bridge": "~2.7",
-                "symfony/process": "~2.1"
-            },
-            "suggest": {
-                "psr/log": "For using the console logger",
-                "symfony/event-dispatcher": "",
-                "symfony/process": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.7-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Console\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Console Component",
-            "homepage": "https://symfony.com",
-            "time": "2015-07-28 15:18:12"
-        },
-        {
-            "name": "symfony/event-dispatcher",
-            "version": "v2.7.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "9310b5f9a87ec2ea75d20fec0b0017c77c66dac3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/9310b5f9a87ec2ea75d20fec0b0017c77c66dac3",
-                "reference": "9310b5f9a87ec2ea75d20fec0b0017c77c66dac3",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9"
-            },
-            "require-dev": {
-                "psr/log": "~1.0",
-                "symfony/config": "~2.0,>=2.0.5",
-                "symfony/dependency-injection": "~2.6",
-                "symfony/expression-language": "~2.6",
-                "symfony/phpunit-bridge": "~2.7",
-                "symfony/stopwatch": "~2.3"
-            },
-            "suggest": {
-                "symfony/dependency-injection": "",
-                "symfony/http-kernel": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.7-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\EventDispatcher\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony EventDispatcher Component",
-            "homepage": "https://symfony.com",
-            "time": "2015-06-18 19:21:56"
-        },
-        {
-            "name": "symfony/finder",
-            "version": "v2.7.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/Finder.git",
-                "reference": "ae0f363277485094edc04c9f3cbe595b183b78e4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/ae0f363277485094edc04c9f3cbe595b183b78e4",
-                "reference": "ae0f363277485094edc04c9f3cbe595b183b78e4",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9"
-            },
-            "require-dev": {
-                "symfony/phpunit-bridge": "~2.7"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.7-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Finder\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Finder Component",
-            "homepage": "https://symfony.com",
-            "time": "2015-07-09 16:07:40"
-        },
-        {
-            "name": "symfony/process",
-            "version": "v2.7.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/Process.git",
-                "reference": "48aeb0e48600321c272955132d7606ab0a49adb3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/48aeb0e48600321c272955132d7606ab0a49adb3",
-                "reference": "48aeb0e48600321c272955132d7606ab0a49adb3",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9"
-            },
-            "require-dev": {
-                "symfony/phpunit-bridge": "~2.7"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.7-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Process\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Process Component",
-            "homepage": "https://symfony.com",
-            "time": "2015-07-01 11:25:50"
-        },
-        {
             "name": "symfony/yaml",
-            "version": "v2.7.3",
+            "version": "v2.7.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Yaml.git",
-                "reference": "71340e996171474a53f3d29111d046be4ad8a0ff"
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "31cb2ad0155c95b88ee55fe12bc7ff92232c1770"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/71340e996171474a53f3d29111d046be4ad8a0ff",
-                "reference": "71340e996171474a53f3d29111d046be4ad8a0ff",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/31cb2ad0155c95b88ee55fe12bc7ff92232c1770",
+                "reference": "31cb2ad0155c95b88ee55fe12bc7ff92232c1770",
                 "shasum": ""
             },
             "require": {
@@ -1318,7 +957,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2015-07-28 14:07:07"
+            "time": "2015-09-14 14:14:09"
         }
     ],
     "aliases": [],

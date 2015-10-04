@@ -18,7 +18,6 @@ install:
  - composer install --prefer-source
 
 script:
- - vendor/bin/phpspec run
  - vendor/bin/phpunit
 
 notifications:
