@@ -4,6 +4,51 @@ namespace Monad\IO;
 use Functional as f;
 use Monad as M;
 
+const until = 'Monad\IO\until';
+
+/**
+ * until :: (a -> Bool) -> (a -> b -> b) -> b -> IO a -> IO b
+ *
+ * @param callable $predicate (a -> Bool)
+ * @param callable $do        (a -> b -> a)
+ * @param mixed $base         b
+ * @param M\IO $ioValue       IO a
+ * @return M\IO
+ */
+function until(callable $predicate, callable $do, $base, M\IO $ioValue)
+{
+    return M\IO::of(function () use ($predicate, $do, $base, $ioValue) {
+        do {
+            $value = $ioValue->run();
+            $isFulfilled = $predicate($value);
+            $base = $isFulfilled
+                ? $base
+                : call_user_func($do, $value, $base);
+        } while (!$isFulfilled);
+
+        return $base;
+    });
+}
+
+const getChar = 'Monad\IO\getChar';
+
+/**
+ * @throws IOError
+ * @return M\IO
+ */
+function getChar()
+{
+    return M\IO::of(function () {
+        if (false === ($char = fgetc(STDIN))) {
+            throw userError(
+                'Can\'t read from stdin, because its closed'
+            );
+        }
+
+        return $char;
+    });
+}
+
 const getLine = 'Monad\IO\getLine';
 
 /**
@@ -14,22 +59,7 @@ const getLine = 'Monad\IO\getLine';
  */
 function getLine()
 {
-    return M\IO::of(function () {
-        $handler = @fopen('php://stdin', 'rb');
-        if (false === $handler) {
-            throw userError(sprintf(
-                'Can\'t read from stdin, because: %s',
-                error_get_last()['message']
-            ));
-        }
-
-        $line = '';
-        while (($char = fread($handler, 1)) !== "\n") {
-            $line .= $char;
-        }
-
-        return $line;
-    });
+    return until(f\eql("\n"), f\flip(f\concatStrings), '', getChar());
 }
 
 const putStrLn = 'Monad\IO\putStrLn';
