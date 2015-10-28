@@ -24,6 +24,8 @@
     },
     "files": [
       "src/Functional/functions.php",
+      "src/Functional/predicates.php",
+      "src/Functional/strings.php",
       "src/Monad/Either/functions.php",
       "src/Monad/Maybe/functions.php",
       "src/Monad/IO/functions.php",
