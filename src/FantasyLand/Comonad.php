@@ -2,8 +2,8 @@
 namespace FantasyLand;
 
 interface Comonad extends
-    FunctorInterface,
-    ExtendInterface
+    Functor,
+    Extend
 {
     public function extract();
 }

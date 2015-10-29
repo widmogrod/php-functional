@@ -4,7 +4,7 @@ namespace FantasyLand;
 interface Traversable extends Functor
 {
     /**
-     * traverse :: ApplicativeInterface f => (a -> f b) -> f (t b)
+     * traverse :: Applicative f => (a -> f b) -> f (t b)
      *
      * Where the `a` is value inside of container.
      *

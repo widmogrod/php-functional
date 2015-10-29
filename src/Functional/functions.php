@@ -83,7 +83,7 @@ function toFoldable($value)
 const toTraversable = 'Functional\toTraversable';
 
 /**
- * toTraversable :: TraversableInterface t => a -> t a
+ * toTraversable :: Traversable t => a -> t a
  *
  * @param Traversable|\Traversable|array|mixed $value
  * @return Traversable
