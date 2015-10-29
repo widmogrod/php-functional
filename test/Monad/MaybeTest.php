@@ -1,6 +1,9 @@
 <?php
 namespace test\Monad;
 
+use FantasyLand\ApplicativeInterface;
+use Helpful\ApplicativeLaws;
+use Monad\Maybe;
 use Monad\Maybe\Just;
 use Monad\Maybe\Nothing;
 use Helpful\MonadLaws;
@@ -43,6 +46,67 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
                     return Nothing::of($x + 2);
                 },
                 '$x' => 10,
+            ],
+        ];
+    }
+
+
+    /**
+     * @dataProvider provideApplicativeTestData
+     */
+    public function test_it_should_obey_applicative_laws(
+        $pure,
+        ApplicativeInterface $u,
+        ApplicativeInterface $v,
+        ApplicativeInterface $w,
+        callable $f,
+        $x
+    ) {
+        ApplicativeLaws::test(
+            [$this, 'assertEquals'],
+            $pure,
+            $u,
+            $v,
+            $w,
+            $f,
+            $x
+        );
+    }
+
+    public function provideApplicativeTestData()
+    {
+        return [
+            'Just' => [
+                '$pure' => Maybe\pure,
+                '$u' => Just::of(function () {
+                    return 1;
+                }),
+                '$v' => Just::of(function () {
+                    return 5;
+                }),
+                '$w' => Just::of(function () {
+                    return 7;
+                }),
+                '$f' => function ($x) {
+                    return $x + 400;
+                },
+                '$x' => 33
+            ],
+            'Nothing' => [
+                '$pure' => Maybe\pure,
+                '$u' => Nothing::of(function () {
+                    return 1;
+                }),
+                '$v' => Nothing::of(function () {
+                    return 5;
+                }),
+                '$w' => Nothing::of(function () {
+                    return 7;
+                }),
+                '$f' => function ($x) {
+                    return $x + 400;
+                },
+                '$x' => 33
             ],
         ];
     }

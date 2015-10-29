@@ -1,6 +1,8 @@
 <?php
 namespace test\Monad;
 
+use FantasyLand\ApplicativeInterface;
+use Helpful\ApplicativeLaws;
 use Monad\State;
 use Helpful\MonadLaws;
 
@@ -41,6 +43,58 @@ class StateTest extends \PHPUnit_Framework_TestCase
                 '$g' => $addTwo,
                 '$x' => 10,
                 '$state' => 0,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideApplicativeTestData
+     */
+    public function test_it_should_obey_applicative_laws(
+        $pure,
+        ApplicativeInterface $u,
+        ApplicativeInterface $v,
+        ApplicativeInterface $w,
+        callable $f,
+        $x,
+        $state
+    ) {
+        ApplicativeLaws::test(
+            function (State $a, State $b, $message) use ($state) {
+                $this->assertEquals(
+                    $a->runState($state),
+                    $b->runState($state),
+                    $message
+                );
+            },
+            $pure,
+            $u,
+            $v,
+            $w,
+            $f,
+            $x
+        );
+    }
+
+    public function provideApplicativeTestData()
+    {
+        return [
+            'State' => [
+                '$pure' => State\pure,
+                '$u' => State\pure(function () {
+                    return 1;
+                }),
+                '$v' => State\pure(function ($x) {
+                    return 5;
+                }),
+                '$w' => State\pure(function ($x) {
+                    return 7;
+                }),
+                '$f' => function ($x) {
+                    return 400 + $x;
+                },
+                '$x' => 33,
+                '$state' => 3,
             ],
         ];
     }

@@ -3,6 +3,19 @@ namespace Monad\Either;
 
 use Functional as f;
 
+const pure = 'Monad\Either\pure';
+
+/**
+ * pure :: Applicative Either f => a -> f a
+ *
+ * @param callable $f
+ * @return Right
+ */
+function pure($f)
+{
+    return Right::of($f);
+}
+
 const right = 'Monad\Either\right';
 
 /**

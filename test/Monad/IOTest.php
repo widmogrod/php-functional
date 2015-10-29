@@ -1,6 +1,8 @@
 <?php
 namespace test\Monad;
 
+use FantasyLand\ApplicativeInterface;
+use Helpful\ApplicativeLaws;
 use Monad\IO;
 use Helpful\MonadLaws;
 
@@ -48,6 +50,56 @@ class IOTest extends \PHPUnit_Framework_TestCase
                 '$f' => $addOne,
                 '$g' => $addTwo,
                 '$x' => 10,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideApplicativeTestData
+     */
+    public function test_it_should_obey_applicative_laws(
+        $pure,
+        ApplicativeInterface $u,
+        ApplicativeInterface $v,
+        ApplicativeInterface $w,
+        callable $f,
+        $x
+    ) {
+        ApplicativeLaws::test(
+            function (IO $a, IO $b, $message) {
+                $this->assertEquals(
+                    $a->run(),
+                    $b->run(),
+                    $message
+                );
+            },
+            $pure,
+            $u,
+            $v,
+            $w,
+            $f,
+            $x
+        );
+    }
+
+    public function provideApplicativeTestData()
+    {
+        return [
+            'IO' => [
+                '$pure' => IO\pure,
+                '$u' => IO\pure(function () {
+                    return 1;
+                }),
+                '$v' => IO\pure(function () {
+                    return 5;
+                }),
+                '$w' => IO\pure(function () {
+                    return 7;
+                }),
+                '$f' => function ($x) {
+                    return 400 + $x;
+                },
+                '$x' => 33
             ],
         ];
     }
