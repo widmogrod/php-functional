@@ -87,14 +87,14 @@ class IOTest extends \PHPUnit_Framework_TestCase
         return [
             'IO' => [
                 '$pure' => IO\pure,
-                '$u' => IO\pure(function ($x) {
-                    return 1 + $x;
+                '$u' => IO\pure(function () {
+                    return 1;
                 }),
-                '$v' => IO\pure(function ($x) {
-                    return 5 + $x;
+                '$v' => IO\pure(function () {
+                    return 5;
                 }),
-                '$w' => IO\pure(function ($x) {
-                    return 7 + $x;
+                '$w' => IO\pure(function () {
+                    return 7;
                 }),
                 '$f' => function ($x) {
                     return 400 + $x;

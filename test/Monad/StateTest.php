@@ -81,14 +81,14 @@ class StateTest extends \PHPUnit_Framework_TestCase
         return [
             'State' => [
                 '$pure' => State\pure,
-                '$u' => State\pure(function ($x) {
-                    return 1 + $x;
+                '$u' => State\pure(function () {
+                    return 1;
                 }),
                 '$v' => State\pure(function ($x) {
-                    return 5 + $x;
+                    return 5;
                 }),
                 '$w' => State\pure(function ($x) {
-                    return 7 + $x;
+                    return 7;
                 }),
                 '$f' => function ($x) {
                     return 400 + $x;

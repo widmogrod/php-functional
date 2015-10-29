@@ -78,14 +78,14 @@ class EitherTest extends \PHPUnit_Framework_TestCase
         return [
             'Right' => [
                 '$pure' => Either\pure,
-                '$u' => Right::of(function ($x) {
-                    return 1 + $x;
+                '$u' => Right::of(function () {
+                    return 1;
                 }),
-                '$v' => Right::of(function ($x) {
-                    return 5 + $x;
+                '$v' => Right::of(function () {
+                    return 5;
                 }),
-                '$w' => Right::of(function ($x) {
-                    return 7 + $x;
+                '$w' => Right::of(function () {
+                    return 7;
                 }),
                 '$f' => function ($x) {
                     return $x + 400;
@@ -94,14 +94,14 @@ class EitherTest extends \PHPUnit_Framework_TestCase
             ],
             'Left' => [
                 '$pure' => Either\pure,
-                '$u' => Left::of(function ($x) {
-                    return 1 + $x;
+                '$u' => Left::of(function () {
+                    return 1;
                 }),
-                '$v' => Left::of(function ($x) {
-                    return 5 + $x;
+                '$v' => Left::of(function () {
+                    return 5;
                 }),
-                '$w' => Left::of(function ($x) {
-                    return 7 + $x;
+                '$w' => Left::of(function () {
+                    return 7;
                 }),
                 '$f' => function ($x) {
                     return $x + 400;

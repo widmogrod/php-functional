@@ -78,14 +78,14 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
         return [
             'Just' => [
                 '$pure' => Maybe\pure,
-                '$u' => Just::of(function ($x) {
-                    return 1 + $x;
+                '$u' => Just::of(function () {
+                    return 1;
                 }),
-                '$v' => Just::of(function ($x) {
-                    return 5 + $x;
+                '$v' => Just::of(function () {
+                    return 5;
                 }),
-                '$w' => Just::of(function ($x) {
-                    return 7 + $x;
+                '$w' => Just::of(function () {
+                    return 7;
                 }),
                 '$f' => function ($x) {
                     return $x + 400;
@@ -94,14 +94,14 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
             ],
             'Nothing' => [
                 '$pure' => Maybe\pure,
-                '$u' => Nothing::of(function ($x) {
-                    return 1 + $x;
+                '$u' => Nothing::of(function () {
+                    return 1;
                 }),
-                '$v' => Nothing::of(function ($x) {
-                    return 5 + $x;
+                '$v' => Nothing::of(function () {
+                    return 5;
                 }),
-                '$w' => Nothing::of(function ($x) {
-                    return 7 + $x;
+                '$w' => Nothing::of(function () {
+                    return 7;
                 }),
                 '$f' => function ($x) {
                     return $x + 400;

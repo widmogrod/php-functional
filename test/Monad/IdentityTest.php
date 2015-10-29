@@ -65,9 +65,9 @@ class IdentityTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'default' => [
-                '$u' => Identity::of(function($x) { return 1 + $x; }),
-                '$v' => Identity::of(function($x) { return 5 + $x; }),
-                '$w' => Identity::of(function($x) { return 7 + $x; }),
+                '$u' => Identity::of(function() { return 1; }),
+                '$v' => Identity::of(function() { return 5; }),
+                '$w' => Identity::of(function() { return 7; }),
                 '$f' => function($x) {
                     return $x + 400;
                 },

@@ -67,14 +67,14 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         return [
             'Collection' => [
                 '$pure' => Collection::of,
-                '$u' => Collection::of(function ($x) {
-                    return 1 + $x;
+                '$u' => Collection::of(function () {
+                    return 1;
                 }),
-                '$v' => Collection::of(function ($x) {
-                    return 5 + $x;
+                '$v' => Collection::of(function () {
+                    return 5;
                 }),
-                '$w' => Collection::of(function ($x) {
-                    return 7 + $x;
+                '$w' => Collection::of(function () {
+                    return 7;
                 }),
                 '$f' => function ($x) {
                     return $x + 400;
