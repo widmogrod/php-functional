@@ -49,6 +49,22 @@ function append($list, $value = null)
     }), func_get_args());
 }
 
+const applicator = 'Functional\applicator';
+
+/**
+ * applicator :: a -> (a -> b) -> b
+ *
+ * @param mixed $x
+ * @param callable $f
+ * @return mixed
+ */
+function applicator($x, callable $f = null)
+{
+    return call_user_func_array(curryN(2, function ($y, callable $f) {
+        return call_user_func($f, $y);
+    }), func_get_args());
+}
+
 const toFoldable = 'Functional\toFoldable';
 
 /**

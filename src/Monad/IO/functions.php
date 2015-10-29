@@ -4,6 +4,21 @@ namespace Monad\IO;
 use Functional as f;
 use Monad as M;
 
+const pure = 'Monad\IO\pure';
+
+/**
+ * pure :: Applicative IO f => a -> f a
+ *
+ * @param callable $f
+ * @return M\IO
+ */
+function pure($f)
+{
+    return M\IO::of(function () use ($f) {
+        return $f;
+    });
+}
+
 const until = 'Monad\IO\until';
 
 /**

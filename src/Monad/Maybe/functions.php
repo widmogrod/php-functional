@@ -3,6 +3,19 @@ namespace Monad\Maybe;
 
 use Functional as f;
 
+const pure = 'Monad\Maybe\pure';
+
+/**
+ * pure :: Applicative Just f => a -> f a
+ *
+ * @param callable $f
+ * @return Just
+ */
+function pure($f)
+{
+    return Just::of($f);
+}
+
 const nothing = 'Monad\Maybe\nothing';
 
 /**

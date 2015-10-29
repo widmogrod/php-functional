@@ -3,6 +3,21 @@ namespace Monad\State;
 
 use Monad as M;
 
+const pure = 'Monad\State\pure';
+
+/**
+ * pure :: Applicative Just f => a -> f a
+ *
+ * @param callable $f
+ * @return M\State
+ */
+function pure($f)
+{
+    return M\State::of(function ($state) use ($f) {
+        return [$f, $state];
+    });
+}
+
 const get = 'Monad\State\get';
 
 /**
