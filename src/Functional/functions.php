@@ -2,11 +2,11 @@
 namespace Functional;
 
 use Common\ValueOfInterface;
-use FantasyLand\ApplicativeInterface;
-use FantasyLand\FoldableInterface;
-use FantasyLand\FunctorInterface;
-use FantasyLand\MonadInterface;
-use FantasyLand\TraversableInterface;
+use FantasyLand\Applicative;
+use FantasyLand\Foldable;
+use FantasyLand\Functor;
+use FantasyLand\Monad;
+use FantasyLand\Traversable;
 use Monad\Collection;
 use Monad\Identity;
 
@@ -70,12 +70,12 @@ const toFoldable = 'Functional\toFoldable';
 /**
  * toFoldable :: Foldable t => a -> t a
  *
- * @param FoldableInterface|\Traversable|array|mixed $value
- * @return FoldableInterface
+ * @param Foldable|\Traversable|array|mixed $value
+ * @return Foldable
  */
 function toFoldable($value)
 {
-    return $value instanceof FoldableInterface
+    return $value instanceof Foldable
         ? $value
         : Collection::of(toNativeTraversable($value));
 }
@@ -85,12 +85,12 @@ const toTraversable = 'Functional\toTraversable';
 /**
  * toTraversable :: TraversableInterface t => a -> t a
  *
- * @param TraversableInterface|\Traversable|array|mixed $value
- * @return TraversableInterface
+ * @param Traversable|\Traversable|array|mixed $value
+ * @return Traversable
  */
 function toTraversable($value)
 {
-    return $value instanceof TraversableInterface
+    return $value instanceof Traversable
         ? $value
         : Collection::of(toNativeTraversable($value));
 }
@@ -106,10 +106,10 @@ const concat = 'Functional\concat';
  *
  * The concatenation of all the elements of a container of lists.
  *
- * @param FoldableInterface $foldable
+ * @param Foldable $foldable
  * @return array
  */
-function concat(FoldableInterface $foldable)
+function concat(Foldable $foldable)
 {
     return reduce(function ($agg, $value) {
         return reduce(function ($agg, $v) {
@@ -125,10 +125,10 @@ const toList = 'Functional\toList';
 /**
  * toList :: Traversable t -> t a -> [a]
  *
- * @param FoldableInterface $traversable
+ * @param Foldable $traversable
  * @return mixed
  */
-function toList(FoldableInterface $traversable)
+function toList(Foldable $traversable)
 {
     return reduce(append, [], $traversable);
 }
@@ -288,11 +288,11 @@ const map = 'Functional\map';
  *
  * @return mixed|\Closure
  * @param callable $transformation
- * @param FunctorInterface $value
+ * @param Functor $value
  */
-function map(callable $transformation = null, FunctorInterface $value = null)
+function map(callable $transformation = null, Functor $value = null)
 {
-    return call_user_func_array(curryN(2, function (callable $transformation, FunctorInterface $value) {
+    return call_user_func_array(curryN(2, function (callable $transformation, Functor $value) {
         return $value->map($transformation);
     }), func_get_args());
 }
@@ -304,11 +304,11 @@ const bind = 'Functional\bind';
  *
  * @return mixed|\Closure
  * @param callable $function
- * @param MonadInterface $value
+ * @param Monad $value
  */
-function bind(callable $function = null, MonadInterface $value = null)
+function bind(callable $function = null, Monad $value = null)
 {
-    return call_user_func_array(curryN(2, function (callable $function, MonadInterface $value) {
+    return call_user_func_array(curryN(2, function (callable $function, Monad $value) {
         return $value->bind($function);
     }), func_get_args());
 }
@@ -318,9 +318,9 @@ const join = 'Functional\join';
 /**
  * join :: Monad (Monad m) -> Monad m
  *
- * @return MonadInterface
+ * @return Monad
  */
-function join(MonadInterface $monad = null)
+function join(Monad $monad = null)
 {
     return $monad->bind(identity);
 }
@@ -332,15 +332,15 @@ const reduce = 'Functional\reduce';
  *
  * @param callable $callable Binary function ($accumulator, $value)
  * @param mixed $accumulator
- * @param FoldableInterface $foldable
+ * @param Foldable $foldable
  * @return mixed
  */
-function reduce(callable $callable, $accumulator = null, FoldableInterface $foldable = null)
+function reduce(callable $callable, $accumulator = null, Foldable $foldable = null)
 {
     return call_user_func_array(curryN(3, function (
         callable $callable,
         $accumulator,
-        FoldableInterface $foldable
+        Foldable $foldable
     ) {
         return $foldable->reduce($callable, $accumulator);
     }), func_get_args());
@@ -356,15 +356,15 @@ const foldr = 'Functional\foldr';
  *
  * @param callable $callable Binary function ($value, $accumulator)
  * @param mixed $accumulator
- * @param FoldableInterface $foldable
+ * @param Foldable $foldable
  * @return mixed
  */
-function foldr(callable $callable, $accumulator = null, FoldableInterface $foldable = null)
+function foldr(callable $callable, $accumulator = null, Foldable $foldable = null)
 {
     return call_user_func_array(curryN(3, function (
         callable $callable,
         $accumulator,
-        FoldableInterface $foldable
+        Foldable $foldable
     ) {
         return reduce(
             $callable,
@@ -378,10 +378,10 @@ function foldr(callable $callable, $accumulator = null, FoldableInterface $folda
  * filter :: (a -> Bool) -> [a] -> [a]
  *
  * @param callable $predicate
- * @param FoldableInterface $list
- * @return FoldableInterface
+ * @param Foldable $list
+ * @return Foldable
  */
-function filter(callable $predicate, FoldableInterface $list)
+function filter(callable $predicate, Foldable $list)
 {
     return reduce(function ($list, $x) use ($predicate) {
         return call_user_func($predicate, $x)
@@ -558,20 +558,20 @@ const liftM2 = 'Functional\liftM2';
  *  liftM2 (+) (Just 1) Nothing = Nothing
  *
  * @param callable $transformation
- * @param MonadInterface $ma
- * @param MonadInterface $mb
- * @return MonadInterface|\Closure
+ * @param Monad $ma
+ * @param Monad $mb
+ * @return Monad|\Closure
  */
 function liftM2(
     callable $transformation = null,
-    MonadInterface $ma = null,
-    MonadInterface $mb = null
+    Monad $ma = null,
+    Monad $mb = null
 ) {
     return call_user_func_array(curryN(3,
         function (
             callable $transformation,
-            MonadInterface $ma,
-            MonadInterface $mb
+            Monad $ma,
+            Monad $mb
         ) {
             return $ma->bind(function ($a) use ($mb, $transformation) {
                 return $mb->bind(function ($b) use ($a, $transformation) {
@@ -587,19 +587,19 @@ const liftA2 = 'Functional\liftA2';
  * liftA2 :: Applicative f => (a -> b -> c) -> f a -> f b -> f c
  *
  * @param callable $transformation
- * @param ApplicativeInterface $fa
- * @param ApplicativeInterface $fb
- * @return ApplicativeInterface|\Closure
+ * @param Applicative $fa
+ * @param Applicative $fb
+ * @return Applicative|\Closure
  */
 function liftA2(
     callable $transformation = null,
-    ApplicativeInterface $fa = null,
-    ApplicativeInterface $fb = null
+    Applicative $fa = null,
+    Applicative $fb = null
 ) {
     return call_user_func_array(curryN(3, function (
         callable $transformation,
-        ApplicativeInterface $fa,
-        ApplicativeInterface $fb
+        Applicative $fa,
+        Applicative $fb
     ) {
         return $fa->map(function ($a) use ($transformation) {
             return function ($b) use ($a, $transformation) {
@@ -618,11 +618,11 @@ const sequenceM = 'Functional\sequenceM';
  *
  * Sequentially compose two actions, discarding any value produced by the first, like sequencing operators (such as the semicolon) in imperative languages.
  *
- * @param MonadInterface $a
- * @param MonadInterface $b
- * @return MonadInterface
+ * @param Monad $a
+ * @param Monad $b
+ * @return Monad
  */
-function sequenceM(MonadInterface $a, MonadInterface $b)
+function sequenceM(Monad $a, Monad $b)
 {
     return $a->bind(function () use ($b) {
         return $b;
@@ -636,8 +636,8 @@ const sequence_ = 'Functional\sequence_';
  *
  * @todo consider to do it like this: foldr (>>) (return ())
  *
- * @param MonadInterface[] $monads
- * @return MonadInterface
+ * @param Monad[] $monads
+ * @return Monad
  */
 function sequence_($monads)
 {
@@ -652,14 +652,14 @@ const traverse = 'Functional\traverse';
  * Map each element of a structure to an action, evaluate these actions from left to right, and collect the results
  *
  * @param callable $transformation  (a -> f b)
- * @param TraversableInterface      $t t a
- * @return ApplicativeInterface     f (t b)
+ * @param Traversable      $t t a
+ * @return Applicative     f (t b)
  */
-function traverse(callable $transformation, TraversableInterface $t = null)
+function traverse(callable $transformation, Traversable $t = null)
 {
     return call_user_func_array(curryN(2, function (
         callable $transformation,
-        TraversableInterface $t
+        Traversable $t
     ) {
         return $t->traverse($transformation);
     }), func_get_args());
@@ -670,8 +670,8 @@ const sequence = 'Functional\sequence';
 /**
  * sequence :: Monad m => t (m a) -> m (t a)
  *
- * @param TraversableInterface|MonadInterface[] $monads
- * @return MonadInterface
+ * @param Traversable|Monad[] $monads
+ * @return Monad
  */
 function sequence($monads)
 {

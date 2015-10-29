@@ -1,10 +1,10 @@
 <?php
 namespace FantasyLand;
 
-interface SetoidInterface
+interface Setoid
 {
     /**
-     * @param SetoidInterface|mixed $value
+     * @param Setoid|mixed $value
      * @return boolean
      */
     public function equals($value);

@@ -6,7 +6,7 @@ use Common;
 use FantasyLand;
 
 interface Maybe extends
-    FantasyLand\MonadInterface,
+    FantasyLand\Monad,
     Common\ValueOfInterface
 {
     /**

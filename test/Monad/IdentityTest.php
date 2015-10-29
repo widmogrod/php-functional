@@ -1,7 +1,7 @@
 <?php
 namespace test\Monad;
 
-use FantasyLand\ApplicativeInterface;
+use FantasyLand\Applicative;
 use Helpful\ApplicativeLaws;
 use Monad\Identity;
 use Helpful\MonadLaws;
@@ -44,9 +44,9 @@ class IdentityTest extends \PHPUnit_Framework_TestCase
      * @dataProvider provideApplicativeTestData
      */
     public function test_it_should_obey_applicative_laws(
-        ApplicativeInterface $u,
-        ApplicativeInterface $v,
-        ApplicativeInterface $w,
+        Applicative $u,
+        Applicative $v,
+        Applicative $w,
         callable $f,
         $x
     ) {

@@ -1,7 +1,7 @@
 <?php
 namespace FantasyLand;
 
-interface ComonadInterface extends
+interface Comonad extends
     FunctorInterface,
     ExtendInterface
 {

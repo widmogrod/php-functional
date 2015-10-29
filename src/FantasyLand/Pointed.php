@@ -1,7 +1,7 @@
 <?php
 namespace FantasyLand;
 
-interface PointedInterface
+interface Pointed
 {
     /**
      * Put $value in default minimal context.

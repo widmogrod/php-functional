@@ -5,7 +5,7 @@ use Common;
 use FantasyLand;
 
 class Identity implements
-    FantasyLand\MonadInterface,
+    FantasyLand\Monad,
     Common\ValueOfInterface
 {
     const of = 'Monad\Identity::of';
@@ -24,7 +24,7 @@ class Identity implements
     /**
      * @inheritdoc
      */
-    public function ap(FantasyLand\ApplyInterface $applicative)
+    public function ap(FantasyLand\Apply $applicative)
     {
         return $applicative->map($this->value);
     }

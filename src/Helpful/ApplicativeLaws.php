@@ -1,7 +1,7 @@
 <?php
 namespace Helpful;
 
-use FantasyLand\ApplicativeInterface;
+use FantasyLand\Applicative;
 use Functional as f;
 
 class ApplicativeLaws
@@ -11,18 +11,18 @@ class ApplicativeLaws
      *
      * @param callable $assertEqual   Asserting function (Applicative $a1, Applicative $a2, $message)
      * @param callable $pure          Applicative "constructor"
-     * @param ApplicativeInterface $u Applicative f => f (a -> b)
-     * @param ApplicativeInterface $v Applicative f => f (a -> b)
-     * @param ApplicativeInterface $w Applicative f => f (a -> b)
+     * @param Applicative $u Applicative f => f (a -> b)
+     * @param Applicative $v Applicative f => f (a -> b)
+     * @param Applicative $w Applicative f => f (a -> b)
      * @param callable $f             (a -> b)
      * @param mixed $x                Value to put into a applicative
      */
     public static function test(
         callable $assertEqual,
         callable $pure,
-        ApplicativeInterface $u,
-        ApplicativeInterface $v,
-        ApplicativeInterface $w,
+        Applicative $u,
+        Applicative $v,
+        Applicative $w,
         callable $f,
         $x
     ) {

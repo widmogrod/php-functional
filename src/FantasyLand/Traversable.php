@@ -1,7 +1,7 @@
 <?php
 namespace FantasyLand;
 
-interface TraversableInterface extends FunctorInterface
+interface Traversable extends Functor
 {
     /**
      * traverse :: ApplicativeInterface f => (a -> f b) -> f (t b)
@@ -9,7 +9,7 @@ interface TraversableInterface extends FunctorInterface
      * Where the `a` is value inside of container.
      *
      * @param callable $transformation  (a -> f b)
-     * @return ApplicativeInterface     f (t b)
+     * @return Applicative     f (t b)
      */
     public function traverse(callable $transformation);
 }

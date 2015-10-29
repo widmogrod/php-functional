@@ -16,7 +16,7 @@ class Just implements Maybe
     /**
      * @inheritdoc
      */
-    public function ap(FantasyLand\ApplyInterface $applicative)
+    public function ap(FantasyLand\Apply $applicative)
     {
         return $applicative->map($this->value);
     }

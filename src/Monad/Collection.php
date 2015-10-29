@@ -7,9 +7,9 @@ use FantasyLand;
 use Functional as f;
 
 class Collection implements
-    FantasyLand\MonadInterface,
-    FantasyLand\FoldableInterface,
-    FantasyLand\TraversableInterface,
+    FantasyLand\Monad,
+    FantasyLand\Foldable,
+    FantasyLand\Traversable,
     Common\ValueOfInterface
 {
     use Common\PointedTrait;
@@ -44,7 +44,7 @@ class Collection implements
      *
      * fs <*> xs = [f x | f <- fs, x <- xs]
      */
-    public function ap(FantasyLand\ApplyInterface $applicative)
+    public function ap(FantasyLand\Apply $applicative)
     {
         // Sine in php List comprehension is not available, then I doing it like this
         $result = [];
