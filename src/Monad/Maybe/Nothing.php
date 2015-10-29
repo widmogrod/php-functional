@@ -20,7 +20,7 @@ class Nothing implements Maybe
     /**
      * @inheritdoc
      */
-    public function ap(FantasyLand\ApplyInterface $applicative)
+    public function ap(FantasyLand\Apply $applicative)
     {
         return $this;
     }

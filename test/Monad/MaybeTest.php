@@ -1,7 +1,7 @@
 <?php
 namespace test\Monad;
 
-use FantasyLand\ApplicativeInterface;
+use FantasyLand\Applicative;
 use Helpful\ApplicativeLaws;
 use Monad\Maybe;
 use Monad\Maybe\Just;
@@ -56,9 +56,9 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
      */
     public function test_it_should_obey_applicative_laws(
         $pure,
-        ApplicativeInterface $u,
-        ApplicativeInterface $v,
-        ApplicativeInterface $w,
+        Applicative $u,
+        Applicative $v,
+        Applicative $w,
         callable $f,
         $x
     ) {

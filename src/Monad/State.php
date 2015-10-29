@@ -2,10 +2,10 @@
 namespace Monad;
 
 use Common;
-use FantasyLand\ApplyInterface;
-use FantasyLand\MonadInterface;
+use FantasyLand\Apply;
+use FantasyLand\Monad;
 
-class State implements MonadInterface
+class State implements Monad
 {
     const of = 'Monad\State::of';
 
@@ -22,7 +22,7 @@ class State implements MonadInterface
     /**
      * @inheritdoc
      */
-    public function ap(ApplyInterface $b)
+    public function ap(Apply $b)
     {
         return $this->bind(function($f) use ($b) {
             return $b->map($f);

@@ -1,11 +1,11 @@
 <?php
 namespace FantasyLand;
 
-interface FunctorInterface
+interface Extend
 {
     /**
      * @param callable $function
      * @return self
      */
-    public function map(callable $function);
+    public function extend(callable $function);
 }

@@ -3,13 +3,13 @@ namespace Monad;
 
 use Common;
 use Functional as f;
-use FantasyLand\ApplyInterface;
-use FantasyLand\MonadInterface;
-use FantasyLand\FoldableInterface;
+use FantasyLand\Apply;
+use FantasyLand\Monad;
+use FantasyLand\Foldable;
 
 class IO implements
-    MonadInterface,
-    FoldableInterface
+    Monad,
+    Foldable
 {
     const of = 'Monad\IO::of';
 
@@ -28,7 +28,7 @@ class IO implements
     /**
      * @inheritdoc
      */
-    public function ap(ApplyInterface $b)
+    public function ap(Apply $b)
     {
         return $b->map($this->run());
     }

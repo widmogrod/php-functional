@@ -1,7 +1,7 @@
 <?php
 namespace FantasyLand;
 
-interface FoldableInterface
+interface Foldable
 {
     /**
      * reduce :: (b -> a -> b) -> b -> b

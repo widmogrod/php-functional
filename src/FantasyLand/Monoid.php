@@ -1,12 +1,12 @@
 <?php
 namespace FantasyLand;
 
-interface MonoidInterface extends SemigroupInterface
+interface Monoid extends Semigroup
 {
     /**
      * Return identity element for given semigroup
      *
-     * @return MonoidInterface
+     * @return Monoid
      */
     public function getEmpty();
 }
