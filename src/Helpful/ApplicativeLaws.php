@@ -44,10 +44,10 @@ class ApplicativeLaws
             'homomorphism'
         );
 
-        // interchange: u <*> pure y = pure ($ y) <*> u
+        // interchange: u <*> pure x = pure ($ x) <*> u
         $assertEqual(
-            $u->ap($pure($f)),
-            $pure(f\applicator($f))->ap($u),
+            $u->ap($pure($x)),
+            $pure(f\applicator($x))->ap($u),
             'interchange'
         );
 
