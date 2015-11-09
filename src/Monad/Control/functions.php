@@ -5,15 +5,16 @@ use Monad as M;
 use Functional as f;
 
 /**
- * doM :: Monad m => [m a] -> [a] -> m a
+ * doo :: Monad m => [m a] -> [a] -> m a
  *
  * Haskell like "do notation" simple implementation.
+ * Since "do" is reserved keyword in PHP then I use "doo".
  *
  * @param array $monads
  * @param array $accumulator
  * @return mixed
  */
-function doM(array $monads, array $accumulator = [])
+function doo(array $monads, array $accumulator = [])
 {
     reset($monads);
     list($key, $monad) = each($monads);
@@ -26,7 +27,7 @@ function doM(array $monads, array $accumulator = [])
         $accumulator[$key] = $value;
 
         return count($monads) > 1
-            ? doM(f\tail($monads), $accumulator)
+            ? doo(f\tail($monads), $accumulator)
             : $value;
     };
 
@@ -34,13 +35,13 @@ function doM(array $monads, array $accumulator = [])
 }
 
 /**
- * doWith :: Monad m => (a -> m b) -> [a] -> m b
+ * runWith :: Monad m => (a -> m b) -> [a] -> m b
  *
  * @param callable $function
  * @param array $argsNames
  * @return M\IO
  */
-function doWith(callable $function, array $argsNames) {
+function runWith(callable $function, array $argsNames) {
     return M\IO::of(function() use ($function, $argsNames) {
         return function($data) use ($function, $argsNames) {
             return call_user_func_array(
