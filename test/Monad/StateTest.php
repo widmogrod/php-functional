@@ -2,7 +2,9 @@
 namespace test\Monad;
 
 use FantasyLand\Applicative;
+use FantasyLand\Functor;
 use Helpful\ApplicativeLaws;
+use Helpful\FunctorLaws;
 use Monad\State;
 use Helpful\MonadLaws;
 
@@ -95,6 +97,45 @@ class StateTest extends \PHPUnit_Framework_TestCase
                 },
                 '$x' => 33,
                 '$state' => 3,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideFunctorTestData
+     */
+    public function test_it_should_obey_functor_laws(
+        callable $f,
+        callable $g,
+        Functor $x,
+        $state
+    ) {
+        FunctorLaws::test(
+            function (State $a, State $b, $message) use ($state) {
+                $this->assertEquals(
+                    $a->runState($state),
+                    $b->runState($state),
+                    $message
+                );
+            },
+            $f,
+            $g,
+            $x
+        );
+    }
+
+    public function provideFunctorTestData()
+    {
+        return [
+            'State' => [
+                '$f' => function ($x) {
+                    return $x + 1;
+                },
+                '$g' => function ($x) {
+                    return $x + 5;
+                },
+                '$x' => State\value(3),
+                '$state'  => 'asd',
             ],
         ];
     }

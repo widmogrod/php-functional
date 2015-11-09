@@ -2,7 +2,9 @@
 namespace test\Monad;
 
 use FantasyLand\Applicative;
+use FantasyLand\Functor;
 use Helpful\ApplicativeLaws;
+use Helpful\FunctorLaws;
 use Monad\Maybe;
 use Monad\Maybe\Just;
 use Monad\Maybe\Nothing;
@@ -107,6 +109,46 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
                     return $x + 400;
                 },
                 '$x' => 33
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideFunctorTestData
+     */
+    public function test_it_should_obey_functor_laws(
+        callable $f,
+        callable $g,
+        Functor $x
+    ) {
+        FunctorLaws::test(
+            [$this, 'assertEquals'],
+            $f,
+            $g,
+            $x
+        );
+    }
+
+    public function provideFunctorTestData()
+    {
+        return [
+            'Just' => [
+                '$f' => function ($x) {
+                    return $x + 1;
+                },
+                '$g' => function ($x) {
+                    return $x + 5;
+                },
+                '$x' => Just::of(1),
+            ],
+            'Nothing' => [
+                '$f' => function ($x) {
+                    return $x + 1;
+                },
+                '$g' => function ($x) {
+                    return $x + 5;
+                },
+                '$x' => Nothing::of(1),
             ],
         ];
     }

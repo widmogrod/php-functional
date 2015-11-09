@@ -7,7 +7,7 @@ use Functional as f;
 class ApplicativeLaws
 {
     /**
-     * Generic test to verify if a monad obey the laws.
+     * Generic test to verify if a type obey the applicative laws.
      *
      * @param callable $assertEqual   Asserting function (Applicative $a1, Applicative $a2, $message)
      * @param callable $pure          Applicative "constructor"
