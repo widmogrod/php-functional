@@ -39,7 +39,7 @@ You can find more use cases and examples in the [example directory](/example/).
 ``` php
 use Functional as f;
 
-$collection = Functor\Collection::of([
+$collection = Monad\Collection::of([
    ['id' => 1, 'name' => 'One'],
    ['id' => 2, 'name' => 'Two'],
    ['id' => 3, 'name' => 'Three'],
@@ -63,7 +63,7 @@ of applying function from the left list to a value in the right one.
 ``` php
 use Functional as f;
 
-$collectionA = Applicative\Collection::of([
+$collectionA = Monad\Collection::of([
     function($a) {
         return 3 + $a;
     },
@@ -71,7 +71,7 @@ $collectionA = Applicative\Collection::of([
         return 4 + $a;
     },
 ]);
-$collectionB = Applicative\Collection::of([
+$collectionB = Monad\Collection::of([
     1, 2
 ]);
 
