@@ -2,7 +2,9 @@
 namespace test\Monad;
 
 use FantasyLand\Applicative;
+use FantasyLand\Functor;
 use Helpful\ApplicativeLaws;
+use Helpful\FunctorLaws;
 use Monad\Identity;
 use Helpful\MonadLaws;
 
@@ -65,13 +67,50 @@ class IdentityTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'default' => [
-                '$u' => Identity::of(function() { return 1; }),
-                '$v' => Identity::of(function() { return 5; }),
-                '$w' => Identity::of(function() { return 7; }),
-                '$f' => function($x) {
+                '$u' => Identity::of(function () {
+                    return 1;
+                }),
+                '$v' => Identity::of(function () {
+                    return 5;
+                }),
+                '$w' => Identity::of(function () {
+                    return 7;
+                }),
+                '$f' => function ($x) {
                     return $x + 400;
                 },
                 '$x' => 33
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideFunctorTestData
+     */
+    public function test_it_should_obey_functor_laws(
+        callable $f,
+        callable $g,
+        Functor $x
+    ) {
+        FunctorLaws::test(
+            [$this, 'assertEquals'],
+            $f,
+            $g,
+            $x
+        );
+    }
+
+    public function provideFunctorTestData()
+    {
+        return [
+            'Identity' => [
+                '$f' => function ($x) {
+                    return $x + 1;
+                },
+                '$g' => function ($x) {
+                    return $x + 5;
+                },
+                '$x' => Identity::of(123),
             ],
         ];
     }

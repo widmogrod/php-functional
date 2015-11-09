@@ -2,7 +2,9 @@
 namespace test\Monad;
 
 use FantasyLand\Applicative;
+use FantasyLand\Functor;
 use Helpful\ApplicativeLaws;
+use Helpful\FunctorLaws;
 use Monad\Collection;
 use Helpful\MonadLaws;
 
@@ -80,6 +82,37 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                     return $x + 400;
                 },
                 '$x' => 33
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideFunctorTestData
+     */
+    public function test_it_should_obey_functor_laws(
+        callable $f,
+        callable $g,
+        Functor $x
+    ) {
+        FunctorLaws::test(
+            [$this, 'assertEquals'],
+            $f,
+            $g,
+            $x
+        );
+    }
+
+    public function provideFunctorTestData()
+    {
+        return [
+            'Collection' => [
+                '$f' => function ($x) {
+                    return $x + 1;
+                },
+                '$g' => function ($x) {
+                    return $x + 5;
+                },
+                '$x' => Collection::of([1, 2, 3]),
             ],
         ];
     }

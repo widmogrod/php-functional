@@ -6,7 +6,7 @@ use Functional as f;
 class MonadLaws
 {
     /**
-     * Generic test to verify if a monad obey the laws.
+     * Generic test to verify if a type obey the monad laws.
      *
      * @param callable $assertEqual Asserting function (Monad $m1, Monad $m2, $message)
      * @param callable $return      Monad "constructor"

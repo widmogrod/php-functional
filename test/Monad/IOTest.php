@@ -2,7 +2,9 @@
 namespace test\Monad;
 
 use FantasyLand\Applicative;
+use FantasyLand\Functor;
 use Helpful\ApplicativeLaws;
+use Helpful\FunctorLaws;
 use Monad\IO;
 use Helpful\MonadLaws;
 
@@ -100,6 +102,45 @@ class IOTest extends \PHPUnit_Framework_TestCase
                     return 400 + $x;
                 },
                 '$x' => 33
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideFunctorTestData
+     */
+    public function test_it_should_obey_functor_laws(
+        callable $f,
+        callable $g,
+        Functor $x
+    ) {
+        FunctorLaws::test(
+            function (IO $a, IO $b, $message) {
+                $this->assertEquals(
+                    $a->run(),
+                    $b->run(),
+                    $message
+                );
+            },
+            $f,
+            $g,
+            $x
+        );
+    }
+
+    public function provideFunctorTestData()
+    {
+        return [
+            'IO' => [
+                '$f' => function ($x) {
+                    return $x + 1;
+                },
+                '$g' => function ($x) {
+                    return $x + 5;
+                },
+                '$x' => IO::of(function () {
+                    return 1;
+                }),
             ],
         ];
     }
