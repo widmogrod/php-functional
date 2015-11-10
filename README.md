@@ -174,8 +174,8 @@ $do = control\doo([
     '$surname' =>
         IO\getLine(),                               // prompt for surname, and store it in '$surname' key
 
-    control\runWith(function($name, $surname) {     // put on screen: "Hello $surname, $name"
-        return IO\putStrLn(sprintf("Hello %s, %s", $name, $surname));
+    control\runWith(function($surname, $name) {     // put on screen: "Hello $surname, $name"
+        return IO\putStrLn(sprintf("Hello %s, %s", $surname, $name));
     }, ['$surname', '$name']),
 ]);
 
