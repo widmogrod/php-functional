@@ -2,7 +2,6 @@
 namespace Monad;
 
 use Common;
-use Exception;
 use FantasyLand;
 use Functional as f;
 

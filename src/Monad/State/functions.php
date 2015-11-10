@@ -151,7 +151,7 @@ const evalState = 'Monad\State\evalState';
  */
 function evalState(M\State $state, $initialState)
 {
-    return runState($state, $initialState)[1];
+    return runState($state, $initialState)[0];
 }
 
 const execState = 'Monad\State\execState';

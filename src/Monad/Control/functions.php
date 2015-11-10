@@ -1,55 +1,83 @@
 <?php
 namespace Monad\Control;
 
-use Monad as M;
 use Functional as f;
+use Monad as M;
 
 /**
- * doM :: Monad m => [m a] -> [a] -> m a
+ * doo :: State IO m => [m a] -> m a
  *
  * Haskell like "do notation" simple implementation.
+ * Since "do" is reserved keyword in PHP then I use "doo".
  *
- * @param array $monads
- * @param array $accumulator
- * @return mixed
+ * @param array|M\IO[] $monads
+ * @return M\IO
  */
-function doM(array $monads, array $accumulator = [])
+function doo(array $monads)
 {
-    reset($monads);
-    list($key, $monad) = each($monads);
+    return M\IO::of(function () use ($monads) {
+        $result = null;
+        $data = [];
+        // TODO do it by foldWithKeys
+        foreach ($monads as $key => $monad) {
+            // TODO do it better - maybe?
+            if ($monad instanceof M\IO) {
+                $monad = ioState($monad);
+            }
 
-    $step = function ($value) use ($key, $accumulator, $monads) {
-        if ($value instanceof \Closure) {
-            $value = call_user_func($value, $accumulator);
+            $state = [$key, $data];
+            list($result, list(, $data)) = M\State\runState($monad, $state);
         }
 
-        $accumulator[$key] = $value;
-
-        return count($monads) > 1
-            ? doM(f\tail($monads), $accumulator)
-            : $value;
-    };
-
-    return $monad->bind($step);
+        return $result;
+    });
 }
 
 /**
- * doWith :: Monad m => (a -> m b) -> [a] -> m b
+ * runWith :: (a -> IO b) -> [a] -> State IO b
  *
  * @param callable $function
  * @param array $argsNames
- * @return M\IO
+ * @return M\State
  */
-function doWith(callable $function, array $argsNames) {
-    return M\IO::of(function() use ($function, $argsNames) {
-        return function($data) use ($function, $argsNames) {
-            return call_user_func_array(
-                $function,
-                array_reduce($argsNames, function($base, $index) use ($data) {
-                    $base[$index] = $data[$index];
-                    return $base;
-                }, [])
-            );
-        };
+function runWith(callable $function, array $argsNames)
+{
+    return M\State::of(function (array $state) use ($function, $argsNames) {
+        list ($key, $data) = $state;
+
+        $args = array_reduce($argsNames, function ($base, $index) use ($data) {
+            $base[$index] = $data[$index];
+            return $base;
+        }, []);
+
+        $value = call_user_func_array(
+            $function,
+            $args
+        )->run();
+
+        $data[$key] = $value;
+        $newState = [$key, $data];
+
+        return [$value, $newState];
     });
-};
+}
+
+/**
+ * ioState :: IO a -> State IO a
+ *
+ * @param M\IO $io
+ * @return M\State
+ */
+function ioState(M\IO $io)
+{
+    return M\State::of(function ($state) use ($io) {
+        list ($key, $data) = $state;
+
+        $value = $io->run();
+
+        $data[$key] = $value;
+        $newState = [$key, $data];
+
+        return [$value, $newState];
+    });
+}

@@ -163,21 +163,33 @@ use Monad\IO as IO;
 use Monad\Control as C;
 use Functional as f;
 
-$do = C\doM([
-    IO\putStrLn('Your name:'),
-        'name' => IO\getLine(),                 // prompt for the name, and store it in 'name' key
+$do = control\doo([
+    IO\putStrLn('Your name:'),                      // put on screen line: Your name:
+    '$name' =>
+        IO\getLine(),                               // prompt for the name, and store it in '$name' key
 
-    C\doWith(M\IO\putStrLn, ['name']),          // display entered name
+    control\runWith(IO\putStrLn, ['$name']),        // put on screen entered name
 
-    IO\putStrLn('Your surname:'),
-        'surname' => IO\getLine(),              // prompt for surname, and store it in 'surname' key
+    IO\putStrLn('Your surname:'),                   // put on screen line: Your surname:
+    '$surname' =>
+        IO\getLine(),                               // prompt for surname, and store it in '$surname' key
 
-    C\doWith(function($name, $surname) {        // display result
+    control\runWith(function($name, $surname) {     // put on screen: "Hello $surname, $name"
         return IO\putStrLn(sprintf("Hello %s, %s", $name, $surname));
-    }, ['surname', 'name']),
+    }, ['$surname', '$name']),
 ]);
 
-$do->run(); // performs operation
+// performs operation, before that nothings happens from above code.
+$do->run(); 
+```
+
+Example output:
+```txt
+Your name:
+Gabriel
+Your surname:
+Habryn
+Hello Habryn, Gabriel
 ```
 
 ### Sequencing Monad operations
