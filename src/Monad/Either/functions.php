@@ -2,6 +2,7 @@
 namespace Monad\Either;
 
 use Functional as f;
+use Monad\Maybe;
 
 const pure = 'Monad\Either\pure';
 
@@ -84,6 +85,8 @@ function doubleMap(callable $left, callable $right = null, Either $either = null
     }), func_get_args());
 }
 
+const tryCatch = 'Monad\Either\tryCatch';
+
 /**
  * Adapt function that may throws exceptions to Either monad.
  *
@@ -103,4 +106,17 @@ function tryCatch(callable $function = null, callable $catchFunction = null, $va
             $value
         );
     }), func_get_args());
+}
+
+const toMaybe = 'Monad\Either\toMaybe';
+
+/**
+ * toMaybe :: Either x a -> Maybe a
+ *
+ * @param Either $either
+ * @return Maybe\Maybe
+ */
+function toMaybe(Either $either)
+{
+    return either(Maybe\nothing, Maybe\just, $either);
 }
