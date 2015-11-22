@@ -42,40 +42,46 @@ function left($value)
     return Left::of($value);
 }
 
+const either = 'Monad\Either\either';
+
 /**
  * Apply either a success function or failure function
  *
  * either :: (a -> c) -> (b -> c) -> Either a b -> c
  *
- * @param callable $left
- * @param callable $right
- * @param Either $either
- * @return mixed
+ * @param callable $left  (a -> c)
+ * @param callable $right (b -> c)
+ * @param Either $either  Either a b
+ * @return mixed            c
  */
-function either(callable $left = null, callable $right = null, Either $either = null)
+function either(callable $left, callable $right = null, Either $either = null)
 {
     return call_user_func_array(f\curryN(3, function (callable $left, callable $right, Either $either) {
-        return $either->bimap($left, $right);
+        return $either->either($left, $right);
     }), func_get_args());
 }
+
+const doubleMap = 'Monad\Either\doubleMap';
 
 /**
  * Apply map function on both cases.
  *
  * doubleMap :: (a -> c) -> (b -> d) -> Either a b -> Either c d
  *
- * @return Left|Right
  * @param callable $left
  * @param callable $right
  * @param Either $either
+ * @return Left|Right
  */
-function doubleMap(callable $left, callable $right, Either $either)
+function doubleMap(callable $left, callable $right = null, Either $either = null)
 {
-    return either(
-        f\compose(left, $left),
-        f\compose(right, $right),
-        $either
-    );
+    return call_user_func_array(f\curryN(3, function (callable $left, callable $right, Either $either) {
+        return either(
+            f\compose(left, $left),
+            f\compose(right, $right),
+            $either
+        );
+    }), func_get_args());
 }
 
 /**
@@ -83,10 +89,10 @@ function doubleMap(callable $left, callable $right, Either $either)
  *
  * tryCatch :: Exception e => (a -> b) -> (e -> c) -> a -> Either c b
  *
+ * @param callable $function      (a -> b)
+ * @param callable $catchFunction (e -> c)
+ * @param mixed $value            a
  * @return Either|\Closure
- * @param callable $function
- * @param callable $catchFunction
- * @param mixed $value
  */
 function tryCatch(callable $function = null, callable $catchFunction = null, $value = null)
 {
