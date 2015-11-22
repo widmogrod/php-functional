@@ -10,11 +10,11 @@ interface Either extends
     Common\ValueOfInterface
 {
     /**
-     * Depending on if is Left or is Right then it apply corresponding function and wrap it as a new monad
+     * Depending on if is Left or is Right then it apply corresponding function
      *
-     * @param callable $left
-     * @param callable $right
-     * @return Either
+     * @param callable $left  (a -> b)
+     * @param callable $right (c -> b)
+     * @return mixed          b
      */
-    public function bimap(callable $left, callable $right);
+    public function either(callable $left, callable $right);
 }

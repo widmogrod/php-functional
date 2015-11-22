@@ -39,8 +39,8 @@ class Left implements Either
     /**
      * @inheritdoc
      */
-    public function bimap(callable $left, callable $right)
+    public function either(callable $left, callable $right)
     {
-        return self::of(call_user_func($left, $this->value));
+        return call_user_func($left, $this->value);
     }
 }
