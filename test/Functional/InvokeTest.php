@@ -10,8 +10,9 @@ class InvokeTest extends \PHPUnit_Framework_TestCase
      */
     public function test_it($method, $input, $output)
     {
+        $curried = f\invoke($method);
         $this->assertEquals($output, f\invoke($method, $input));
-        $this->assertEquals($output, (f\invoke($method))($input));
+        $this->assertEquals($output, $curried($input));
     }
 
     public function provideData()
