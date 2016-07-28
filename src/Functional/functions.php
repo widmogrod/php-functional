@@ -10,6 +10,9 @@ use FantasyLand\Traversable;
 use Monad\Collection;
 use Monad\Identity;
 
+/**
+ * @var callable
+ */
 const push = 'Functional\push';
 
 /**
@@ -30,6 +33,9 @@ function push(array $array, array $values)
     return $array;
 }
 
+/**
+ * @var callable
+ */
 const append = 'Functional\append';
 
 /**
@@ -49,6 +55,9 @@ function append($list, $value = null)
     }), func_get_args());
 }
 
+/**
+ * @var callable
+ */
 const applicator = 'Functional\applicator';
 
 /**
@@ -65,6 +74,28 @@ function applicator($x, callable $f = null)
     }), func_get_args());
 }
 
+/**
+ * @var callable
+ */
+const invoke = 'Functional\invoke';
+
+/**
+ * invoke :: a -> #{a: (_ -> b)} -> b
+ *
+ * @param string $method
+ * @param mixed $object
+ * @return mixed
+ */
+function invoke($method, $object = null)
+{
+    return call_user_func_array(curryN(2, function ($method, $object = null) {
+        return call_user_func([$object, $method]);
+    }), func_get_args());
+}
+
+/**
+ * @var callable
+ */
 const toFoldable = 'Functional\toFoldable';
 
 /**
@@ -80,6 +111,9 @@ function toFoldable($value)
         : Collection::of(toNativeTraversable($value));
 }
 
+/**
+ * @var callable
+ */
 const toTraversable = 'Functional\toTraversable';
 
 /**
@@ -95,6 +129,9 @@ function toTraversable($value)
         : Collection::of(toNativeTraversable($value));
 }
 
+/**
+ * @var callable
+ */
 const concat = 'Functional\concat';
 
 /**
@@ -120,6 +157,9 @@ function concat(Foldable $foldable)
     }, [], $foldable);
 }
 
+/**
+ * @var callable
+ */
 const toList = 'Functional\toList';
 
 /**
@@ -133,6 +173,9 @@ function toList(Foldable $traversable)
     return reduce(append, [], $traversable);
 }
 
+/**
+ * @var callable
+ */
 const identity = 'Functional\identity';
 
 /**
@@ -184,6 +227,9 @@ function curry(callable $function, array $args = [])
     return curryN($numberOfArguments, $function, $args);
 }
 
+/**
+ * @var callable
+ */
 const valueOf = 'Functional\valueOf';
 
 /**
@@ -199,6 +245,9 @@ function valueOf($value)
         : $value;
 }
 
+/**
+ * @var callable
+ */
 const tee = 'Functional\tee';
 
 /**
@@ -217,6 +266,9 @@ function tee(callable $function = null, $value = null)
     }), func_get_args());
 }
 
+/**
+ * @var callable
+ */
 const compose = 'Functional\compose';
 
 /**
@@ -240,6 +292,9 @@ function compose(callable $a, callable $b)
     );
 }
 
+/**
+ * @var callable
+ */
 const pipeline = 'Functional\pipeline';
 
 /**
@@ -266,6 +321,9 @@ function pipeline(callable $a, callable $b)
     };
 }
 
+/**
+ * @var callable
+ */
 const reverse = 'Functional\reverse';
 
 /**
@@ -281,6 +339,9 @@ function reverse(callable $function)
     };
 }
 
+/**
+ * @var callable
+ */
 const map = 'Functional\map';
 
 /**
@@ -297,6 +358,9 @@ function map(callable $transformation = null, Functor $value = null)
     }), func_get_args());
 }
 
+/**
+ * @var callable
+ */
 const bind = 'Functional\bind';
 
 /**
@@ -313,6 +377,9 @@ function bind(callable $function = null, Monad $value = null)
     }), func_get_args());
 }
 
+/**
+ * @var callable
+ */
 const join = 'Functional\join';
 
 /**
@@ -325,6 +392,9 @@ function join(Monad $monad = null)
     return $monad->bind(identity);
 }
 
+/**
+ * @var callable
+ */
 const reduce = 'Functional\reduce';
 
 /**
@@ -346,6 +416,9 @@ function reduce(callable $callable, $accumulator = null, Foldable $foldable = nu
     }), func_get_args());
 }
 
+/**
+ * @var callable
+ */
 const foldr = 'Functional\foldr';
 
 /**
@@ -390,6 +463,9 @@ function filter(callable $predicate, Foldable $list)
     }, [], $list);
 }
 
+/**
+ * @var callable
+ */
 const mpipeline = 'Functional\mpipeline';
 
 /**
@@ -407,6 +483,9 @@ function mpipeline(callable $a, callable $b)
     );
 }
 
+/**
+ * @var callable
+ */
 const mcompose = 'Functional\mcompose';
 
 /**
@@ -424,6 +503,9 @@ function mcompose(callable $a, callable $b)
     );
 }
 
+/**
+ * @var callable
+ */
 const flip = 'Functional\flip';
 
 /**
@@ -446,6 +528,9 @@ function flip(callable $func, $b = null, $a = null)
     }), $args);
 }
 
+/**
+ * @var callable
+ */
 const isNativeTraversable = 'Functional\isNativeTraversable';
 
 /**
@@ -461,6 +546,9 @@ function isNativeTraversable($value)
     return is_array($value) || $value instanceof \Traversable;
 }
 
+/**
+ * @var callable
+ */
 const toNativeTraversable = 'Functional\toNativeTraversable';
 
 /**
@@ -474,6 +562,9 @@ function toNativeTraversable($value)
     return isNativeTraversable($value) ? $value : [$value];
 }
 
+/**
+ * @var callable
+ */
 const head = 'Functional\head';
 
 /**
@@ -492,6 +583,9 @@ function head($list)
     }
 }
 
+/**
+ * @var callable
+ */
 const tail = 'Functional\tail';
 
 /**
@@ -533,6 +627,9 @@ function tryCatch(callable $function, callable $catchFunction, $value)
     }), func_get_args());
 }
 
+/**
+ * @var callable
+ */
 const reThrow = 'Functional\reThrow';
 
 /**
@@ -546,6 +643,9 @@ function reThrow(\Exception $e)
     throw $e;
 }
 
+/**
+ * @var callable
+ */
 const liftM2 = 'Functional\liftM2';
 
 /**
@@ -581,6 +681,9 @@ function liftM2(
         }), func_get_args());
 }
 
+/**
+ * @var callable
+ */
 const liftA2 = 'Functional\liftA2';
 
 /**
@@ -609,6 +712,9 @@ function liftA2(
     }), func_get_args());
 }
 
+/**
+ * @var callable
+ */
 const sequenceM = 'Functional\sequenceM';
 
 /**
@@ -629,6 +735,9 @@ function sequenceM(Monad $a, Monad $b)
     });
 }
 
+/**
+ * @var callable
+ */
 const sequence_ = 'Functional\sequence_';
 
 /**
@@ -644,6 +753,9 @@ function sequence_($monads)
     return reduce(sequenceM, Identity::of([]), toFoldable($monads));
 }
 
+/**
+ * @var callable
+ */
 const traverse = 'Functional\traverse';
 
 /**
@@ -665,6 +777,9 @@ function traverse(callable $transformation, Traversable $t = null)
     }), func_get_args());
 }
 
+/**
+ * @var callable
+ */
 const sequence = 'Functional\sequence';
 
 /**
