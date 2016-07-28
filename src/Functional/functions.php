@@ -88,7 +88,7 @@ const invoke = 'Functional\invoke';
  */
 function invoke($method, $object = null)
 {
-    return call_user_func_array(curryN(2, function ($method, $object = null) {
+    return call_user_func_array(curryN(2, function ($method, $object) {
         return call_user_func([$object, $method]);
     }), func_get_args());
 }
