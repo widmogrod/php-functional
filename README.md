@@ -204,7 +204,7 @@ f\sequence_([
     IO\getLine(),
     IO\putStrLn('Your surname:'),
     IO\getLine(),
-    IO\putStrLn('Than you'),
+    IO\putStrLn('Thank you'),
 ])->run();
 ```
 
