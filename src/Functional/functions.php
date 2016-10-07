@@ -452,6 +452,7 @@ function foldr(callable $callable, $accumulator = null, Foldable $foldable = nul
  */
 const filter = 'Functional\filter';
 
+
 /**
  * filter :: (a -> Bool) -> [a] -> [a]
  *
@@ -459,13 +460,15 @@ const filter = 'Functional\filter';
  * @param Foldable $list
  * @return Foldable
  */
-function filter(callable $predicate, Foldable $list)
+function filter(callable $predicate, Foldable $list = null)
 {
-    return reduce(function ($list, $x) use ($predicate) {
-        return call_user_func($predicate, $x)
-            ? append($list, $x)
-            : $list;
-    }, [], $list);
+    return call_user_func_array(curryN(2, function (callable $predicate, Foldable $list) {
+        return reduce(function ($list, $x) use ($predicate) {
+            return call_user_func($predicate, $x)
+                ? append($list, $x)
+                : $list;
+        }, [], $list);
+    }), func_get_args());
 }
 
 /**
