@@ -448,6 +448,11 @@ function foldr(callable $callable, $accumulator = null, Foldable $foldable = nul
 }
 
 /**
+ * @var callable
+ */
+const filter = 'Functional\filter';
+
+/**
  * filter :: (a -> Bool) -> [a] -> [a]
  *
  * @param callable $predicate
