@@ -1,17 +1,19 @@
 <?php
-namespace Monad;
+namespace Widmogrod\Monad;
 
-use Common;
-use FantasyLand;
+use Widmogrod\Common\PointedTrait;
+use Widmogrod\Common\ValueOfInterface;
+use Widmogrod\Common\ValueOfTrait;
+use Widmogrod\FantasyLand;
 
 class Identity implements
-    FantasyLand\Monad,
-    Common\ValueOfInterface
+    FantasyLand\Monad ,
+    ValueOfInterface
 {
-    const of = 'Monad\Identity::of';
+    const of = 'Widmogrod\Monad\Identity::of';
 
-    use Common\PointedTrait;
-    use Common\ValueOfTrait;
+    use PointedTrait;
+    use ValueOfTrait;
 
     /**
      * @inheritdoc

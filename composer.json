@@ -16,11 +16,8 @@
     "test": "phpunit"
   },
   "autoload": {
-    "psr-0": {
-      "Common": "src",
-      "Monad": "src",
-      "Helpful": "src",
-      "FantasyLand": "src"
+    "psr-4": {
+      "Widmogrod\\": "./src"
     },
     "files": [
       "src/Functional/functions.php",

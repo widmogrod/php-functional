@@ -1,8 +1,8 @@
 <?php
 namespace example;
 
-use Monad;
-use Functional as f;
+use Widmogrod\Monad;
+use Widmogrod\Functional as f;
 
 class ListComprehensionWithMonadTest extends \PHPUnit_Framework_TestCase
 {

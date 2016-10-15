@@ -1,7 +1,7 @@
 <?php
-namespace Functional;
+namespace Widmogrod\Functional;
 
-const eql = 'Functional\eql';
+const eql = 'Widmogrod\Functional\eql';
 
 /**
  * eql :: a -> a -> Bool
@@ -18,7 +18,7 @@ function eql($expected, $value = null)
 }
 
 
-const orr = 'Functional\orr';
+const orr = 'Widmogrod\Functional\orr';
 
 /**
  * orr :: (a -> Bool) -> (a -> Bool) -> a -> Bool

@@ -1,15 +1,15 @@
 <?php
-namespace Monad;
+namespace Widmogrod\Monad;
 
-use Common;
-use FantasyLand\Apply;
-use FantasyLand\Monad;
+use Widmogrod\Common\PointedTrait;
+use Widmogrod\FantasyLand\Apply;
+use Widmogrod\FantasyLand\Monad;
 
 class State implements Monad
 {
-    const of = 'Monad\State::of';
+    const of = 'Widmogrod\Monad\State::of';
 
-    use Common\PointedTrait;
+    use PointedTrait;
 
     /**
      * @param callable $continuation
@@ -57,7 +57,7 @@ class State implements Monad
      * Run computation on a monad with initial state
      *
      * @param mixed $initialState
-     * @return Array
+     * @return array
      */
     public function runState($initialState)
     {

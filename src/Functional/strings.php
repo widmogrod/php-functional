@@ -1,7 +1,7 @@
 <?php
-namespace Functional;
+namespace Widmogrod\Functional;
 
-const concatStrings = 'Functional\concatStrings';
+const concatStrings = 'Widmogrod\Functional\concatStrings';
 
 /**
  * concatStrings :: String -> String -> String

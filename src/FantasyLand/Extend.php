@@ -1,5 +1,5 @@
 <?php
-namespace FantasyLand;
+namespace Widmogrod\FantasyLand;
 
 interface Extend
 {

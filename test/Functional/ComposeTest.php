@@ -1,7 +1,7 @@
 <?php
 namespace test\Functional;
 
-use Functional as f;
+use Widmogrod\Functional as f;
 
 class ComposeTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,7 +19,7 @@ class ComposeTest extends \PHPUnit_Framework_TestCase
         $expected
     ) {
         /** @var callable $fn */
-        $fn = call_user_func_array('Functional\compose', $functions);
+        $fn = call_user_func_array('Widmogrod\Functional\compose', $functions);
         $this->assertEquals(
             $expected,
             $fn($value)

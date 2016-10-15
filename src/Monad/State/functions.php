@@ -1,9 +1,9 @@
 <?php
-namespace Monad\State;
+namespace Widmogrod\Monad\State;
 
-use Monad as M;
+use Widmogrod\Monad as M;
 
-const pure = 'Monad\State\pure';
+const pure = 'Widmogrod\Monad\State\pure';
 
 /**
  * pure :: Applicative Just f => a -> f a
@@ -18,7 +18,7 @@ function pure($f)
     });
 }
 
-const get = 'Monad\State\get';
+const get = 'Widmogrod\Monad\State\get';
 
 /**
  * get :: State s m => m s
@@ -34,7 +34,7 @@ function get()
     });
 }
 
-const put = 'Monad\State\put';
+const put = 'Widmogrod\Monad\State\put';
 
 /**
  * put :: State s m => s -> m ()
@@ -51,7 +51,7 @@ function put($state)
     });
 }
 
-const state = 'Monad\State\state';
+const state = 'Widmogrod\Monad\State\state';
 
 /**
  * state :: State s m => (s -> (a, s)) -> m a
@@ -68,7 +68,7 @@ function state(callable $stateFunction)
     });
 }
 
-const gets = 'Monad\State\gets';
+const gets = 'Widmogrod\Monad\State\gets';
 
 /**
  * gets :: State s m => (s -> a) -> m a
@@ -85,7 +85,7 @@ function gets(callable $transformation)
     });
 }
 
-const value = 'Monad\State\value';
+const value = 'Widmogrod\Monad\State\value';
 
 /**
  * state :: State s m => a -> m a
@@ -102,7 +102,7 @@ function value($value)
     });
 }
 
-const modify = 'Monad\State\modify';
+const modify = 'Widmogrod\Monad\State\modify';
 
 /**
  * modify :: State s m => (s -> s) -> m ()
@@ -122,7 +122,7 @@ function modify(callable $transformation)
     });
 }
 
-const runState = 'Monad\State\runState';
+const runState = 'Widmogrod\Monad\State\runState';
 
 /**
  * runState :: State s a -> s -> (a, s)
@@ -138,7 +138,7 @@ function runState(M\State $state, $initialState)
     return $state->runState($initialState);
 }
 
-const evalState = 'Monad\State\evalState';
+const evalState = 'Widmogrod\Monad\State\evalState';
 
 /**
  * evalState :: State s a -> s -> a
@@ -154,7 +154,7 @@ function evalState(M\State $state, $initialState)
     return runState($state, $initialState)[0];
 }
 
-const execState = 'Monad\State\execState';
+const execState = 'Widmogrod\Monad\State\execState';
 
 /**
  * execState :: State s a -> s -> s

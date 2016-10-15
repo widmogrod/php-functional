@@ -1,8 +1,8 @@
 <?php
-namespace Monad\Control;
+namespace Widmogrod\Monad\Control;
 
-use Functional as f;
-use Monad as M;
+use Widmogrod\Functional as f;
+use Widmogrod\Monad as M;
 
 /**
  * doo :: State IO m => [m a] -> m a

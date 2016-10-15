@@ -1,8 +1,8 @@
 <?php
 namespace example;
 
-use Functional as f;
-use Monad\Either;
+use Widmogrod\Functional as f;
+use Widmogrod\Monad\Either;
 
 function read($file)
 {

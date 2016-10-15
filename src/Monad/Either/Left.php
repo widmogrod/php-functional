@@ -1,15 +1,16 @@
 <?php
-namespace Monad\Either;
+namespace Widmogrod\Monad\Either;
 
-use Common;
-use FantasyLand;
+use Widmogrod\Common\PointedTrait;
+use Widmogrod\Common\ValueOfTrait;
+use Widmogrod\FantasyLand;
 
 class Left implements Either
 {
-    use Common\PointedTrait;
-    use Common\ValueOfTrait;
+    use PointedTrait;
+    use ValueOfTrait;
 
-    const of = 'Monad\Either\Left::of';
+    const of = 'Widmogrod\Monad\Either\Left::of';
 
     /**
      * @inheritdoc

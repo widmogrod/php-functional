@@ -1,19 +1,19 @@
 <?php
-namespace Functional;
+namespace Widmogrod\Functional;
 
-use Common\ValueOfInterface;
-use FantasyLand\Applicative;
-use FantasyLand\Foldable;
-use FantasyLand\Functor;
-use FantasyLand\Monad;
-use FantasyLand\Traversable;
-use Monad\Collection;
-use Monad\Identity;
+use Widmogrod\Common\ValueOfInterface;
+use Widmogrod\FantasyLand\Applicative;
+use Widmogrod\FantasyLand\Foldable;
+use Widmogrod\FantasyLand\Functor;
+use Widmogrod\FantasyLand\Monad;
+use Widmogrod\FantasyLand\Traversable;
+use Widmogrod\Monad\Collection;
+use Widmogrod\Monad\Identity;
 
 /**
  * @var callable
  */
-const push = 'Functional\push';
+const push = 'Widmogrod\Functional\push';
 
 /**
  * push :: [a] -> [a] -> [a]
@@ -36,7 +36,7 @@ function push(array $array, array $values)
 /**
  * @var callable
  */
-const append = 'Functional\append';
+const append = 'Widmogrod\Functional\append';
 
 /**
  * append :: [a] -> a -> [a]
@@ -58,7 +58,7 @@ function append($list, $value = null)
 /**
  * @var callable
  */
-const applicator = 'Functional\applicator';
+const applicator = 'Widmogrod\Functional\applicator';
 
 /**
  * applicator :: a -> (a -> b) -> b
@@ -77,7 +77,7 @@ function applicator($x, callable $f = null)
 /**
  * @var callable
  */
-const invoke = 'Functional\invoke';
+const invoke = 'Widmogrod\Functional\invoke';
 
 /**
  * invoke :: a -> #{a: (_ -> b)} -> b
@@ -96,7 +96,7 @@ function invoke($method, $object = null)
 /**
  * @var callable
  */
-const toFoldable = 'Functional\toFoldable';
+const toFoldable = 'Widmogrod\Functional\toFoldable';
 
 /**
  * toFoldable :: Foldable t => a -> t a
@@ -114,7 +114,7 @@ function toFoldable($value)
 /**
  * @var callable
  */
-const toTraversable = 'Functional\toTraversable';
+const toTraversable = 'Widmogrod\Functional\toTraversable';
 
 /**
  * toTraversable :: Traversable t => a -> t a
@@ -132,7 +132,7 @@ function toTraversable($value)
 /**
  * @var callable
  */
-const concat = 'Functional\concat';
+const concat = 'Widmogrod\Functional\concat';
 
 /**
  * concat :: Foldable t => t [a] -> [a]
@@ -160,7 +160,7 @@ function concat(Foldable $foldable)
 /**
  * @var callable
  */
-const toList = 'Functional\toList';
+const toList = 'Widmogrod\Functional\toList';
 
 /**
  * toList :: Traversable t -> t a -> [a]
@@ -176,7 +176,7 @@ function toList(Foldable $traversable)
 /**
  * @var callable
  */
-const identity = 'Functional\identity';
+const identity = 'Widmogrod\Functional\identity';
 
 /**
  * Return value passed to function
@@ -230,7 +230,7 @@ function curry(callable $function, array $args = [])
 /**
  * @var callable
  */
-const valueOf = 'Functional\valueOf';
+const valueOf = 'Widmogrod\Functional\valueOf';
 
 /**
  * Retrieve value of a object
@@ -248,7 +248,7 @@ function valueOf($value)
 /**
  * @var callable
  */
-const tee = 'Functional\tee';
+const tee = 'Widmogrod\Functional\tee';
 
 /**
  * Call $function with $value and return $value
@@ -269,7 +269,7 @@ function tee(callable $function = null, $value = null)
 /**
  * @var callable
  */
-const compose = 'Functional\compose';
+const compose = 'Widmogrod\Functional\compose';
 
 /**
  * Compose multiple functions into one.
@@ -287,7 +287,7 @@ const compose = 'Functional\compose';
 function compose(callable $a, callable $b)
 {
     return call_user_func_array(
-        reverse('Functional\pipeline'),
+        reverse('Widmogrod\Functional\pipeline'),
         func_get_args()
     );
 }
@@ -295,7 +295,7 @@ function compose(callable $a, callable $b)
 /**
  * @var callable
  */
-const pipeline = 'Functional\pipeline';
+const pipeline = 'Widmogrod\Functional\pipeline';
 
 /**
  * Compose multiple functions into one.
@@ -324,7 +324,7 @@ function pipeline(callable $a, callable $b)
 /**
  * @var callable
  */
-const reverse = 'Functional\reverse';
+const reverse = 'Widmogrod\Functional\reverse';
 
 /**
  * Call $function with arguments in reversed order
@@ -342,7 +342,7 @@ function reverse(callable $function)
 /**
  * @var callable
  */
-const map = 'Functional\map';
+const map = 'Widmogrod\Functional\map';
 
 /**
  * map :: Functor f => (a -> b) -> f a -> f b
@@ -361,7 +361,7 @@ function map(callable $transformation = null, Functor $value = null)
 /**
  * @var callable
  */
-const bind = 'Functional\bind';
+const bind = 'Widmogrod\Functional\bind';
 
 /**
  * bind :: Monad m => (a -> m b) -> m a -> m b
@@ -380,7 +380,7 @@ function bind(callable $function = null, Monad $value = null)
 /**
  * @var callable
  */
-const join = 'Functional\join';
+const join = 'Widmogrod\Functional\join';
 
 /**
  * join :: Monad (Monad m) -> Monad m
@@ -395,7 +395,7 @@ function join(Monad $monad = null)
 /**
  * @var callable
  */
-const reduce = 'Functional\reduce';
+const reduce = 'Widmogrod\Functional\reduce';
 
 /**
  * reduce :: Foldable t => (b -> a -> b) -> b -> t a -> b
@@ -419,7 +419,7 @@ function reduce(callable $callable, $accumulator = null, Foldable $foldable = nu
 /**
  * @var callable
  */
-const foldr = 'Functional\foldr';
+const foldr = 'Widmogrod\Functional\foldr';
 
 /**
  * foldr :: Foldable t => (a -> b -> b) -> b -> t a -> b
@@ -450,7 +450,7 @@ function foldr(callable $callable, $accumulator = null, Foldable $foldable = nul
 /**
  * @var callable
  */
-const filter = 'Functional\filter';
+const filter = 'Widmogrod\Functional\filter';
 
 
 /**
@@ -474,7 +474,7 @@ function filter(callable $predicate, Foldable $list = null)
 /**
  * @var callable
  */
-const mpipeline = 'Functional\mpipeline';
+const mpipeline = 'Widmogrod\Functional\mpipeline';
 
 /**
  * mpipeline :: Monad m => (a -> m b) -> (b -> m c) -> m a -> m c
@@ -494,7 +494,7 @@ function mpipeline(callable $a, callable $b)
 /**
  * @var callable
  */
-const mcompose = 'Functional\mcompose';
+const mcompose = 'Widmogrod\Functional\mcompose';
 
 /**
  * compose :: Monad m => (b -> m c) -> (a -> m b) -> m a -> m c
@@ -514,7 +514,7 @@ function mcompose(callable $a, callable $b)
 /**
  * @var callable
  */
-const flip = 'Functional\flip';
+const flip = 'Widmogrod\Functional\flip';
 
 /**
  * flip :: (a -> b -> c) -> (b -> a -> c)
@@ -539,7 +539,7 @@ function flip(callable $func, $b = null, $a = null)
 /**
  * @var callable
  */
-const isNativeTraversable = 'Functional\isNativeTraversable';
+const isNativeTraversable = 'Widmogrod\Functional\isNativeTraversable';
 
 /**
  * isNativeTraversable :: a -> Boolean
@@ -557,7 +557,7 @@ function isNativeTraversable($value)
 /**
  * @var callable
  */
-const toNativeTraversable = 'Functional\toNativeTraversable';
+const toNativeTraversable = 'Widmogrod\Functional\toNativeTraversable';
 
 /**
  * toNativeTraversable :: a -> [a]
@@ -573,7 +573,7 @@ function toNativeTraversable($value)
 /**
  * @var callable
  */
-const head = 'Functional\head';
+const head = 'Widmogrod\Functional\head';
 
 /**
  * Return head of a traversable
@@ -594,7 +594,7 @@ function head($list)
 /**
  * @var callable
  */
-const tail = 'Functional\tail';
+const tail = 'Widmogrod\Functional\tail';
 
 /**
  * Return tail of a traversable
@@ -638,7 +638,7 @@ function tryCatch(callable $function, callable $catchFunction, $value)
 /**
  * @var callable
  */
-const reThrow = 'Functional\reThrow';
+const reThrow = 'Widmogrod\Functional\reThrow';
 
 /**
  * reThrow :: Exception e => e -> a
@@ -654,7 +654,7 @@ function reThrow(\Exception $e)
 /**
  * @var callable
  */
-const liftM2 = 'Functional\liftM2';
+const liftM2 = 'Widmogrod\Functional\liftM2';
 
 /**
  * Lift result of transformation function , called with values from two monads.
@@ -692,7 +692,7 @@ function liftM2(
 /**
  * @var callable
  */
-const liftA2 = 'Functional\liftA2';
+const liftA2 = 'Widmogrod\Functional\liftA2';
 
 /**
  * liftA2 :: Applicative f => (a -> b -> c) -> f a -> f b -> f c
@@ -723,7 +723,7 @@ function liftA2(
 /**
  * @var callable
  */
-const sequenceM = 'Functional\sequenceM';
+const sequenceM = 'Widmogrod\Functional\sequenceM';
 
 /**
  * sequenceM :: Monad m => m a -> m b -> m b
@@ -746,7 +746,7 @@ function sequenceM(Monad $a, Monad $b)
 /**
  * @var callable
  */
-const sequence_ = 'Functional\sequence_';
+const sequence_ = 'Widmogrod\Functional\sequence_';
 
 /**
  * sequence_ :: Monad m => [m a] -> m ()
@@ -764,7 +764,7 @@ function sequence_($monads)
 /**
  * @var callable
  */
-const traverse = 'Functional\traverse';
+const traverse = 'Widmogrod\Functional\traverse';
 
 /**
  * traverse :: Applicative f => (a -> f b) -> t a -> f (t b)
@@ -788,7 +788,7 @@ function traverse(callable $transformation, Traversable $t = null)
 /**
  * @var callable
  */
-const sequence = 'Functional\sequence';
+const sequence = 'Widmogrod\Functional\sequence';
 
 /**
  * sequence :: Monad m => t (m a) -> m (t a)

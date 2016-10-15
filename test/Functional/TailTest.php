@@ -1,7 +1,7 @@
 <?php
 namespace test\Functional;
 
-use Functional as f;
+use Widmogrod\Functional as f;
 
 class TailTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,8 +1,8 @@
 <?php
-namespace Helpful;
+namespace Widmogrod\Helpful;
 
-use FantasyLand\Functor;
-use Functional as f;
+use Widmogrod\FantasyLand\Functor;
+use Widmogrod\Functional as f;
 
 class FunctorLaws
 {

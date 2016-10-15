@@ -1,11 +1,11 @@
 <?php
-namespace Monad\IO;
+namespace Widmogrod\Monad\IO;
 
-use Functional as f;
-use Monad as M;
-use Monad\Either as E;
+use Widmogrod\Functional as f;
+use Widmogrod\Monad as M;
+use Widmogrod\Monad\Either as E;
 
-const userError = 'Monad\IO\userError';
+const userError = 'Widmogrod\Monad\IO\userError';
 
 /**
  * userError :: String -> IOError
@@ -18,7 +18,7 @@ function userError($error)
     return new IOError($error);
 }
 
-const throwIO = 'Monad\IO\throwIO';
+const throwIO = 'Widmogrod\Monad\IO\throwIO';
 
 /**
  * A variant of throw that can only be used within the IO monad.
@@ -35,7 +35,7 @@ function throwIO(\Exception $e)
     });
 }
 
-const tryCatch = 'Monad\IO\tryCatch';
+const tryCatch = 'Widmogrod\Monad\IO\tryCatch';
 
 /**
  * tryCatch :: Exception e => IO a -> (e -> IO a) -> IO a
@@ -57,7 +57,7 @@ function tryCatch(M\IO $io = null, callable $catchFunction = null)
     }), func_get_args());
 }
 
-const tryEither = 'Monad\IO\tryEither';
+const tryEither = 'Widmogrod\Monad\IO\tryEither';
 
 /**
  * tryEither :: Exception e => IO a -> IO (Either e a)

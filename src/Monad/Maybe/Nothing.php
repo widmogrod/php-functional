@@ -1,13 +1,12 @@
 <?php
-namespace Monad\Maybe;
+namespace Widmogrod\Monad\Maybe;
 
-use Common;
-use Monad;
-use FantasyLand;
+use Widmogrod\Monad;
+use Widmogrod\FantasyLand;
 
 class Nothing implements Maybe
 {
-    const of = 'Monad\Maybe\Nothing::of';
+    const of = 'Widmogrod\Monad\Maybe\Nothing::of';
 
     /**
      * @inheritdoc

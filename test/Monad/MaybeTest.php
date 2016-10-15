@@ -1,14 +1,14 @@
 <?php
 namespace test\Monad;
 
-use FantasyLand\Applicative;
-use FantasyLand\Functor;
-use Helpful\ApplicativeLaws;
-use Helpful\FunctorLaws;
-use Monad\Maybe;
-use Monad\Maybe\Just;
-use Monad\Maybe\Nothing;
-use Helpful\MonadLaws;
+use Widmogrod\FantasyLand\Applicative;
+use Widmogrod\FantasyLand\Functor;
+use Widmogrod\Helpful\ApplicativeLaws;
+use Widmogrod\Helpful\FunctorLaws;
+use Widmogrod\Monad\Maybe;
+use Widmogrod\Monad\Maybe\Just;
+use Widmogrod\Monad\Maybe\Nothing;
+use Widmogrod\Helpful\MonadLaws;
 
 class MaybeTest extends \PHPUnit_Framework_TestCase
 {

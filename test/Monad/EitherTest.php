@@ -1,14 +1,14 @@
 <?php
 namespace test\Monad;
 
-use FantasyLand\Applicative;
-use FantasyLand\Functor;
-use Helpful\ApplicativeLaws;
-use Helpful\FunctorLaws;
-use Monad\Either;
-use Monad\Either\Left;
-use Monad\Either\Right;
-use Helpful\MonadLaws;
+use Widmogrod\FantasyLand\Applicative;
+use Widmogrod\FantasyLand\Functor;
+use Widmogrod\Helpful\ApplicativeLaws;
+use Widmogrod\Helpful\FunctorLaws;
+use Widmogrod\Monad\Either;
+use Widmogrod\Monad\Either\Left;
+use Widmogrod\Monad\Either\Right;
+use Widmogrod\Helpful\MonadLaws;
 
 class EitherTest extends \PHPUnit_Framework_TestCase
 {
