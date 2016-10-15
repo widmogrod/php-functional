@@ -803,3 +803,37 @@ function sequence($monads)
 {
     return traverse(identity, toTraversable($monads));
 }
+
+/**
+ * filterM :: Monad m => (a -> m Bool) -> [a] -> m [a]
+ *
+ * @param callable $f (a -> m Bool)
+ * @param array|Traversable $collection [a]
+ * @return Monad m [a]
+ */
+function filterM(callable $f, $collection)
+{
+    /** @var Monad $monad */
+    $monad = $f(head($collection));
+
+    $_filterM = function($collection) use($monad, $f, &$_filterM){
+        if(count($collection) == 0) {
+            return $monad->of([]);
+        }
+
+        $x = head($collection);
+        $xs = tail($collection);
+
+        return $f($x)->bind(function($bool) use($x, $xs, $monad, $_filterM) {
+            return $_filterM($xs)->bind(function(array $acc) use($bool, $x, $monad) {
+                if($bool) {
+                    array_unshift($acc, $x);
+                }
+
+                return $monad->of($acc);
+            });
+        });
+    };
+
+    return $_filterM($collection);
+}
