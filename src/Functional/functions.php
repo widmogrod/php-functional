@@ -385,6 +385,7 @@ const join = 'Widmogrod\Functional\join';
 /**
  * join :: Monad (Monad m) -> Monad m
  *
+ * @param Monad $monad
  * @return Monad
  */
 function join(Monad $monad = null)
@@ -522,7 +523,7 @@ const flip = 'Widmogrod\Functional\flip';
  * @param callable $func
  * @return callable
  */
-function flip(callable $func, $b = null, $a = null)
+function flip(callable $func)
 {
     $args = func_get_args();
     array_shift($args);
@@ -589,6 +590,8 @@ function head($list)
     foreach ($list as $item) {
         return $item;
     }
+
+    return null; // this can happen when the list is empty
 }
 
 /**

@@ -4,7 +4,7 @@ namespace Widmogrod\FantasyLand;
 interface Monoid extends Semigroup
 {
     /**
-     * Return identity element for given semigroup
+     * Return identity element for given Semigroup
      *
      * @return Monoid
      */
