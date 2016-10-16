@@ -58,7 +58,7 @@ class Collection implements
             }
         }
 
-        return $applicative instanceof FantasyLand\Pointed ? $applicative::of($result) : $result;
+        return $applicative::of($result);
     }
 
     /**
