@@ -9,6 +9,8 @@ Monad types available in the project:
  * IO Monad
  * Either Monad
  * Maybe Monad
+ * Reader Monad
+ * Writer Monad
 
 Exploring functional programing space I noticed that working with primitive values from PHP is very hard and complicates implementation of many functional structures.
 To simplify this experience, set of higher order primitives is introduced in library:
@@ -160,6 +162,60 @@ use Widmogrod\Functional as f;
 // $readFromInput :: Monad a -> IO ()
 $readFromInput = f\mcompose(IO\putStrLn, IO\getLine, IO\putStrLn);
 $readFromInput(Monad\Identity::of('Enter something and press <enter>'))->run();
+```
+
+### Writer Monad
+The `Writer monad` is useful to keep logs in a pure way. Coupled with `filterM` for example, this allows you to know exactly why an element was filtered.
+
+``` php
+
+use Widmogrod\Monad\Writer as W;
+use Widmogrod\Functional as f;
+
+$data = [1, 10, 15, 20, 25];
+
+$filter = function($i) {
+    if ($i % 2 == 1) {
+        return W::of(false, "Reject odd number $i.\n");
+    } else if($i > 15) {
+      return W::of(false, "Reject $i because it is bigger than 15\n");
+    }
+
+    return W::of(true);
+};
+
+list($result, $log) = f\filterM($filter, $data)->runWriter();
+
+```
+
+### Reader Monad
+
+The `Reader monad` provides a way to share a common environment, such as configuration information or class instances, across multiple functions.
+
+``` php
+
+use Widmogrod\Monad\Reader as R;
+use Widmogrod\Functional as f;
+
+function hello($name) {
+    return "Hello $name!";
+}
+
+function ask($content)
+{
+    return R::of(function($name) use($content) {
+        return $content.
+               ($name == 'World' ? '' : ' How are you ?');
+    });
+}
+
+$r = R\reader('hello')
+      ->bind('ask')
+      ->map('strtoupper');
+
+echo $r->runReader('World');
+echo $r->runReader('Gilles');
+
 ```
 
 ### Haskell Do Notation in PHP
