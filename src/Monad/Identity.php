@@ -1,22 +1,20 @@
 <?php
 namespace Widmogrod\Monad;
 
-use Widmogrod\Common\PointedTrait;
-use Widmogrod\Common\ValueOfInterface;
-use Widmogrod\Common\ValueOfTrait;
+use Widmogrod\Common;
 use Widmogrod\FantasyLand;
 
 class Identity implements
     FantasyLand\Monad ,
-    ValueOfInterface
+    Common\ValueOfInterface
 {
     const of = 'Widmogrod\Monad\Identity::of';
 
-    use PointedTrait;
-    use ValueOfTrait;
+    use Common\PointedTrait;
+    use Common\ValueOfTrait;
 
     /**
-     * @inheritdoc
+     * @inheritdocus
      */
     public function map(callable $transformation)
     {

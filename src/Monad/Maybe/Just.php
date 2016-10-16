@@ -1,13 +1,13 @@
 <?php
 namespace Widmogrod\Monad\Maybe;
 
-use Widmogrod\Common\PointedTrait;
+use Widmogrod\Common;
 use Widmogrod\Monad;
 use Widmogrod\FantasyLand;
 
 class Just implements Maybe
 {
-    use PointedTrait;
+    use Common\PointedTrait;
 
     const of = 'Widmogrod\Monad\Maybe\Just::of';
 

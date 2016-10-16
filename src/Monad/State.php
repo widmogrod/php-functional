@@ -1,7 +1,7 @@
 <?php
 namespace Widmogrod\Monad;
 
-use Widmogrod\Common\PointedTrait;
+use Widmogrod\Common;
 use Widmogrod\FantasyLand\Apply;
 use Widmogrod\FantasyLand\Monad;
 
@@ -9,7 +9,7 @@ class State implements Monad
 {
     const of = 'Widmogrod\Monad\State::of';
 
-    use PointedTrait;
+    use Common\PointedTrait;
 
     /**
      * @param callable $continuation

@@ -56,7 +56,7 @@ function getChar()
     return M\IO::of(function () {
         if (false === ($char = fgetc(STDIN))) {
             throw userError(
-                'Can\'t read from stdin, because Widmogrod\its closed'
+                'Can\'t read from stdin, because its closed'
             );
         }
 
@@ -157,7 +157,7 @@ function getArgs()
     return M\IO::of(function () {
         if (!ini_get('register_argc_argv')) {
             throw userError(sprintf(
-                'argv is not available, because Widmogrod\ini option "register_argc_argv" is disabled'
+                'argv is not available, because ini option "register_argc_argv" is disabled'
             ));
         }
 

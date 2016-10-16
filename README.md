@@ -40,7 +40,7 @@ Monad is Functor and Applicative. You could say that Monad implements Functor an
 
 ### List Functor
 ``` php
-use Functional as f;
+use Widmogrod\Functional as f;
 
 $collection = Monad\Collection::of([
    ['id' => 1, 'name' => 'One'],
@@ -64,7 +64,7 @@ of applying function from the left list to a value in the right one.
 ```
 
 ``` php
-use Functional as f;
+use Widmogrod\Functional as f;
 
 $collectionA = Monad\Collection::of([
     function($a) {
@@ -89,8 +89,8 @@ Extracting from a list of uneven values can be tricky and produce nasty code ful
 By combining List and Maybe Monad, this process becomes simpler and more readable.
 
 ``` php
-use Monad\Maybe;
-use Monad\Collection;
+use Widmogrod\Monad\Maybe;
+use Widmogrod\Monad\Collection;
 
 $data = [
     ['id' => 1, 'meta' => ['images' => ['//first.jpg', '//second.jpg']]],
@@ -123,8 +123,8 @@ Either Monad shows how we can fail gracefully without breaking the execution cha
 The following example demonstrates combining the contents of two files into one. If one of those files does not exist the operation fails gracefully.
 
 ``` php
-use Functional as f;
-use Monad\Either;
+use Widmogrod\Functional as f;
+use Widmogrod\Monad\Either;
 
 function read($file)
 {
@@ -149,8 +149,8 @@ assert($concat->extract() === 'File "aaa" does not exists');
 Example usage of `IO Monad`. Read input from `stdin`, and print it to `stdout`.
 
 ``` php
-use Monad\IO as IO;
-use Functional as f;
+use Widmogrod\Monad\IO as IO;
+use Widmogrod\Functional as f;
 
 // $readFromInput :: Monad a -> IO ()
 $readFromInput = f\mcompose(IO\putStrLn, IO\getLine, IO\putStrLn);
@@ -159,9 +159,9 @@ $readFromInput(Monad\Identity::of('Enter something and press <enter>'))->run();
 
 ### Haskell Do Notation in PHP
 ``` php
-use Monad\IO as IO;
-use Monad\Control as C;
-use Functional as f;
+use Widmogrod\Monad\IO as IO;
+use Widmogrod\Monad\Control as C;
+use Widmogrod\Functional as f;
 
 $do = control\doo([
     IO\putStrLn('Your name:'),                      // put on screen line: Your name:
@@ -196,8 +196,8 @@ Hello Habryn, Gabriel
 This variant of `sequence_` ignores the result.
 
 ``` php
-use Monad\IO as IO;
-use Functional as f;
+use Widmogrod\Monad\IO as IO;
+use Widmogrod\Functional as f;
 
 f\sequence_([
     IO\putStrLn('Your name:'),
