@@ -28,6 +28,7 @@
       "src/Monad/Maybe/functions.php",
       "src/Monad/IO/functions.php",
       "src/Monad/IO/errors.php",
+      "src/Monad/Reader/functions.php",
       "src/Monad/State/functions.php",
       "src/Monad/Control/functions.php"
     ]
