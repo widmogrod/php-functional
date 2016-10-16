@@ -591,7 +591,7 @@ function head($list)
         return $item;
     }
 
-    return null; // this can happen when the list is empty
+    return null;
 }
 
 /**
