@@ -1,9 +1,9 @@
 <?php
-namespace Monad\Maybe;
+namespace Widmogrod\Monad\Maybe;
 
-use Functional as f;
+use Widmogrod\Functional as f;
 
-const pure = 'Monad\Maybe\pure';
+const pure = 'Widmogrod\Monad\Maybe\pure';
 
 /**
  * pure :: Applicative Just f => a -> f a
@@ -16,7 +16,7 @@ function pure($f)
     return Just::of($f);
 }
 
-const nothing = 'Monad\Maybe\nothing';
+const nothing = 'Widmogrod\Monad\Maybe\nothing';
 
 /**
  * @return Nothing
@@ -26,7 +26,7 @@ function nothing()
     return Nothing::of(null);
 }
 
-const just = 'Monad\Maybe\just';
+const just = 'Widmogrod\Monad\Maybe\just';
 
 /**
  * @return Just
@@ -37,7 +37,7 @@ function just($value)
     return Just::of($value);
 }
 
-const maybe = 'Monad\Maybe\maybe';
+const maybe = 'Widmogrod\Monad\Maybe\maybe';
 
 /**
  * maybe :: b -> (a -> b) -> Maybe a -> b
@@ -58,7 +58,7 @@ function maybe($default, callable $fn = null, Maybe $maybe = null)
     }), func_get_args());
 }
 
-const maybeNull = 'Monad\Maybe\maybeNull';
+const maybeNull = 'Widmogrod\Monad\Maybe\maybeNull';
 
 /**
  * Create maybe for value
@@ -75,7 +75,7 @@ function maybeNull($value = null)
         : just($value);
 }
 
-const fromMaybe = 'Monad\Maybe\fromMaybe';
+const fromMaybe = 'Widmogrod\Monad\Maybe\fromMaybe';
 
 /**
  * Open $maybe monad

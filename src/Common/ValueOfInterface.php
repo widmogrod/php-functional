@@ -1,5 +1,5 @@
 <?php
-namespace Common;
+namespace Widmogrod\Common;
 
 interface ValueOfInterface
 {

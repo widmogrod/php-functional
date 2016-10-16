@@ -1,10 +1,10 @@
 <?php
-namespace Monad\IO;
+namespace Widmogrod\Monad\IO;
 
-use Functional as f;
-use Monad as M;
+use Widmogrod\Functional as f;
+use Widmogrod\Monad as M;
 
-const pure = 'Monad\IO\pure';
+const pure = 'Widmogrod\Monad\IO\pure';
 
 /**
  * pure :: Applicative IO f => a -> f a
@@ -19,7 +19,7 @@ function pure($f)
     });
 }
 
-const until = 'Monad\IO\until';
+const until = 'Widmogrod\Monad\IO\until';
 
 /**
  * until :: (a -> Bool) -> (a -> b -> b) -> b -> IO a -> IO b
@@ -45,7 +45,7 @@ function until(callable $predicate, callable $do, $base, M\IO $ioValue)
     });
 }
 
-const getChar = 'Monad\IO\getChar';
+const getChar = 'Widmogrod\Monad\IO\getChar';
 
 /**
  * @throws IOError
@@ -64,7 +64,7 @@ function getChar()
     });
 }
 
-const getLine = 'Monad\IO\getLine';
+const getLine = 'Widmogrod\Monad\IO\getLine';
 
 /**
  * getLine :: IO String
@@ -77,7 +77,7 @@ function getLine()
     return until(f\eql("\n"), f\flip(f\concatStrings), '', getChar());
 }
 
-const putStrLn = 'Monad\IO\putStrLn';
+const putStrLn = 'Widmogrod\Monad\IO\putStrLn';
 
 /**
  * putStrLn :: String -> IO ()
@@ -92,7 +92,7 @@ function putStrLn($string)
     });
 }
 
-const readFile = 'Monad\IO\readFile';
+const readFile = 'Widmogrod\Monad\IO\readFile';
 
 /**
  * readFile :: String -> IO String
@@ -117,7 +117,7 @@ function readFile($fileName)
     });
 }
 
-const writeFile = 'Monad\IO\writeFile';
+const writeFile = 'Widmogrod\Monad\IO\writeFile';
 
 /**
  * writeFile :: String -> String -> IO ()
@@ -143,7 +143,7 @@ function writeFile($fileName, $content)
     });
 }
 
-const getArgs = 'Monad\IO\getArgs';
+const getArgs = 'Widmogrod\Monad\IO\getArgs';
 
 /**
  * getArgs :: IO [String]
@@ -165,7 +165,7 @@ function getArgs()
     });
 }
 
-const getEnv = 'Monad\IO\getEnv';
+const getEnv = 'Widmogrod\Monad\IO\getEnv';
 
 /**
  * getEnv :: String -> IO String
@@ -189,7 +189,7 @@ function getEnv($name)
     });
 }
 
-const lookupEnv = 'Monad\IO\lookupEnv';
+const lookupEnv = 'Widmogrod\Monad\IO\lookupEnv';
 
 /**
  * lookupEnv :: String -> IO (Maybe String)

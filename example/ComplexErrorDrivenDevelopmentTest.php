@@ -1,8 +1,8 @@
 <?php
 require_once 'vendor/autoload.php';
 
-use Monad\Either as E;
-use Functional as f;
+use Widmogrod\Monad\Either as E;
+use Widmogrod\Functional as f;
 
 function validateName(array $request)
 {

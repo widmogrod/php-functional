@@ -1,5 +1,5 @@
 <?php
-namespace Monad\IO;
+namespace Widmogrod\Monad\IO;
 
 class IOError extends \Exception
 {

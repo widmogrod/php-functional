@@ -1,9 +1,9 @@
 <?php
-namespace Monad\Maybe;
+namespace Widmogrod\Monad\Maybe;
 
-use Monad;
-use Common;
-use FantasyLand;
+use Widmogrod\Monad;
+use Widmogrod\Common;
+use Widmogrod\FantasyLand;
 
 interface Maybe extends
     FantasyLand\Monad,

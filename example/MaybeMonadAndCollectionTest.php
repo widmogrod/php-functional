@@ -1,9 +1,9 @@
 <?php
 namespace example;
 
-use Monad\Maybe;
-use Monad\Collection;
-use Functional as f;
+use Widmogrod\Monad\Maybe;
+use Widmogrod\Monad\Collection;
+use Widmogrod\Functional as f;
 
 class MaybeMonadAndCollectionTest extends \PHPUnit_Framework_TestCase
 {

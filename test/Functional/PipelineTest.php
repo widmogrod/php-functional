@@ -1,7 +1,7 @@
 <?php
 namespace test\Functional;
 
-use Functional as f;
+use Widmogrod\Functional as f;
 
 class PipelineTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,7 +19,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
         $expected
     ) {
         /** @var callable $fn */
-        $fn = call_user_func_array('Functional\pipeline', $functions);
+        $fn = call_user_func_array('Widmogrod\Functional\pipeline', $functions);
         $this->assertEquals(
             $expected,
             $fn($value)

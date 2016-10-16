@@ -1,5 +1,5 @@
 <?php
-namespace Common;
+namespace Widmogrod\Common;
 
 trait ValueOfTrait 
 {
@@ -10,6 +10,6 @@ trait ValueOfTrait
      */
     public function extract()
     {
-        return \Functional\valueOf($this->value);
+        return \Widmogrod\Functional\valueOf($this->value);
     }
 }

@@ -1,10 +1,10 @@
 <?php
-namespace Monad\Either;
+namespace Widmogrod\Monad\Either;
 
-use Functional as f;
-use Monad\Maybe;
+use Widmogrod\Functional as f;
+use Widmogrod\Monad\Maybe;
 
-const pure = 'Monad\Either\pure';
+const pure = 'Widmogrod\Monad\Either\pure';
 
 /**
  * pure :: Applicative Either f => a -> f a
@@ -17,7 +17,7 @@ function pure($f)
     return Right::of($f);
 }
 
-const right = 'Monad\Either\right';
+const right = 'Widmogrod\Monad\Either\right';
 
 /**
  * right :: a -> Right a
@@ -30,7 +30,7 @@ function right($value)
     return Right::of($value);
 }
 
-const left = 'Monad\Either\left';
+const left = 'Widmogrod\Monad\Either\left';
 
 /**
  * left :: a -> Left a
@@ -43,7 +43,7 @@ function left($value)
     return Left::of($value);
 }
 
-const either = 'Monad\Either\either';
+const either = 'Widmogrod\Monad\Either\either';
 
 /**
  * Apply either a success function or failure function
@@ -62,7 +62,7 @@ function either(callable $left, callable $right = null, Either $either = null)
     }), func_get_args());
 }
 
-const doubleMap = 'Monad\Either\doubleMap';
+const doubleMap = 'Widmogrod\Monad\Either\doubleMap';
 
 /**
  * Apply map function on both cases.
@@ -85,7 +85,7 @@ function doubleMap(callable $left, callable $right = null, Either $either = null
     }), func_get_args());
 }
 
-const tryCatch = 'Monad\Either\tryCatch';
+const tryCatch = 'Widmogrod\Monad\Either\tryCatch';
 
 /**
  * Adapt function that may throws exceptions to Either monad.
@@ -108,7 +108,7 @@ function tryCatch(callable $function = null, callable $catchFunction = null, $va
     }), func_get_args());
 }
 
-const toMaybe = 'Monad\Either\toMaybe';
+const toMaybe = 'Widmogrod\Monad\Either\toMaybe';
 
 /**
  * toMaybe :: Either x a -> Maybe a

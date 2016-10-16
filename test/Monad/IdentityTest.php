@@ -1,12 +1,12 @@
 <?php
 namespace test\Monad;
 
-use FantasyLand\Applicative;
-use FantasyLand\Functor;
-use Helpful\ApplicativeLaws;
-use Helpful\FunctorLaws;
-use Monad\Identity;
-use Helpful\MonadLaws;
+use Widmogrod\FantasyLand\Applicative;
+use Widmogrod\FantasyLand\Functor;
+use Widmogrod\Helpful\ApplicativeLaws;
+use Widmogrod\Helpful\FunctorLaws;
+use Widmogrod\Monad\Identity;
+use Widmogrod\Helpful\MonadLaws;
 
 class IdentityTest extends \PHPUnit_Framework_TestCase
 {

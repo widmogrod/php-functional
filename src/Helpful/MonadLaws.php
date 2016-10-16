@@ -1,7 +1,7 @@
 <?php
-namespace Helpful;
+namespace Widmogrod\Helpful;
 
-use Functional as f;
+use Widmogrod\Functional as f;
 
 class MonadLaws
 {

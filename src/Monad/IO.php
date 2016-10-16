@@ -1,17 +1,15 @@
 <?php
-namespace Monad;
+namespace Widmogrod\Monad;
 
-use Common;
-use Functional as f;
-use FantasyLand\Apply;
-use FantasyLand\Monad;
-use FantasyLand\Foldable;
+use Widmogrod\Common;
+use Widmogrod\Functional as f;
+use Widmogrod\FantasyLand;
 
 class IO implements
-    Monad,
-    Foldable
+    FantasyLand\Monad,
+    FantasyLand\Foldable
 {
-    const of = 'Monad\IO::of';
+    const of = 'Widmogrod\Monad\IO::of';
 
     use Common\PointedTrait;
 
@@ -28,7 +26,7 @@ class IO implements
     /**
      * @inheritdoc
      */
-    public function ap(Apply $b)
+    public function ap(FantasyLand\Apply $b)
     {
         return $b->map($this->run());
     }

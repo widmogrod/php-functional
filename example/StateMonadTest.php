@@ -1,9 +1,9 @@
 <?php
 namespace example;
 
-use Monad\State as S;
-use Monad\Maybe;
-use Functional as f;
+use Widmogrod\Monad\State as S;
+use Widmogrod\Monad\Maybe;
+use Widmogrod\Functional as f;
 
 /**
  * Caching is an example state that you could have in your application.

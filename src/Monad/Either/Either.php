@@ -1,9 +1,9 @@
 <?php
-namespace Monad\Either;
+namespace Widmogrod\Monad\Either;
 
-use Monad;
-use Common;
-use FantasyLand;
+use Widmogrod\Monad;
+use Widmogrod\Common;
+use Widmogrod\FantasyLand;
 
 interface Either extends
     FantasyLand\Monad,

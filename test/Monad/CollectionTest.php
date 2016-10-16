@@ -1,12 +1,12 @@
 <?php
 namespace test\Monad;
 
-use FantasyLand\Applicative;
-use FantasyLand\Functor;
-use Helpful\ApplicativeLaws;
-use Helpful\FunctorLaws;
-use Monad\Collection;
-use Helpful\MonadLaws;
+use Widmogrod\FantasyLand\Applicative;
+use Widmogrod\FantasyLand\Functor;
+use Widmogrod\Helpful\ApplicativeLaws;
+use Widmogrod\Helpful\FunctorLaws;
+use Widmogrod\Monad\Collection;
+use Widmogrod\Helpful\MonadLaws;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {

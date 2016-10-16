@@ -1,17 +1,15 @@
 <?php
-namespace Monad\Maybe;
+namespace Widmogrod\Monad\Maybe;
 
-use Common;
-use Monad;
-use Functor;
-use FantasyLand;
-use Applicative;
+use Widmogrod\Common;
+use Widmogrod\Monad;
+use Widmogrod\FantasyLand;
 
 class Just implements Maybe
 {
     use Common\PointedTrait;
 
-    const of = 'Monad\Maybe\Just::of';
+    const of = 'Widmogrod\Monad\Maybe\Just::of';
 
     /**
      * @inheritdoc

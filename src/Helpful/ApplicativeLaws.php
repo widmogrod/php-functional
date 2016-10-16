@@ -1,8 +1,8 @@
 <?php
-namespace Helpful;
+namespace Widmogrod\Helpful;
 
-use FantasyLand\Applicative;
-use Functional as f;
+use Widmogrod\FantasyLand\Applicative;
+use Widmogrod\Functional as f;
 
 class ApplicativeLaws
 {

@@ -1,9 +1,9 @@
 <?php
-namespace Monad;
+namespace Widmogrod\Monad;
 
-use Common;
-use FantasyLand;
-use Functional as f;
+use Widmogrod\Common;
+use Widmogrod\FantasyLand;
+use Widmogrod\Functional as f;
 
 class Collection implements
     FantasyLand\Monad,
@@ -13,7 +13,7 @@ class Collection implements
 {
     use Common\PointedTrait;
 
-    const of = 'Monad\Collection::of';
+    const of = 'Widmogrod\Monad\Collection::of';
 
     /**
      * @param array $value
