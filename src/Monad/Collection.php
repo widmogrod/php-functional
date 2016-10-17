@@ -45,12 +45,12 @@ class Collection implements
      */
     public function ap(FantasyLand\Apply $applicative)
     {
-        // Sine in php List comprehension is not available, then I doing it like this
+        // Since we don't have List comprehension in PHP, use a foreach
         $result = [];
         $isCollection = $applicative instanceof Collection;
 
         foreach ($this->extract() as $value) {
-            $partial = $applicative->map($value)->extract();
+            $partial = f\valueOf($applicative->map($value));
             if ($isCollection) {
                 $result = f\push($result, $partial);
             } else {
