@@ -4,7 +4,7 @@ namespace Widmogrod\Primitive;
 use Widmogrod\Common;
 use Widmogrod\FantasyLand;
 
-class PString implements FantasyLand\Primitive
+class Stringg implements FantasyLand\Primitive
 {
     const of = 'Widmogrod\Primitive\PString::of';
 
@@ -43,7 +43,7 @@ class PString implements FantasyLand\Primitive
 
     /**
      * @param callable $function
-     * @return self
+     * @return Stringg
      */
     public function map(callable $function)
     {

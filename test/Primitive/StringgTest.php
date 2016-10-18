@@ -3,9 +3,9 @@ namespace test\Widmogrod\Primitive;
 
 use Widmogrod\FantasyLand\Monoid;
 use Widmogrod\Helpful\MonoidLaws;
-use Widmogrod\Primitive\PString;
+use Widmogrod\Primitive\Stringg;
 
-class PStringTest extends \PHPUnit_Framework_TestCase
+class StringgTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideRandomizedData
@@ -20,7 +20,7 @@ class PStringTest extends \PHPUnit_Framework_TestCase
 
     private function randomize()
     {
-        return PString::of(md5(rand(0, 100)));
+        return Stringg::of(md5(rand(0, 100)));
     }
 
     public function provideRandomizedData()
