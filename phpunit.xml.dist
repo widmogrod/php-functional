@@ -29,6 +29,9 @@
         <testsuite name="Monad">
             <directory>./test/Monad</directory>
         </testsuite>
+        <testsuite name="Primitive">
+            <directory>./test/Primitive</directory>
+        </testsuite>
         <testsuite name="Examples">
             <directory>./example/</directory>
         </testsuite>
