@@ -10,8 +10,7 @@ Monad types available in the project:
  * Either Monad
  * Maybe Monad
 
-Exploring functional programing space, I noticed that working with primitive values in PHP is very hard and complicates implementation of many functional structures.
-
+Exploring functional programing space I noticed that working with primitive values from PHP is very hard and complicates implementation of many functional structures.
 To simplify this experience, set of higher order primitives is introduced in library:
  * `Stringg`
  * `Listt` (a.k.a List Monad, since `list` is a protected keyword in PHP)
