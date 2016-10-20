@@ -4,7 +4,9 @@ namespace Widmogrod\Primitive;
 use Widmogrod\Common;
 use Widmogrod\FantasyLand;
 
-class Stringg implements FantasyLand\Primitive
+class Stringg implements
+    FantasyLand\Primitive,
+    Common\ValueOfInterface
 {
     const of = 'Widmogrod\Primitive\PString::of';
 
