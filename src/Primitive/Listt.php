@@ -6,6 +6,7 @@ use Widmogrod\FantasyLand;
 use Widmogrod\Functional as f;
 
 class Listt implements
+    FantasyLand\Primitive,
     FantasyLand\Monad,
     FantasyLand\Foldable,
     FantasyLand\Traversable,
@@ -107,6 +108,47 @@ class Listt implements
     {
         return f\foldr(function ($ys, $x) use ($transformation) {
             return call_user_func($transformation, $x)->map(f\append)->ap($ys);
-        }, self::of([[]]), $this);
+        }, self::of([]), $this);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function mempty()
+    {
+        return self::of([]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getEmpty()
+    {
+        return self::mempty();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function concat(FantasyLand\Semigroup $value)
+    {
+        if ($value instanceof self) {
+            return self::of($value->reduce(function($accumulator, $item) {
+                $accumulator[] = $item;
+                return $accumulator;
+            }, $this->extract()));
+        }
+
+        throw new TypeMismatchError($value, self::class);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function equals($other)
+    {
+        return $other instanceof self
+            ? $this->extract() === $other->extract()
+            : false;
     }
 }
