@@ -35,9 +35,7 @@ class Stringg implements
     public function concat(FantasyLand\Semigroup $value)
     {
         if ($value instanceof self) {
-            return $value->map(function ($b) {
-                return $this->value . $b;
-            });
+            return self::of($this->value . $value->extract());
         }
 
         throw new TypeMismatchError($value, self::class);
