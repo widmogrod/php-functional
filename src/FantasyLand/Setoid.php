@@ -4,8 +4,8 @@ namespace Widmogrod\FantasyLand;
 interface Setoid
 {
     /**
-     * @param Setoid|mixed $value
+     * @param Setoid|mixed $other
      * @return boolean
      */
-    public function equals($value);
+    public function equals($other);
 }
