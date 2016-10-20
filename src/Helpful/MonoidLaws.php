@@ -24,19 +24,19 @@ class MonoidLaws
         $assertEqual = f\curryN(3, $assertEqual);
 
         $assertEqual(
-            f\mappend($x, f\mempty($x)),
+            f\concatM($x, f\emptyM($x)),
             $x,
             'Right identity'
         );
         $assertEqual(
-            f\mappend(f\mempty($x), $x),
+            f\concatM(f\emptyM($x), $x),
             $x,
             'Left identity'
         );
 
         $assertEqual(
-            f\mappend($x, f\mappend($y, $z)),
-            f\mappend(f\mappend($x, $y), $z),
+            f\concatM($x, f\concatM($y, $z)),
+            f\concatM(f\concatM($x, $y), $z),
             'Associativity'
         );
     }

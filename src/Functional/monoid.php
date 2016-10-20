@@ -4,29 +4,29 @@ namespace Widmogrod\Functional;
 use Widmogrod\FantasyLand\Monoid;
 use Widmogrod\FantasyLand\Semigroup;
 
-const mempty = 'Widmogrod\Functional\mempty';
+const emptyM = 'Widmogrod\Functional\emptyM';
 
 /**
- * mempty :: a
+ * emptyM :: a
  *
  * @param Monoid $a
  * @return Monoid
  */
-function mempty(Monoid $a)
+function emptyM(Monoid $a)
 {
     return $a->getEmpty();
 }
 
-const mappend = 'Widmogrod\Functional\mappend';
+const concatM = 'Widmogrod\Functional\concatM';
 
 /**
- * mappend :: a -> a -> a
+ * concatM :: a -> a -> a
  *
  * @param Semigroup $a
  * @param Semigroup $b
  * @return Semigroup
  */
-function mappend(Semigroup $a, Semigroup $b)
+function concatM(Semigroup $a, Semigroup $b)
 {
     return $a->concat($b);
 }
