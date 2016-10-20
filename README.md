@@ -7,9 +7,14 @@ The purpose of this library is to explore `Functors`, `Applicative Functors` and
 Monad types available in the project:
  * State Monad
  * IO Monad
- * Collection Monad (a.k.a List Monad, since `list` is a protected keyword in PHP I name it `collection`)
  * Either Monad
  * Maybe Monad
+
+Exploring functional programing space, I noticed that working with primitive values in PHP is very hard and complicates implementation of many functional structures.
+
+To simplify this experience, set of higher order primitives is introduced in library:
+ * `Stringg`
+ * `Listt` (a.k.a List Monad, since `list` is a protected keyword in PHP)
 
 ## Installation
 
@@ -35,24 +40,25 @@ composer test
 ## Use Cases
 You can find more use cases and examples in the [example directory](/example/).
 
-> **NOTE:** Don't be confused when browsing thought examples you will see phrase like "list functor" and in code you will see `Monad\Collection`. 
+> **NOTE:** Don't be confused when browsing thought examples you will see phrase like "list functor" and in code you will see `Monad\Listt`. 
 Monad is Functor and Applicative. You could say that Monad implements Functor and Applicative.
 
 ### List Functor
 ``` php
 use Widmogrod\Functional as f;
+use Widmogrod\Primitive\Listt;
 
-$collection = Monad\Collection::of([
+$list = Listt::of([
    ['id' => 1, 'name' => 'One'],
    ['id' => 2, 'name' => 'Two'],
    ['id' => 3, 'name' => 'Three'],
 ]);
 
-$result = $collection->map(function($a) {
+$result = $list->map(function($a) {
     return $a['id'] + 1;
 });
 
-assert(f\extract($result) === [2, 3, 4]);
+assert($result === Listt::of([2, 3, 4]));
 ```
 
 ### List Applicative Functor
@@ -65,8 +71,9 @@ of applying function from the left list to a value in the right one.
 
 ``` php
 use Widmogrod\Functional as f;
+use Widmogrod\Primitive\Listt;
 
-$collectionA = Monad\Collection::of([
+$listA = Listt::of([
     function($a) {
         return 3 + $a;
     },
@@ -74,14 +81,13 @@ $collectionA = Monad\Collection::of([
         return 4 + $a;
     },
 ]);
-$collectionB = Monad\Collection::of([
+$listB = Listt::of([
     1, 2
 ]);
 
-$result = $collectionA->ap($collectionB);
+$result = $listA->ap($listB);
 
-assert($result instanceof Applicative\Collection);
-assert(f\extract($result) === [4, 5, 5, 6]);
+assert($result === Listt::of([4, 5, 5, 6]));
 ```
 
 ### Maybe and List Monad
@@ -90,7 +96,7 @@ By combining List and Maybe Monad, this process becomes simpler and more readabl
 
 ``` php
 use Widmogrod\Monad\Maybe;
-use Widmogrod\Monad\Collection;
+use Widmogrod\Primitive\Listt;
 
 $data = [
     ['id' => 1, 'meta' => ['images' => ['//first.jpg', '//second.jpg']]],
@@ -107,7 +113,7 @@ $get = function ($key) {
     });
 };
 
-$result = Collection::of($data)
+$result = Listt::of($data)
     ->map(Maybe\maybeNull)
     ->bind($get('meta'))
     ->bind($get('images'))

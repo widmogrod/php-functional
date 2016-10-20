@@ -2,7 +2,7 @@
 namespace example;
 
 use Widmogrod\Monad\Maybe;
-use Widmogrod\Monad\Collection;
+use Widmogrod\Primitive\Listt;
 use Widmogrod\Functional as f;
 
 class MaybeMonadAndCollectionTest extends \PHPUnit_Framework_TestCase
@@ -20,7 +20,7 @@ class MaybeMonadAndCollectionTest extends \PHPUnit_Framework_TestCase
         });
 
         $listOfFirstImages = f\pipeline(
-            Collection::of
+            Listt::of
             , f\map(Maybe\maybeNull)
             , f\bind(f\bind($get('meta')))
             , f\bind(f\bind($get('images')))
@@ -51,7 +51,7 @@ class MaybeMonadAndCollectionTest extends \PHPUnit_Framework_TestCase
             });
         };
 
-        $result = Collection::of($data)
+        $result = Listt::of($data)
             ->map(Maybe\maybeNull)
             ->bind($get('meta'))
             ->bind($get('images'))

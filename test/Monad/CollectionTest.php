@@ -5,7 +5,7 @@ use Widmogrod\FantasyLand\Applicative;
 use Widmogrod\FantasyLand\Functor;
 use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
-use Widmogrod\Monad\Collection;
+use Widmogrod\Primitive\Listt;
 use Widmogrod\Helpful\MonadLaws;
 use Widmogrod\Functional as f;
 
@@ -18,7 +18,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         MonadLaws::test(
             f\curryN(3, [$this, 'assertEquals']),
-            f\curryN(1, Collection::of),
+            f\curryN(1, Listt::of),
             $f,
             $g,
             $x
@@ -28,10 +28,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function provideData()
     {
         $addOne = function ($x) {
-            return Collection::of($x + 1);
+            return Listt::of($x + 1);
         };
         $addTwo = function ($x) {
-            return Collection::of($x + 2);
+            return Listt::of($x + 2);
         };
 
         return [
@@ -69,14 +69,14 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'Collection' => [
-                '$pure' => Collection::of,
-                '$u' => Collection::of(function () {
+                '$pure' => Listt::of,
+                '$u' => Listt::of(function () {
                     return 1;
                 }),
-                '$v' => Collection::of(function () {
+                '$v' => Listt::of(function () {
                     return 5;
                 }),
-                '$w' => Collection::of(function () {
+                '$w' => Listt::of(function () {
                     return 7;
                 }),
                 '$f' => function ($x) {
@@ -113,7 +113,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 '$g' => function ($x) {
                     return $x + 5;
                 },
-                '$x' => Collection::of([1, 2, 3]),
+                '$x' => Listt::of([1, 2, 3]),
             ],
         ];
     }

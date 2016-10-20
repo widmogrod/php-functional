@@ -7,7 +7,7 @@ use Widmogrod\FantasyLand\Foldable;
 use Widmogrod\FantasyLand\Functor;
 use Widmogrod\FantasyLand\Monad;
 use Widmogrod\FantasyLand\Traversable;
-use Widmogrod\Monad\Collection;
+use Widmogrod\Primitive\Listt;
 use Widmogrod\Monad\Identity;
 
 /**
@@ -108,7 +108,7 @@ function toFoldable($value)
 {
     return $value instanceof Foldable
         ? $value
-        : Collection::of(toNativeTraversable($value));
+        : Listt::of(toNativeTraversable($value));
 }
 
 /**
@@ -126,7 +126,7 @@ function toTraversable($value)
 {
     return $value instanceof Traversable
         ? $value
-        : Collection::of(toNativeTraversable($value));
+        : Listt::of(toNativeTraversable($value));
 }
 
 /**

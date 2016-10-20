@@ -1,11 +1,11 @@
 <?php
-namespace Widmogrod\Monad;
+namespace Widmogrod\Primitive;
 
 use Widmogrod\Common;
 use Widmogrod\FantasyLand;
 use Widmogrod\Functional as f;
 
-class Collection implements
+class Listt implements
     FantasyLand\Monad,
     FantasyLand\Foldable,
     FantasyLand\Traversable,
@@ -13,7 +13,7 @@ class Collection implements
 {
     use Common\PointedTrait;
 
-    const of = 'Widmogrod\Monad\Collection::of';
+    const of = 'Widmogrod\Primitive\Listt::of';
 
     /**
      * @param array $value
@@ -47,7 +47,7 @@ class Collection implements
     {
         // Since we don't have List comprehension in PHP, use a foreach
         $result = [];
-        $isCollection = $applicative instanceof Collection;
+        $isCollection = $applicative instanceof Listt;
 
         foreach ($this->extract() as $value) {
             $partial = f\valueOf($applicative->map($value));
