@@ -53,10 +53,10 @@ class Stringg implements
     /**
      * @inheritdoc
      */
-    public function equals($value)
+    public function equals($other)
     {
-        return $value instanceof self
-            ? $this->value === $value->extract()
+        return $other instanceof self
+            ? $this->extract() === $other->extract()
             : false;
     }
 }
