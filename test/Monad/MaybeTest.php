@@ -20,7 +20,7 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
     {
         MonadLaws::test(
             f\curryN(3, [$this, 'assertEquals']),
-            $return,
+            f\curryN(1, $return),
             $f,
             $g,
             $x

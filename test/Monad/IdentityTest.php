@@ -18,7 +18,7 @@ class IdentityTest extends \PHPUnit_Framework_TestCase
     {
         MonadLaws::test(
             f\curryN(3, [$this, 'assertEquals']),
-            Identity::of,
+            f\curryN(1, Identity::of),
             $f,
             $g,
             $x

@@ -18,7 +18,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         MonadLaws::test(
             f\curryN(3, [$this, 'assertEquals']),
-            Collection::of,
+            f\curryN(1, Collection::of),
             $f,
             $g,
             $x
