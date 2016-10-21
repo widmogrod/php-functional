@@ -1,5 +1,4 @@
 <?php
-
 namespace Widmogrod\Monad;
 
 use Widmogrod\Common;

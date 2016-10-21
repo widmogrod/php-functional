@@ -1,18 +1,17 @@
 <?php
-
 namespace Widmogrod\Monad;
 
 use Widmogrod\Common;
 use Widmogrod\FantasyLand;
-use Widmogrod\Monoid\StringMonoid;
+use Widmogrod\Primitive\Stringg as S;
 
 class Writer implements FantasyLand\Monad
 {
     const of = 'Widmogrod\Monad\Writer::of';
 
-    public static function of($value, $side = '')
+    public static function of($value, FantasyLand\Monoid $side = null)
     {
-        return new static($value, $side);
+        return new static($value, is_null($side) ? S::mempty() : $side);
     }
 
     /** @var mixed */
@@ -21,17 +20,10 @@ class Writer implements FantasyLand\Monad
     /** @var FantasyLand\Monoid $side */
     private $side;
 
-    public function __construct($value, $side = '')
+    public function __construct($value, FantasyLand\Monoid $side)
     {
         $this->value = $value;
-
-        if(is_string($side)) {
-            $this->side = new StringMonoid($side);
-        } else if($side instanceof FantasyLand\Monoid) {
-            $this->side = $side;
-        } else {
-            throw new \RuntimeException("String or Monoid needed.");
-        }
+        $this->side = $side;
     }
 
     public function bind(callable $function)

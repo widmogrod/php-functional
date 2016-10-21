@@ -41,10 +41,10 @@ const log = 'Widmogrod\Monad\Writer\log';
  *
  * Add a log to the writer without modifying the value
  *
- * @param mixed $log
+ * @param FantasyLand\Monoid $log
  * @return callable
  */
-function log($log)
+function log(FantasyLand\Monoid $log)
 {
     return function($value) use ($log) {
         return M\Writer::of($value, $log);
