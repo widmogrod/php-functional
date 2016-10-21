@@ -55,7 +55,7 @@ class IdentityTest extends \PHPUnit_Framework_TestCase
     ) {
         ApplicativeLaws::test(
             f\curryN(3, [$this, 'assertEquals']),
-            Identity::of,
+            f\curryN(1, Identity::of),
             $u,
             $v,
             $w,

@@ -7,6 +7,7 @@ use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
 use Widmogrod\Monad\IO;
 use Widmogrod\Helpful\MonadLaws;
+use Widmogrod\Functional as f;
 
 class IOTest extends \PHPUnit_Framework_TestCase
 {
@@ -75,7 +76,7 @@ class IOTest extends \PHPUnit_Framework_TestCase
                     $message
                 );
             },
-            $pure,
+            f\curryN(1, $pure),
             $u,
             $v,
             $w,

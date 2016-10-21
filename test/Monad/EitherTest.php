@@ -67,7 +67,7 @@ class EitherTest extends \PHPUnit_Framework_TestCase
     ) {
         ApplicativeLaws::test(
             f\curryN(3, [$this, 'assertEquals']),
-            $pure,
+            f\curryN(1, $pure),
             $u,
             $v,
             $w,
