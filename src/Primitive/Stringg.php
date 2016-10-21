@@ -8,7 +8,7 @@ class Stringg implements
     FantasyLand\Primitive,
     Common\ValueOfInterface
 {
-    const of = 'Widmogrod\Primitive\PString::of';
+    const of = 'Widmogrod\Primitive\Stringg::of';
 
     use Common\PointedTrait;
     use Common\ValueOfTrait;
@@ -39,15 +39,6 @@ class Stringg implements
         }
 
         throw new TypeMismatchError($value, self::class);
-    }
-
-    /**
-     * @param callable $function
-     * @return Stringg
-     */
-    public function map(callable $function)
-    {
-        return self::of($function($this->value));
     }
 
     /**
