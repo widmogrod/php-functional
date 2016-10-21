@@ -3,6 +3,7 @@
 namespace Widmogrod\Monad\Writer;
 
 use Widmogrod\Monad as M;
+use Widmogrod\FantasyLand;
 
 const pure = 'Widmogrod\Monad\Writer\pure';
 
