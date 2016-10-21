@@ -16,6 +16,7 @@ class ApplicativeFunctorTest extends \PHPUnit_Framework_TestCase
                 return 4 + $a;
             },
         ]);
+
         $collectionB = Listt::of([
             1,
             2
@@ -24,7 +25,7 @@ class ApplicativeFunctorTest extends \PHPUnit_Framework_TestCase
         $result = $collectionA->ap($collectionB);
 
         $this->assertInstanceOf(Listt::class, $result);
-        $this->assertEquals([4, 5, 5, 6], f\valueOf($result));
+        $this->assertEquals(Listt::of([4, 5, 5, 6]), $result);
     }
 }
 

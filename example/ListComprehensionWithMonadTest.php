@@ -17,14 +17,15 @@ class ListComprehensionWithMonadTest extends \PHPUnit_Framework_TestCase
                     });
             });
 
-        $result = f\valueOf($result);
-
-        $this->assertEquals([
-            [1, 'a'],
-            [1, 'b'],
-            [2, 'a'],
-            [2, 'b']
-        ], $result);
+        $this->assertEquals(
+            Listt::of([
+                [1, 'a'],
+                [1, 'b'],
+                [2, 'a'],
+                [2, 'b']
+            ]),
+            $result
+        );
     }
 }
 
