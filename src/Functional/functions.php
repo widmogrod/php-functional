@@ -854,3 +854,38 @@ function filterM(callable $f, $collection)
         return $_filterM($collection);
     }), func_get_args());
 }
+
+/**
+ * foldM :: Monad m => (a -> b -> m a) -> a -> [b] -> m a
+ *
+ * @param callable $f (a -> b -> m a)
+ * @param mixed $initial a
+ * @param array|\Traversable $collection [b]
+ * @return mixed m a
+ */
+function foldM(callable $f, $initial, $collection)
+{
+    return call_user_func_array(curryN(3, function (
+        callable $f,
+        $initial,
+        $collection
+    ) {
+        /** @var Monad $monad */
+        $monad = $f($initial, head($collection));
+
+        $_foldM = function ($acc, $collection) use ($monad, $f, &$_foldM) {
+            if (count($collection) == 0) {
+                return $monad::of($acc);
+            }
+
+            $x = head($collection);
+            $xs = tail($collection);
+
+            return $f($acc, $x)->bind(function ($result) use ($acc, $xs, $_foldM) {
+                return $_foldM($result, $xs);
+            });
+        };
+
+        return $_foldM($initial, $collection);
+    }), func_get_args());
+}
