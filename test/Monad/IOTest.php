@@ -14,7 +14,7 @@ class IOTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideData
      */
-    public function test_if_identity_monad_obeys_the_laws($f, $g, $x)
+    public function test_if_io_monad_obeys_the_laws($f, $g, $x)
     {
         MonadLaws::test(
             function (IO $f, IO $g, $message) {
