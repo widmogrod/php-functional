@@ -7,6 +7,7 @@ use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
 use Widmogrod\Monad\Collection;
 use Widmogrod\Helpful\MonadLaws;
+use Widmogrod\Functional as f;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,7 +17,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function test_if_collection_monad_obeys_the_laws($f, $g, $x)
     {
         MonadLaws::test(
-            [$this, 'assertEquals'],
+            f\curryN(3, [$this, 'assertEquals']),
             Collection::of,
             $f,
             $g,
@@ -54,7 +55,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $x
     ) {
         ApplicativeLaws::test(
-            [$this, 'assertEquals'],
+            f\curryN(3, [$this, 'assertEquals']),
             $pure,
             $u,
             $v,
@@ -95,7 +96,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         Functor $x
     ) {
         FunctorLaws::test(
-            [$this, 'assertEquals'],
+            f\curryN(3, [$this, 'assertEquals']),
             $f,
             $g,
             $x
