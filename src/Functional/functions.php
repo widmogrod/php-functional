@@ -834,7 +834,7 @@ function filterM(callable $f, $collection)
 
         $_filterM = function ($collection) use ($monad, $f, &$_filterM) {
             if (count($collection) == 0) {
-                return $monad->of([]);
+                return $monad::of([]);
             }
 
             $x = head($collection);
@@ -846,7 +846,7 @@ function filterM(callable $f, $collection)
                         array_unshift($acc, $x);
                     }
 
-                    return $monad->of($acc);
+                    return $monad::of($acc);
                 });
             });
         };
