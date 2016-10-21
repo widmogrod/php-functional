@@ -825,27 +825,32 @@ function sequence($monads)
  */
 function filterM(callable $f, $collection)
 {
-    /** @var Monad $monad */
-    $monad = $f(head($collection));
+    return call_user_func_array(curryN(2, function (
+        callable $f,
+        $collection
+    ) {
+        /** @var Monad $monad */
+        $monad = $f(head($collection));
 
-    $_filterM = function($collection) use($monad, $f, &$_filterM){
-        if(count($collection) == 0) {
-            return $monad->of([]);
-        }
+        $_filterM = function ($collection) use ($monad, $f, &$_filterM) {
+            if (count($collection) == 0) {
+                return $monad->of([]);
+            }
 
-        $x = head($collection);
-        $xs = tail($collection);
+            $x = head($collection);
+            $xs = tail($collection);
 
-        return $f($x)->bind(function($bool) use($x, $xs, $monad, $_filterM) {
-            return $_filterM($xs)->bind(function(array $acc) use($bool, $x, $monad) {
-                if($bool) {
-                    array_unshift($acc, $x);
-                }
+            return $f($x)->bind(function ($bool) use ($x, $xs, $monad, $_filterM) {
+                return $_filterM($xs)->bind(function (array $acc) use ($bool, $x, $monad) {
+                    if ($bool) {
+                        array_unshift($acc, $x);
+                    }
 
-                return $monad->of($acc);
+                    return $monad->of($acc);
+                });
             });
-        });
-    };
+        };
 
-    return $_filterM($collection);
+        return $_filterM($collection);
+    }), func_get_args());
 }
