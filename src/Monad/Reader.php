@@ -10,6 +10,14 @@ class Reader implements FantasyLand\Monad
 
     use Common\PointedTrait;
 
+    /**
+     * @param callable $continuation
+     */
+    public function __construct(callable $continuation)
+    {
+        $this->value = $continuation;
+    }
+
     public function bind(callable $function)
     {
         return self::of(function ($env) use ($function) {
