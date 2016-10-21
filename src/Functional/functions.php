@@ -580,7 +580,7 @@ const head = 'Widmogrod\Functional\head';
  * Return head of a traversable
  *
  * @param array|\Traversable $list
- * @return null|array|\Traversable
+ * @return null|mixed
  */
 function head($list)
 {
@@ -602,21 +602,33 @@ const tail = 'Widmogrod\Functional\tail';
 /**
  * Return tail of a traversable
  *
- * TODO support \Traversable
- *
- * @param array $list
- * @return null
+ * @param array|\Traversable $list
+ * @return null|array
  */
-function tail(array $list)
+function tail($list)
 {
-    if (count($list) === 0) {
+    if (!isNativeTraversable($list) || count($list) === 0) {
         return null;
     }
 
-    $clone = $list;
-    array_shift($clone);
+    if(is_array($list)) {
+        $clone = $list;
+        array_shift($clone);
 
-    return $clone;
+        return $clone;
+    }
+
+    $values = [];
+    $first = true;
+    foreach($list as $k => $v) {
+        if($first) {
+            $first = false;
+        } else {
+            $values[$k] = $v;
+        }
+    }
+
+    return $values;
 }
 
 /**
@@ -802,4 +814,43 @@ const sequence = 'Widmogrod\Functional\sequence';
 function sequence($monads)
 {
     return traverse(identity, toTraversable($monads));
+}
+
+/**
+ * filterM :: Monad m => (a -> m Bool) -> [a] -> m [a]
+ *
+ * @param callable $f (a -> m Bool)
+ * @param array|Traversable $collection [a]
+ * @return Monad m [a]
+ */
+function filterM(callable $f, $collection)
+{
+    return call_user_func_array(curryN(2, function (
+        callable $f,
+        $collection
+    ) {
+        /** @var Monad $monad */
+        $monad = $f(head($collection));
+
+        $_filterM = function ($collection) use ($monad, $f, &$_filterM) {
+            if (count($collection) == 0) {
+                return $monad::of([]);
+            }
+
+            $x = head($collection);
+            $xs = tail($collection);
+
+            return $f($x)->bind(function ($bool) use ($x, $xs, $monad, $_filterM) {
+                return $_filterM($xs)->bind(function (array $acc) use ($bool, $x, $monad) {
+                    if ($bool) {
+                        array_unshift($acc, $x);
+                    }
+
+                    return $monad::of($acc);
+                });
+            });
+        };
+
+        return $_filterM($collection);
+    }), func_get_args());
 }
