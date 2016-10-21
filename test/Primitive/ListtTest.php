@@ -4,20 +4,19 @@ namespace test\Monad;
 use Widmogrod\FantasyLand\Applicative;
 use Widmogrod\FantasyLand\Functor;
 use Widmogrod\FantasyLand\Monoid;
+use Widmogrod\Functional as f;
 use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
-use Widmogrod\Primitive\Listt;
 use Widmogrod\Helpful\MonadLaws;
 use Widmogrod\Helpful\MonoidLaws;
 use Widmogrod\Primitive\Listt;
-use Widmogrod\Functional as f;
 
 class ListtTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideData
      */
-    public function test_if_collection_monad_obeys_the_laws($f, $g, $x)
+    public function test_if_list_obeys_the_laws($f, $g, $x)
     {
         MonadLaws::test(
             f\curryN(3, [$this, 'assertEquals']),
@@ -38,7 +37,7 @@ class ListtTest extends \PHPUnit_Framework_TestCase
         };
 
         return [
-            'Collection' => [
+            'Listt' => [
                 '$f' => $addOne,
                 '$g' => $addTwo,
                 '$x' => 10,
@@ -71,7 +70,7 @@ class ListtTest extends \PHPUnit_Framework_TestCase
     public function provideApplicativeTestData()
     {
         return [
-            'Collection' => [
+            'Listt' => [
                 '$pure' => Listt::of,
                 '$u' => Listt::of(function () {
                     return 1;
@@ -109,7 +108,7 @@ class ListtTest extends \PHPUnit_Framework_TestCase
     public function provideFunctorTestData()
     {
         return [
-            'Collection' => [
+            'Listt' => [
                 '$f' => function ($x) {
                     return $x + 1;
                 },
@@ -127,7 +126,7 @@ class ListtTest extends \PHPUnit_Framework_TestCase
     public function test_it_should_obey_monoid_laws(Monoid $x, Monoid $y, Monoid $z)
     {
         MonoidLaws::test(
-            [$this, 'assertEquals'],
+            f\curryN(3, [$this, 'assertEquals']),
             $x, $y, $z
         );
     }
