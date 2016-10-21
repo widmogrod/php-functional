@@ -34,12 +34,9 @@ class Writer implements FantasyLand\Monad
 
     public function ap(FantasyLand\Apply $b)
     {
-        $new = $b->map($this->value);
-        if($b instanceof Writer) {
-            $new->side = $new->side->concat($b->side);
-        }
-
-        return $new;
+        return $this->bind(function($f) use ($b) {
+            return $b->map($f);
+        });
     }
 
     public function map(callable $function)
