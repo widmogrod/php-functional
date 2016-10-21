@@ -8,7 +8,7 @@ use Widmogrod\FantasyLand;
 const pure = 'Widmogrod\Monad\Writer\pure';
 
 /**
- * pure :: Applicative Just f => a -> f a
+ * pure :: Applicative Writer f => a -> f a
  *
  * @param mixed $f
  * @return M\Writer

@@ -14,10 +14,14 @@ class Writer implements FantasyLand\Monad
         return new static($value, is_null($side) ? S::mempty() : $side);
     }
 
-    /** @var mixed */
-    protected $value;
+    /**
+     * @var mixed
+     */
+    private $value;
 
-    /** @var FantasyLand\Monoid $side */
+    /**
+     * @var FantasyLand\Monoid $side
+     */
     private $side;
 
     public function __construct($value, FantasyLand\Monoid $side)
@@ -41,7 +45,7 @@ class Writer implements FantasyLand\Monad
 
     public function map(callable $function)
     {
-        return new static($function($this->value), $this->side);
+        return static::of($function($this->value), $this->side);
     }
 
     public function runWriter()
