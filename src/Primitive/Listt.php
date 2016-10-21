@@ -1,11 +1,12 @@
 <?php
-namespace Widmogrod\Monad;
+namespace Widmogrod\Primitive;
 
 use Widmogrod\Common;
 use Widmogrod\FantasyLand;
 use Widmogrod\Functional as f;
 
-class Collection implements
+class Listt implements
+    FantasyLand\Primitive,
     FantasyLand\Monad,
     FantasyLand\Foldable,
     FantasyLand\Traversable,
@@ -13,7 +14,7 @@ class Collection implements
 {
     use Common\PointedTrait;
 
-    const of = 'Widmogrod\Monad\Collection::of';
+    const of = 'Widmogrod\Primitive\Listt::of';
 
     /**
      * @param array $value
@@ -47,7 +48,7 @@ class Collection implements
     {
         // Since we don't have List comprehension in PHP, use a foreach
         $result = [];
-        $isCollection = $applicative instanceof Collection;
+        $isCollection = $applicative instanceof Listt;
 
         foreach ($this->extract() as $value) {
             $partial = f\valueOf($applicative->map($value));
@@ -107,6 +108,47 @@ class Collection implements
     {
         return f\foldr(function ($ys, $x) use ($transformation) {
             return call_user_func($transformation, $x)->map(f\append)->ap($ys);
-        }, self::of([[]]), $this);
+        }, self::of([]), $this);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function mempty()
+    {
+        return self::of([]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getEmpty()
+    {
+        return self::mempty();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function concat(FantasyLand\Semigroup $value)
+    {
+        if ($value instanceof self) {
+            return self::of($value->reduce(function($accumulator, $item) {
+                $accumulator[] = $item;
+                return $accumulator;
+            }, $this->extract()));
+        }
+
+        throw new TypeMismatchError($value, self::class);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function equals($other)
+    {
+        return $other instanceof self
+            ? $this->extract() === $other->extract()
+            : false;
     }
 }

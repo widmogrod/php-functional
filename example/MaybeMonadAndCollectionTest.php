@@ -2,7 +2,8 @@
 namespace example;
 
 use Widmogrod\Monad\Maybe;
-use Widmogrod\Monad\Collection;
+use Widmogrod\Monad\Maybe as m;
+use Widmogrod\Primitive\Listt;
 use Widmogrod\Functional as f;
 
 class MaybeMonadAndCollectionTest extends \PHPUnit_Framework_TestCase
@@ -15,13 +16,13 @@ class MaybeMonadAndCollectionTest extends \PHPUnit_Framework_TestCase
         // $get :: String a -> [b] -> Maybe b
         $get = f\curryN(2, function ($key, $array) {
             return isset($array[$key])
-                ? Maybe\just($array[$key])
-                : Maybe\nothing();
+                ? m\just($array[$key])
+                : m\nothing();
         });
 
         $listOfFirstImages = f\pipeline(
-            Collection::of
-            , f\map(Maybe\maybeNull)
+            Listt::of
+            , f\map(m\maybeNull)
             , f\bind(f\bind($get('meta')))
             , f\bind(f\bind($get('images')))
             , f\bind(f\bind($get(0)))
@@ -29,10 +30,9 @@ class MaybeMonadAndCollectionTest extends \PHPUnit_Framework_TestCase
         );
 
         $result = $listOfFirstImages($data);
-        $result = f\valueOf($result);
 
         $this->assertEquals(
-            ['//first.jpg', '//third.jpg', null],
+            Listt::of([m\just('//first.jpg'), m\just('//third.jpg'), m\nothing()]),
             $result
         );
     }
@@ -46,21 +46,19 @@ class MaybeMonadAndCollectionTest extends \PHPUnit_Framework_TestCase
         $get = function ($key) {
             return f\bind(function ($array) use ($key) {
                 return isset($array[$key])
-                    ? Maybe\just($array[$key])
-                    : Maybe\nothing();
+                    ? m\just($array[$key])
+                    : m\nothing();
             });
         };
 
-        $result = Collection::of($data)
+        $result = Listt::of($data)
             ->map(Maybe\maybeNull)
             ->bind($get('meta'))
             ->bind($get('images'))
             ->bind($get(0));
 
-        $result = f\valueOf($result);
-
         $this->assertEquals(
-            ['//first.jpg', '//third.jpg', null],
+            Listt::of([m\just('//first.jpg'), m\just('//third.jpg'), m\nothing()]),
             $result
         );
     }

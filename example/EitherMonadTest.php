@@ -3,6 +3,7 @@ namespace example;
 
 use Widmogrod\Functional as f;
 use Widmogrod\Monad\Either;
+use Widmogrod\Monad\Either as e;
 
 function read($file)
 {
@@ -25,7 +26,7 @@ class EitherMonadTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertInstanceOf(Either\Left::class, $concat);
-        $this->assertEquals('File "aaa" does not exists', f\valueOf($concat));
+        $this->assertEquals(e\left('File "aaa" does not exists'), $concat);
     }
 }
 
