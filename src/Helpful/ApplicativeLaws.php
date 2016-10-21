@@ -27,7 +27,6 @@ class ApplicativeLaws
         $x
     ) {
         // Make callable string invokable as a function $fn()
-        $assertEqual = f\curryN(3, $assertEqual);
         $pure = f\curryN(1, $pure);
 
         // identity: pure id <*> v = v

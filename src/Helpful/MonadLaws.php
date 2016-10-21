@@ -23,7 +23,6 @@ class MonadLaws
     ) {
         // Make callable string invokable as a function $fn()
         $return = f\curryN(1, $return);
-        $assertEqual = f\curryN(3, $assertEqual);
 
         // Make reading bellow tests easier
         $m = $return($x);
