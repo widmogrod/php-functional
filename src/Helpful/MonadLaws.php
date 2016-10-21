@@ -21,9 +21,6 @@ class MonadLaws
         callable $g,
         $x
     ) {
-        // Make callable string invokable as a function $fn()
-        $return = f\curryN(1, $return);
-
         // Make reading bellow tests easier
         $m = $return($x);
 
