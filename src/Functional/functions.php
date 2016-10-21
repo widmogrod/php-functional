@@ -865,21 +865,27 @@ function filterM(callable $f, $collection)
  */
 function foldM(callable $f, $initial, $collection)
 {
-    /** @var Monad $monad */
-    $monad = $f($initial, head($collection));
+    return call_user_func_array(curryN(3, function (
+        callable $f,
+        $initial,
+        $collection
+    ) {
+        /** @var Monad $monad */
+        $monad = $f($initial, head($collection));
 
-    $_foldM = function($acc, $collection) use($monad, $f, &$_foldM){
-        if(count($collection) == 0) {
-            return $monad->of($acc);
-        }
+        $_foldM = function ($acc, $collection) use ($monad, $f, &$_foldM) {
+            if (count($collection) == 0) {
+                return $monad::of($acc);
+            }
 
-        $x = head($collection);
-        $xs = tail($collection);
+            $x = head($collection);
+            $xs = tail($collection);
 
-        return $f($acc, $x)->bind(function($result) use($acc, $xs, $_foldM) {
-            return $_foldM($result, $xs);
-        });
-    };
+            return $f($acc, $x)->bind(function ($result) use ($acc, $xs, $_foldM) {
+                return $_foldM($result, $xs);
+            });
+        };
 
-    return $_foldM($initial, $collection);
+        return $_foldM($initial, $collection);
+    }), func_get_args());
 }
