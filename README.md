@@ -39,7 +39,7 @@ composer test
 ## Use Cases
 You can find more use cases and examples in the [example directory](/example/).
 
-> **NOTE:** Don't be confused when browsing thought examples you will see phrase like "list functor" and in code you will see `Monad\Listt`. 
+> **NOTE:** Don't be confused when browsing thought examples you will see phrase like "list functor" and in this library you will see ` Widmogrod\Primitive\Listt`. 
 Monad is Functor and Applicative. You could say that Monad implements Functor and Applicative.
 
 ### List Functor
