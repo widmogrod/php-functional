@@ -28,10 +28,8 @@ class Writer implements FantasyLand\Monad
 
     public function bind(callable $function)
     {
-        $new = $function($this->value);
-        $new->side = $this->side->concat($new->side);
-
-        return new static($new->value, $new->side);
+        list($value, $side) = call_user_func($function, $this->value)->runWriter();
+        return new static($value, $this->side->concat($side));
     }
 
     public function ap(FantasyLand\Apply $b)

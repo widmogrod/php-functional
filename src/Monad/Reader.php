@@ -13,7 +13,7 @@ class Reader implements FantasyLand\Monad
     public function bind(callable $function)
     {
         return self::of(function ($env) use ($function) {
-            return $function($this->runReader($env))->runReader($env);
+            return call_user_func($function, $this->runReader($env))->runReader($env);
         });
     }
 
@@ -27,10 +27,9 @@ class Reader implements FantasyLand\Monad
     public function map(callable $function)
     {
         return self::of(function ($env) use ($function) {
-            return $function($this->runReader($env));
+            return call_user_func($function, $this->runReader($env));
         });
     }
-
 
     public function runReader($env)
     {
