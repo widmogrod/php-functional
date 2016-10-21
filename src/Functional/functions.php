@@ -580,7 +580,7 @@ const head = 'Widmogrod\Functional\head';
  * Return head of a traversable
  *
  * @param array|\Traversable $list
- * @return null|array|\Traversable
+ * @return null|mixed
  */
 function head($list)
 {
@@ -602,21 +602,33 @@ const tail = 'Widmogrod\Functional\tail';
 /**
  * Return tail of a traversable
  *
- * TODO support \Traversable
- *
- * @param array $list
- * @return null
+ * @param array|\Traversable $list
+ * @return null|array
  */
-function tail(array $list)
+function tail($list)
 {
-    if (count($list) === 0) {
+    if (!isNativeTraversable($list) || count($list) === 0) {
         return null;
     }
 
-    $clone = $list;
-    array_shift($clone);
+    if(is_array($list)) {
+        $clone = $list;
+        array_shift($clone);
 
-    return $clone;
+        return $clone;
+    }
+
+    $values = [];
+    $first = true;
+    foreach($list as $k => $v) {
+        if($first) {
+            $first = false;
+        } else {
+            $values[$k] = $v;
+        }
+    }
+
+    return $values;
 }
 
 /**
