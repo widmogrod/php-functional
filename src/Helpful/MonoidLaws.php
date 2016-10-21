@@ -20,9 +20,6 @@ class MonoidLaws
         Monoid $y,
         Monoid $z
     ) {
-        // Make callable string invokable as a function $fn()
-        $assertEqual = f\curryN(3, $assertEqual);
-
         $assertEqual(
             f\concatM($x, f\emptyM($x)),
             $x,

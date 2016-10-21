@@ -7,6 +7,7 @@ use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
 use Widmogrod\Monad\Identity;
 use Widmogrod\Helpful\MonadLaws;
+use Widmogrod\Functional as f;
 
 class IdentityTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,8 +17,8 @@ class IdentityTest extends \PHPUnit_Framework_TestCase
     public function test_if_identity_monad_obeys_the_laws($f, $g, $x)
     {
         MonadLaws::test(
-            [$this, 'assertEquals'],
-            Identity::of,
+            f\curryN(3, [$this, 'assertEquals']),
+            f\curryN(1, Identity::of),
             $f,
             $g,
             $x
@@ -53,8 +54,8 @@ class IdentityTest extends \PHPUnit_Framework_TestCase
         $x
     ) {
         ApplicativeLaws::test(
-            [$this, 'assertEquals'],
-            Identity::of,
+            f\curryN(3, [$this, 'assertEquals']),
+            f\curryN(1, Identity::of),
             $u,
             $v,
             $w,
@@ -93,7 +94,7 @@ class IdentityTest extends \PHPUnit_Framework_TestCase
         Functor $x
     ) {
         FunctorLaws::test(
-            [$this, 'assertEquals'],
+            f\curryN(3, [$this, 'assertEquals']),
             $f,
             $g,
             $x

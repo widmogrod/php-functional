@@ -7,13 +7,14 @@ use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
 use Widmogrod\Monad\IO;
 use Widmogrod\Helpful\MonadLaws;
+use Widmogrod\Functional as f;
 
 class IOTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideData
      */
-    public function test_if_identity_monad_obeys_the_laws($f, $g, $x)
+    public function test_if_io_monad_obeys_the_laws($f, $g, $x)
     {
         MonadLaws::test(
             function (IO $f, IO $g, $message) {
@@ -75,7 +76,7 @@ class IOTest extends \PHPUnit_Framework_TestCase
                     $message
                 );
             },
-            $pure,
+            f\curryN(1, $pure),
             $u,
             $v,
             $w,

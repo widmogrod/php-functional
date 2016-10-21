@@ -9,6 +9,7 @@ use Widmogrod\Monad\Maybe;
 use Widmogrod\Monad\Maybe\Just;
 use Widmogrod\Monad\Maybe\Nothing;
 use Widmogrod\Helpful\MonadLaws;
+use Widmogrod\Functional as f;
 
 class MaybeTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,8 +19,8 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
     public function test_if_maybe_monad_obeys_the_laws($return, $f, $g, $x)
     {
         MonadLaws::test(
-            [$this, 'assertEquals'],
-            $return,
+            f\curryN(3, [$this, 'assertEquals']),
+            f\curryN(1, $return),
             $f,
             $g,
             $x
@@ -65,8 +66,8 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
         $x
     ) {
         ApplicativeLaws::test(
-            [$this, 'assertEquals'],
-            $pure,
+            f\curryN(3, [$this, 'assertEquals']),
+            f\curryN(1, $pure),
             $u,
             $v,
             $w,
@@ -122,7 +123,7 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
         Functor $x
     ) {
         FunctorLaws::test(
-            [$this, 'assertEquals'],
+            f\curryN(3, [$this, 'assertEquals']),
             $f,
             $g,
             $x

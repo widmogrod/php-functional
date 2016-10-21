@@ -4,6 +4,7 @@ namespace test\Widmogrod\Primitive;
 use Widmogrod\FantasyLand\Monoid;
 use Widmogrod\Helpful\MonoidLaws;
 use Widmogrod\Primitive\Stringg;
+use Widmogrod\Functional as f;
 
 class StringgTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,7 +14,7 @@ class StringgTest extends \PHPUnit_Framework_TestCase
     public function test_it_should_obey_monoid_laws(Monoid $x, Monoid $y, Monoid $z)
     {
         MonoidLaws::test(
-            [$this, 'assertEquals'],
+            f\curryN(3, [$this, 'assertEquals']),
             $x, $y, $z
         );
     }

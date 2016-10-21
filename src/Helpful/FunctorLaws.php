@@ -20,9 +20,6 @@ class FunctorLaws
         callable $g,
         Functor $x
     ) {
-        // Make callable string invokable as a function $fn()
-        $assertEqual = f\curryN(3, $assertEqual);
-
         // identity: fmap id  ==  id
         $assertEqual(
             f\map(f\identity, $x),
