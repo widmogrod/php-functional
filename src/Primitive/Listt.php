@@ -6,8 +6,9 @@ use Widmogrod\FantasyLand;
 use Widmogrod\Functional as f;
 
 class Listt implements
-    FantasyLand\Primitive,
     FantasyLand\Monad,
+    FantasyLand\Monoid,
+    FantasyLand\Setoid,
     FantasyLand\Foldable,
     FantasyLand\Traversable,
     Common\ValueOfInterface

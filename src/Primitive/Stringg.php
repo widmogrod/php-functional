@@ -5,7 +5,9 @@ use Widmogrod\Common;
 use Widmogrod\FantasyLand;
 
 class Stringg implements
-    FantasyLand\Primitive,
+    FantasyLand\Pointed,
+    FantasyLand\Monoid,
+    FantasyLand\Setoid,
     Common\ValueOfInterface
 {
     const of = 'Widmogrod\Primitive\Stringg::of';
