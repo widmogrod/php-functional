@@ -860,7 +860,7 @@ function filterM(callable $f, $collection)
  *
  * @param callable $f (a -> b -> m a)
  * @param mixed $initial a
- * @param array|Traversable $collection [b]
+ * @param array|\Traversable $collection [b]
  * @return mixed m a
  */
 function foldM(callable $f, $initial, $collection)

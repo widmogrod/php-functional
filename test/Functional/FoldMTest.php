@@ -2,6 +2,7 @@
 namespace test\Functional;
 
 use Widmogrod\Functional as f;
+use Widmogrod\Monad\Collection;
 use Widmogrod\Monad\Maybe as m;
 
 class FoldMTest extends \PHPUnit_Framework_TestCase
@@ -33,6 +34,14 @@ class FoldMTest extends \PHPUnit_Framework_TestCase
             'nothing' => [
                 '$list' => [1, 3, 42, 7],
                 '$expected' => null
+            ],
+            'empty array' => [
+                '$list' => [],
+                '$expected' => 0
+            ],
+            'traversable' => [
+                '$list' => new \ArrayIterator([1, 3, 5, 7]),
+                '$expected' => 16
             ],
         ];
     }
