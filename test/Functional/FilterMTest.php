@@ -31,6 +31,14 @@ class FilterMTest extends \PHPUnit_Framework_TestCase
                 '$list' => [1, 2, 3, 4, 5],
                 '$expected' => [1, 3, 5]
             ],
+            'empty list' => [
+                '$list' => [],
+                '$expected' => []
+            ],
+            'traversable' => [
+                '$list' => new \ArrayIterator([1, 2, 3, 4, 5]),
+                '$expected' => [1, 3, 5]
+            ],
         ];
     }
 }
