@@ -1,11 +1,12 @@
 <?php
+
 namespace test\Functional;
 
 use Widmogrod\Functional as f;
 
 class PipelineTest extends \PHPUnit_Framework_TestCase
 {
-    function test_it_should_retun_function_accepting_arguments()
+    public function test_it_should_retun_function_accepting_arguments()
     {
         $this->assertInstanceOf(\Closure::class, f\pipeline('strtolower', 'strtoupper'));
     }
@@ -31,8 +32,8 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
         return [
             'two function' => [
                 '$functions' => ['strtolower', 'strtoupper'],
-                '$value' => 'aBcD',
-                '$expected' => 'ABCD'
+                '$value'     => 'aBcD',
+                '$expected'  => 'ABCD'
             ],
         ];
     }

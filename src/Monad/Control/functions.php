@@ -1,7 +1,7 @@
 <?php
+
 namespace Widmogrod\Monad\Control;
 
-use Widmogrod\Functional as f;
 use Widmogrod\Monad as M;
 
 /**
@@ -11,6 +11,7 @@ use Widmogrod\Monad as M;
  * Since "do" is reserved keyword in PHP then I use "doo".
  *
  * @param array|M\IO[] $monads
+ *
  * @return M\IO
  */
 function doo(array $monads)
@@ -38,15 +39,17 @@ function doo(array $monads)
  *
  * @param callable $function
  * @param array $argsNames
+ *
  * @return M\State
  */
 function runWith(callable $function, array $argsNames)
 {
     return M\State::of(function (array $state) use ($function, $argsNames) {
-        list ($key, $data) = $state;
+        list($key, $data) = $state;
 
         $args = array_reduce($argsNames, function ($base, $index) use ($data) {
             $base[$index] = $data[$index];
+
             return $base;
         }, []);
 
@@ -66,12 +69,13 @@ function runWith(callable $function, array $argsNames)
  * ioState :: IO a -> State IO a
  *
  * @param M\IO $io
+ *
  * @return M\State
  */
 function ioState(M\IO $io)
 {
     return M\State::of(function ($state) use ($io) {
-        list ($key, $data) = $state;
+        list($key, $data) = $state;
 
         $value = $io->run();
 

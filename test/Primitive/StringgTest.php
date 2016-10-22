@@ -1,4 +1,5 @@
 <?php
+
 namespace test\Widmogrod\Primitive;
 
 use Widmogrod\FantasyLand\Monoid;

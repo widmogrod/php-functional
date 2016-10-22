@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\FantasyLand;
 
 interface Monoid extends Semigroup

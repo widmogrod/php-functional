@@ -1,4 +1,5 @@
 <?php
+
 namespace test\Monad;
 
 use Widmogrod\FantasyLand\Applicative;
@@ -32,7 +33,7 @@ class EitherTest extends \PHPUnit_Framework_TestCase
         return [
             'Right' => [
                 '$return' => Right::of,
-                '$f' => function ($x) {
+                '$f'      => function ($x) {
                     return Right::of($x + 1);
                 },
                 '$g' => function ($x) {
@@ -43,7 +44,7 @@ class EitherTest extends \PHPUnit_Framework_TestCase
             // I don't know if Left should be tested?
             'Left' => [
                 '$return' => Left::of,
-                '$f' => function ($x) {
+                '$f'      => function ($x) {
                     return Left::of($x);
                 },
                 '$g' => function ($x) {
@@ -81,7 +82,7 @@ class EitherTest extends \PHPUnit_Framework_TestCase
         return [
             'Right' => [
                 '$pure' => Either\pure,
-                '$u' => Right::of(function () {
+                '$u'    => Right::of(function () {
                     return 1;
                 }),
                 '$v' => Right::of(function () {
@@ -97,7 +98,7 @@ class EitherTest extends \PHPUnit_Framework_TestCase
             ],
             'Left' => [
                 '$pure' => Either\pure,
-                '$u' => Left::of(function () {
+                '$u'    => Left::of(function () {
                     return 1;
                 }),
                 '$v' => Left::of(function () {

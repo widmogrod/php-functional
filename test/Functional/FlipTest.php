@@ -1,4 +1,5 @@
 <?php
+
 namespace test\Functional;
 
 use Widmogrod\Functional as f;
@@ -28,14 +29,14 @@ class FlipTest extends \PHPUnit_Framework_TestCase
                 '$func' => function ($a, $b) {
                     return [$a, $b];
                 },
-                '$args' => [1, 2],
+                '$args'     => [1, 2],
                 '$expected' => [2, 1]
             ],
             'three arguments' => [
                 '$func' => function ($a, $b, $c) {
                     return [$a, $b, $c];
                 },
-                '$args' => [1, 2, 3],
+                '$args'     => [1, 2, 3],
                 '$expected' => [2, 1, 3]
             ],
         ];

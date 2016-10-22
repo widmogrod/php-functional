@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\Common;
 
 trait PointedTrait
@@ -10,6 +11,7 @@ trait PointedTrait
 
     /**
      * Ensure everything on start.
+     *
      * @param mixed $value
      */
     public function __construct($value)

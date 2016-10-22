@@ -1,4 +1,5 @@
 <?php
+
 namespace test\Functional;
 
 use Widmogrod\Functional as f;

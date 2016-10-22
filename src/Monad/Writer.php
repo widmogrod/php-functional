@@ -1,7 +1,7 @@
 <?php
+
 namespace Widmogrod\Monad;
 
-use Widmogrod\Common;
 use Widmogrod\FantasyLand;
 use Widmogrod\Primitive\Stringg as S;
 
@@ -33,12 +33,13 @@ class Writer implements FantasyLand\Monad
     public function bind(callable $function)
     {
         list($value, $side) = call_user_func($function, $this->value)->runWriter();
+
         return new static($value, $this->side->concat($side));
     }
 
     public function ap(FantasyLand\Apply $b)
     {
-        return $this->bind(function($f) use ($b) {
+        return $this->bind(function ($f) use ($b) {
             return $b->map($f);
         });
     }

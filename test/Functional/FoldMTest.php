@@ -1,8 +1,8 @@
 <?php
+
 namespace test\Functional;
 
 use Widmogrod\Functional as f;
-use Widmogrod\Monad\Collection;
 use Widmogrod\Monad\Maybe as m;
 
 class FoldMTest extends \PHPUnit_Framework_TestCase
@@ -14,8 +14,7 @@ class FoldMTest extends \PHPUnit_Framework_TestCase
         $list,
         $expected
     ) {
-
-        $addSingleDigit = function($acc, $i) {
+        $addSingleDigit = function ($acc, $i) {
             return $i > 9 ? m\nothing() : m\just($acc + $i);
         };
         $this->assertEquals(
@@ -28,19 +27,19 @@ class FoldMTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'just' => [
-                '$list' => [1, 3, 5, 7],
+                '$list'     => [1, 3, 5, 7],
                 '$expected' => 16
             ],
             'nothing' => [
-                '$list' => [1, 3, 42, 7],
+                '$list'     => [1, 3, 42, 7],
                 '$expected' => null
             ],
             'empty array' => [
-                '$list' => [],
+                '$list'     => [],
                 '$expected' => 0
             ],
             'traversable' => [
-                '$list' => new \ArrayIterator([1, 3, 5, 7]),
+                '$list'     => new \ArrayIterator([1, 3, 5, 7]),
                 '$expected' => 16
             ],
         ];

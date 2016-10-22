@@ -1,7 +1,7 @@
 <?php
+
 namespace example;
 
-use Widmogrod\Functional as f;
 use Widmogrod\Primitive\Listt;
 
 class ApplicativeFunctorTest extends \PHPUnit_Framework_TestCase
@@ -28,6 +28,3 @@ class ApplicativeFunctorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Listt::of([4, 5, 5, 6]), $result);
     }
 }
-
-
-

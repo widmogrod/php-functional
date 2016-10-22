@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\Functional;
 
 use Widmogrod\Common\ValueOfInterface;
@@ -22,6 +23,7 @@ const push = 'Widmogrod\Functional\push';
  *
  * @param array $array
  * @param array $values
+ *
  * @return array
  */
 function push(array $array, array $values)
@@ -43,6 +45,7 @@ const append = 'Widmogrod\Functional\append';
  *
  * @param array $list
  * @param mixed $value
+ *
  * @return array
  */
 function append($list, $value = null)
@@ -65,6 +68,7 @@ const applicator = 'Widmogrod\Functional\applicator';
  *
  * @param mixed $x
  * @param callable $f
+ *
  * @return mixed
  */
 function applicator($x, callable $f = null)
@@ -84,6 +88,7 @@ const invoke = 'Widmogrod\Functional\invoke';
  *
  * @param string $method
  * @param mixed $object
+ *
  * @return mixed
  */
 function invoke($method, $object = null)
@@ -102,6 +107,7 @@ const toFoldable = 'Widmogrod\Functional\toFoldable';
  * toFoldable :: Foldable t => a -> t a
  *
  * @param Foldable|\Traversable|array|mixed $value
+ *
  * @return Foldable
  */
 function toFoldable($value)
@@ -120,6 +126,7 @@ const toTraversable = 'Widmogrod\Functional\toTraversable';
  * toTraversable :: Traversable t => a -> t a
  *
  * @param Traversable|\Traversable|array|mixed $value
+ *
  * @return Traversable
  */
 function toTraversable($value)
@@ -144,6 +151,7 @@ const concat = 'Widmogrod\Functional\concat';
  * The concatenation of all the elements of a container of lists.
  *
  * @param Foldable $foldable
+ *
  * @return array
  */
 function concat(Foldable $foldable)
@@ -166,6 +174,7 @@ const toList = 'Widmogrod\Functional\toList';
  * toList :: Traversable t -> t a -> [a]
  *
  * @param Foldable $traversable
+ *
  * @return mixed
  */
 function toList(Foldable $traversable)
@@ -182,6 +191,7 @@ const identity = 'Widmogrod\Functional\identity';
  * Return value passed to function
  *
  * @param mixed $x
+ *
  * @return mixed
  */
 function identity($x)
@@ -192,9 +202,10 @@ function identity($x)
 /**
  * Curry function
  *
- * @param integer $numberOfArguments
+ * @param int $numberOfArguments
  * @param callable $function
  * @param array $args
+ *
  * @return callable
  */
 function curryN($numberOfArguments, callable $function, array $args = [])
@@ -213,6 +224,7 @@ function curryN($numberOfArguments, callable $function, array $args = [])
  *
  * @param callable $function
  * @param array $args
+ *
  * @return callable
  */
 function curry(callable $function, array $args = [])
@@ -236,6 +248,7 @@ const valueOf = 'Widmogrod\Functional\valueOf';
  * Retrieve value of a object
  *
  * @param ValueOfInterface|mixed $value
+ *
  * @return mixed
  */
 function valueOf($value)
@@ -255,6 +268,7 @@ const tee = 'Widmogrod\Functional\tee';
  *
  * @param callable $function
  * @param mixed $value
+ *
  * @return \Closure
  */
 function tee(callable $function = null, $value = null)
@@ -282,6 +296,7 @@ const compose = 'Widmogrod\Functional\compose';
  *
  * @param callable $a
  * @param callable $b,...
+ *
  * @return \Closure         func($value) : mixed
  */
 function compose(callable $a, callable $b)
@@ -308,6 +323,7 @@ const pipeline = 'Widmogrod\Functional\pipeline';
  *
  * @param callable $a
  * @param callable $b,...
+ *
  * @return \Closure         func($value) : mixed
  */
 function pipeline(callable $a, callable $b)
@@ -330,6 +346,7 @@ const reverse = 'Widmogrod\Functional\reverse';
  * Call $function with arguments in reversed order
  *
  * @return \Closure
+ *
  * @param callable $function
  */
 function reverse(callable $function)
@@ -348,6 +365,7 @@ const map = 'Widmogrod\Functional\map';
  * map :: Functor f => (a -> b) -> f a -> f b
  *
  * @return mixed|\Closure
+ *
  * @param callable $transformation
  * @param Functor $value
  */
@@ -367,6 +385,7 @@ const bind = 'Widmogrod\Functional\bind';
  * bind :: Monad m => (a -> m b) -> m a -> m b
  *
  * @return mixed|\Closure
+ *
  * @param callable $function
  * @param Monad $value
  */
@@ -386,6 +405,7 @@ const join = 'Widmogrod\Functional\join';
  * join :: Monad (Monad m) -> Monad m
  *
  * @param Monad $monad
+ *
  * @return Monad
  */
 function join(Monad $monad = null)
@@ -404,6 +424,7 @@ const reduce = 'Widmogrod\Functional\reduce';
  * @param callable $callable Binary function ($accumulator, $value)
  * @param mixed $accumulator
  * @param Foldable $foldable
+ *
  * @return mixed
  */
 function reduce(callable $callable, $accumulator = null, Foldable $foldable = null)
@@ -431,6 +452,7 @@ const foldr = 'Widmogrod\Functional\foldr';
  * @param callable $callable Binary function ($value, $accumulator)
  * @param mixed $accumulator
  * @param Foldable $foldable
+ *
  * @return mixed
  */
 function foldr(callable $callable, $accumulator = null, Foldable $foldable = null)
@@ -453,12 +475,12 @@ function foldr(callable $callable, $accumulator = null, Foldable $foldable = nul
  */
 const filter = 'Widmogrod\Functional\filter';
 
-
 /**
  * filter :: (a -> Bool) -> [a] -> [a]
  *
  * @param callable $predicate
  * @param Foldable $list
+ *
  * @return Foldable
  */
 function filter(callable $predicate, Foldable $list = null)
@@ -482,6 +504,7 @@ const mpipeline = 'Widmogrod\Functional\mpipeline';
  *
  * @param callable $a
  * @param callable $b,...
+ *
  * @return \Closure         func($mValue) : mixed
  */
 function mpipeline(callable $a, callable $b)
@@ -502,6 +525,7 @@ const mcompose = 'Widmogrod\Functional\mcompose';
  *
  * @param callable $a
  * @param callable $b,...
+ *
  * @return \Closure         func($mValue) : mixed
  */
 function mcompose(callable $a, callable $b)
@@ -521,6 +545,7 @@ const flip = 'Widmogrod\Functional\flip';
  * flip :: (a -> b -> c) -> (b -> a -> c)
  *
  * @param callable $func
+ *
  * @return callable
  */
 function flip(callable $func)
@@ -548,6 +573,7 @@ const isNativeTraversable = 'Widmogrod\Functional\isNativeTraversable';
  * Evaluate if value is a traversable
  *
  * @param mixed $value
+ *
  * @return bool
  */
 function isNativeTraversable($value)
@@ -564,6 +590,7 @@ const toNativeTraversable = 'Widmogrod\Functional\toNativeTraversable';
  * toNativeTraversable :: a -> [a]
  *
  * @param mixed $value
+ *
  * @return array
  */
 function toNativeTraversable($value)
@@ -580,6 +607,7 @@ const head = 'Widmogrod\Functional\head';
  * Return head of a traversable
  *
  * @param array|\Traversable $list
+ *
  * @return null|mixed
  */
 function head($list)
@@ -603,6 +631,7 @@ const tail = 'Widmogrod\Functional\tail';
  * Return tail of a traversable
  *
  * @param array|\Traversable $list
+ *
  * @return null|array
  */
 function tail($list)
@@ -611,7 +640,7 @@ function tail($list)
         return null;
     }
 
-    if(is_array($list)) {
+    if (is_array($list)) {
         $clone = $list;
         array_shift($clone);
 
@@ -620,8 +649,8 @@ function tail($list)
 
     $values = [];
     $first = true;
-    foreach($list as $k => $v) {
-        if($first) {
+    foreach ($list as $k => $v) {
+        if ($first) {
             $first = false;
         } else {
             $values[$k] = $v;
@@ -637,6 +666,7 @@ function tail($list)
  * @param callable $function
  * @param callable $catchFunction
  * @param $value
+ *
  * @return mixed
  */
 function tryCatch(callable $function, callable $catchFunction, $value)
@@ -659,6 +689,7 @@ const reThrow = 'Widmogrod\Functional\reThrow';
  * reThrow :: Exception e => e -> a
  *
  * @param \Exception $e
+ *
  * @throws \Exception
  */
 function reThrow(\Exception $e)
@@ -683,6 +714,7 @@ const liftM2 = 'Widmogrod\Functional\liftM2';
  * @param callable $transformation
  * @param Monad $ma
  * @param Monad $mb
+ *
  * @return Monad|\Closure
  */
 function liftM2(
@@ -715,6 +747,7 @@ const liftA2 = 'Widmogrod\Functional\liftA2';
  * @param callable $transformation
  * @param Applicative $fa
  * @param Applicative $fb
+ *
  * @return Applicative|\Closure
  */
 function liftA2(
@@ -749,6 +782,7 @@ const sequenceM = 'Widmogrod\Functional\sequenceM';
  *
  * @param Monad $a
  * @param Monad $b
+ *
  * @return Monad
  */
 function sequenceM(Monad $a, Monad $b)
@@ -769,6 +803,7 @@ const sequence_ = 'Widmogrod\Functional\sequence_';
  * @todo consider to do it like this: foldr (>>) (return ())
  *
  * @param Monad[] $monads
+ *
  * @return Monad
  */
 function sequence_($monads)
@@ -788,6 +823,7 @@ const traverse = 'Widmogrod\Functional\traverse';
  *
  * @param callable $transformation  (a -> f b)
  * @param Traversable      $t t a
+ *
  * @return Applicative     f (t b)
  */
 function traverse(callable $transformation, Traversable $t = null)
@@ -809,6 +845,7 @@ const sequence = 'Widmogrod\Functional\sequence';
  * sequence :: Monad m => t (m a) -> m (t a)
  *
  * @param Traversable|Monad[] $monads
+ *
  * @return Monad
  */
 function sequence($monads)
@@ -821,6 +858,7 @@ function sequence($monads)
  *
  * @param callable $f (a -> m Bool)
  * @param array|Traversable $collection [a]
+ *
  * @return Monad m [a]
  */
 function filterM(callable $f, $collection)
@@ -861,6 +899,7 @@ function filterM(callable $f, $collection)
  * @param callable $f (a -> b -> m a)
  * @param mixed $initial a
  * @param array|\Traversable $collection [b]
+ *
  * @return mixed m a
  */
 function foldM(callable $f, $initial, $collection)

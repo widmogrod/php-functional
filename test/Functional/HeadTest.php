@@ -1,4 +1,5 @@
 <?php
+
 namespace test\Functional;
 
 use Widmogrod\Functional as f;
@@ -22,19 +23,19 @@ class HeadTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'simple list' => [
-                '$list' => [1, 2],
+                '$list'     => [1, 2],
                 '$expected' => 1
             ],
             'empty list' => [
-                '$list' => [],
+                '$list'     => [],
                 '$expected' => null
             ],
             'array iterator' => [
-                '$list' => new \ArrayIterator([1, 2]),
+                '$list'     => new \ArrayIterator([1, 2]),
                 '$expected' => 1
             ],
             'array object' => [
-                '$list' => new \ArrayObject([1, 2]),
+                '$list'     => new \ArrayObject([1, 2]),
                 '$expected' => 1
             ],
         ];

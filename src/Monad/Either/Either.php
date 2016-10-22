@@ -1,7 +1,7 @@
 <?php
+
 namespace Widmogrod\Monad\Either;
 
-use Widmogrod\Monad;
 use Widmogrod\Common;
 use Widmogrod\FantasyLand;
 
@@ -14,6 +14,7 @@ interface Either extends
      *
      * @param callable $left  (a -> b)
      * @param callable $right (c -> b)
+     *
      * @return mixed          b
      */
     public function either(callable $left, callable $right);

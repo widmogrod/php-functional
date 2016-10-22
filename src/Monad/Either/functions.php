@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\Monad\Either;
 
 use Widmogrod\Functional as f;
@@ -10,6 +11,7 @@ const pure = 'Widmogrod\Monad\Either\pure';
  * pure :: Applicative Either f => a -> f a
  *
  * @param callable $f
+ *
  * @return Right
  */
 function pure($f)
@@ -23,6 +25,7 @@ const right = 'Widmogrod\Monad\Either\right';
  * right :: a -> Right a
  *
  * @param mixed $value
+ *
  * @return Right
  */
 function right($value)
@@ -36,6 +39,7 @@ const left = 'Widmogrod\Monad\Either\left';
  * left :: a -> Left a
  *
  * @param mixed $value
+ *
  * @return Left
  */
 function left($value)
@@ -53,6 +57,7 @@ const either = 'Widmogrod\Monad\Either\either';
  * @param callable $left  (a -> c)
  * @param callable $right (b -> c)
  * @param Either $either  Either a b
+ *
  * @return mixed            c
  */
 function either(callable $left, callable $right = null, Either $either = null)
@@ -72,6 +77,7 @@ const doubleMap = 'Widmogrod\Monad\Either\doubleMap';
  * @param callable $left
  * @param callable $right
  * @param Either $either
+ *
  * @return Left|Right
  */
 function doubleMap(callable $left, callable $right = null, Either $either = null)
@@ -95,6 +101,7 @@ const tryCatch = 'Widmogrod\Monad\Either\tryCatch';
  * @param callable $function      (a -> b)
  * @param callable $catchFunction (e -> c)
  * @param mixed $value            a
+ *
  * @return Either|\Closure
  */
 function tryCatch(callable $function = null, callable $catchFunction = null, $value = null)
@@ -114,6 +121,7 @@ const toMaybe = 'Widmogrod\Monad\Either\toMaybe';
  * toMaybe :: Either x a -> Maybe a
  *
  * @param Either $either
+ *
  * @return Maybe\Maybe
  */
 function toMaybe(Either $either)

@@ -1,10 +1,10 @@
 <?php
+
 namespace example;
 
-use Widmogrod\Functional as f;
 use Widmogrod\Primitive\Listt;
 
-class MonadCollectionTest extends \PHPUnit_Framework_TestCase
+class FunctorCollectionTest extends \PHPUnit_Framework_TestCase
 {
     public function test_it_should_return_new_map()
     {
@@ -24,4 +24,3 @@ class MonadCollectionTest extends \PHPUnit_Framework_TestCase
         );
     }
 }
-

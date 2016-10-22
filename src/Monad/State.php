@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\Monad;
 
 use Widmogrod\Common;
@@ -24,7 +25,7 @@ class State implements Monad
      */
     public function ap(Apply $b)
     {
-        return $this->bind(function($f) use ($b) {
+        return $this->bind(function ($f) use ($b) {
             return $b->map($f);
         });
     }
@@ -36,6 +37,7 @@ class State implements Monad
     {
         return self::of(function ($state) use ($function) {
             list($value, $newState) = $this->runState($state);
+
             return call_user_func($function, $value)->runState($newState);
         });
     }
@@ -47,6 +49,7 @@ class State implements Monad
     {
         return self::of(function ($state) use ($function) {
             list($value, $newState) = $this->runState($state);
+
             return [call_user_func($function, $value), $newState];
         });
     }
@@ -57,6 +60,7 @@ class State implements Monad
      * Run computation on a monad with initial state
      *
      * @param mixed $initialState
+     *
      * @return array
      */
     public function runState($initialState)
