@@ -34,8 +34,8 @@ class Listt implements
     public function map(callable $transformation)
     {
         $result = [];
-        foreach ($this->value as $key => $value) {
-            $result[$key] = call_user_func($transformation, $value);
+        foreach ($this->value as $value) {
+            $result[] = call_user_func($transformation, $value);
         }
 
         return self::of($result);
@@ -49,6 +49,7 @@ class Listt implements
     public function ap(FantasyLand\Apply $applicative)
     {
         return $this->reduce(function ($accumulator, $value) use ($applicative) {
+            /** @var $applicative self */
             return f\concatM($accumulator, $applicative->map($value));
         }, self::mempty());
     }
