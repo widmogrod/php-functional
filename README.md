@@ -171,14 +171,15 @@ The `Writer monad` is useful to keep logs in a pure way. Coupled with `filterM` 
 
 use Widmogrod\Monad\Writer as W;
 use Widmogrod\Functional as f;
+use Widmogrod\Primitive\Stringg as S;
 
 $data = [1, 10, 15, 20, 25];
 
 $filter = function($i) {
     if ($i % 2 == 1) {
-        return W::of(false, "Reject odd number $i.\n");
+        return W::of(false, S::of("Reject odd number $i.\n"));
     } else if($i > 15) {
-      return W::of(false, "Reject $i because it is bigger than 15\n");
+      return W::of(false, S::of("Reject $i because it is bigger than 15\n"));
     }
 
     return W::of(true);
@@ -205,7 +206,7 @@ function ask($content)
 {
     return R::of(function($name) use($content) {
         return $content.
-               ($name == 'World' ? '' : ' How are you ?');
+               ($name == 'World' ? '' : ' How are you?');
     });
 }
 
@@ -213,8 +214,9 @@ $r = R\reader('hello')
       ->bind('ask')
       ->map('strtoupper');
 
-echo $r->runReader('World');
-echo $r->runReader('Gilles');
+assert($r->runReader('World') === 'HELLO WORLD!')
+
+assert($r->runReader('World') === 'HELLO GILLES! HOW ARE YOU?')
 
 ```
 
