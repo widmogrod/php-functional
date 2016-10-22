@@ -15,7 +15,8 @@
   "prefer-stable": true,
   "scripts": {
     "test": "phpunit",
-    "fix-code": "php-cs-fixer fix src/ && php-cs-fixer fix test/ && php-cs-fixer fix example/"
+    "fix-code": "php-cs-fixer fix",
+    "check-code": "php-cs-fixer fix --verbose --diff --dry-run"
   },
   "autoload": {
     "psr-4": {

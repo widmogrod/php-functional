@@ -17,7 +17,8 @@ install:
  - composer install --prefer-source
 
 script:
- - vendor/bin/phpunit
+ - composer test
+ - composer check-code
 
 notifications:
   email: "widmogrod+php-functional@gmail.com"
