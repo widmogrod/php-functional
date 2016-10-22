@@ -44,8 +44,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             'reader 0' => [
                 '$f'   => $hello,
                 '$g'   => $hi,
-                '$x'   => 'How are you?',
-                '$env' => 'World',
+                '$x'   => 54,
+                '$env' => 666,
             ],
         ];
     }
