@@ -34,8 +34,8 @@ class Listt implements
     public function map(callable $transformation)
     {
         $result = [];
-        foreach ($this->value as $key => $value) {
-            $result[$key] = call_user_func($transformation, $value);
+        foreach ($this->value as $value) {
+            $result[] = call_user_func($transformation, $value);
         }
 
         return self::of($result);
@@ -48,20 +48,10 @@ class Listt implements
      */
     public function ap(FantasyLand\Apply $applicative)
     {
-        // Since we don't have List comprehension in PHP, use a foreach
-        $result = [];
-        $isCollection = $applicative instanceof self;
-
-        foreach ($this->extract() as $value) {
-            $partial = f\valueOf($applicative->map($value));
-            if ($isCollection) {
-                $result = f\push($result, $partial);
-            } else {
-                $result[] = $partial;
-            }
-        }
-
-        return $applicative::of($result);
+        return $this->reduce(function ($accumulator, $value) use ($applicative) {
+            /** @var $applicative self */
+            return f\concatM($accumulator, $applicative->map($value));
+        }, self::mempty());
     }
 
     /**
