@@ -4,23 +4,18 @@ namespace Widmogrod\Primitive;
 use Widmogrod\Common;
 use Widmogrod\FantasyLand;
 
-class Stringg implements
-    FantasyLand\Pointed,
+class Sum extends Num implements
     FantasyLand\Monoid,
-    FantasyLand\Setoid,
-    Common\ValueOfInterface
+    FantasyLand\Pointed
 {
-    const of = 'Widmogrod\Primitive\Stringg::of';
-
     use Common\PointedTrait;
-    use Common\ValueOfTrait;
 
     /**
      * @inheritdoc
      */
     public static function mempty()
     {
-        return self::of("");
+        return self::of(0);
     }
 
     /**
@@ -37,19 +32,9 @@ class Stringg implements
     public function concat(FantasyLand\Semigroup $value)
     {
         if ($value instanceof self) {
-            return self::of($this->value . $value->extract());
+            return self::of($this->extract() + $value->extract());
         }
 
         throw new TypeMismatchError($value, self::class);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function equals($other)
-    {
-        return $other instanceof self
-            ? $this->extract() === $other->extract()
-            : false;
     }
 }
