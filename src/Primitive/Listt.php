@@ -48,20 +48,9 @@ class Listt implements
      */
     public function ap(FantasyLand\Apply $applicative)
     {
-        // Since we don't have List comprehension in PHP, use a foreach
-        $result = [];
-        $isCollection = $applicative instanceof self;
-
-        foreach ($this->extract() as $value) {
-            $partial = f\valueOf($applicative->map($value));
-            if ($isCollection) {
-                $result = f\push($result, $partial);
-            } else {
-                $result[] = $partial;
-            }
-        }
-
-        return $applicative::of($result);
+        return $this->reduce(function ($accumulator, $value) use ($applicative) {
+            return f\concatM($accumulator, $applicative->map($value));
+        }, self::mempty());
     }
 
     /**
