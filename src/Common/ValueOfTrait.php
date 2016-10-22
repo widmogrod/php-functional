@@ -1,7 +1,8 @@
 <?php
+
 namespace Widmogrod\Common;
 
-trait ValueOfTrait 
+trait ValueOfTrait
 {
     /**
      * Return value wrapped by Monad

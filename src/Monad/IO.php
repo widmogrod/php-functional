@@ -1,8 +1,8 @@
 <?php
+
 namespace Widmogrod\Monad;
 
 use Widmogrod\Common;
-use Widmogrod\Functional as f;
 use Widmogrod\FantasyLand;
 
 class IO implements
@@ -44,6 +44,7 @@ class IO implements
         // IO monad is returned and inside of it is little switch
         return static::of(function () use ($function) {
             $m = call_user_func($function, $this->run());
+
             return $m instanceof IO
                 ? $m->run()
                 : $m;

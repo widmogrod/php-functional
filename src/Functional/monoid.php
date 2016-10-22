@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\Functional;
 
 use Widmogrod\FantasyLand\Monoid;
@@ -10,6 +11,7 @@ const emptyM = 'Widmogrod\Functional\emptyM';
  * emptyM :: a
  *
  * @param Monoid $a
+ *
  * @return Monoid
  */
 function emptyM(Monoid $a)
@@ -24,6 +26,7 @@ const concatM = 'Widmogrod\Functional\concatM';
  *
  * @param Semigroup $a
  * @param Semigroup $b
+ *
  * @return Semigroup
  */
 function concatM(Semigroup $a, Semigroup $b)

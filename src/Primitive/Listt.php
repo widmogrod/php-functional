@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\Primitive;
 
 use Widmogrod\Common;
@@ -49,7 +50,7 @@ class Listt implements
     {
         // Since we don't have List comprehension in PHP, use a foreach
         $result = [];
-        $isCollection = $applicative instanceof Listt;
+        $isCollection = $applicative instanceof self;
 
         foreach ($this->extract() as $value) {
             $partial = f\valueOf($applicative->map($value));
@@ -134,8 +135,9 @@ class Listt implements
     public function concat(FantasyLand\Semigroup $value)
     {
         if ($value instanceof self) {
-            return self::of($value->reduce(function($accumulator, $item) {
+            return self::of($value->reduce(function ($accumulator, $item) {
                 $accumulator[] = $item;
+
                 return $accumulator;
             }, $this->extract()));
         }

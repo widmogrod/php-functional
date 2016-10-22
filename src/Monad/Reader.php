@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\Monad;
 
 use Widmogrod\Common;
@@ -27,7 +28,7 @@ class Reader implements FantasyLand\Monad
 
     public function ap(FantasyLand\Apply $b)
     {
-        return $this->bind(function($f) use ($b) {
+        return $this->bind(function ($f) use ($b) {
             return $b->map($f);
         });
     }

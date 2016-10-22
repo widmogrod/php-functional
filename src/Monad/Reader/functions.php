@@ -10,6 +10,7 @@ const pure = 'Widmogrod\Monad\Reader\pure';
  * pure :: Applicative Just f => a -> f a
  *
  * @param callable $f
+ *
  * @return M\Reader
  */
 function pure($f)
@@ -27,6 +28,7 @@ const reader = 'Widmogrod\Monad\Reader\reader';
  * Embed a simple reader action into the monad.
  *
  * @param callable $readerFunction
+ *
  * @return M\Reader
  */
 function reader(callable $readerFunction)
@@ -44,6 +46,7 @@ const value = 'Widmogrod\Monad\Reader\value';
  * Put value inside ot the monad
  *
  * @param mixed $value
+ *
  * @return M\Reader
  */
 function value($value)
@@ -62,6 +65,7 @@ const runReader = 'Widmogrod\Monad\Reader\runReader';
  *
  * @param M\Reader $reader
  * @param mixed $env
+ *
  * @return mixed
  */
 function runReader(M\Reader $reader, $env)

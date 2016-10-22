@@ -2,7 +2,8 @@
   "name": "widmogrod/php-functional",
   "description": "Functors, Applicative and Monads are fascinating concept. Purpose of this library is to explore them in OOP PHP world.",
   "require-dev": {
-    "phpunit/phpunit": "^4.7"
+    "phpunit/phpunit": "^4.7",
+    "fabpot/php-cs-fixer": "^1.12"
   },
   "license": "MIT",
   "authors": [
@@ -13,7 +14,9 @@
   ],
   "prefer-stable": true,
   "scripts": {
-    "test": "phpunit"
+    "test": "phpunit",
+    "fix-code": "php-cs-fixer fix",
+    "check-code": "php-cs-fixer fix --verbose --diff --dry-run"
   },
   "autoload": {
     "psr-4": {

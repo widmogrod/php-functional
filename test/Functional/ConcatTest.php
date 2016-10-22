@@ -1,4 +1,5 @@
 <?php
+
 namespace test\Functional;
 
 use Widmogrod\Functional as f;
@@ -19,11 +20,11 @@ class ConcatTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'list' => [
-                '$array' => f\toFoldable(['foo', 1]),
+                '$array'    => f\toFoldable(['foo', 1]),
                 '$expected' => ['foo', 1],
             ],
             'list of lists' => [
-                '$array' => f\toFoldable([['a', 1], ['b', 2]]),
+                '$array'    => f\toFoldable([['a', 1], ['b', 2]]),
                 '$expected' => ['a', 1, 'b', 2],
             ],
             'list of lists of lists' => [

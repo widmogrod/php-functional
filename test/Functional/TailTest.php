@@ -1,4 +1,5 @@
 <?php
+
 namespace test\Functional;
 
 use Widmogrod\Functional as f;
@@ -22,11 +23,11 @@ class TailTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'simple list' => [
-                '$list' => [1, 2, 3],
+                '$list'     => [1, 2, 3],
                 '$expected' => [2, 3]
             ],
             'empty list' => [
-                '$list' => [],
+                '$list'     => [],
                 '$expected' => null
             ],
         ];

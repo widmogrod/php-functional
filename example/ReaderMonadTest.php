@@ -3,16 +3,15 @@
 namespace example;
 
 use Widmogrod\Monad\Reader as R;
-use Widmogrod\Functional as f;
 
-
-function hello($name) {
+function hello($name)
+{
     return "Hello $name!";
 }
 
 function ask($content)
 {
-    return R::of(function($name) use($content) {
+    return R::of(function ($name) use ($content) {
         return $content.
                ($name == 'World' ? '' : ' How are you ?');
     });

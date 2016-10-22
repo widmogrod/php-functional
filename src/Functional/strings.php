@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\Functional;
 
 const concatStrings = 'Widmogrod\Functional\concatStrings';
@@ -8,6 +9,7 @@ const concatStrings = 'Widmogrod\Functional\concatStrings';
  *
  * @param string $a
  * @param string $b
+ *
  * @return string
  */
 function concatStrings($a, $b = null)

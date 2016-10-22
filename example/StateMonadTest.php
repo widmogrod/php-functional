@@ -1,9 +1,9 @@
 <?php
+
 namespace example;
 
 use Widmogrod\Monad\State as S;
 use Widmogrod\Monad\Maybe;
-use Widmogrod\Functional as f;
 
 /**
  * Caching is an example state that you could have in your application.
@@ -12,6 +12,7 @@ interface Cacher
 {
     /**
      * @param string $key
+     *
      * @return Maybe\Maybe
      */
     public function get($key);
@@ -19,6 +20,7 @@ interface Cacher
     /**
      * @param string $key
      * @param mixed $value
+     *
      * @return self
      */
     public function put($key, $value);
@@ -42,13 +44,12 @@ class InMemoryCache implements Cacher
 
     public function put($key, $value)
     {
-        return new InMemoryCache(array_merge(
+        return new self(array_merge(
             $this->data,
             [$key => $value]
         ));
     }
 }
-
 
 // checkRelatedInCache :: String -> State (Maybe a, s)
 function checkRelatedInCache($productName)
@@ -80,10 +81,10 @@ function retrieveRelated($productName)
     return S::of(function (Cacher $cache) use ($productName) {
         // do some database work
         $products = ['iPhone 5', 'iPhone 6s'];
+
         return [$products, $cache->put($productName, $products)];
     });
 }
-
 
 class StateMonadTest extends \PHPUnit_Framework_TestCase
 {

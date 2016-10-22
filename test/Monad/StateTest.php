@@ -1,4 +1,5 @@
 <?php
+
 namespace test\Monad;
 
 use Widmogrod\FantasyLand\Applicative;
@@ -42,9 +43,9 @@ class StateTest extends \PHPUnit_Framework_TestCase
 
         return [
             'state 0' => [
-                '$f' => $addOne,
-                '$g' => $addTwo,
-                '$x' => 10,
+                '$f'     => $addOne,
+                '$g'     => $addTwo,
+                '$x'     => 10,
                 '$state' => 0,
             ],
         ];
@@ -84,7 +85,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
         return [
             'State' => [
                 '$pure' => State\pure,
-                '$u' => State\pure(function () {
+                '$u'    => State\pure(function () {
                     return 1;
                 }),
                 '$v' => State\pure(function ($x) {
@@ -96,7 +97,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
                 '$f' => function ($x) {
                     return 400 + $x;
                 },
-                '$x' => 33,
+                '$x'     => 33,
                 '$state' => 3,
             ],
         ];
@@ -135,7 +136,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
                 '$g' => function ($x) {
                     return $x + 5;
                 },
-                '$x' => State\value(3),
+                '$x'      => State\value(3),
                 '$state'  => 'asd',
             ],
         ];

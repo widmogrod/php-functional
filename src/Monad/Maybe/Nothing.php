@@ -1,7 +1,7 @@
 <?php
+
 namespace Widmogrod\Monad\Maybe;
 
-use Widmogrod\Monad;
 use Widmogrod\FantasyLand;
 
 class Nothing implements Maybe

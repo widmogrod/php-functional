@@ -1,4 +1,5 @@
 <?php
+
 namespace example;
 
 use Widmogrod\Functional as f;
@@ -29,5 +30,3 @@ class EitherMonadTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(e\left('File "aaa" does not exists'), $concat);
     }
 }
-
-

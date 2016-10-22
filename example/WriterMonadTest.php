@@ -6,18 +6,17 @@ use Widmogrod\Monad\Writer as W;
 use Widmogrod\Functional as f;
 use Widmogrod\Primitive\Stringg as S;
 
-
 class WriterMonadTest extends \PHPUnit_Framework_TestCase
 {
     public function test_it_should_filter_with_logs()
     {
         $data = [1, 10, 15, 20, 25];
 
-        $filter = function($i) {
+        $filter = function ($i) {
             if ($i % 2 == 1) {
                 return W::of(false, S::of("Reject odd number $i.\n"));
-            } else if($i > 15) {
-              return W::of(false, S::of("Reject $i because it is bigger than 15\n"));
+            } elseif ($i > 15) {
+                return W::of(false, S::of("Reject $i because it is bigger than 15\n"));
             }
 
             return W::of(true);

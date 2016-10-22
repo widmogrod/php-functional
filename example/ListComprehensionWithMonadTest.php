@@ -1,7 +1,7 @@
 <?php
+
 namespace example;
 
-use Widmogrod\Functional as f;
 use Widmogrod\Primitive\Listt;
 
 class ListComprehensionWithMonadTest extends \PHPUnit_Framework_TestCase
@@ -28,5 +28,3 @@ class ListComprehensionWithMonadTest extends \PHPUnit_Framework_TestCase
         );
     }
 }
-
-

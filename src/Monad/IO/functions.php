@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\Monad\IO;
 
 use Widmogrod\Functional as f;
@@ -10,6 +11,7 @@ const pure = 'Widmogrod\Monad\IO\pure';
  * pure :: Applicative IO f => a -> f a
  *
  * @param callable $f
+ *
  * @return M\IO
  */
 function pure($f)
@@ -28,6 +30,7 @@ const until = 'Widmogrod\Monad\IO\until';
  * @param callable $do        (a -> b -> a)
  * @param mixed $base         b
  * @param M\IO $ioValue       IO a
+ *
  * @return M\IO
  */
 function until(callable $predicate, callable $do, $base, M\IO $ioValue)
@@ -49,6 +52,7 @@ const getChar = 'Widmogrod\Monad\IO\getChar';
 
 /**
  * @throws IOError
+ *
  * @return M\IO
  */
 function getChar()
@@ -70,6 +74,7 @@ const getLine = 'Widmogrod\Monad\IO\getLine';
  * getLine :: IO String
  *
  * @throws IOError
+ *
  * @return M\IO
  */
 function getLine()
@@ -83,6 +88,7 @@ const putStrLn = 'Widmogrod\Monad\IO\putStrLn';
  * putStrLn :: String -> IO ()
  *
  * @param $string
+ *
  * @return M\IO
  */
 function putStrLn($string)
@@ -98,7 +104,9 @@ const readFile = 'Widmogrod\Monad\IO\readFile';
  * readFile :: String -> IO String
  *
  * @param $fileName
+ *
  * @throws IOError
+ *
  * @return M\IO
  */
 function readFile($fileName)
@@ -124,7 +132,9 @@ const writeFile = 'Widmogrod\Monad\IO\writeFile';
  *
  * @param string $fileName
  * @param string $content
+ *
  * @throws IOError
+ *
  * @return M\IO
  */
 function writeFile($fileName, $content)
@@ -149,7 +159,9 @@ const getArgs = 'Widmogrod\Monad\IO\getArgs';
  * getArgs :: IO [String]
  *
  * Computation getArgs returns a list of the program's command line arguments (not including the program name).
+ *
  * @throws IOError
+ *
  * @return M\IO
  */
 function getArgs()
@@ -171,7 +183,9 @@ const getEnv = 'Widmogrod\Monad\IO\getEnv';
  * getEnv :: String -> IO String
  *
  * @param string $name
+ *
  * @throws IOError
+ *
  * @return M\IO
  */
 function getEnv($name)
@@ -195,6 +209,7 @@ const lookupEnv = 'Widmogrod\Monad\IO\lookupEnv';
  * lookupEnv :: String -> IO (Maybe String)
  *
  * @param string $name
+ *
  * @return M\IO
  */
 function lookupEnv($name)

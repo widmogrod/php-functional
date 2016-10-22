@@ -1,4 +1,5 @@
 <?php
+
 namespace test\Monad;
 
 use Widmogrod\FantasyLand\Applicative;
@@ -90,7 +91,7 @@ class IOTest extends \PHPUnit_Framework_TestCase
         return [
             'IO' => [
                 '$pure' => IO\pure,
-                '$u' => IO\pure(function () {
+                '$u'    => IO\pure(function () {
                     return 1;
                 }),
                 '$v' => IO\pure(function () {

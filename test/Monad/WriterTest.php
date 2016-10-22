@@ -82,7 +82,7 @@ class WriterTest extends \PHPUnit_Framework_TestCase
         return [
             'Writer' => [
                 '$pure' => Writer\pure,
-                '$u' => Writer\pure(function () {
+                '$u'    => Writer\pure(function () {
                     return 1;
                 }),
                 '$v' => Writer\pure(function () {

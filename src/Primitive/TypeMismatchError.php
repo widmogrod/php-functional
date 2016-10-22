@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\Primitive;
 
 class TypeMismatchError extends \Exception

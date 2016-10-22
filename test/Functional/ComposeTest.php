@@ -1,11 +1,12 @@
 <?php
+
 namespace test\Functional;
 
 use Widmogrod\Functional as f;
 
 class ComposeTest extends \PHPUnit_Framework_TestCase
 {
-    function test_it_should_retun_function_accepting_arguments()
+    public function test_it_should_retun_function_accepting_arguments()
     {
         $this->assertInstanceOf(\Closure::class, f\compose('strtolower', 'strtoupper'));
     }
@@ -31,8 +32,8 @@ class ComposeTest extends \PHPUnit_Framework_TestCase
         return [
             'two function' => [
                 '$functions' => ['strtolower', 'strtoupper'],
-                '$value' => 'aBcD',
-                '$expected' => 'abcd'
+                '$value'     => 'aBcD',
+                '$expected'  => 'abcd'
             ],
         ];
     }

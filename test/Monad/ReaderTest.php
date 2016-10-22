@@ -42,9 +42,9 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
         return [
             'reader 0' => [
-                '$f' => $hello,
-                '$g' => $hi,
-                '$x' => 'How are you?',
+                '$f'   => $hello,
+                '$g'   => $hi,
+                '$x'   => 'How are you?',
                 '$env' => 'World',
             ],
         ];
@@ -84,7 +84,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         return [
             'Reader' => [
                 '$pure' => Reader\pure,
-                '$u' => Reader\pure(function () {
+                '$u'    => Reader\pure(function () {
                     return 1;
                 }),
                 '$v' => Reader\pure(function () {
@@ -96,7 +96,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
                 '$f' => function ($x) {
                     return 400 + $x;
                 },
-                '$x' => 33,
+                '$x'      => 33,
                 '$reader' => 3,
             ],
         ];
@@ -135,7 +135,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
                 '$g' => function ($x) {
                     return $x + 5;
                 },
-                '$x' => Reader\value(3),
+                '$x'       => Reader\value(3),
                 '$reader'  => 'asd',
             ],
         ];

@@ -1,4 +1,5 @@
 <?php
+
 namespace test\Monad;
 
 use Widmogrod\FantasyLand\Applicative;

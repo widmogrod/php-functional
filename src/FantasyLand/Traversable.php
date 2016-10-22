@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\FantasyLand;
 
 interface Traversable extends Functor
@@ -9,6 +10,7 @@ interface Traversable extends Functor
      * Where the `a` is value inside of container.
      *
      * @param callable $transformation  (a -> f b)
+     *
      * @return Applicative     f (t b)
      */
     public function traverse(callable $transformation);

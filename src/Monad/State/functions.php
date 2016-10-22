@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\Monad\State;
 
 use Widmogrod\Monad as M;
@@ -9,6 +10,7 @@ const pure = 'Widmogrod\Monad\State\pure';
  * pure :: Applicative Just f => a -> f a
  *
  * @param callable $f
+ *
  * @return M\State
  */
 function pure($f)
@@ -42,6 +44,7 @@ const put = 'Widmogrod\Monad\State\put';
  * Replace the state inside the monad.
  *
  * @param mixed $state
+ *
  * @return M\State
  */
 function put($state)
@@ -59,6 +62,7 @@ const state = 'Widmogrod\Monad\State\state';
  * Embed a simple state action into the monad.
  *
  * @param callable $stateFunction
+ *
  * @return M\State
  */
 function state(callable $stateFunction)
@@ -76,6 +80,7 @@ const gets = 'Widmogrod\Monad\State\gets';
  * Gets specific component of the state, using a projection function supplied.
  *
  * @param callable $transformation
+ *
  * @return M\State
  */
 function gets(callable $transformation)
@@ -93,6 +98,7 @@ const value = 'Widmogrod\Monad\State\value';
  * Put value inside ot the monad
  *
  * @param mixed $value
+ *
  * @return M\State
  */
 function value($value)
@@ -113,6 +119,7 @@ const modify = 'Widmogrod\Monad\State\modify';
  * The old state is thrown away.
  *
  * @param callable $transformation
+ *
  * @return M\State
  */
 function modify(callable $transformation)
@@ -131,6 +138,7 @@ const runState = 'Widmogrod\Monad\State\runState';
  *
  * @param M\State $state
  * @param mixed $initialState
+ *
  * @return mixed
  */
 function runState(M\State $state, $initialState)
@@ -147,6 +155,7 @@ const evalState = 'Widmogrod\Monad\State\evalState';
  *
  * @param M\State $state
  * @param mixed $initialState
+ *
  * @return mixed
  */
 function evalState(M\State $state, $initialState)
@@ -163,6 +172,7 @@ const execState = 'Widmogrod\Monad\State\execState';
  *
  * @param M\State $state
  * @param mixed $initialState
+ *
  * @return mixed
  */
 function execState(M\State $state, $initialState)

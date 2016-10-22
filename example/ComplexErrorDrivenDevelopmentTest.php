@@ -1,4 +1,5 @@
 <?php
+
 require_once 'vendor/autoload.php';
 
 use Widmogrod\Monad\Either as E;
@@ -71,7 +72,7 @@ function returnMessage(array $request)
 function returnFailure($data)
 {
     return [
-        'error' => (string)$data,
+        'error' => (string) $data,
     ];
 }
 
@@ -107,34 +108,34 @@ class ComplexErrorDrivenDevelopmentTest extends \PHPUnit_Framework_TestCase
         return [
             'success case' => [
                 '$request' => [
-                    'name' => 'Jone Doe',
+                    'name'  => 'Jone Doe',
                     'email' => 'test@example.com'
                 ],
-                '$isError' => false,
+                '$isError'  => false,
                 '$expected' => ['status' => 200],
             ],
             'username to short' => [
                 '$request' => [
-                    'name' => '',
+                    'name'  => '',
                     'email' => 'test@example.com'
                 ],
-                '$isError' => true,
+                '$isError'  => true,
                 '$expected' => ['error' => 'Request name is empty'],
             ],
             'username to long' => [
                 '$request' => [
-                    'name' => 'asd asdasdlaks askl djalskd jalskdjaslkdjasldjadsa asd',
+                    'name'  => 'asd asdasdlaks askl djalskd jalskdjaslkdjasldjadsa asd',
                     'email' => 'test@example.com'
                 ],
-                '$isError' => true,
+                '$isError'  => true,
                 '$expected' => ['error' => 'Request name is to long'],
             ],
             'email empty' => [
                 '$request' => [
-                    'name' => 'Jone Doe',
+                    'name'  => 'Jone Doe',
                     'email' => ''
                 ],
-                '$isError' => true,
+                '$isError'  => true,
                 '$expected' => ['error' => 'Request e-mail is empty'],
             ],
         ];

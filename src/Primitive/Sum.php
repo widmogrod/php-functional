@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\Primitive;
 
 use Widmogrod\Common;

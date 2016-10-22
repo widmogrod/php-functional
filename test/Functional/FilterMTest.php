@@ -1,4 +1,5 @@
 <?php
+
 namespace test\Functional;
 
 use Widmogrod\Functional as f;
@@ -13,8 +14,7 @@ class FilterMTest extends \PHPUnit_Framework_TestCase
         $list,
         $expected
     ) {
-
-        $filter = function($i) {
+        $filter = function ($i) {
             return new Just($i % 2 == 1);
         };
 
@@ -28,15 +28,15 @@ class FilterMTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'simple list' => [
-                '$list' => [1, 2, 3, 4, 5],
+                '$list'     => [1, 2, 3, 4, 5],
                 '$expected' => [1, 3, 5]
             ],
             'empty list' => [
-                '$list' => [],
+                '$list'     => [],
                 '$expected' => []
             ],
             'traversable' => [
-                '$list' => new \ArrayIterator([1, 2, 3, 4, 5]),
+                '$list'     => new \ArrayIterator([1, 2, 3, 4, 5]),
                 '$expected' => [1, 3, 5]
             ],
         ];

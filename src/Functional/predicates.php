@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\Functional;
 
 const eql = 'Widmogrod\Functional\eql';
@@ -8,6 +9,7 @@ const eql = 'Widmogrod\Functional\eql';
  *
  * @param mixed $expected
  * @param mixed $value
+ *
  * @return mixed
  */
 function eql($expected, $value = null)
@@ -17,7 +19,6 @@ function eql($expected, $value = null)
     }), func_get_args());
 }
 
-
 const orr = 'Widmogrod\Functional\orr';
 
 /**
@@ -26,6 +27,7 @@ const orr = 'Widmogrod\Functional\orr';
  * @param callable $predicateA
  * @param callable|null $predicateB
  * @param mixed $value
+ *
  * @return mixed
  */
 function orr(callable $predicateA, callable $predicateB = null, $value = null)

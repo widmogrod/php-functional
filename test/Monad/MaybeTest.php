@@ -1,4 +1,5 @@
 <?php
+
 namespace test\Monad;
 
 use Widmogrod\FantasyLand\Applicative;
@@ -32,7 +33,7 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
         return [
             'Just' => [
                 '$return' => Just::of,
-                '$f' => function ($x) {
+                '$f'      => function ($x) {
                     return Just::of($x + 1);
                 },
                 '$g' => function ($x) {
@@ -42,7 +43,7 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
             ],
             'Nothing' => [
                 '$return' => Nothing::of,
-                '$f' => function ($x) {
+                '$f'      => function ($x) {
                     return Nothing::of($x + 1);
                 },
                 '$g' => function ($x) {
@@ -52,7 +53,6 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
-
 
     /**
      * @dataProvider provideApplicativeTestData
@@ -81,7 +81,7 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
         return [
             'Just' => [
                 '$pure' => Maybe\pure,
-                '$u' => Just::of(function () {
+                '$u'    => Just::of(function () {
                     return 1;
                 }),
                 '$v' => Just::of(function () {
@@ -97,7 +97,7 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
             ],
             'Nothing' => [
                 '$pure' => Maybe\pure,
-                '$u' => Nothing::of(function () {
+                '$u'    => Nothing::of(function () {
                     return 1;
                 }),
                 '$v' => Nothing::of(function () {

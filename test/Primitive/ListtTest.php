@@ -1,4 +1,5 @@
 <?php
+
 namespace test\Monad;
 
 use Widmogrod\FantasyLand\Applicative;
@@ -72,7 +73,7 @@ class ListtTest extends \PHPUnit_Framework_TestCase
         return [
             'Listt' => [
                 '$pure' => Listt::of,
-                '$u' => Listt::of(function () {
+                '$u'    => Listt::of(function () {
                     return 1;
                 }),
                 '$v' => Listt::of(function () {

@@ -9,6 +9,7 @@ php:
 matrix:
  allow_failures:
   - php: 7.1
+  - php: hhvm
 
 before_script:
  - composer self-update
@@ -17,7 +18,8 @@ install:
  - composer install --prefer-source
 
 script:
- - vendor/bin/phpunit
+ - composer test
+ - composer check-code
 
 notifications:
   email: "widmogrod+php-functional@gmail.com"

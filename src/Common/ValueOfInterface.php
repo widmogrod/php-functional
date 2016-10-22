@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\Common;
 
 interface ValueOfInterface

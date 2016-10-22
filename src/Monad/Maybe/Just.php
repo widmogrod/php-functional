@@ -1,8 +1,8 @@
 <?php
+
 namespace Widmogrod\Monad\Maybe;
 
 use Widmogrod\Common;
-use Widmogrod\Monad;
 use Widmogrod\FantasyLand;
 
 class Just implements Maybe

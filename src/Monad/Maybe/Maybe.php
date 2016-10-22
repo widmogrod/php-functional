@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\Monad\Maybe;
 
 use Widmogrod\Monad;
@@ -13,6 +14,7 @@ interface Maybe extends
      * Handle situation when error occur in monad computation chain.
      *
      * @param callable $fn
+     *
      * @return Maybe
      */
     public function orElse(callable $fn);

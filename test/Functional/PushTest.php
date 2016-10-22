@@ -1,4 +1,5 @@
 <?php
+
 namespace test\Functional;
 
 use Widmogrod\Functional as f;
@@ -20,23 +21,23 @@ class PushTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'list' => [
-                '$array' => ['foo'],
-                '$value' => ['bar', 'baz'],
+                '$array'    => ['foo'],
+                '$value'    => ['bar', 'baz'],
                 '$expected' => ['foo', 'bar', 'baz'],
             ],
             'map' => [
-                '$array' => ['foo'],
-                '$value' => ['x' => 'bar', 'y' => 'baz'],
+                '$array'    => ['foo'],
+                '$value'    => ['x' => 'bar', 'y' => 'baz'],
                 '$expected' => ['foo', 'bar', 'baz'],
             ],
             'empty array' => [
-                '$array' => ['foo'],
-                '$value' => [],
+                '$array'    => ['foo'],
+                '$value'    => [],
                 '$expected' => ['foo'],
             ],
             'list with null' => [
-                '$array' => ['foo'],
-                '$value' => [null],
+                '$array'    => ['foo'],
+                '$value'    => [null],
                 '$expected' => ['foo', null],
             ],
         ];

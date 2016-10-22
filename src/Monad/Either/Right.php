@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\Monad\Either;
 
 use Widmogrod\Common;

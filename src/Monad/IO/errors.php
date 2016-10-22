@@ -1,4 +1,5 @@
 <?php
+
 namespace Widmogrod\Monad\IO;
 
 use Widmogrod\Functional as f;
@@ -11,6 +12,7 @@ const userError = 'Widmogrod\Monad\IO\userError';
  * userError :: String -> IOError
  *
  * @param string $error
+ *
  * @return IOError
  */
 function userError($error)
@@ -26,6 +28,7 @@ const throwIO = 'Widmogrod\Monad\IO\throwIO';
  * throwIO :: Exception e -> IO a
  *
  * @param \Exception $e
+ *
  * @return M\IO
  */
 function throwIO(\Exception $e)
@@ -42,6 +45,7 @@ const tryCatch = 'Widmogrod\Monad\IO\tryCatch';
  *
  * @param M\IO $io
  * @param callable $catchFunction
+ *
  * @return M\IO
  */
 function tryCatch(M\IO $io = null, callable $catchFunction = null)
@@ -63,6 +67,7 @@ const tryEither = 'Widmogrod\Monad\IO\tryEither';
  * tryEither :: Exception e => IO a -> IO (Either e a)
  *
  * @param M\IO $io
+ *
  * @return M\IO
  */
 function tryEither(M\IO $io)
@@ -77,6 +82,7 @@ function tryEither(M\IO $io)
  * tryMaybe :: IO a -> IO (Maybe a)
  *
  * @param M\IO $io
+ *
  * @return M\IO
  */
 function tryMaybe(M\IO $io)
