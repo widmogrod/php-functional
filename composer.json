@@ -24,12 +24,14 @@
       "src/Functional/predicates.php",
       "src/Functional/strings.php",
       "src/Functional/monoid.php",
+      "src/Monad/Control/functions.php",
       "src/Monad/Either/functions.php",
       "src/Monad/Maybe/functions.php",
       "src/Monad/IO/functions.php",
       "src/Monad/IO/errors.php",
+      "src/Monad/Reader/functions.php",
       "src/Monad/State/functions.php",
-      "src/Monad/Control/functions.php"
+      "src/Monad/Writer/functions.php"
     ]
   }
 }
