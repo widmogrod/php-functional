@@ -99,8 +99,12 @@ class Listt implements
     public function traverse(callable $transformation)
     {
         return f\foldr(function ($ys, $x) use ($transformation) {
-            return call_user_func($transformation, $x)->map(f\append)->ap($ys);
-        }, self::of([]), $this);
+            $functor =  $transformation($x);
+
+            return $functor
+                ->map(f\append)
+                ->ap($ys ? $ys : $functor::of([])); // https://github.com/widmogrod/php-functional/issues/30
+        }, false, $this);
     }
 
     /**
