@@ -8,7 +8,8 @@ use Widmogrod\FantasyLand;
 
 interface Maybe extends
     FantasyLand\Monad,
-    Common\ValueOfInterface
+    Common\ValueOfInterface,
+    FantasyLand\Monoid
 {
     /**
      * Handle situation when error occur in monad computation chain.
