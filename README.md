@@ -94,6 +94,9 @@ $result = $listA->ap($listB);
 assert($result === Listt::of([4, 5, 5, 6]));
 ```
 
+### Maybe Monoid
+Using Maybe as an instance of Monoid simplifies concat and reduce operations by using Maybe's abstraction over potentially missing values. See an [example](example/MaybeMonoidTest.php) of constructing a person's full name from first, middle, and last without having to explicitly check if each part exists.
+
 ### Maybe and List Monad
 Extracting from a list of uneven values can be tricky and produce nasty code full of `if (isset)` statements.
 By combining List and Maybe Monad, this process becomes simpler and more readable.

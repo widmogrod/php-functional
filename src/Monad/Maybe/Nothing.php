@@ -43,6 +43,30 @@ class Nothing implements Maybe
     /**
      * @inheritdoc
      */
+    public function concat(FantasyLand\Semigroup $value)
+    {
+        return $value;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function mempty()
+    {
+        return new static();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getEmpty()
+    {
+        return self::mempty();
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function orElse(callable $fn)
     {
         return call_user_func($fn);

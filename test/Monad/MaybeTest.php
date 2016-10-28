@@ -6,11 +6,13 @@ use Widmogrod\FantasyLand\Applicative;
 use Widmogrod\FantasyLand\Functor;
 use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
+use Widmogrod\Helpful\MonoidLaws;
 use Widmogrod\Monad\Maybe;
 use Widmogrod\Monad\Maybe\Just;
 use Widmogrod\Monad\Maybe\Nothing;
 use Widmogrod\Helpful\MonadLaws;
 use Widmogrod\Functional as f;
+use Widmogrod\Primitive\Listt;
 
 class MaybeTest extends \PHPUnit_Framework_TestCase
 {
@@ -111,6 +113,33 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
                 },
                 '$x' => 33
             ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideMonoidTestData
+     */
+    public function test_it_should_obey_monoid_laws($x, $y, $z)
+    {
+        MonoidLaws::test(
+            f\curryN(3, [$this, 'assertEquals']),
+            $x, $y, $z
+        );
+    }
+
+    public function provideMonoidTestData()
+    {
+        return [
+            'Just' => [
+                '$x' => Just::of(Listt::of(1)),
+                '$y' => Just::of(Listt::of(2)),
+                '$z' => Just::of(Listt::of(3))
+            ],
+            'Nothing' => [
+                '$x' => Nothing::of(null),
+                '$y' => Nothing::of(null),
+                '$z' => Nothing::of(null)
+            ]
         ];
     }
 
