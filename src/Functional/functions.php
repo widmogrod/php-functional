@@ -8,8 +8,8 @@ use Widmogrod\FantasyLand\Foldable;
 use Widmogrod\FantasyLand\Functor;
 use Widmogrod\FantasyLand\Monad;
 use Widmogrod\FantasyLand\Traversable;
-use Widmogrod\Primitive\Listt;
 use Widmogrod\Monad\Identity;
+use Widmogrod\Primitive\Listt;
 
 /**
  * @var callable
@@ -465,7 +465,9 @@ function foldr(callable $callable, $accumulator = null, Foldable $foldable = nul
         return reduce(
             $callable,
             $accumulator,
-            toFoldable(reduce(flip(append), [], $foldable))
+            reduce(function ($accumulator, $value) {
+                return concatM(Listt::of([$value]), $accumulator);
+            }, Listt::of([]), $foldable)
         );
     }), func_get_args());
 }
@@ -821,8 +823,8 @@ const traverse = 'Widmogrod\Functional\traverse';
  *
  * Map each element of a structure to an action, evaluate these actions from left to right, and collect the results
  *
- * @param callable $transformation  (a -> f b)
- * @param Traversable      $t t a
+ * @param callable $transformation (a -> f b)
+ * @param Traversable $t           t a
  *
  * @return Applicative     f (t b)
  */
@@ -856,7 +858,7 @@ function sequence($monads)
 /**
  * filterM :: Monad m => (a -> m Bool) -> [a] -> m [a]
  *
- * @param callable $f (a -> m Bool)
+ * @param callable $f                   (a -> m Bool)
  * @param array|Traversable $collection [a]
  *
  * @return Monad m [a]
@@ -896,8 +898,8 @@ function filterM(callable $f, $collection)
 /**
  * foldM :: Monad m => (a -> b -> m a) -> a -> [b] -> m a
  *
- * @param callable $f (a -> b -> m a)
- * @param mixed $initial a
+ * @param callable $f                    (a -> b -> m a)
+ * @param mixed $initial                 a
  * @param array|\Traversable $collection [b]
  *
  * @return mixed m a
