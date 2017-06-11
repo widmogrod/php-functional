@@ -930,3 +930,29 @@ function foldM(callable $f, $initial, $collection)
         return $_foldM($initial, $collection);
     }), func_get_args());
 }
+
+/**
+ * @experimental
+ *
+ * @param array $patterns
+ * @param mixed $value
+ *
+ * @return mixed
+ */
+function match(array $patterns, $value = null)
+{
+    return call_user_func_array(curryN(2, function (array $patterns, $value) {
+        $givenType = is_object($value) ? get_class($value) : gettype($value);
+        foreach ($patterns as $className => $fn) {
+            if ($value instanceof $className) {
+                return call_user_func($fn, $value);
+            }
+        }
+
+        throw new \Exception(sprintf(
+            'Cannot match "%s" type. Searching for %s',
+            $givenType,
+            implode(', ', array_keys($patterns))
+        ));
+    }), func_get_args());
+}
