@@ -31,6 +31,8 @@ class ExitSuccess implements TeletypeF
 {
 }
 
+const putStrLn_ = 'example\putStrLn_';
+
 // putStrLn' :: String -> Teletype ()
 function putStrLn_($str)
 {
@@ -62,14 +64,12 @@ function runIO(TeletypeF $r)
             return getLine();
         },
         ExitSuccess::class => function (ExitSuccess $a) {
-            var_dump('exit');
-
-            return IO\pure(null);
+            return exit();
         },
     ], $r);
 }
 
-const runTest = 'example\runTest';
+const runTest = 'example\runState';
 
 // runTest :: TeletypeF State []
 function runState(TeletypeF $r)

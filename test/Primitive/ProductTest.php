@@ -39,8 +39,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     private function randomize()
     {
-        usleep(100);
-
         return Product::of(rand(-100000000, 100000000));
     }
 
