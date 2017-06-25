@@ -7,6 +7,7 @@ use Widmogrod\Monad\State;
 use function Widmogrod\Functional\append;
 use function Widmogrod\Functional\match;
 use function Widmogrod\Monad\Free\liftF;
+use function Widmogrod\Monad\Free\runFree;
 use function Widmogrod\Monad\IO\getLine;
 
 interface TeletypeF
@@ -116,7 +117,7 @@ class FreeMonadTest extends \PHPUnit_Framework_TestCase
     public function test_it_should_allow_to_interpret_as_a_state_monad()
     {
         $echo = echo_();
-        $result = $echo->runFree(interpretState);
+        $result = runFree(interpretState, $echo);
         $this->assertInstanceOf(State::class, $result);
         $result = State\execState($result, []);
 
@@ -131,7 +132,7 @@ class FreeMonadTest extends \PHPUnit_Framework_TestCase
     public function test_it_should_allow_to_interpret_as_IO()
     {
         $echo = echo_();
-        $result = $echo->runFree(interpretIO);
+        $result = runFree(interpretIO, $echo);
         $this->assertInstanceOf(IO::class, $result);
         // Since in PHPUnit STDIN is closed
         // this run will not work, but serves as an example
