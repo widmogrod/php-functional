@@ -55,10 +55,10 @@ function exitSuccess_()
     return liftF(new ExitSuccess());
 }
 
-const integrateIO = 'example\integrateIO';
+const interpretIO = 'example\interpretIO';
 
 // run :: TeletypeF IO ()
-function integrateIO(TeletypeF $r)
+function interpretIO(TeletypeF $r)
 {
     return match([
         PutStrLn::class => function (PutStrLn $a) {
@@ -131,7 +131,7 @@ class FreeMonadTest extends \PHPUnit_Framework_TestCase
     public function test_it_should_allow_to_interpret_as_IO()
     {
         $echo = echo_();
-        $result = $echo->runFree(integrateIO);
+        $result = $echo->runFree(interpretIO);
         $this->assertInstanceOf(IO::class, $result);
         // Since in PHPUnit STDIN is closed
         // this run will not work, but serves as an example
