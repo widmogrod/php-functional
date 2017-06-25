@@ -39,11 +39,15 @@ function putStrLn_($str)
     return liftF(new PutStrLn($str, null));
 }
 
+const getLine_ = 'example\getLine_';
+
 // getLine' :: Teletype String
 function getLine_()
 {
     return liftF(new GetLine());
 }
+
+const exitSuccess_ = 'example\exitSuccess_';
 
 // exitSuccess' :: Teletype r
 function exitSuccess_()
@@ -51,10 +55,10 @@ function exitSuccess_()
     return liftF(new ExitSuccess());
 }
 
-const run = 'example\run';
+const integrateIO = 'example\integrateIO';
 
 // run :: TeletypeF IO ()
-function runIO(TeletypeF $r)
+function integrateIO(TeletypeF $r)
 {
     return match([
         PutStrLn::class => function (PutStrLn $a) {
@@ -69,14 +73,14 @@ function runIO(TeletypeF $r)
     ], $r);
 }
 
-const runTest = 'example\runState';
+const interpretState = 'example\interpretState';
 
 // runTest :: TeletypeF State []
-function runState(TeletypeF $r)
+function interpretState(TeletypeF $r)
 {
     return match([
         PutStrLn::class => function (PutStrLn $a) {
-            return State::of(function ($state) {
+            return State::of(function ($state) use ($a) {
                 return ['PutStrLn', append($state, 'PutStrLn')];
             });
         },
@@ -109,14 +113,28 @@ function echo_()
 
 class FreeMonadTest extends \PHPUnit_Framework_TestCase
 {
-    public function test_it_should_allow_to_interpret()
+    public function test_it_should_allow_to_interpret_as_a_state_monad()
     {
-        $this->markTestSkipped();
-        $e = echo_();
+        $echo = echo_();
+        $result = $echo->runFree(interpretState);
+        $this->assertInstanceOf(State::class, $result);
+        $result = State\execState($result, []);
 
-        var_dump([
-//            'result1' => $e->runFree(run)->run(),
-            'result2' => State\runState($e->runFree(runTest), []),
+        $this->assertEquals($result, [
+            'GetLine',
+            'PutStrLn',
+            'ExitSuccess',
+            'PutStrLn'
         ]);
+    }
+
+    public function test_it_should_allow_to_interpret_as_IO()
+    {
+        $echo = echo_();
+        $result = $echo->runFree(integrateIO);
+        $this->assertInstanceOf(IO::class, $result);
+        // Since in PHPUnit STDIN is closed
+        // this run will not work, but serves as an example
+        // $result->run();
     }
 }

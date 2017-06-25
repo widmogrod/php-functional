@@ -35,6 +35,9 @@ class Pure implements MonadFree
         return self::of(call_user_func($function, $this->value));
     }
 
+    /**
+     * @inheritdoc
+     */
     public function runFree(callable $interpretation)
     {
         return $this->value;

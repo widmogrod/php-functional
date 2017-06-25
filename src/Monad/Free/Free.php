@@ -57,6 +57,9 @@ class Free implements MonadFree
         }, $this->value);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function runFree(callable $interpretation)
     {
         return $interpretation($this->value)->bind(function ($result) use ($interpretation) {
