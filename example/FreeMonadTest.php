@@ -109,6 +109,7 @@ function echo_chaining_()
                 ->bind(function () {
                     return exitSuccess_()
                         ->bind(function () {
+                            // In interpretation of IO Monad this place will never be reached
                             return putStrLn_('Finished');
                         });
                 });
@@ -121,7 +122,7 @@ function echo_composition_()
         getLine_,
         bind(putStrLn_),
         bind(exitSuccess_),
-        bind(putStrLn_)
+        bind(putStrLn_) // In interpretation of IO Monad this place will never be reached
     )(null);
 }
 
@@ -160,7 +161,7 @@ class FreeMonadTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'echo implementation via explicit chaining (bind)' => [echo_chaining_()],
-            'echo implementation via function composition' => [echo_composition_()],
+            'echo implementation via function composition'     => [echo_composition_()],
         ];
     }
 }
