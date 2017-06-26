@@ -2,16 +2,11 @@
 
 namespace example;
 
+use Widmogrod\Functional as f;
+use Widmogrod\Monad\Free as ff;
 use Widmogrod\Monad\Free\MonadFree;
 use Widmogrod\Monad\IO;
 use Widmogrod\Monad\State;
-use function Widmogrod\Functional\append;
-use function Widmogrod\Functional\bind;
-use function Widmogrod\Functional\match;
-use function Widmogrod\Functional\pipeline;
-use function Widmogrod\Monad\Free\liftF;
-use function Widmogrod\Monad\Free\runFree;
-use function Widmogrod\Monad\IO\getLine;
 
 interface TeletypeF
 {
@@ -40,7 +35,7 @@ const putStrLn_ = 'example\putStrLn_';
 // putStrLn' :: String -> Teletype ()
 function putStrLn_($str)
 {
-    return liftF(new PutStrLn($str, null));
+    return ff\liftF(new PutStrLn($str, null));
 }
 
 const getLine_ = 'example\getLine_';
@@ -48,7 +43,7 @@ const getLine_ = 'example\getLine_';
 // getLine' :: Teletype String
 function getLine_()
 {
-    return liftF(new GetLine());
+    return ff\liftF(new GetLine());
 }
 
 const exitSuccess_ = 'example\exitSuccess_';
@@ -56,7 +51,7 @@ const exitSuccess_ = 'example\exitSuccess_';
 // exitSuccess' :: Teletype r
 function exitSuccess_()
 {
-    return liftF(new ExitSuccess());
+    return ff\liftF(new ExitSuccess());
 }
 
 const interpretIO = 'example\interpretIO';
@@ -64,12 +59,12 @@ const interpretIO = 'example\interpretIO';
 // run :: TeletypeF IO ()
 function interpretIO(TeletypeF $r)
 {
-    return match([
+    return f\match([
         PutStrLn::class => function (PutStrLn $a) {
             return IO\putStrLn($a->str);
         },
         GetLine::class => function (GetLine $a) {
-            return getLine();
+            return IO\getLine();
         },
         ExitSuccess::class => function (ExitSuccess $a) {
             return exit();
@@ -82,20 +77,20 @@ const interpretState = 'example\interpretState';
 // runTest :: TeletypeF State []
 function interpretState(TeletypeF $r)
 {
-    return match([
+    return f\match([
         PutStrLn::class => function (PutStrLn $a) {
             return State::of(function ($state) use ($a) {
-                return ['PutStrLn', append($state, 'PutStrLn')];
+                return ['PutStrLn', f\append($state, 'PutStrLn')];
             });
         },
         GetLine::class => function (GetLine $a) {
             return State::of(function ($state) {
-                return ['GetLine', append($state, 'GetLine')];
+                return ['GetLine', f\append($state, 'GetLine')];
             });
         },
         ExitSuccess::class => function (ExitSuccess $a) {
             return State::of(function ($state) {
-                return ['ExitSuccess', append($state, 'ExitSuccess')];
+                return ['ExitSuccess', f\append($state, 'ExitSuccess')];
             });
         },
     ], $r);
@@ -118,12 +113,12 @@ function echo_chaining_()
 
 function echo_composition_()
 {
-    return pipeline(
+    return call_user_func(f\pipeline(
         getLine_,
-        bind(putStrLn_),
-        bind(exitSuccess_),
-        bind(putStrLn_) // In interpretation of IO Monad this place will never be reached
-    )(null);
+        f\bind(putStrLn_),
+        f\bind(exitSuccess_),
+        f\bind(putStrLn_) // In interpretation of IO Monad this place will never be reached
+    ));
 }
 
 class FreeMonadTest extends \PHPUnit_Framework_TestCase
@@ -133,7 +128,7 @@ class FreeMonadTest extends \PHPUnit_Framework_TestCase
      */
     public function test_it_should_allow_to_interpret_as_a_state_monad(MonadFree $echo)
     {
-        $result = runFree(interpretState, $echo);
+        $result = ff\runFree(interpretState, $echo);
         $this->assertInstanceOf(State::class, $result);
         $result = State\execState($result, []);
 
@@ -150,7 +145,7 @@ class FreeMonadTest extends \PHPUnit_Framework_TestCase
      */
     public function test_it_should_allow_to_interpret_as_IO(MonadFree $echo)
     {
-        $result = runFree(interpretIO, $echo);
+        $result = ff\runFree(interpretIO, $echo);
         $this->assertInstanceOf(IO::class, $result);
         // Since in PHPUnit STDIN is closed
         // this run will not work, but serves as an example
