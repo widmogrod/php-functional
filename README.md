@@ -5,12 +5,13 @@ Functional programing is a fascinating concept.
 The purpose of this library is to explore `Functors`, `Applicative Functors` and `Monads` in OOP PHP, and provide examples of real world use case.
 
 Monad types available in the project:
- * State Monad
- * IO Monad
- * Either Monad
- * Maybe Monad
- * Reader Monad
- * Writer Monad
+ * `State Monad`
+ * `IO Monad`
+ * `Free Monad`
+ * `Either Monad`
+ * `Maybe Monad`
+ * `Reader Monad`
+ * `Writer Monad`
 
 Exploring functional programing space I noticed that working with primitive values from PHP is very hard and complicates implementation of many functional structures.
 To simplify this experience, set of higher order primitives is introduced in library:
@@ -223,7 +224,26 @@ assert($r->runReader('World') === 'HELLO GILLES! HOW ARE YOU?')
 
 ```
 
+### Free Monad in PHP
+Imagine that you first write business logic and don't care about implementation details like:
+  - how and from where get user discounts 
+  - how and where save products in basket
+  - and more ...
+  
+When your business logic is complete, then you can concentrate on those details.
+
+Free monad enables you to do exactly that, and more: 
+- Write business logic first
+- Write your own DLS (domain specific language) 
+- Decouple implementation from interpretation.
+
+Example Free Monad example of `echo program` can be found here:
+- [FreeMonadTest.php](/example/FreeMonadTest.php)
+
+
 ### Haskell Do Notation in PHP
+**NOTE:** This is experimental feature.
+
 ``` php
 use Widmogrod\Monad\IO as IO;
 use Widmogrod\Monad\Control as C;

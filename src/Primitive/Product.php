@@ -2,15 +2,12 @@
 
 namespace Widmogrod\Primitive;
 
-use Widmogrod\Common;
 use Widmogrod\FantasyLand;
 
 class Product extends Num implements
     FantasyLand\Monoid,
     FantasyLand\Pointed
 {
-    use Common\PointedTrait;
-
     /**
      * @inheritdoc
      */
