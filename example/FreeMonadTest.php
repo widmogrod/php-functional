@@ -2,10 +2,13 @@
 
 namespace example;
 
+use Widmogrod\Monad\Free\MonadFree;
 use Widmogrod\Monad\IO;
 use Widmogrod\Monad\State;
 use function Widmogrod\Functional\append;
+use function Widmogrod\Functional\bind;
 use function Widmogrod\Functional\match;
+use function Widmogrod\Functional\pipeline;
 use function Widmogrod\Monad\Free\liftF;
 use function Widmogrod\Monad\Free\runFree;
 use function Widmogrod\Monad\IO\getLine;
@@ -98,7 +101,7 @@ function interpretState(TeletypeF $r)
     ], $r);
 }
 
-function echo_()
+function echo_chaining_()
 {
     return getLine_()
         ->bind(function ($str) {
@@ -112,11 +115,23 @@ function echo_()
         });
 }
 
+function echo_composition_()
+{
+    return pipeline(
+        getLine_,
+        bind(putStrLn_),
+        bind(exitSuccess_),
+        bind(putStrLn_)
+    )(null);
+}
+
 class FreeMonadTest extends \PHPUnit_Framework_TestCase
 {
-    public function test_it_should_allow_to_interpret_as_a_state_monad()
+    /**
+     * @dataProvider provideEchoImplementation
+     */
+    public function test_it_should_allow_to_interpret_as_a_state_monad(MonadFree $echo)
     {
-        $echo = echo_();
         $result = runFree(interpretState, $echo);
         $this->assertInstanceOf(State::class, $result);
         $result = State\execState($result, []);
@@ -129,13 +144,23 @@ class FreeMonadTest extends \PHPUnit_Framework_TestCase
         ]);
     }
 
-    public function test_it_should_allow_to_interpret_as_IO()
+    /**
+     * @dataProvider provideEchoImplementation
+     */
+    public function test_it_should_allow_to_interpret_as_IO(MonadFree $echo)
     {
-        $echo = echo_();
         $result = runFree(interpretIO, $echo);
         $this->assertInstanceOf(IO::class, $result);
         // Since in PHPUnit STDIN is closed
         // this run will not work, but serves as an example
         // $result->run();
+    }
+
+    public function provideEchoImplementation()
+    {
+        return [
+            'echo implementation via explicit chaining (bind)' => [echo_chaining_()],
+            'echo implementation via function composition' => [echo_composition_()],
+        ];
     }
 }
