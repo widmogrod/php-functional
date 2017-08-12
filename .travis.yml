@@ -12,7 +12,6 @@ matrix:
  include:
   - php: 7.1
     env: COVERAGE=yes
-    env: CHECK_STYLE=yes
  allow_failures:
   - php: hhvm
 
@@ -29,7 +28,7 @@ install:
 script:
  - composer test
  - if [[ $COVERAGE == yes ]]; then composer testc; fi
- - if [[ $CHECK_STYLE == yes ]]; then composer check-code; fi
+ - if [[ $COVERAGE == yes ]]; then composer check-code; fi
 
 after_success:
  - if [[ $COVERAGE == yes ]]; then composer codeclimate-send-coverage; fi
