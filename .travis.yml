@@ -6,11 +6,18 @@ php:
  - 5.6
  - 7.0
  - 7.1
- - hhvm-3.12
+ - hhvm
 
 matrix:
+ include:
+  - php: 7.1
+    env: COVERAGE=yes
  allow_failures:
-  - php: hhvm-3.12
+  - php: hhvm
+
+cache:
+ directories:
+  - $HOME/.composer/cache
 
 before_script:
  - composer self-update
@@ -20,7 +27,11 @@ install:
 
 script:
  - composer test
- - composer check-code
+ - if [[ $COVERAGE == yes ]]; then composer testc; fi
+ - if [[ $COVERAGE == yes ]]; then composer check-code; fi
+
+after_success:
+ - if [[ $COVERAGE == yes ]]; then composer codeclimate-send-coverage; fi
 
 notifications:
-  email: "widmogrod+php-functional@gmail.com"
+ email: false
