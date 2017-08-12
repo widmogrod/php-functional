@@ -1,4 +1,6 @@
-# PHP Functional [![Build Status](https://travis-ci.org/widmogrod/php-functional.svg)](https://travis-ci.org/widmogrod/php-functional)
+# PHP Functional
+[![Build Status](https://travis-ci.org/widmogrod/php-functional.svg)](https://travis-ci.org/widmogrod/php-functional)
+[![Test Coverage](https://codeclimate.com/github/codeclimate/codeclimate/badges/coverage.svg)](https://codeclimate.com/github/codeclimate/codeclimate/coverage)
 ## Introduction
 
 Functional programing is a fascinating concept.
@@ -29,8 +31,8 @@ composer require widmogrod/php-functional
 
 ## Development
 
-This repository follows [semantic versioning concept](http://semver.org/). 
-If you want to contribute, just follow [GitHub workflow](https://guides.github.com/introduction/flow/) and open a pull request. 
+This repository follows [semantic versioning concept](http://semver.org/).
+If you want to contribute, just follow [GitHub workflow](https://guides.github.com/introduction/flow/) and open a pull request.
 
 More information about changes you can find in [change log](/CHANGELOG.md)
 
@@ -45,7 +47,7 @@ composer test
 ## Use Cases
 You can find more use cases and examples in the [example directory](/example/).
 
-> **NOTE:** Don't be confused when browsing thought examples you will see phrase like "list functor" and in this library you will see ` Widmogrod\Primitive\Listt`. 
+> **NOTE:** Don't be confused when browsing thought examples you will see phrase like "list functor" and in this library you will see ` Widmogrod\Primitive\Listt`.
 Monad is Functor and Applicative. You could say that Monad implements Functor and Applicative.
 
 ### List Functor
@@ -67,7 +69,7 @@ assert($result === Listt::of([2, 3, 4]));
 ```
 
 ### List Applicative Functor
-Apply function on list of values and as a result, receive list of all possible combinations 
+Apply function on list of values and as a result, receive list of all possible combinations
 of applying function from the left list to a value in the right one.
 
 ``` haskell
@@ -226,15 +228,15 @@ assert($r->runReader('World') === 'HELLO GILLES! HOW ARE YOU?')
 
 ### Free Monad in PHP
 Imagine that you first write business logic and don't care about implementation details like:
-  - how and from where get user discounts 
+  - how and from where get user discounts
   - how and where save products in basket
   - and more ...
-  
+
 When your business logic is complete, then you can concentrate on those details.
 
-Free monad enables you to do exactly that, and more: 
+Free monad enables you to do exactly that, and more:
 - Write business logic first
-- Write your own DLS (domain specific language) 
+- Write your own DLS (domain specific language)
 - Decouple implementation from interpretation.
 
 Example Free Monad example of `echo program` can be found here:
@@ -266,7 +268,7 @@ $do = control\doo([
 ]);
 
 // performs operation, before that nothings happens from above code.
-$do->run(); 
+$do->run();
 ```
 
 Example output:
