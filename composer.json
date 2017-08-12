@@ -15,8 +15,8 @@
   ],
   "prefer-stable": true,
   "scripts": {
-    "unit": "phpunit --no-coverage",
-    "unitc": "phpunit --coverage-clover ./codecoverage.xml",
+    "test": "phpunit --no-coverage",
+    "testc": "phpunit --coverage-clover ./codecoverage.xml",
     "codeclimate-send-coverage": "test-reporter --coverage-report=codecoverage.xml",
     "fix-code": "php-cs-fixer fix",
     "check-code": "php-cs-fixer fix --verbose --diff --dry-run"
