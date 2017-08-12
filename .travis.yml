@@ -9,21 +9,29 @@ php:
  - hhvm
 
 matrix:
+ include:
+  - php: 7.1
+    env: COVERAGE=yes
+    env: CHECK_STYLE=yes
  allow_failures:
   - php: hhvm
 
+cache:
+ directories:
+  - $HOME/.composer/cache
+
 before_script:
  - composer self-update
- - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
- - chmod +x ./cc-test-reporter
 
 install:
  - composer install --prefer-source
 
 script:
- - composer test
- - composer check-code
- - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+ - if [[ $CHECK_STYLE == yes ]]; then composer check-code; fi
+ - if [[ $COVERAGE == yes ]]; then composer unitc; else composer unit; fi
+
+after_success:
+ - if [[ $COVERAGE == yes ]]; then composer codeclimate-send-coverage; fi
 
 notifications:
-  email: "widmogrod+php-functional@gmail.com"
+ email: false
