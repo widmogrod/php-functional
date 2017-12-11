@@ -18,6 +18,8 @@ engines:
         enabled: false
       UnusedFormalParameter:
         enabled: false
+      Naming/ConstantNamingConventions:
+        enabled: false
 ratings:
   paths:
   - "**.php"

@@ -35,6 +35,7 @@
       "src/Monad/Either/functions.php",
       "src/Monad/Maybe/functions.php",
       "src/Monad/Free/functions.php",
+      "src/Monad/Free2/functions.php",
       "src/Monad/IO/functions.php",
       "src/Monad/IO/errors.php",
       "src/Monad/Reader/functions.php",
