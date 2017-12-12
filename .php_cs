@@ -1,58 +1,50 @@
 <?php
-
-$finder = Symfony\CS\Finder\DefaultFinder::create()
+$finder = PhpCsFixer\Finder::create()
     ->exclude('vendor')
-    ->in(__DIR__)
-;
-
-return Symfony\CS\Config\Config::create()
-    ->level(Symfony\CS\FixerInterface::NONE_LEVEL)
-    ->fixers([
-        'psr0',
-        'encoding',
-        'short_tag',
-        'braces',
-        'elseif',
-        'eof_ending',
-        'function_call_space',
-        'function_declaration', // ?
-        'indentation',
-        'line_after_namespace',
-        'linefeed',
-        'lowercase_constants',
-        'lowercase_keywords',
-        'php_closing_tag',
-        'single_line_after_imports',
-        'trailing_spaces',
-        'visibility',
-        'array_element_white_space_after_comma',
-        'blankline_after_open_tag',
-        'duplicate_semicolon',
-        'extra_empty_lines',
-        'function_typehint_space',
-        'namespace_no_leading_whitespace',
-        'no_blank_lines_after_class_opening',
-        'no_empty_lines_after_phpdocs',
-        'phpdoc_scalar',
-        'phpdoc_separation',
-        'phpdoc_types',
-        'remove_leading_slash_use',
-        'remove_lines_between_uses',
-        'return',
-        'self_accessor',
-        'short_bool_cast',
-        'single_array_no_trailing_comma',
-        'spaces_before_semicolon',
-        'spaces_cast',
-        'standardize_not_equal',
-        'ternary_spaces',
-        'trim_array_spaces',
-        'unused_use',
-        'whitespacy_lines',
-        'align_double_arrow',
-        'header_comment',
-        'newline_after_open_tag',
-        'short_array_syntax',
+    ->in(__DIR__);
+return PhpCsFixer\Config::create()
+    ->setUsingCache(true)
+    ->setRules([
+        '@PSR2' => true,
+        'encoding' => true,
+        'braces' => true,
+        'elseif' => true,
+        'no_spaces_after_function_name' => true,
+        'function_declaration' => true,
+        'indentation_type' => true,
+        'blank_line_after_namespace' => true,
+        'line_ending' => true,
+        'lowercase_constants' => true,
+        'lowercase_keywords' => true,
+        'no_closing_tag' => true,
+        'single_line_after_imports' => true,
+        'no_trailing_whitespace' => true,
+        'visibility_required' => true,
+        'whitespace_after_comma_in_array' => true,
+        'blank_line_after_opening_tag' => true,
+        'no_empty_statement' => true,
+        'no_extra_consecutive_blank_lines' => true,
+        'function_typehint_space' => true,
+        'no_leading_namespace_whitespace' => true,
+        'no_blank_lines_after_class_opening' => true,
+        'no_blank_lines_after_phpdoc' => true,
+        'phpdoc_scalar' => true,
+        'phpdoc_types' => true,
+        'no_leading_import_slash' => true,
+        'no_extra_consecutive_blank_lines' => ['use'],
+        'blank_line_before_return' => true,
+        'self_accessor' => true,
+        'no_short_bool_cast' => true,
+        'no_trailing_comma_in_singleline_array' => true,
+        'no_singleline_whitespace_before_semicolons' => true,
+        'cast_spaces' => true,
+        'standardize_not_equals' => true,
+        'ternary_operator_spaces' => true,
+        'trim_array_spaces' => true,
+        'no_unused_imports' => true,
+        'no_whitespace_in_blank_line' => true,
+        'header_comment' => false,
+        'linebreak_after_opening_tag' => true,
+        'array_syntax' => ['syntax' => 'short'],
     ])
-    ->finder($finder)
-;
+    ->setFinder($finder);

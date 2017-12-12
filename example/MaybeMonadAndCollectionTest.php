@@ -22,12 +22,12 @@ class MaybeMonadAndCollectionTest extends \PHPUnit_Framework_TestCase
         });
 
         $listOfFirstImages = f\pipeline(
-            Listt::of
-            , f\map(m\maybeNull)
-            , f\bind(f\bind($get('meta')))
-            , f\bind(f\bind($get('images')))
-            , f\bind(f\bind($get(0)))
-            , f\join
+            Listt::of,
+            f\map(m\maybeNull),
+            f\bind(f\bind($get('meta'))),
+            f\bind(f\bind($get('images'))),
+            f\bind(f\bind($get(0))),
+            f\join
         );
 
         $result = $listOfFirstImages($data);

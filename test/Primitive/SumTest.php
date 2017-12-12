@@ -19,7 +19,9 @@ class SumTest extends \PHPUnit_Framework_TestCase
     ) {
         SetoidLaws::test(
             f\curryN(3, [$this, 'assertEquals']),
-            $a, $b, $c
+            $a,
+            $b,
+            $c
         );
     }
 
@@ -33,7 +35,9 @@ class SumTest extends \PHPUnit_Framework_TestCase
     ) {
         MonoidLaws::test(
             f\curryN(3, [$this, 'assertEquals']),
-            $a, $b, $c
+            $a,
+            $b,
+            $c
         );
     }
 
