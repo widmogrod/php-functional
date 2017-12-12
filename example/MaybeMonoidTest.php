@@ -22,7 +22,7 @@ class MaybeMonoidTest extends \PHPUnit_Framework_TestCase
         $fullName = $firstName->concat($middleName)->concat($lastName);
         $fullNameFromReduce = array_reduce($names, f\concatM, m\Nothing::mempty());
 
-        $this->assertInstanceOf(Just::class, $fullName);
+        $this->assertInstanceOf(m\Just::class, $fullName);
         $this->assertEquals($fullName->extract()->extract(), $expected);
         $this->assertEquals($fullNameFromReduce->extract()->extract(), $expected);
     }
