@@ -60,9 +60,9 @@ class FreeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider provideData
+     * @dataProvider provideMonadTestData
      */
-    public function test_if_io_monad_obeys_the_laws($f, $g, $x)
+    public function test_it_should_obey_monad_laws($f, $g, $x)
     {
         MonadLaws::test(
             function (MonadFree $f, MonadFree $g, $message) {
@@ -81,7 +81,7 @@ class FreeTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function provideData()
+    public function provideMonadTestData()
     {
         $addOne = function ($x) {
             return liftF(Identity::of(

@@ -44,16 +44,21 @@ class Free implements MonadFree
      *     Pure a <*> Pure b = Pure $ a b
      *     Pure a <*> Free mb = Free $ fmap a <$> mb
      *     Free ma <*> b = Free $ (<*> b) <$> ma
+     *
+     * ($) :: (a -> b) -> a -> b
+     * (<*>) :: f (a -> b) -> f a -> f b
+     * (<$>) :: Functor f => (a -> b) -> f a -> f b
      * ```
      *
      * @inheritdoc
      */
     public function ap(FantasyLand\Apply $b)
     {
-        // Don't know if OK...
-        return $this->bind(function ($f) use ($b) {
-            return $b->map($f);
-        });
+        return new self(
+            $this->f->map(function ($ma) use ($b) {
+                return $b->map($ma);
+            })
+        );
     }
 
     /**
