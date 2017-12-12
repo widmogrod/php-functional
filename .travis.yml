@@ -3,16 +3,13 @@ language: php
 dist: trusty
 
 php:
- - 7.0
  - 7.1
- - hhvm
+ - 7.2
 
 matrix:
  include:
   - php: 7.1
     env: COVERAGE=yes
- allow_failures:
-  - php: hhvm
 
 cache:
  directories:
