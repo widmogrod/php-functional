@@ -724,7 +724,8 @@ function liftM2(
     Monad $ma = null,
     Monad $mb = null
 ) {
-    return call_user_func_array(curryN(3,
+    return call_user_func_array(curryN(
+        3,
         function (
             callable $transformation,
             Monad $ma,
@@ -735,7 +736,8 @@ function liftM2(
                     return call_user_func($transformation, $a, $b);
                 });
             });
-        }), func_get_args());
+        }
+    ), func_get_args());
 }
 
 /**
@@ -950,7 +952,7 @@ function match(array $patterns, $value = null)
         }
 
         throw new \Exception(sprintf(
-            'Cannot match "%s" type. Searching for %s',
+            'Cannot match "%s" type. Defined patterns are %s',
             $givenType,
             implode(', ', array_keys($patterns))
         ));

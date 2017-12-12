@@ -128,7 +128,9 @@ class ListtTest extends \PHPUnit_Framework_TestCase
     {
         MonoidLaws::test(
             f\curryN(3, [$this, 'assertEquals']),
-            $x, $y, $z
+            $x,
+            $y,
+            $z
         );
     }
 

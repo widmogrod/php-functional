@@ -6,7 +6,7 @@ use Widmogrod\Common;
 use Widmogrod\FantasyLand;
 
 class Identity implements
-    FantasyLand\Monad ,
+    FantasyLand\Monad,
     Common\ValueOfInterface
 {
     const of = 'Widmogrod\Monad\Identity::of';

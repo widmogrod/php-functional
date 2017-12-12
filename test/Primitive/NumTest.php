@@ -18,7 +18,9 @@ class NumTest extends \PHPUnit_Framework_TestCase
     ) {
         SetoidLaws::test(
             f\curryN(3, [$this, 'assertEquals']),
-            $a, $b, $c
+            $a,
+            $b,
+            $c
         );
     }
 
