@@ -13,6 +13,7 @@ use Widmogrod\Monad\Maybe\Nothing;
 use Widmogrod\Helpful\MonadLaws;
 use Widmogrod\Functional as f;
 use Widmogrod\Primitive\Listt;
+use Widmogrod\Primitive\Stringg;
 
 class MaybeTest extends \PHPUnit_Framework_TestCase
 {
@@ -136,10 +137,20 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
                 '$z' => Just::of(Listt::of(3))
             ],
             'Nothing' => [
-                '$x' => Nothing::of(null),
-                '$y' => Nothing::of(null),
-                '$z' => Nothing::of(null)
-            ]
+                '$x' => Nothing::mempty(),
+                '$y' => Nothing::mempty(),
+                '$z' => Nothing::mempty(),
+            ],
+            'Just String' => [
+                '$x' => Just::of(Stringg::of("Hello")),
+                '$y' => Just::of(Stringg::of(" ")),
+                '$z' => Just::of(Stringg::of("World"))
+            ],
+            'Maybe String' => [
+                '$x' => Just::of(Stringg::of("Hello")),
+                '$y' => Nothing::mempty(),
+                '$z' => Just::of(Stringg::of("World"))
+            ],
         ];
     }
 
