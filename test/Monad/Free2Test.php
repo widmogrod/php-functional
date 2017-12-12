@@ -2,12 +2,16 @@
 
 namespace test\Monad;
 
+use Widmogrod\FantasyLand\Applicative;
 use Widmogrod\FantasyLand\Functor;
+use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
 use Widmogrod\Helpful\MonadLaws;
 use Widmogrod\Monad\Free2\MonadFree;
 use Widmogrod\Monad\Free2\Pure;
 use Widmogrod\Monad\Identity;
+use const Widmogrod\Functional\identity;
+use function Widmogrod\Functional\curryN;
 use function Widmogrod\Monad\Free2\foldFree;
 use function Widmogrod\Monad\Free2\liftF;
 
@@ -60,9 +64,9 @@ class Free2Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider provideData
+     * @dataProvider provideMonadTestData
      */
-    public function test_if_io_monad_obeys_the_laws($f, $g, $x)
+    public function test_it_should_obey_monad_laws($f, $g, $x)
     {
         MonadLaws::test(
             function (MonadFree $f, MonadFree $g, $message) {
@@ -79,7 +83,7 @@ class Free2Test extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function provideData()
+    public function provideMonadTestData()
     {
         $addOne = function (int $x) {
             return Pure::of($x + 1);
@@ -93,6 +97,56 @@ class Free2Test extends \PHPUnit_Framework_TestCase
                 '$f' => $addOne,
                 '$g' => $addTwo,
                 '$x' => 10,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideApplicativeTestData
+     */
+    public function test_it_should_obey_applicative_laws(
+        $pure,
+        Applicative $u,
+        Applicative $v,
+        Applicative $w,
+        callable $f,
+        $x
+    ) {
+        ApplicativeLaws::test(
+            function (MonadFree $a, MonadFree $b, $message) {
+                $this->assertEquals(
+                    foldFree(identity, $a, Identity::of),
+                    foldFree(identity, $b, Identity::of),
+                    $message
+                );
+            },
+            curryN(1, $pure),
+            $u,
+            $v,
+            $w,
+            $f,
+            $x
+        );
+    }
+
+    public function provideApplicativeTestData()
+    {
+        return [
+            'Pure' => [
+                '$pure' => Pure::of,
+                '$u'    => Pure::of(function () {
+                    return 1;
+                }),
+                '$v' => Pure::of(function () {
+                    return 5;
+                }),
+                '$w' => Pure::of(function () {
+                    return 7;
+                }),
+                '$f' => function ($x) {
+                    return 400 + $x;
+                },
+                '$x' => 33
             ],
         ];
     }
