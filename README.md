@@ -244,14 +244,13 @@ Free monad enables you to do exactly that, and more:
 
 #### Echo program
 Example Free Monad example of `echo program` can be found here:
-- [FreeMonadTest.php](/example/FreeMonadTest.php) - example based on first implementation of Free
-- [Free2MonadTest.php](/example/Free2MonadTest.php) - example based on second implementation of Free, based on [Haskell implementation](https://hackage.haskell.org/package/free-4.12.4/docs/Control-Monad-Free-Class.html)
+- See source code [FreeMonadTest.php](/example/FreeMonadTest.php) - example based on first implementation of Free
+- See source code [Free2MonadTest.php](/example/Free2MonadTest.php) - example based on second implementation of Free, based on [Haskell implementation](https://hackage.haskell.org/package/free-4.12.4/docs/Control-Monad-Free-Class.html)
 
 #### DSL for `BDD` tests
 Example that use `Free Monad` to creates simple DSL (Domain Specific Language) to define BDD type of framework: 
 
-- [Free2BddStyleDSLTest.php](/example/Free2BddStyleDSLTest.php) - example based on second implementation of Free, based on [Haskell implementation](https://hackage.haskell.org/package/free-4.12.4/docs/Control-Monad-Free-Class.html)
-
+- See source code [Free2BddStyleDSLTest.php](/example/Free2BddStyleDSLTest.php) 
 ```php
 $state = [
     'productsCount' => 0,

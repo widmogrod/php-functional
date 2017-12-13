@@ -232,6 +232,9 @@ function matchRegexp(array $patterns, $value = null)
     }), func_get_args());
 }
 
+/**
+ * Inspired by https://github.com/politrons/TestDSL
+ */
 class Free2BddStyleDSLTest extends \PHPUnit_Framework_TestCase
 {
     public function test_it_should_interpret_bdd_scenario()

@@ -24,7 +24,7 @@ class StringgTest extends \PHPUnit_Framework_TestCase
 
     private function randomize()
     {
-        return Stringg::of(md5(rand(0, 100)));
+        return Stringg::of(md5(random_int(0, 100)));
     }
 
     public function provideRandomizedData()

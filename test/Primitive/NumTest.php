@@ -26,7 +26,7 @@ class NumTest extends \PHPUnit_Framework_TestCase
 
     private function randomize()
     {
-        return Num::of(rand(-100000000, 100000000));
+        return Num::of(random_int(-100000000, 100000000));
     }
 
     public function provideSetoidLaws()

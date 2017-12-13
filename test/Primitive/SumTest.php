@@ -43,7 +43,7 @@ class SumTest extends \PHPUnit_Framework_TestCase
 
     private function randomize()
     {
-        return Sum::of(rand(-100000000, 100000000));
+        return Sum::of(random_int(-100000000, 100000000));
     }
 
     public function provideSetoidLaws()
