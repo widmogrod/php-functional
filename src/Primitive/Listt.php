@@ -16,7 +16,7 @@ class Listt implements
 {
     use Common\PointedTrait;
 
-    const of = 'Widmogrod\Primitive\Listt::of';
+    public const of = 'Widmogrod\Primitive\Listt::of';
 
     /**
      * @param array $value
@@ -35,7 +35,7 @@ class Listt implements
     {
         $result = [];
         foreach ($this->value as $value) {
-            $result[] = call_user_func($transformation, $value);
+            $result[] = $transformation($value);
         }
 
         return self::of($result);
@@ -68,11 +68,13 @@ class Listt implements
      */
     public function extract()
     {
-        return array_map(function ($value) {
-            return $value instanceof Common\ValueOfInterface
+        return $this->reduce(function ($accumulator, $value) {
+            $accumulator[] = $value instanceof Common\ValueOfInterface
                 ? $value->extract()
                 : $value;
-        }, $this->value);
+
+            return $accumulator;
+        }, []);
     }
 
     /**
@@ -81,7 +83,7 @@ class Listt implements
     public function reduce(callable $function, $accumulator)
     {
         foreach ($this->value as $item) {
-            $accumulator = call_user_func($function, $accumulator, $item);
+            $accumulator = $function($accumulator, $item);
         }
 
         return $accumulator;
@@ -103,7 +105,7 @@ class Listt implements
 
             return $functor
                 ->map(f\append)
-                ->ap($ys ? $ys : $functor::of([])); // https://github.com/widmogrod/php-functional/issues/30
+                ->ap($ys ?: $functor::of([])); // https://github.com/widmogrod/php-functional/issues/30
         }, false, $this);
     }
 
@@ -125,6 +127,8 @@ class Listt implements
 
     /**
      * @inheritdoc
+     *
+     * @throws TypeMismatchError
      */
     public function concat(FantasyLand\Semigroup $value)
     {
@@ -147,5 +151,47 @@ class Listt implements
         return $other instanceof self
             ? $this->extract() === $other->extract()
             : false;
+    }
+
+    /**
+     * head :: [a] -> a
+     *
+     * @return mixed First element of Listt
+     *
+     * @throws \BadMethodCallException
+     */
+    public function head()
+    {
+        return $this->guardEmptyGenerator('head of empty Listt')->current();
+    }
+
+    /**
+     * tail :: [a] -> [a]
+     *
+     * @return \Widmogrod\Primitive\Listt
+     *
+     * @throws \BadMethodCallException
+     */
+    public function tail(): Listt
+    {
+        ($generator = $this->guardEmptyGenerator('tail of empty Listt'))->next();
+
+        return $generator->valid()
+            ? self::of((function ($values) { yield from $values; })($generator))
+            : self::mempty();
+    }
+
+    private function guardEmptyGenerator(string $message): \Generator
+    {
+        /** @var \Generator $generator */
+        $generator = (function ($values) {
+            yield from $values;
+        })($this->value);
+
+        if (!$generator->valid()) {
+            throw new \BadMethodCallException($message);
+        }
+
+        return $generator;
     }
 }

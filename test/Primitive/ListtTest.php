@@ -2,6 +2,7 @@
 
 namespace test\Monad;
 
+use Eris\TestTrait;
 use Widmogrod\FantasyLand\Applicative;
 use Widmogrod\FantasyLand\Functor;
 use Widmogrod\FantasyLand\Monoid;
@@ -11,9 +12,13 @@ use Widmogrod\Helpful\FunctorLaws;
 use Widmogrod\Helpful\MonadLaws;
 use Widmogrod\Helpful\MonoidLaws;
 use Widmogrod\Primitive\Listt;
+use function Eris\Generator\choose;
+use function Eris\Generator\vector;
 
 class ListtTest extends \PHPUnit_Framework_TestCase
 {
+    use TestTrait;
+
     /**
      * @dataProvider provideData
      */
@@ -148,5 +153,59 @@ class ListtTest extends \PHPUnit_Framework_TestCase
                 $this->randomize(),
             ];
         }, array_fill(0, 50, null));
+    }
+
+    public function test_head_on_empty_list_is_undefined()
+    {
+        $this->setExpectedException(\BadMethodCallException::class, 'head of empty Listt');
+
+        Listt::mempty()->head();
+    }
+
+    public function test_head_extracts_first_element()
+    {
+        $this->forAll(
+            vector(10, choose(1, 1000))
+        )(
+            function ($sequence) {
+                $list = Listt::of($sequence);
+                $current = current($sequence);
+
+                $this->assertSame($current, $list->head());
+                $this->assertSame($current, $list->head());
+            }
+        );
+    }
+
+    public function test_tail_on_empty_list()
+    {
+        $this->setExpectedException(\BadMethodCallException::class, 'tail of empty Listt');
+
+        Listt::mempty()->tail();
+    }
+
+    public function test_tail_with_single_element_Listt()
+    {
+        $this->forAll(
+            vector(1, choose(1, 1000))
+        )(
+            function ($sequence) {
+                $this->assertTrue(Listt::of($sequence)->tail()->equals(Listt::mempty()));
+            }
+        );
+    }
+
+    public function test_tail_with_multiple_element_Listt()
+    {
+        $this->forAll(
+            vector(10, choose(1, 1000))
+        )(
+            function ($sequence) {
+                $list = Listt::of($sequence);
+                array_shift($sequence);
+
+                $this->assertEquals($sequence, $list->tail()->extract());
+            }
+        );
     }
 }
