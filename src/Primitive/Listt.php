@@ -172,12 +172,14 @@ class Listt implements
      *
      * @throws \BadMethodCallException
      */
-    public function tail(): Listt
+    public function tail(): self
     {
         ($generator = $this->guardEmptyGenerator('tail of empty Listt'))->next();
 
         return $generator->valid()
-            ? self::of((function ($values) { yield from $values; })($generator))
+            ? self::of((function ($values) {
+                yield from $values;
+            })($generator))
             : self::mempty();
     }
 
