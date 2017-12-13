@@ -136,7 +136,7 @@ class ListtTest extends \PHPUnit_Framework_TestCase
 
     private function randomize()
     {
-        return Listt::of(array_keys(array_fill(0, rand(20, 100), null)));
+        return Listt::of(array_keys(array_fill(0, random_int(20, 100), null)));
     }
 
     public function provideRandomizedData()
