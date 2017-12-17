@@ -580,7 +580,7 @@ const isNativeTraversable = 'Widmogrod\Functional\isNativeTraversable';
  */
 function isNativeTraversable($value)
 {
-    return is_array($value) || $value instanceof \Traversable;
+    return \is_iterable($value);
 }
 
 /**

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "11bacaf078cb372c95433d25c250ac3f",
+    "content-hash": "b636d4274f160b6b879ca957312bb86b",
     "packages": [],
     "packages-dev": [
         {
@@ -433,6 +433,61 @@
                 "phpunit"
             ],
             "time": "2017-08-23T07:46:41+00:00"
+        },
+        {
+            "name": "giorgiosironi/eris",
+            "version": "0.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giorgiosironi/eris.git",
+                "reference": "538bbdaeb5679d094a33864fd54f85d6a4ffaa74"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giorgiosironi/eris/zipball/538bbdaeb5679d094a33864fd54f85d6a4ffaa74",
+                "reference": "538bbdaeb5679d094a33864fd54f85d6a4ffaa74",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5",
+                "phpunit/phpunit": ">4,<7"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "^1.11.2",
+                "icomefromthenet/reverse-regex": "v0.0.6.3"
+            },
+            "suggest": {
+                "icomefromthenet/reverse-regex": "v0.0.6.3 for the regex() Generator"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Eris\\": "src/"
+                },
+                "files": [
+                    "src/Generator/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gabriele Lana",
+                    "email": "gabriele.lana@gmail.com"
+                },
+                {
+                    "name": "Giorgio Sironi",
+                    "email": "info@giorgiosironi.com"
+                },
+                {
+                    "name": "Mirko Bonadei",
+                    "email": "mirko.bonadei@gmail.com"
+                }
+            ],
+            "description": "PHP library for property-based testing. Integrates with PHPUnit.",
+            "time": "2017-03-12T17:39:53+00:00"
         },
         {
             "name": "guzzle/guzzle",
