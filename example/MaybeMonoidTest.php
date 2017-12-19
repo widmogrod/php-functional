@@ -58,7 +58,7 @@ class MaybeMonoidTest extends \PHPUnit_Framework_TestCase
     {
         // $makeMaybeMonoid :: string -> Maybe Listt string
         $makeMaybeMonoid = function ($val): Maybe {
-            return maybeNull($val)->map(Listt::of);
+            return maybeNull($val)->map(f\fromValue);
         };
 
         // $names :: array Maybe Listt string

@@ -7,6 +7,7 @@ use Widmogrod\FantasyLand\Applicative;
 use Widmogrod\FantasyLand\Functor;
 use Widmogrod\FantasyLand\Monoid;
 use Widmogrod\Functional as f;
+use const Widmogrod\Functional\fromValue;
 use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
 use Widmogrod\Helpful\MonadLaws;
@@ -26,7 +27,7 @@ class ListtTest extends \PHPUnit_Framework_TestCase
     {
         MonadLaws::test(
             f\curryN(3, [$this, 'assertEquals']),
-            f\curryN(1, Listt::of),
+            f\curryN(1, fromValue),
             $f,
             $g,
             $x
@@ -36,10 +37,10 @@ class ListtTest extends \PHPUnit_Framework_TestCase
     public function provideData()
     {
         $addOne = function ($x) {
-            return Listt::of($x + 1);
+            return Listt::of([$x + 1]);
         };
         $addTwo = function ($x) {
-            return Listt::of($x + 2);
+            return Listt::of([$x + 2]);
         };
 
         return [
@@ -77,16 +78,16 @@ class ListtTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'Listt' => [
-                '$pure' => Listt::of,
-                '$u'    => Listt::of(function () {
+                '$pure' => fromValue,
+                '$u'    => Listt::of([function () {
                     return 1;
-                }),
-                '$v' => Listt::of(function () {
+                }]),
+                '$v' => Listt::of([function () {
                     return 5;
-                }),
-                '$w' => Listt::of(function () {
+                }]),
+                '$w' => Listt::of([function () {
                     return 7;
-                }),
+                }]),
                 '$f' => function ($x) {
                     return $x + 400;
                 },

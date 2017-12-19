@@ -18,14 +18,8 @@ class Listt implements
 
     public const of = 'Widmogrod\Primitive\Listt::of';
 
-    /**
-     * @param array $value
-     */
-    public function __construct($value)
+    public function __construct(iterable $value)
     {
-        $givenType = is_object($value) ? get_class($value) : gettype($value);
-        assert(is_iterable($value), "Not iterable value given $givenType");
-
         $this->value = $value;
     }
 

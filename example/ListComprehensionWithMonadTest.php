@@ -2,6 +2,7 @@
 
 namespace example;
 
+use function Widmogrod\Functional\fromValue;
 use Widmogrod\Primitive\Listt;
 
 class ListComprehensionWithMonadTest extends \PHPUnit_Framework_TestCase
@@ -13,7 +14,7 @@ class ListComprehensionWithMonadTest extends \PHPUnit_Framework_TestCase
             ->bind(function ($n) {
                 return Listt::of(['a', 'b'])
                     ->bind(function ($x) use ($n) {
-                        return [[$n, $x]];
+                        return fromValue([$n, $x]);
                     });
             });
 

@@ -134,9 +134,9 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'Just' => [
-                '$x' => Just::of(Listt::of(1)),
-                '$y' => Just::of(Listt::of(2)),
-                '$z' => Just::of(Listt::of(3))
+                '$x' => Just::of(Listt::of([1])),
+                '$y' => Just::of(Listt::of([2])),
+                '$z' => Just::of(Listt::of([3]))
             ],
             'Nothing' => [
                 '$x' => Nothing::mempty(),

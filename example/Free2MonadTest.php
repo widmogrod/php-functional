@@ -127,7 +127,7 @@ function interpretState(TeletypeF $r)
             return State::of(function (Listt $state) use ($a) {
                 return [
                     $a->next,
-                    f\append($state, Listt::of('PutStrLn'))
+                    f\append($state, f\fromValue('PutStrLn'))
                 ];
             });
         },
@@ -135,7 +135,7 @@ function interpretState(TeletypeF $r)
             return State::of(function (Listt $state) use ($a) {
                 return [
                     ($a->processor)('demo'),
-                    f\append($state, Listt::of('GetLine'))
+                    f\append($state, f\fromValue('GetLine'))
                 ];
             });
         },
@@ -143,7 +143,7 @@ function interpretState(TeletypeF $r)
             return State::of(function (Listt $state) use ($a) {
                 return [
                     ff\Pure::of('exit'),
-                    f\append($state, Listt::of('ExitSuccess'))
+                    f\append($state, f\fromValue('ExitSuccess'))
                 ];
             });
         },

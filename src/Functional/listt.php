@@ -5,9 +5,18 @@ namespace Widmogrod\Functional;
 use Widmogrod\FantasyLand\Foldable;
 use Widmogrod\Primitive\Listt;
 
+const fromIterable = 'Widmogrod\Functional\fromIterable';
+
 function fromIterable(iterable $i): Listt
 {
     return Listt::of(array_map(identity, $i));
+}
+
+const fromValue = 'Widmogrod\Functional\fromValue';
+
+function fromValue($value): Listt
+{
+    return Listt::of([$value]);
 }
 
 /**

@@ -2,6 +2,7 @@
 
 namespace test\Primitive;
 
+use Eris\TestTrait;
 use Widmogrod\Functional as f;
 use Widmogrod\Helpful\MonoidLaws;
 use Widmogrod\Helpful\SetoidLaws;
@@ -9,6 +10,7 @@ use Widmogrod\Primitive\Product;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
+    use TestTrait;
     /**
      * @dataProvider provideSetoidLaws
      */
@@ -43,7 +45,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     private function randomize()
     {
-        return Product::of(random_int(-100000000, 100000000));
+        usleep(10);
+
+        return Product::of(random_int(-1000, 1000));
     }
 
     public function provideSetoidLaws()
