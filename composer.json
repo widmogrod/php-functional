@@ -32,6 +32,7 @@
     "files": [
       "src/Functional/functions.php",
       "src/Functional/miscellaneous.php",
+      "src/Functional/listt.php",
       "src/Functional/predicates.php",
       "src/Functional/strings.php",
       "src/Functional/monoid.php",
@@ -39,7 +40,6 @@
       "src/Monad/Control/functions.php",
       "src/Monad/Either/functions.php",
       "src/Monad/Maybe/functions.php",
-      "src/Monad/Free/functions.php",
       "src/Monad/Free2/functions.php",
       "src/Monad/IO/functions.php",
       "src/Monad/IO/errors.php",
