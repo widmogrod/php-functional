@@ -53,9 +53,9 @@ const prepend = 'Widmogrod\Functional\prepend';
  */
 function prepend($x, Listt $xs = null)
 {
-    return call_user_func_array(curryN(2, function ($x, Listt $xs) {
+    return curryN(2, function ($x, Listt $xs) {
         return append(fromIterable([$x]), $xs);
-    }), Func_get_args());
+    })(...func_get_args());
 }
 
 const append = 'Widmogrod\Functional\append';

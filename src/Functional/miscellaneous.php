@@ -117,11 +117,11 @@ function flip(callable $func)
     $args = func_get_args();
     array_shift($args);
 
-    return call_user_func_array(curryN(2, function ($a, $b) use ($func) {
+    return curryN(2, function ($a, $b) use ($func) {
         $args = func_get_args();
         $args[0] = $b;
         $args[1] = $a;
 
         return call_user_func_array($func, $args);
-    }), $args);
+    })(...$args);
 }

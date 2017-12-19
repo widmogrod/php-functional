@@ -14,7 +14,7 @@ const concatStrings = 'Widmogrod\Functional\concatStrings';
  */
 function concatStrings($a, $b = null)
 {
-    return call_user_func_array(curryN(2, function ($a, $b) {
+    return curryN(2, function ($a, $b) {
         return $a . $b;
-    }), func_get_args());
+    })(...func_get_args());
 }

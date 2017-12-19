@@ -217,7 +217,7 @@ function wrapWithState(array $patterns, $state)
 
 function matchRegexp(array $patterns, $value = null)
 {
-    return call_user_func_array(curryN(2, function (array $patterns, $value) {
+    return curryN(2, function (array $patterns, $value) {
         foreach ($patterns as $pattern => $fn) {
             if (false !== preg_match($pattern, $value, $matches)) {
                 return call_user_func_array($fn, array_slice($matches, 1));
@@ -229,7 +229,7 @@ function matchRegexp(array $patterns, $value = null)
             $value,
             implode(', ', array_keys($patterns))
         ));
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**

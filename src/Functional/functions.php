@@ -26,9 +26,9 @@ const applicator = 'Widmogrod\Functional\applicator';
  */
 function applicator($x, callable $f = null)
 {
-    return call_user_func_array(curryN(2, function ($y, callable $f) {
+    return curryN(2, function ($y, callable $f) {
         return call_user_func($f, $y);
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -46,9 +46,9 @@ const invoke = 'Widmogrod\Functional\invoke';
  */
 function invoke($method, $object = null)
 {
-    return call_user_func_array(curryN(2, function ($method, $object) {
+    return curryN(2, function ($method, $object) {
         return call_user_func([$object, $method]);
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -213,11 +213,11 @@ const tee = 'Widmogrod\Functional\tee';
  */
 function tee(callable $function = null, $value = null)
 {
-    return call_user_func_array(curryN(2, function (callable $function, $value) {
+    return curryN(2, function (callable $function, $value) {
         call_user_func($function, $value);
 
         return $value;
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -254,9 +254,9 @@ const map = 'Widmogrod\Functional\map';
  */
 function map(callable $transformation = null, Functor $value = null)
 {
-    return call_user_func_array(curryN(2, function (callable $transformation, Functor $value) {
+    return curryN(2, function (callable $transformation, Functor $value) {
         return $value->map($transformation);
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -274,9 +274,9 @@ const bind = 'Widmogrod\Functional\bind';
  */
 function bind(callable $function = null, Monad $value = null)
 {
-    return call_user_func_array(curryN(2, function (callable $function, Monad $value) {
+    return curryN(2, function (callable $function, Monad $value) {
         return $value->bind($function);
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -312,13 +312,13 @@ const reduce = 'Widmogrod\Functional\reduce';
  */
 function reduce(callable $callable, $accumulator = null, Foldable $foldable = null)
 {
-    return call_user_func_array(curryN(3, function (
+    return curryN(3, function (
         callable $callable,
         $accumulator,
         Foldable $foldable
     ) {
         return $foldable->reduce($callable, $accumulator);
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -340,7 +340,7 @@ const foldr = 'Widmogrod\Functional\foldr';
  */
 function foldr(callable $callable, $accumulator = null, Foldable $foldable = null)
 {
-    return call_user_func_array(curryN(3, function (
+    return curryN(3, function (
         callable $callable,
         $accumulator,
         Foldable $foldable
@@ -352,7 +352,7 @@ function foldr(callable $callable, $accumulator = null, Foldable $foldable = nul
                 return concatM(Listt::of([$value]), $accumulator);
             }, Listt::of([]), $foldable)
         );
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -370,13 +370,13 @@ const filter = 'Widmogrod\Functional\filter';
  */
 function filter(callable $predicate, Foldable $list = null)
 {
-    return call_user_func_array(curryN(2, function (callable $predicate, Foldable $list) {
+    return curryN(2, function (callable $predicate, Foldable $list) {
         return reduce(function (Listt $list, $x) use ($predicate) {
             return call_user_func($predicate, $x)
                 ? append($list, Listt::of($x))
                 : $list;
         }, Listt::mempty(), $list);
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -541,13 +541,13 @@ function tail($list)
  */
 function tryCatch(callable $function, callable $catchFunction, $value)
 {
-    return call_user_func_array(curryN(3, function (callable $function, callable $catchFunction, $value) {
+    return curryN(3, function (callable $function, callable $catchFunction, $value) {
         try {
             return call_user_func($function, $value);
         } catch (\Exception $e) {
             return call_user_func($catchFunction, $e);
         }
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -592,7 +592,7 @@ function liftM2(
     Monad $ma = null,
     Monad $mb = null
 ) {
-    return call_user_func_array(curryN(
+    return curryN(
         3,
         function (
             callable $transformation,
@@ -605,7 +605,7 @@ function liftM2(
                 });
             });
         }
-    ), func_get_args());
+    )(...func_get_args());
 }
 
 /**
@@ -627,7 +627,7 @@ function liftA2(
     Applicative $fa = null,
     Applicative $fb = null
 ) {
-    return call_user_func_array(curryN(3, function (
+    return curryN(3, function (
         callable $transformation,
         Applicative $fa,
         Applicative $fb
@@ -637,7 +637,7 @@ function liftA2(
                 return call_user_func($transformation, $a, $b);
             };
         })->ap($fb);
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -700,12 +700,12 @@ const traverse = 'Widmogrod\Functional\traverse';
  */
 function traverse(callable $transformation, Traversable $t = null)
 {
-    return call_user_func_array(curryN(2, function (
+    return curryN(2, function (
         callable $transformation,
         Traversable $t
     ) {
         return $t->traverse($transformation);
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -735,7 +735,7 @@ function sequence(Monad ...$monads)
  */
 function filterM(callable $f, $collection)
 {
-    return call_user_func_array(curryN(2, function (
+    return curryN(2, function (
         callable $f,
         $collection
     ) {
@@ -762,7 +762,7 @@ function filterM(callable $f, $collection)
         };
 
         return $_filterM($collection);
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -776,7 +776,7 @@ function filterM(callable $f, $collection)
  */
 function foldM(callable $f, $initial, $collection)
 {
-    return call_user_func_array(curryN(3, function (
+    return curryN(3, function (
         callable $f,
         $initial,
         $collection
@@ -798,7 +798,7 @@ function foldM(callable $f, $initial, $collection)
         };
 
         return $_foldM($initial, $collection);
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -811,7 +811,7 @@ function foldM(callable $f, $initial, $collection)
  */
 function match(array $patterns, $value = null)
 {
-    return call_user_func_array(curryN(2, function (array $patterns, $value) {
+    return curryN(2, function (array $patterns, $value) {
         $givenType = is_object($value) ? get_class($value) : gettype($value);
         foreach ($patterns as $className => $fn) {
             if ($value instanceof $className) {
@@ -824,5 +824,5 @@ function match(array $patterns, $value = null)
             $givenType,
             implode(', ', array_keys($patterns))
         ));
-    }), func_get_args());
+    })(...func_get_args());
 }
