@@ -9,7 +9,7 @@ use Widmogrod\Monad\State;
 use const Widmogrod\Monad\State\value;
 use function Widmogrod\Functional\curryN;
 use function Widmogrod\Functional\match;
-use function Widmogrod\Functional\push;
+use function Widmogrod\Functional\pushNativeArr;
 use function Widmogrod\Monad\Free2\foldFree;
 use function Widmogrod\Monad\Free2\liftF;
 
@@ -208,7 +208,7 @@ function wrapWithState(array $patterns, $state)
 {
     return array_map(function (callable $fn) use ($state) {
         return function () use ($fn, $state) {
-            $args = push([$state], func_get_args());
+            $args = pushNativeArr([$state], func_get_args());
 
             return call_user_func_array($fn, $args);
         };

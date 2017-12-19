@@ -14,19 +14,21 @@ use Widmogrod\Primitive\Listt;
 /**
  * @var callable
  */
-const push = 'Widmogrod\Functional\push';
+const pushNativeArr = 'Widmogrod\Functional\pushNativeArr';
 
 /**
- * push :: [a] -> [a] -> [a]
+ * pushNativeArr :: [a] -> [a] -> [a]
  *
  * Append array with values.
+ *
+ * @deprecated Operation on native arrays will be replaced by Listt
  *
  * @param array $array
  * @param array $values
  *
  * @return array
  */
-function push(array $array, array $values)
+function pushNativeArr(array $array, array $values)
 {
     foreach ($values as $value) {
         $array[] = $value;
@@ -38,20 +40,22 @@ function push(array $array, array $values)
 /**
  * @var callable
  */
-const append = 'Widmogrod\Functional\append';
+const appendNativeArr = 'Widmogrod\Functional\appendNativeArr';
 
 /**
- * append :: [a] -> a -> [a]
+ * appendNativeArr :: [a] -> a -> [a]
+ *
+ * @deprecated Operation on native arrays will be replaced by Listt
  *
  * @param array $list
  * @param mixed $value
  *
  * @return array
  */
-function append($list, $value = null)
+function appendNativeArr($list, $value = null)
 {
     return call_user_func_array(curryN(2, function ($list, $value) {
-        return push(
+        return pushNativeArr(
             toNativeTraversable($list),
             toNativeTraversable($value)
         );
@@ -106,6 +110,8 @@ const toFoldable = 'Widmogrod\Functional\toFoldable';
 /**
  * toFoldable :: Foldable t => a -> t a
  *
+ * @deprecated Operation on native arrays will be replaced by Listt
+ *
  * @param Foldable|\Traversable|array|mixed $value
  *
  * @return Foldable
@@ -124,6 +130,8 @@ const toTraversable = 'Widmogrod\Functional\toTraversable';
 
 /**
  * toTraversable :: Traversable t => a -> t a
+ *
+ * @deprecated Operation on native arrays will be replaced by Listt
  *
  * @param Traversable|\Traversable|array|mixed $value
  *
@@ -179,24 +187,7 @@ const toList = 'Widmogrod\Functional\toList';
  */
 function toList(Foldable $traversable)
 {
-    return reduce(append, [], $traversable);
-}
-
-/**
- * @var callable
- */
-const identity = 'Widmogrod\Functional\identity';
-
-/**
- * Return value passed to function
- *
- * @param mixed $x
- *
- * @return mixed
- */
-function identity($x)
-{
-    return $x;
+    return reduce(appendNativeArr, [], $traversable);
 }
 
 /**
@@ -214,8 +205,8 @@ function curryN($numberOfArguments, callable $function, array $args = [])
         $argsLeft = $numberOfArguments - func_num_args();
 
         return $argsLeft <= 0
-            ? call_user_func_array($function, push($args, func_get_args()))
-            : curryN($argsLeft, $function, push($args, func_get_args()));
+            ? call_user_func_array($function, pushNativeArr($args, func_get_args()))
+            : curryN($argsLeft, $function, pushNativeArr($args, func_get_args()));
     };
 }
 
@@ -278,63 +269,6 @@ function tee(callable $function = null, $value = null)
 
         return $value;
     }), func_get_args());
-}
-
-/**
- * @var callable
- */
-const compose = 'Widmogrod\Functional\compose';
-
-/**
- * Compose multiple functions into one.
- * Composition starts from right to left.
- *
- * <code>
- * compose('strtolower', 'strtoupper')('aBc') ≡ 'abc'
- * strtolower(strtouppser('aBc'))  ≡ 'abc'
- * </code>
- *
- * @param callable $a
- * @param callable $b,...
- *
- * @return \Closure         func($value) : mixed
- */
-function compose(callable $a, callable $b)
-{
-    return call_user_func_array(
-        reverse('Widmogrod\Functional\pipeline'),
-        func_get_args()
-    );
-}
-
-/**
- * @var callable
- */
-const pipeline = 'Widmogrod\Functional\pipeline';
-
-/**
- * Compose multiple functions into one.
- * Composition starts from left.
- *
- * <code>
- * compose('strtolower', 'strtoupper')('aBc') ≡ 'ABC'
- * strtouppser(strtolower('aBc'))  ≡ 'ABC'
- * </code>
- *
- * @param callable $a
- * @param callable $b,...
- *
- * @return \Closure         func($value) : mixed
- */
-function pipeline(callable $a, callable $b)
-{
-    $list = func_get_args();
-
-    return function ($value = null) use (&$list) {
-        return array_reduce($list, function ($accumulator, callable $a) {
-            return call_user_func($a, $accumulator);
-        }, $value);
-    };
 }
 
 /**
@@ -490,7 +424,7 @@ function filter(callable $predicate, Foldable $list = null)
     return call_user_func_array(curryN(2, function (callable $predicate, Foldable $list) {
         return reduce(function ($list, $x) use ($predicate) {
             return call_user_func($predicate, $x)
-                ? append($list, $x)
+                ? appendNativeArr($list, $x)
                 : $list;
         }, [], $list);
     }), func_get_args());
@@ -538,31 +472,6 @@ function mcompose(callable $a, callable $b)
     );
 }
 
-/**
- * @var callable
- */
-const flip = 'Widmogrod\Functional\flip';
-
-/**
- * flip :: (a -> b -> c) -> (b -> a -> c)
- *
- * @param callable $func
- *
- * @return callable
- */
-function flip(callable $func)
-{
-    $args = func_get_args();
-    array_shift($args);
-
-    return call_user_func_array(curryN(2, function ($a, $b) use ($func) {
-        $args = func_get_args();
-        $args[0] = $b;
-        $args[1] = $a;
-
-        return call_user_func_array($func, $args);
-    }), $args);
-}
 
 /**
  * @var callable
@@ -573,6 +482,8 @@ const isNativeTraversable = 'Widmogrod\Functional\isNativeTraversable';
  * isNativeTraversable :: a -> Boolean
  *
  * Evaluate if value is a traversable
+ *
+ * @deprecated Operation on native arrays will be replaced by Listt
  *
  * @param mixed $value
  *
@@ -591,6 +502,8 @@ const toNativeTraversable = 'Widmogrod\Functional\toNativeTraversable';
 /**
  * toNativeTraversable :: a -> [a]
  *
+ * @deprecated Operation on native arrays will be replaced by Listt
+ *
  * @param mixed $value
  *
  * @return array
@@ -607,6 +520,8 @@ const head = 'Widmogrod\Functional\head';
 
 /**
  * Return head of a traversable
+ *
+ * @deprecated Operation on native arrays will be replaced by Listt
  *
  * @param array|\Traversable $list
  *
@@ -631,6 +546,8 @@ const tail = 'Widmogrod\Functional\tail';
 
 /**
  * Return tail of a traversable
+ *
+ * @deprecated Operation on native arrays will be replaced by Listt
  *
  * @param array|\Traversable $list
  *
@@ -664,6 +581,8 @@ function tail($list)
 
 /**
  * tryCatch :: Exception e => (a -> b) -> (e -> b) -> a -> b
+ *
+ * @deprecated Operation on native arrays will be replaced by Listt
  *
  * @param callable $function
  * @param callable $catchFunction
@@ -852,7 +771,7 @@ const sequence = 'Widmogrod\Functional\sequence';
  *
  * @return Monad
  */
-function sequence($monads)
+function sequence(Monad ...$monads)
 {
     return traverse(identity, toTraversable($monads));
 }

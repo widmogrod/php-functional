@@ -104,7 +104,7 @@ class Listt implements
             $functor =  $transformation($x);
 
             return $functor
-                ->map(f\append)
+                ->map(f\appendNativeArr)
                 ->ap($ys ?: $functor::of([])); // https://github.com/widmogrod/php-functional/issues/30
         }, false, $this);
     }

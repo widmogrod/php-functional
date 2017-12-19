@@ -31,6 +31,7 @@
     },
     "files": [
       "src/Functional/functions.php",
+      "src/Functional/miscellaneous.php",
       "src/Functional/predicates.php",
       "src/Functional/strings.php",
       "src/Functional/monoid.php",

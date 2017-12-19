@@ -14,7 +14,7 @@ class PushTest extends \PHPUnit_Framework_TestCase
         $value,
         $expected
     ) {
-        $this->assertEquals($expected, f\push($array, $value));
+        $this->assertEquals($expected, f\pushNativeArr($array, $value));
     }
 
     public function provideData()

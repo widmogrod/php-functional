@@ -80,17 +80,17 @@ function interpretState(TeletypeF $r)
     return f\match([
         PutStrLn::class => function (PutStrLn $a) {
             return State::of(function ($state) use ($a) {
-                return ['PutStrLn', f\append($state, 'PutStrLn')];
+                return ['PutStrLn', f\appendNativeArr($state, 'PutStrLn')];
             });
         },
         GetLine::class => function (GetLine $a) {
             return State::of(function ($state) {
-                return ['GetLine', f\append($state, 'GetLine')];
+                return ['GetLine', f\appendNativeArr($state, 'GetLine')];
             });
         },
         ExitSuccess::class => function (ExitSuccess $a) {
             return State::of(function ($state) {
-                return ['ExitSuccess', f\append($state, 'ExitSuccess')];
+                return ['ExitSuccess', f\appendNativeArr($state, 'ExitSuccess')];
             });
         },
     ], $r);
