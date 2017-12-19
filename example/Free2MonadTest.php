@@ -10,6 +10,7 @@ use Widmogrod\Monad\IO;
 use Widmogrod\Monad\State;
 use const Widmogrod\Monad\IO\pure;
 use const Widmogrod\Monad\State\value;
+use Widmogrod\Primitive\Listt;
 
 interface TeletypeF extends Functor
 {
@@ -123,26 +124,26 @@ function interpretState(TeletypeF $r)
 {
     return f\match([
         PutStrLn::class => function (PutStrLn $a) {
-            return State::of(function ($state) use ($a) {
+            return State::of(function (Listt $state) use ($a) {
                 return [
                     $a->next,
-                    f\appendNativeArr($state, 'PutStrLn')
+                    f\append($state, Listt::of('PutStrLn'))
                 ];
             });
         },
         GetLine::class => function (GetLine $a) {
-            return State::of(function ($state) use ($a) {
+            return State::of(function (Listt $state) use ($a) {
                 return [
                     ($a->processor)('demo'),
-                    f\appendNativeArr($state, 'GetLine')
+                    f\append($state, Listt::of('GetLine'))
                 ];
             });
         },
         ExitSuccess::class => function (ExitSuccess $a) {
-            return State::of(function ($state) use ($a) {
+            return State::of(function (Listt $state) use ($a) {
                 return [
                     ff\Pure::of('exit'),
-                    f\appendNativeArr($state, 'ExitSuccess')
+                    f\append($state, Listt::of('ExitSuccess'))
                 ];
             });
         },
@@ -183,13 +184,13 @@ class Free2MonadTest extends \PHPUnit_Framework_TestCase
     {
         $result = ff\foldFree(interpretState, $echo, value);
         $this->assertInstanceOf(State::class, $result);
-        $result = State\execState($result, []);
+        $result = State\execState($result, Listt::mempty());
 
-        $this->assertEquals($result, [
+        $this->assertEquals($result, Listt::of([
             'GetLine',
             'PutStrLn',
             'ExitSuccess',
-        ]);
+        ]));
     }
 
     /**

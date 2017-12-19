@@ -36,6 +36,7 @@ function identity($x)
  */
 function constt($a, $b)
 {
+    // TODO
 }
 
 

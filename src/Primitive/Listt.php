@@ -97,16 +97,19 @@ class Listt implements
      * traverse f = List.foldr cons_f (pure [])
      *  where cons_f x ys = (:) <$> f x <*> ys
      * ```
+     *
+     * (<$>) :: Functor f => (a -> b) -> f a -> f b
+     * (<*>) :: f (a -> b) -> f a -> f b
      */
-    public function traverse(callable $transformation)
+    public function traverse(callable $f)
     {
-        return f\foldr(function ($ys, $x) use ($transformation) {
-            $functor =  $transformation($x);
+        return f\foldr(function ($x, $ys) use ($f) {
+            $functor = $f($x);
 
             return $functor
-                ->map(f\appendNativeArr)
-                ->ap($ys ?: $functor::of([])); // https://github.com/widmogrod/php-functional/issues/30
-        }, false, $this);
+                ->map(f\prepend)
+                ->ap($ys ?: $functor::of(self::mempty())); // https://github.com/widmogrod/php-functional/issues/30
+        }, null, $this);
     }
 
     /**

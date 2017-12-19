@@ -30,6 +30,7 @@
       "Widmogrod\\": "./src"
     },
     "files": [
+      "src/Functional/array.php",
       "src/Functional/functions.php",
       "src/Functional/miscellaneous.php",
       "src/Functional/listt.php",

@@ -11,7 +11,7 @@ class FoldrTest extends \PHPUnit_Framework_TestCase
     {
         $list = Listt::of([1, 2, 3, 4]);
 
-        $result = f\foldr(function ($accumulator, $value) {
+        $result = f\foldr(function ($value, $accumulator) {
             return f\concatM($accumulator, Listt::of([$value + 1]));
         }, Listt::of([]), $list);
 

@@ -1,42 +1,64 @@
 <?php
 
-namespace Widmogrod\Functional\Listt;
+namespace Widmogrod\Functional;
 
-use Widmogrod\FantasyLand\Foldable;
 use Widmogrod\Primitive\Listt;
 
-/**
- * concat :: Foldable t => t [a] -> [a]
- *
- * The concatenation of all the elements of a container of lists.
- */
-function concat(Foldable $t)
+function fromIterable(iterable $i): Listt
 {
-    // TODO
+    return Listt::of(array_map(identity, $i));
 }
 
-/**
- * map f xs is the list obtained by applying f to each element of xs, i.e.,
- *
- * map f [x1, x2, ..., xn] == [f x1, f x2, ..., f xn]
- * map f [x1, x2, ...] == [f x1, f x2, ...]
- */
-function map()
-{
-    // TODO
-}
+///**
+// * concat :: Foldable t => t [a] -> [a]
+// *
+// * The concatenation of all the elements of a container of lists.
+// */
+//function concat(Foldable $t)
+//{
+//    // TODO
+//}
+
+///**
+// * map f xs is the list obtained by applying f to each element of xs, i.e.,
+// *
+// * map f [x1, x2, ..., xn] == [f x1, f x2, ..., f xn]
+// * map f [x1, x2, ...] == [f x1, f x2, ...]
+// */
+//function map()
+//{
+//    // TODO
+//}
+//
+///**
+// * filter :: (a -> Bool) -> [a] -> [a] Source #
+// *
+// * filter, applied to a predicate and a list, returns the list of those elements that satisfy the predicate; i.e.,
+// *
+// * filter p xs = [ x | x <- xs, p x]
+// */
+//function filter()
+//{
+//    // TODO
+//}
+
+const prepend = 'Widmogrod\Functional\prepend';
 
 /**
- * filter :: (a -> Bool) -> [a] -> [a] Source #
+ * prepend :: a -> [a] -> [a]
  *
- * filter, applied to a predicate and a list, returns the list of those elements that satisfy the predicate; i.e.,
- *
- * filter p xs = [ x | x <- xs, p x]
+ * @param mixed $x
+ * @param Listt $xs
+ * @return Listt
  */
-function filter()
+function prepend($x, Listt $xs = null)
 {
-    // TODO
+    return call_user_func_array(curryN(2, function ($x, Listt $xs) {
+        return append(fromIterable([$x]), $xs);
+    }), Func_get_args());
 }
+
+const append = 'Widmogrod\Functional\append';
 
 /**
  * (++) :: [a] -> [a] -> [a]
@@ -50,95 +72,95 @@ function filter()
  */
 function append(Listt $a, Listt $b): Listt
 {
-    // TODO
+    return $a->concat($b);
 }
 
-/**
- * head :: [a] -> a
- *
- * Extract the first element of a list, which must be non-empty.
- *
- * @param Listt $l
- * @return mixed
- */
-function head(Listt $l)
-{
-    return $l->head();
-}
-
-/**
- * tail :: [a] -> [a]
- *
- * Extract the elements after the head of a list, which must be non-empty.
- *
- * @param Listt $l
- * @return Listt
- */
-function tail(Listt $l)
-{
-    return $l->tail();
-}
-
-/**
- * last :: [a] -> a
- *
- * Extract the last element of a list, which must be finite and non-empty.
- *
- * @param Listt $l
- */
-function last(Listt $l)
-{
-    // TODO
-}
-
-/**
- * init :: [a] -> [a]
- *
- * Return all the elements of a list except the last one. The list must be non-empty.
- *
- * @param Listt $l
- */
-function init(Listt $l)
-{
-    // TODO
-}
-
-
-/**
- * length :: Foldable t => t a -> Int
- *
- * Returns the size/length of a finite structure as an Int.
- * The default implementation is optimized for structures that are similar to cons-lists,
- * because there is no general way to do better.
- *
- * @param Listt $l
- * @return int
- */
-function length(Listt $l): int
-{
-    // TODO
-}
-
-/**
- * (!!) :: [a] -> Int -> a infixl 9
- *
- * List index (subscript) operator, starting from 0. It is an instance of the more general genericIndex, which takes an index of any integral type.
- *
- * @param Listt $L
- */
-function index(Listt $L, int $index)
-{
-    // TODO
-}
-
-/**
- * reverse :: [a] -> [a]
- *
- * reverse xs returns the elements of xs in reverse order. xs must be finite.
- *
- * @param Listt $l
- */
-function reverse(Listt $l)
-{
-    // TODO
-}
+///**
+// * head :: [a] -> a
+// *
+// * Extract the first element of a list, which must be non-empty.
+// *
+// * @param Listt $l
+// * @return mixed
+// */
+//function head(Listt $l)
+//{
+//    return $l->head();
+//}
+//
+///**
+// * tail :: [a] -> [a]
+// *
+// * Extract the elements after the head of a list, which must be non-empty.
+// *
+// * @param Listt $l
+// * @return Listt
+// */
+//function tail(Listt $l)
+//{
+//    return $l->tail();
+//}
+//
+///**
+// * last :: [a] -> a
+// *
+// * Extract the last element of a list, which must be finite and non-empty.
+// *
+// * @param Listt $l
+// */
+//function last(Listt $l)
+//{
+//    // TODO
+//}
+//
+///**
+// * init :: [a] -> [a]
+// *
+// * Return all the elements of a list except the last one. The list must be non-empty.
+// *
+// * @param Listt $l
+// */
+//function init(Listt $l)
+//{
+//    // TODO
+//}
+//
+//
+///**
+// * length :: Foldable t => t a -> Int
+// *
+// * Returns the size/length of a finite structure as an Int.
+// * The default implementation is optimized for structures that are similar to cons-lists,
+// * because there is no general way to do better.
+// *
+// * @param Listt $l
+// * @return int
+// */
+//function length(Listt $l): int
+//{
+//    // TODO
+//}
+//
+///**
+// * (!!) :: [a] -> Int -> a infixl 9
+// *
+// * List index (subscript) operator, starting from 0. It is an instance of the more general genericIndex, which takes an index of any integral type.
+// *
+// * @param Listt $L
+// */
+//function index(Listt $L, int $index)
+//{
+//    // TODO
+//}
+//
+///**
+// * reverse :: [a] -> [a]
+// *
+// * reverse xs returns the elements of xs in reverse order. xs must be finite.
+// *
+// * @param Listt $l
+// */
+//function reverse(Listt $l)
+//{
+//    // TODO
+//}

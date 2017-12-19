@@ -14,57 +14,6 @@ use Widmogrod\Primitive\Listt;
 /**
  * @var callable
  */
-const pushNativeArr = 'Widmogrod\Functional\pushNativeArr';
-
-/**
- * pushNativeArr :: [a] -> [a] -> [a]
- *
- * Append array with values.
- *
- * @deprecated Operation on native arrays will be replaced by Listt
- *
- * @param array $array
- * @param array $values
- *
- * @return array
- */
-function pushNativeArr(array $array, array $values)
-{
-    foreach ($values as $value) {
-        $array[] = $value;
-    }
-
-    return $array;
-}
-
-/**
- * @var callable
- */
-const appendNativeArr = 'Widmogrod\Functional\appendNativeArr';
-
-/**
- * appendNativeArr :: [a] -> a -> [a]
- *
- * @deprecated Operation on native arrays will be replaced by Listt
- *
- * @param array $list
- * @param mixed $value
- *
- * @return array
- */
-function appendNativeArr($list, $value = null)
-{
-    return call_user_func_array(curryN(2, function ($list, $value) {
-        return pushNativeArr(
-            toNativeTraversable($list),
-            toNativeTraversable($value)
-        );
-    }), func_get_args());
-}
-
-/**
- * @var callable
- */
 const applicator = 'Widmogrod\Functional\applicator';
 
 /**
@@ -187,7 +136,7 @@ const toList = 'Widmogrod\Functional\toList';
  */
 function toList(Foldable $traversable)
 {
-    return reduce(appendNativeArr, [], $traversable);
+    return reduce(push_, [], $traversable);
 }
 
 /**
@@ -201,12 +150,12 @@ function toList(Foldable $traversable)
  */
 function curryN($numberOfArguments, callable $function, array $args = [])
 {
-    return function () use ($numberOfArguments, $function, $args) {
+    return function (...$argsNext) use ($numberOfArguments, $function, $args) {
         $argsLeft = $numberOfArguments - func_num_args();
 
         return $argsLeft <= 0
-            ? call_user_func_array($function, pushNativeArr($args, func_get_args()))
-            : curryN($argsLeft, $function, pushNativeArr($args, func_get_args()));
+            ? call_user_func_array($function, push_($args, $argsNext))
+            : curryN($argsLeft, $function, push_($args, $argsNext));
     };
 }
 
@@ -397,7 +346,7 @@ function foldr(callable $callable, $accumulator = null, Foldable $foldable = nul
         Foldable $foldable
     ) {
         return reduce(
-            $callable,
+            flip($callable),
             $accumulator,
             reduce(function ($accumulator, $value) {
                 return concatM(Listt::of([$value]), $accumulator);
@@ -422,11 +371,11 @@ const filter = 'Widmogrod\Functional\filter';
 function filter(callable $predicate, Foldable $list = null)
 {
     return call_user_func_array(curryN(2, function (callable $predicate, Foldable $list) {
-        return reduce(function ($list, $x) use ($predicate) {
+        return reduce(function (Listt $list, $x) use ($predicate) {
             return call_user_func($predicate, $x)
-                ? appendNativeArr($list, $x)
+                ? append($list, Listt::of($x))
                 : $list;
-        }, [], $list);
+        }, Listt::mempty(), $list);
     }), func_get_args());
 }
 
