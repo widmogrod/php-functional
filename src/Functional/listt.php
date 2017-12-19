@@ -2,6 +2,7 @@
 
 namespace Widmogrod\Functional;
 
+use Widmogrod\FantasyLand\Foldable;
 use Widmogrod\Primitive\Listt;
 
 function fromIterable(iterable $i): Listt
@@ -9,15 +10,38 @@ function fromIterable(iterable $i): Listt
     return Listt::of(array_map(identity, $i));
 }
 
-///**
-// * concat :: Foldable t => t [a] -> [a]
-// *
-// * The concatenation of all the elements of a container of lists.
-// */
-//function concat(Foldable $t)
-//{
-//    // TODO
-//}
+/**
+ * @var callable
+ */
+const concat = 'Widmogrod\Functional\concat';
+
+/**
+ * concat :: Foldable t => t [a] -> [a]
+ *
+ * <code>
+ * concat(fromIterable([fromIterable([1, 2]), fromIterable([3, 4])])) == fromIterable([1, 2, 3, 4])
+ * </code>
+ *
+ * concat :: Foldable t => t [a] -> [a]
+ * concat xs = build (\c n -> foldr (\x y -> foldr c y x) n xs)
+ *
+ * build :: forall a. (forall b. (a -> b -> b) -> b -> b) -> [a]
+ * build g = g (:) []
+ *
+ * foldr :: (a -> b -> b) -> b -> [a] -> b
+ *
+ * The concatenation of all the elements of a container of lists.
+ *
+ * @param Foldable $xs
+ *
+ * @return Listt
+ */
+function concat(Foldable $xs)
+{
+    return foldr(function ($x, Listt $y) {
+        return foldr(prepend, $y, $x);
+    }, Listt::mempty(), $xs);
+}
 
 ///**
 // * map f xs is the list obtained by applying f to each element of xs, i.e.,
@@ -53,7 +77,7 @@ const prepend = 'Widmogrod\Functional\prepend';
  */
 function prepend($x, Listt $xs = null)
 {
-    return curryN(2, function ($x, Listt $xs) {
+    return curryN(2, function ($x, Listt $xs): Listt {
         return append(fromIterable([$x]), $xs);
     })(...func_get_args());
 }
@@ -69,10 +93,16 @@ const append = 'Widmogrod\Functional\append';
  *  [x1, ..., xm] ++ [y1, ...] == [x1, ..., xm, y1, ...]
  *
  * If the first list is not finite, the result is the first list.
+ *
+ * @param Listt $a
+ * @param Listt|null $b
+ * @return Listt|callable
  */
-function append(Listt $a, Listt $b): Listt
+function append(Listt $a, Listt $b = null)
 {
-    return $a->concat($b);
+    return curryN(2, function (Listt $a, Listt $b): Listt {
+        return $a->concat($b);
+    })(...func_get_args());
 }
 
 ///**

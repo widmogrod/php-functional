@@ -69,7 +69,7 @@ function toFoldable($value)
 {
     return $value instanceof Foldable
         ? $value
-        : Listt::of(toNativeTraversable($value));
+        : fromIterable($value);
 }
 
 /**
@@ -90,54 +90,9 @@ function toTraversable($value)
 {
     return $value instanceof Traversable
         ? $value
-        : Listt::of(toNativeTraversable($value));
+        : fromIterable($value);
 }
 
-/**
- * @var callable
- */
-const concat = 'Widmogrod\Functional\concat';
-
-/**
- * concat :: Foldable t => t [a] -> [a]
- *
- * <code>
- * concat([[1, 2], [3, 4]]) == [1, 2, 3, 4]
- * </code>
- *
- * The concatenation of all the elements of a container of lists.
- *
- * @param Foldable $foldable
- *
- * @return array
- */
-function concat(Foldable $foldable)
-{
-    return reduce(function ($agg, $value) {
-        return reduce(function ($agg, $v) {
-            $agg[] = $v;
-
-            return $agg;
-        }, $agg, toFoldable($value));
-    }, [], $foldable);
-}
-
-/**
- * @var callable
- */
-const toList = 'Widmogrod\Functional\toList';
-
-/**
- * toList :: Traversable t -> t a -> [a]
- *
- * @param Foldable $traversable
- *
- * @return mixed
- */
-function toList(Foldable $traversable)
-{
-    return reduce(push_, [], $traversable);
-}
 
 /**
  * Curry function
@@ -154,7 +109,7 @@ function curryN($numberOfArguments, callable $function, array $args = [])
         $argsLeft = $numberOfArguments - func_num_args();
 
         return $argsLeft <= 0
-            ? call_user_func_array($function, push_($args, $argsNext))
+            ? $function(...push_($args, $argsNext))
             : curryN($argsLeft, $function, push_($args, $argsNext));
     };
 }
@@ -348,9 +303,7 @@ function foldr(callable $callable, $accumulator = null, Foldable $foldable = nul
         return reduce(
             flip($callable),
             $accumulator,
-            reduce(function ($accumulator, $value) {
-                return concatM(Listt::of([$value]), $accumulator);
-            }, Listt::of([]), $foldable)
+            reduce(flip(prepend), Listt::mempty(), $foldable)
         );
     })(...func_get_args());
 }
@@ -694,7 +647,7 @@ const traverse = 'Widmogrod\Functional\traverse';
  * Map each element of a structure to an action, evaluate these actions from left to right, and collect the results
  *
  * @param callable $transformation (a -> f b)
- * @param Traversable $t           t a
+ * @param Traversable $t t a
  *
  * @return Applicative     f (t b)
  */
@@ -728,7 +681,7 @@ function sequence(Monad ...$monads)
 /**
  * filterM :: Monad m => (a -> m Bool) -> [a] -> m [a]
  *
- * @param callable $f                   (a -> m Bool)
+ * @param callable $f (a -> m Bool)
  * @param array|Traversable $collection [a]
  *
  * @return Monad m [a]
@@ -768,8 +721,8 @@ function filterM(callable $f, $collection)
 /**
  * foldM :: Monad m => (a -> b -> m a) -> a -> [b] -> m a
  *
- * @param callable $f                    (a -> b -> m a)
- * @param mixed $initial                 a
+ * @param callable $f (a -> b -> m a)
+ * @param mixed $initial a
  * @param array|\Traversable $collection [b]
  *
  * @return mixed m a

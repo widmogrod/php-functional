@@ -23,9 +23,10 @@ class Listt implements
      */
     public function __construct($value)
     {
-        $this->value = f\isNativeTraversable($value)
-            ? $value
-            : [$value];
+        $givenType = is_object($value) ? get_class($value) : gettype($value);
+        assert(is_iterable($value), "Not iterable value given $givenType");
+
+        $this->value = $value;
     }
 
     /**
@@ -60,7 +61,7 @@ class Listt implements
     public function bind(callable $transformation)
     {
         // xs >>= f = concat (map f xs)
-        return self::of(f\concat(f\map($transformation, $this)));
+        return f\concat(f\map($transformation, $this));
     }
 
     /**
@@ -140,7 +141,7 @@ class Listt implements
                 $accumulator[] = $item;
 
                 return $accumulator;
-            }, $this->extract()));
+            }, $this->value));
         }
 
         throw new TypeMismatchError($value, self::class);
