@@ -326,7 +326,7 @@ function filter(callable $predicate, Foldable $list = null)
     return curryN(2, function (callable $predicate, Foldable $list) {
         return reduce(function (Listt $list, $x) use ($predicate) {
             return call_user_func($predicate, $x)
-                ? append($list, Listt::of($x))
+                ? append($list, f\fromIterable($x))
                 : $list;
         }, Listt::mempty(), $list);
     })(...func_get_args());

@@ -37,10 +37,10 @@ class ListtTest extends \PHPUnit_Framework_TestCase
     public function provideData()
     {
         $addOne = function ($x) {
-            return Listt::of([$x + 1]);
+            return f\fromIterable([$x + 1]);
         };
         $addTwo = function ($x) {
-            return Listt::of([$x + 2]);
+            return f\fromIterable([$x + 2]);
         };
 
         return [
@@ -79,13 +79,13 @@ class ListtTest extends \PHPUnit_Framework_TestCase
         return [
             'Listt' => [
                 '$pure' => fromValue,
-                '$u'    => Listt::of([function () {
+                '$u'    => f\fromIterable([function () {
                     return 1;
                 }]),
-                '$v' => Listt::of([function () {
+                '$v' => f\fromIterable([function () {
                     return 5;
                 }]),
-                '$w' => Listt::of([function () {
+                '$w' => f\fromIterable([function () {
                     return 7;
                 }]),
                 '$f' => function ($x) {
@@ -122,7 +122,7 @@ class ListtTest extends \PHPUnit_Framework_TestCase
                 '$g' => function ($x) {
                     return $x + 5;
                 },
-                '$x' => Listt::of([1, 2, 3]),
+                '$x' => f\fromIterable([1, 2, 3]),
             ],
         ];
     }
@@ -142,7 +142,7 @@ class ListtTest extends \PHPUnit_Framework_TestCase
 
     private function randomize()
     {
-        return Listt::of(array_keys(array_fill(0, random_int(20, 100), null)));
+        return f\fromIterable(array_keys(array_fill(0, random_int(20, 100), null)));
     }
 
     public function provideRandomizedData()
@@ -169,7 +169,7 @@ class ListtTest extends \PHPUnit_Framework_TestCase
             vector(10, choose(1, 1000))
         )(
             function ($sequence) {
-                $list = Listt::of($sequence);
+                $list = f\fromIterable($sequence);
                 $current = current($sequence);
 
                 $this->assertSame($current, $list->head());
@@ -191,7 +191,7 @@ class ListtTest extends \PHPUnit_Framework_TestCase
             vector(1, choose(1, 1000))
         )(
             function ($sequence) {
-                $this->assertTrue(Listt::of($sequence)->tail()->equals(Listt::mempty()));
+                $this->assertTrue(f\fromIterable($sequence)->tail()->equals(Listt::mempty()));
             }
         );
     }
@@ -202,7 +202,7 @@ class ListtTest extends \PHPUnit_Framework_TestCase
             vector(10, choose(1, 1000))
         )(
             function ($sequence) {
-                $list = Listt::of($sequence);
+                $list = f\fromIterable($sequence);
                 array_shift($sequence);
 
                 $this->assertEquals($sequence, $list->tail()->extract());

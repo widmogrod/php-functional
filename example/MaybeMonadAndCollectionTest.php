@@ -34,7 +34,7 @@ class MaybeMonadAndCollectionTest extends \PHPUnit_Framework_TestCase
         $result = $listOfFirstImages($data);
 
         $this->assertEquals(
-            Listt::of([just('//first.jpg'), just('//third.jpg'), nothing()]),
+            f\fromIterable([just('//first.jpg'), just('//third.jpg'), nothing()]),
             $result
         );
     }
@@ -53,14 +53,14 @@ class MaybeMonadAndCollectionTest extends \PHPUnit_Framework_TestCase
             });
         };
 
-        $result = Listt::of($data)
+        $result = f\fromIterable($data)
             ->map(Maybe\maybeNull)
             ->map($get('meta'))
             ->map($get('images'))
             ->map($get(0));
 
         $this->assertEquals(
-            Listt::of([just('//first.jpg'), just('//third.jpg'), nothing()]),
+            f\fromIterable([just('//first.jpg'), just('//third.jpg'), nothing()]),
             $result
         );
     }

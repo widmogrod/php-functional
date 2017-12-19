@@ -2,13 +2,13 @@
 
 namespace example;
 
-use Widmogrod\Primitive\Listt;
+use function Widmogrod\Functional\fromIterable;
 
 class FunctorCollectionTest extends \PHPUnit_Framework_TestCase
 {
     public function test_it_should_return_new_map()
     {
-        $collection = Listt::of([
+        $collection = fromIterable([
             ['id' => 1, 'name' => 'One'],
             ['id' => 2, 'name' => 'Two'],
             ['id' => 3, 'name' => 'Three'],
@@ -19,7 +19,7 @@ class FunctorCollectionTest extends \PHPUnit_Framework_TestCase
         });
 
         $this->assertEquals(
-            Listt::of([2, 3, 4]),
+            fromIterable([2, 3, 4]),
             $result
         );
     }

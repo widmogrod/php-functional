@@ -17,7 +17,7 @@ class MaybeMonoidTest extends \PHPUnit_Framework_TestCase
      */
     public function test_it_should_concat_only_strings_and_skip_nulls(array $data, array $expected, string $asString)
     {
-        $fullName = Listt::of($data)
+        $fullName = f\fromIterable($data)
             ->map(maybeNull)
             ->map(map(Stringg::of))
             ->reduce(f\concatM, just(Stringg::mempty()));
@@ -73,7 +73,7 @@ class MaybeMonoidTest extends \PHPUnit_Framework_TestCase
         $fullName = $firstName->concat($middleName)->concat($lastName);
 
         $this->assertInstanceOf(Just::class, $fullName);
-        $this->assertEquals($fullName, just(Listt::of($expected)));
+        $this->assertEquals($fullName, just(f\fromIterable($expected)));
     }
 
     public function provideData()

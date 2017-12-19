@@ -186,7 +186,7 @@ class Free2MonadTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(State::class, $result);
         $result = State\execState($result, Listt::mempty());
 
-        $this->assertEquals($result, Listt::of([
+        $this->assertEquals($result, f\fromIterable([
             'GetLine',
             'PutStrLn',
             'ExitSuccess',

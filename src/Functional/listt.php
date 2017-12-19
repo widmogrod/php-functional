@@ -16,7 +16,7 @@ const fromValue = 'Widmogrod\Functional\fromValue';
 
 function fromValue($value): Listt
 {
-    return Listt::of([$value]);
+    return fromIterable([$value]);
 }
 
 /**
