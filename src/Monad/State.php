@@ -36,7 +36,7 @@ class State implements Monad
     public function bind(callable $function)
     {
         return self::of(function ($state) use ($function) {
-            list($value, $newState) = $this->runState($state);
+            [$value, $newState] = $this->runState($state);
             $m = call_user_func($function, $value);
 
             return $m instanceof State
@@ -51,7 +51,7 @@ class State implements Monad
     public function map(callable $function)
     {
         return self::of(function ($state) use ($function) {
-            list($value, $newState) = $this->runState($state);
+            [$value, $newState] = $this->runState($state);
 
             return [call_user_func($function, $value), $newState];
         });

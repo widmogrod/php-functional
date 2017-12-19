@@ -27,7 +27,7 @@ function doo(array $monads)
             }
 
             $state = [$key, $data];
-            list($result, list(, $data)) = M\State\runState($monad, $state);
+            [$result, [$_, $data]] = M\State\runState($monad, $state);
         }
 
         return $result;
@@ -45,7 +45,7 @@ function doo(array $monads)
 function runWith(callable $function, array $argsNames)
 {
     return M\State::of(function (array $state) use ($function, $argsNames) {
-        list($key, $data) = $state;
+        [$key, $data] = $state;
 
         $args = array_reduce($argsNames, function ($base, $index) use ($data) {
             $base[$index] = $data[$index];
@@ -75,7 +75,7 @@ function runWith(callable $function, array $argsNames)
 function ioState(M\IO $io)
 {
     return M\State::of(function ($state) use ($io) {
-        list($key, $data) = $state;
+        [$key, $data] = $state;
 
         $value = $io->run();
 
