@@ -52,49 +52,6 @@ function invoke($method, $object = null)
 }
 
 /**
- * @var callable
- */
-const toFoldable = 'Widmogrod\Functional\toFoldable';
-
-/**
- * toFoldable :: Foldable t => a -> t a
- *
- * @deprecated Operation on native arrays will be replaced by Listt
- *
- * @param Foldable|\Traversable|array|mixed $value
- *
- * @return Foldable
- */
-function toFoldable($value)
-{
-    return $value instanceof Foldable
-        ? $value
-        : fromIterable($value);
-}
-
-/**
- * @var callable
- */
-const toTraversable = 'Widmogrod\Functional\toTraversable';
-
-/**
- * toTraversable :: Traversable t => a -> t a
- *
- * @deprecated Operation on native arrays will be replaced by Listt
- *
- * @param Traversable|\Traversable|array|mixed $value
- *
- * @return Traversable
- */
-function toTraversable($value)
-{
-    return $value instanceof Traversable
-        ? $value
-        : fromIterable($value);
-}
-
-
-/**
  * Curry function
  *
  * @param int $numberOfArguments
@@ -326,7 +283,7 @@ function filter(callable $predicate, Foldable $list = null)
     return curryN(2, function (callable $predicate, Foldable $list) {
         return reduce(function (Listt $list, $x) use ($predicate) {
             return call_user_func($predicate, $x)
-                ? append($list, f\fromIterable($x))
+                ? append($list, fromIterable($x))
                 : $list;
         }, Listt::mempty(), $list);
     })(...func_get_args());
@@ -372,47 +329,6 @@ function mcompose(callable $a, callable $b)
         reverse(mpipeline),
         func_get_args()
     );
-}
-
-
-/**
- * @var callable
- */
-const isNativeTraversable = 'Widmogrod\Functional\isNativeTraversable';
-
-/**
- * isNativeTraversable :: a -> Boolean
- *
- * Evaluate if value is a traversable
- *
- * @deprecated Operation on native arrays will be replaced by Listt
- *
- * @param mixed $value
- *
- * @return bool
- */
-function isNativeTraversable($value)
-{
-    return \is_iterable($value);
-}
-
-/**
- * @var callable
- */
-const toNativeTraversable = 'Widmogrod\Functional\toNativeTraversable';
-
-/**
- * toNativeTraversable :: a -> [a]
- *
- * @deprecated Operation on native arrays will be replaced by Listt
- *
- * @param mixed $value
- *
- * @return array
- */
-function toNativeTraversable($value)
-{
-    return isNativeTraversable($value) ? $value : [$value];
 }
 
 /**
@@ -565,9 +481,9 @@ const sequence_ = 'Widmogrod\Functional\sequence_';
  *
  * @return Monad
  */
-function sequence_($monads)
+function sequence_(Monad ...$monads)
 {
-    return reduce(sequenceM, Identity::of([]), toFoldable($monads));
+    return reduce(sequenceM, Identity::of([]), fromIterable($monads));
 }
 
 /**
@@ -609,7 +525,7 @@ const sequence = 'Widmogrod\Functional\sequence';
  */
 function sequence(Monad ...$monads)
 {
-    return traverse(identity, toTraversable($monads));
+    return traverse(identity, fromIterable($monads));
 }
 
 /**
