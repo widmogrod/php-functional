@@ -608,29 +608,3 @@ function foldM(callable $f, $z0 = null, Foldable $xs = null)
             : $result;
     })(...func_get_args());
 }
-
-/**
- * @experimental
- *
- * @param array $patterns
- * @param mixed $value
- *
- * @return mixed
- */
-function match(array $patterns, $value = null)
-{
-    return curryN(2, function (array $patterns, $value) {
-        $givenType = is_object($value) ? get_class($value) : gettype($value);
-        foreach ($patterns as $className => $fn) {
-            if ($value instanceof $className) {
-                return $fn($value);
-            }
-        }
-
-        throw new \Exception(sprintf(
-            'Cannot match "%s" type. Defined patterns are %s',
-            $givenType,
-            implode(', ', array_keys($patterns))
-        ));
-    })(...func_get_args());
-}

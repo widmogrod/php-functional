@@ -11,6 +11,7 @@ use Widmogrod\Monad\State;
 use const Widmogrod\Monad\IO\pure;
 use const Widmogrod\Monad\State\value;
 use Widmogrod\Primitive\Listt;
+use function Widmogrod\Useful\match;
 
 interface TeletypeF extends Functor
 {
@@ -102,7 +103,7 @@ const interpretIO = 'example2\interpretIO';
 // run :: TeletypeF -> IO ()
 function interpretIO(TeletypeF $r)
 {
-    return f\match([
+    return match([
         PutStrLn::class => function (PutStrLn $a) {
             return IO\putStrLn($a->str)->map(function () use ($a) {
                 return $a->next;
@@ -122,7 +123,7 @@ const interpretState = 'example2\interpretState';
 // runTest :: TeletypeF -> State MonadFree []
 function interpretState(TeletypeF $r)
 {
-    return f\match([
+    return match([
         PutStrLn::class => function (PutStrLn $a) {
             return State::of(function (Listt $state) use ($a) {
                 return [

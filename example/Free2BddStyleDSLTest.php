@@ -8,10 +8,10 @@ use Widmogrod\Monad\Free2\Pure;
 use Widmogrod\Monad\State;
 use const Widmogrod\Monad\State\value;
 use function Widmogrod\Functional\curryN;
-use function Widmogrod\Functional\match;
 use function Widmogrod\Functional\push_;
 use function Widmogrod\Monad\Free2\foldFree;
 use function Widmogrod\Monad\Free2\liftF;
+use function Widmogrod\Useful\match;
 
 interface ScenarioF extends Functor
 {

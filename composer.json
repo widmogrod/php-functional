@@ -46,7 +46,8 @@
       "src/Monad/IO/errors.php",
       "src/Monad/Reader/functions.php",
       "src/Monad/State/functions.php",
-      "src/Monad/Writer/functions.php"
+      "src/Monad/Writer/functions.php",
+      "src/Useful/match.php"
     ]
   }
 }
