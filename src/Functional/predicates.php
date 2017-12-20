@@ -33,6 +33,6 @@ const orr = 'Widmogrod\Functional\orr';
 function orr(callable $predicateA, callable $predicateB = null, $value = null)
 {
     return curryN(3, function (callable $a, callable $b, $value) {
-        return call_user_func($a, $value) || call_user_func($b, $value);
+        return $a($value) || $b($value);
     })(...func_get_args());
 }

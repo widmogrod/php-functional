@@ -24,7 +24,7 @@ class Pure implements MonadFree
      */
     public function bind(callable $function)
     {
-        return call_user_func($function, $this->value);
+        return $function($this->value);
     }
 
     /**
@@ -32,7 +32,7 @@ class Pure implements MonadFree
      */
     public function map(callable $function)
     {
-        return self::of(call_user_func($function, $this->value));
+        return self::of($function($this->value));
     }
 
     /**

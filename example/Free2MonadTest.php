@@ -167,12 +167,12 @@ function echo_chaining_()
 
 function echo_composition_()
 {
-    return call_user_func(f\pipeline(
+    return f\pipeline(
         getLine_,
         f\bind(putStrLn_),
         f\bind(exitSuccess_),
         f\bind(putStrLn_) // In interpretation of IO Monad this place will never be reached
-    ));
+    )();
 }
 
 class Free2MonadTest extends \PHPUnit_Framework_TestCase

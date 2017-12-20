@@ -34,7 +34,7 @@ const reader = 'Widmogrod\Monad\Reader\reader';
 function reader(callable $readerFunction)
 {
     return M\Reader::of(function ($reader) use ($readerFunction) {
-        return call_user_func($readerFunction, $reader);
+        return $readerFunction($reader);
     });
 }
 

@@ -27,7 +27,7 @@ const applicator = 'Widmogrod\Functional\applicator';
 function applicator($x, callable $f = null)
 {
     return curryN(2, function ($y, callable $f) {
-        return call_user_func($f, $y);
+        return $f($y);
     })(...func_get_args());
 }
 
@@ -47,7 +47,7 @@ const invoke = 'Widmogrod\Functional\invoke';
 function invoke($method, $object = null)
 {
     return curryN(2, function ($method, $object) {
-        return call_user_func([$object, $method]);
+        return $object->$method();
     })(...func_get_args());
 }
 
@@ -126,7 +126,7 @@ const tee = 'Widmogrod\Functional\tee';
 function tee(callable $function = null, $value = null)
 {
     return curryN(2, function (callable $function, $value) {
-        call_user_func($function, $value);
+        $function($value);
 
         return $value;
     })(...func_get_args());
@@ -282,7 +282,7 @@ function filter(callable $predicate, Foldable $list = null)
 {
     return curryN(2, function (callable $predicate, Foldable $list) {
         return reduce(function (Listt $list, $x) use ($predicate) {
-            return call_user_func($predicate, $x)
+            return $predicate($x)
                 ? append($list, fromValue($x))
                 : $list;
         }, Listt::mempty(), $list);
@@ -346,9 +346,9 @@ function tryCatch(callable $function, callable $catchFunction, $value)
 {
     return curryN(3, function (callable $function, callable $catchFunction, $value) {
         try {
-            return call_user_func($function, $value);
+            return $function($value);
         } catch (\Exception $e) {
-            return call_user_func($catchFunction, $e);
+            return $catchFunction($e);
         }
     })(...func_get_args());
 }
@@ -404,7 +404,7 @@ function liftM2(
         ) {
             return $ma->bind(function ($a) use ($mb, $transformation) {
                 return $mb->bind(function ($b) use ($a, $transformation) {
-                    return call_user_func($transformation, $a, $b);
+                    return $transformation($a, $b);
                 });
             });
         }
@@ -437,7 +437,7 @@ function liftA2(
     ) {
         return $fa->map(function ($a) use ($transformation) {
             return function ($b) use ($a, $transformation) {
-                return call_user_func($transformation, $a, $b);
+                return $transformation($a, $b);
             };
         })->ap($fb);
     })(...func_get_args());
@@ -621,7 +621,7 @@ function match(array $patterns, $value = null)
         $givenType = is_object($value) ? get_class($value) : gettype($value);
         foreach ($patterns as $className => $fn) {
             if ($value instanceof $className) {
-                return call_user_func($fn, $value);
+                return $fn($value);
             }
         }
 

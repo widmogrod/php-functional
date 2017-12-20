@@ -58,7 +58,7 @@ function maybe($default, callable $fn = null, Maybe $maybe = null)
             return $default;
         }
 
-        return call_user_func($fn, $maybe->extract());
+        return $fn($maybe->extract());
     }), func_get_args());
 }
 

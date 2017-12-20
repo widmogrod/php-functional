@@ -42,6 +42,6 @@ class Left implements Either
      */
     public function either(callable $left, callable $right)
     {
-        return call_user_func($left, $this->value);
+        return $left($this->value);
     }
 }

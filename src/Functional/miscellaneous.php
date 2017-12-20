@@ -94,7 +94,7 @@ function pipeline(callable $a, callable $b)
 
     return function ($value = null) use (&$list) {
         return array_reduce($list, function ($accumulator, callable $a) {
-            return call_user_func($a, $accumulator);
+            return $a($accumulator);
         }, $value);
     };
 }

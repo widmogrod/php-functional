@@ -55,7 +55,7 @@ function tryCatch(M\IO $io = null, callable $catchFunction = null)
             try {
                 return $io->run();
             } catch (\Exception $e) {
-                return call_user_func($catchFunction, $e);
+                return $catchFunction($e);
             }
         });
     }), func_get_args());
