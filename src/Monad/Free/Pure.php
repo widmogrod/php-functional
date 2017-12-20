@@ -1,6 +1,6 @@
 <?php
 
-namespace Widmogrod\Monad\Free2;
+namespace Widmogrod\Monad\Free;
 
 use Widmogrod\Common;
 use Widmogrod\FantasyLand;
@@ -9,7 +9,7 @@ class Pure implements MonadFree
 {
     use Common\PointedTrait;
 
-    const of = 'Widmogrod\Monad\Free2\Pure::of';
+    const of = 'Widmogrod\Monad\Free\Pure::of';
 
     /**
      * @inheritdoc

@@ -3,14 +3,14 @@
 namespace example;
 
 use Widmogrod\FantasyLand\Functor;
-use Widmogrod\Monad\Free2\MonadFree;
-use Widmogrod\Monad\Free2\Pure;
+use Widmogrod\Monad\Free\MonadFree;
+use Widmogrod\Monad\Free\Pure;
 use Widmogrod\Monad\State;
 use const Widmogrod\Monad\State\value;
 use function Widmogrod\Functional\curryN;
 use function Widmogrod\Functional\push_;
-use function Widmogrod\Monad\Free2\foldFree;
-use function Widmogrod\Monad\Free2\liftF;
+use function Widmogrod\Monad\Free\foldFree;
+use function Widmogrod\Monad\Free\liftF;
 use function Widmogrod\Useful\match;
 
 interface ScenarioF extends Functor
@@ -235,7 +235,7 @@ function matchRegexp(array $patterns, $value = null)
 /**
  * Inspired by https://github.com/politrons/TestDSL
  */
-class Free2BddStyleDSLTest extends \PHPUnit_Framework_TestCase
+class FreeBddStyleDSLTest extends \PHPUnit_Framework_TestCase
 {
     public function test_it_should_interpret_bdd_scenario()
     {

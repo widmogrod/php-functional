@@ -1,6 +1,6 @@
 <?php
 
-namespace Widmogrod\Monad\Free2;
+namespace Widmogrod\Monad\Free;
 
 use Widmogrod\FantasyLand\Functor;
 use Widmogrod\FantasyLand\Monad;

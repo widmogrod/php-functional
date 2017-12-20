@@ -4,8 +4,8 @@ namespace example2;
 
 use Widmogrod\FantasyLand\Functor;
 use Widmogrod\Functional as f;
-use Widmogrod\Monad\Free2 as ff;
-use Widmogrod\Monad\Free2\MonadFree;
+use Widmogrod\Monad\Free as ff;
+use Widmogrod\Monad\Free\MonadFree;
 use Widmogrod\Monad\IO;
 use Widmogrod\Monad\State;
 use const Widmogrod\Monad\IO\pure;
@@ -176,7 +176,7 @@ function echo_composition_()
     )();
 }
 
-class Free2MonadTest extends \PHPUnit_Framework_TestCase
+class FreeMonadTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideEchoImplementation

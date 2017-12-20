@@ -1,6 +1,6 @@
 <?php
 
-namespace Widmogrod\Monad\Free2;
+namespace Widmogrod\Monad\Free;
 
 use Widmogrod\FantasyLand;
 use function Widmogrod\Functional\bind;
@@ -12,7 +12,7 @@ use function Widmogrod\Functional\bind;
  */
 class Free implements MonadFree
 {
-    const of = 'Widmogrod\Monad\Free2\Free::of';
+    const of = 'Widmogrod\Monad\Free\Free::of';
 
     /**
      * @var FantasyLand\Functor

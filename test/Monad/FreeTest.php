@@ -7,15 +7,15 @@ use Widmogrod\FantasyLand\Functor;
 use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
 use Widmogrod\Helpful\MonadLaws;
-use Widmogrod\Monad\Free2\MonadFree;
-use Widmogrod\Monad\Free2\Pure;
+use Widmogrod\Monad\Free\MonadFree;
+use Widmogrod\Monad\Free\Pure;
 use Widmogrod\Monad\Identity;
 use const Widmogrod\Functional\identity;
 use function Widmogrod\Functional\curryN;
-use function Widmogrod\Monad\Free2\foldFree;
-use function Widmogrod\Monad\Free2\liftF;
+use function Widmogrod\Monad\Free\foldFree;
+use function Widmogrod\Monad\Free\liftF;
 
-class Free2Test extends \PHPUnit_Framework_TestCase
+class FreeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideFunctorTestData
