@@ -197,13 +197,13 @@ function bind(callable $function = null, Monad $value = null)
 const join = 'Widmogrod\Functional\join';
 
 /**
- * join :: Monad (Monad m) -> Monad m
+ * join :: Monad m => m (m a) -> m a
  *
  * @param Monad $monad
  *
  * @return Monad
  */
-function join(Monad $monad = null)
+function join(Monad $monad): Monad
 {
     return $monad->bind(identity);
 }
