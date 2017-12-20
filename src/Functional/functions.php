@@ -123,7 +123,7 @@ const tee = 'Widmogrod\Functional\tee';
  *
  * @return \Closure
  */
-function tee(callable $function = null, $value = null)
+function tee(callable $function, $value = null)
 {
     return curryN(2, function (callable $function, $value) {
         $function($value);

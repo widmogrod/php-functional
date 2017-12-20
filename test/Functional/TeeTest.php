@@ -13,8 +13,7 @@ class TeeTest extends \PHPUnit_Framework_TestCase
         $function,
         $value
     ) {
-        $curried = f\tee();
-        $curried = $curried($function);
+        $curried = f\tee($function);
         $this->assertEquals($value, $curried($value));
     }
 
