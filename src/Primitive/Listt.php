@@ -156,11 +156,11 @@ class Listt implements
      *
      * @return mixed First element of Listt
      *
-     * @throws \BadMethodCallException
+     * @throws EmptyListError
      */
     public function head()
     {
-        return $this->guardEmptyGenerator('head of empty Listt')->current();
+        return $this->guardEmptyGenerator('head')->current();
     }
 
     /**
@@ -168,11 +168,11 @@ class Listt implements
      *
      * @return \Widmogrod\Primitive\Listt
      *
-     * @throws \BadMethodCallException
+     * @throws EmptyListError
      */
     public function tail(): self
     {
-        ($generator = $this->guardEmptyGenerator('tail of empty Listt'))->next();
+        ($generator = $this->guardEmptyGenerator('tail'))->next();
 
         return $generator->valid()
             ? self::of((function ($values) {
@@ -188,10 +188,10 @@ class Listt implements
             yield from $values;
         })($this->value);
 
-        if (!$generator->valid()) {
-            throw new \BadMethodCallException($message);
+        if ($generator->valid()) {
+            return $generator;
         }
 
-        return $generator;
+        throw new EmptyListError($message);
     }
 }

@@ -156,13 +156,6 @@ class ListtTest extends \PHPUnit_Framework_TestCase
         }, array_fill(0, 50, null));
     }
 
-    public function test_head_on_empty_list_is_undefined()
-    {
-        $this->setExpectedException(\BadMethodCallException::class, 'head of empty Listt');
-
-        Listt::mempty()->head();
-    }
-
     public function test_head_extracts_first_element()
     {
         $this->forAll(
@@ -176,13 +169,6 @@ class ListtTest extends \PHPUnit_Framework_TestCase
                 $this->assertSame($current, $list->head());
             }
         );
-    }
-
-    public function test_tail_on_empty_list()
-    {
-        $this->setExpectedException(\BadMethodCallException::class, 'tail of empty Listt');
-
-        Listt::mempty()->tail();
     }
 
     public function test_tail_with_single_element_Listt()
