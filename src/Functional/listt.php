@@ -9,7 +9,7 @@ const fromIterable = 'Widmogrod\Functional\fromIterable';
 
 function fromIterable(iterable $i): Listt
 {
-    return Listt::of(array_map(identity, $i));
+    return Listt::of($i);
 }
 
 const fromValue = 'Widmogrod\Functional\fromValue';

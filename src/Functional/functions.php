@@ -416,72 +416,6 @@ function toNativeTraversable($value)
 }
 
 /**
- * @var callable
- */
-const head = 'Widmogrod\Functional\head';
-
-/**
- * Return head of a traversable
- *
- * @deprecated Operation on native arrays will be replaced by Listt
- *
- * @param array|\Traversable $list
- *
- * @return null|mixed
- */
-function head($list)
-{
-    if (!isNativeTraversable($list)) {
-        return null;
-    }
-    foreach ($list as $item) {
-        return $item;
-    }
-
-    return null;
-}
-
-/**
- * @var callable
- */
-const tail = 'Widmogrod\Functional\tail';
-
-/**
- * Return tail of a traversable
- *
- * @deprecated Operation on native arrays will be replaced by Listt
- *
- * @param array|\Traversable $list
- *
- * @return null|array
- */
-function tail($list)
-{
-    if (!isNativeTraversable($list) || count($list) === 0) {
-        return null;
-    }
-
-    if (is_array($list)) {
-        $clone = $list;
-        array_shift($clone);
-
-        return $clone;
-    }
-
-    $values = [];
-    $first = true;
-    foreach ($list as $k => $v) {
-        if ($first) {
-            $first = false;
-        } else {
-            $values[$k] = $v;
-        }
-    }
-
-    return $values;
-}
-
-/**
  * tryCatch :: Exception e => (a -> b) -> (e -> b) -> a -> b
  *
  * @deprecated Operation on native arrays will be replaced by Listt
@@ -681,76 +615,79 @@ function sequence(Monad ...$monads)
 /**
  * filterM :: Monad m => (a -> m Bool) -> [a] -> m [a]
  *
+ * ```haskell
+ * filterM p = foldr (\ x -> liftA2 (\ flg -> if flg then (x:) else id) (p x)) (pure [])
+ * foldr :: (a -> b -> b) -> b -> t a -> b
+ * liftA2 :: (a -> b -> c) -> f a -> f b -> f c
+ *```
  * @param callable $f (a -> m Bool)
- * @param array|Traversable $collection [a]
+ * @param Foldable $xs [a]
  *
  * @return Monad m [a]
  */
-function filterM(callable $f, $collection)
+function filterM(callable $f, Foldable $xs = null)
 {
     return curryN(2, function (
         callable $f,
-        $collection
+        $xs
     ) {
-        /** @var Monad $monad */
-        $monad = $f(head($collection));
-
-        $_filterM = function ($collection) use ($monad, $f, &$_filterM) {
-            if (count($collection) == 0) {
-                return $monad::of([]);
+        $result = foldr(function ($x, $ys) use ($f) {
+            $y = $f($x);
+            // Detect type of monad
+            if ($ys === null) {
+                $ys = $y::of(Listt::mempty());
             }
 
-            $x = head($collection);
-            $xs = tail($collection);
+            return liftA2(function (bool $flg, $ys) use ($x) {
+                return $flg
+                    ? prepend($x, $ys)
+                    : $ys;
+            }, $y, $ys);
+        }, null, $xs);
 
-            return $f($x)->bind(function ($bool) use ($x, $xs, $monad, $_filterM) {
-                return $_filterM($xs)->bind(function (array $acc) use ($bool, $x, $monad) {
-                    if ($bool) {
-                        array_unshift($acc, $x);
-                    }
-
-                    return $monad::of($acc);
-                });
-            });
-        };
-
-        return $_filterM($collection);
+        return $result === null
+            ? Listt::mempty()
+            : $result;
     })(...func_get_args());
 }
 
 /**
- * foldM :: Monad m => (a -> b -> m a) -> a -> [b] -> m a
+ * foldM :: (Foldable t, Monad m) => (b -> a -> m b) -> b -> t a -> m b
+ *
+ * ```haskell
+ * foldlM :: (Foldable t, Monad m) => (b -> a -> m b) -> b -> t a -> m b
+ * foldlM f z0 xs = foldr f' return xs z0
+ *      where f' x k z = f z x >>= k
+ *
+ * foldr :: (a -> b -> b) -> b -> t a -> b
+ * ```
  *
  * @param callable $f (a -> b -> m a)
- * @param mixed $initial a
- * @param array|\Traversable $collection [b]
+ * @param null $z0
+ * @param Foldable $xs [b]
  *
  * @return mixed m a
  */
-function foldM(callable $f, $initial, $collection)
+function foldM(callable $f, $z0 = null, Foldable $xs = null)
 {
     return curryN(3, function (
         callable $f,
-        $initial,
-        $collection
+        $z0,
+        $xs
     ) {
-        /** @var Monad $monad */
-        $monad = $f($initial, head($collection));
-
-        $_foldM = function ($acc, $collection) use ($monad, $f, &$_foldM) {
-            if (count($collection) == 0) {
-                return $monad::of($acc);
+        $result = foldr(function ($x, $k) use ($f, $z0) {
+            if ($k === null) {
+                return $f($z0, $x);
+            } else {
+                return $k->bind(function ($z) use ($f, $x) {
+                    return $f($z, $x);
+                });
             }
+        }, null, $xs);
 
-            $x = head($collection);
-            $xs = tail($collection);
-
-            return $f($acc, $x)->bind(function ($result) use ($acc, $xs, $_foldM) {
-                return $_foldM($result, $xs);
-            });
-        };
-
-        return $_foldM($initial, $collection);
+        return $result === null
+            ? Listt::mempty()
+            : $result;
     })(...func_get_args());
 }
 

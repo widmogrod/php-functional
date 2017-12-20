@@ -2,8 +2,9 @@
 
 namespace test\Functional;
 
-use Widmogrod\Functional as f;
-use Widmogrod\Monad\Maybe\Just;
+use function Widmogrod\Functional\filterM;
+use function Widmogrod\Functional\fromIterable;
+use function Widmogrod\Monad\Maybe\just;
 
 class FilterMTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,12 +16,12 @@ class FilterMTest extends \PHPUnit_Framework_TestCase
         $expected
     ) {
         $filter = function ($i) {
-            return new Just($i % 2 == 1);
+            return just($i % 2 == 1);
         };
 
         $this->assertEquals(
             $expected,
-            f\filterM($filter, $list)->extract()
+            filterM($filter, $list)
         );
     }
 
@@ -28,16 +29,16 @@ class FilterMTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'simple list' => [
-                '$list'     => [1, 2, 3, 4, 5],
-                '$expected' => [1, 3, 5]
+                '$list'     => fromIterable([1, 2, 3, 4, 5]),
+                '$expected' => just(fromIterable([1, 3, 5]))
             ],
             'empty list' => [
-                '$list'     => [],
-                '$expected' => []
+                '$list'     => fromIterable([]),
+                '$expected' => fromIterable([])
             ],
             'traversable' => [
-                '$list'     => new \ArrayIterator([1, 2, 3, 4, 5]),
-                '$expected' => [1, 3, 5]
+                '$list'     => fromIterable(new \ArrayIterator([1, 2, 3, 4, 5])),
+                '$expected' => just(fromIterable([1, 3, 5])),
             ],
         ];
     }
