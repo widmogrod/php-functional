@@ -138,6 +138,8 @@ function tee(callable $function = null, $value = null)
 const reverse = 'Widmogrod\Functional\reverse';
 
 /**
+ * reverse :: (a -> b -> c -> d) -> (c -> b -> a -> d)
+ *
  * Call $function with arguments in reversed order
  *
  * @return \Closure
@@ -146,8 +148,8 @@ const reverse = 'Widmogrod\Functional\reverse';
  */
 function reverse(callable $function)
 {
-    return function () use ($function) {
-        return call_user_func_array($function, array_reverse(func_get_args()));
+    return function (...$args) use ($function) {
+        return $function(...array_reverse($args));
     };
 }
 
