@@ -52,29 +52,6 @@ function concat(Foldable $xs)
     }, Listt::mempty(), $xs);
 }
 
-///**
-// * map f xs is the list obtained by applying f to each element of xs, i.e.,
-// *
-// * map f [x1, x2, ..., xn] == [f x1, f x2, ..., f xn]
-// * map f [x1, x2, ...] == [f x1, f x2, ...]
-// */
-//function map()
-//{
-//    // TODO
-//}
-//
-///**
-// * filter :: (a -> Bool) -> [a] -> [a] Source #
-// *
-// * filter, applied to a predicate and a list, returns the list of those elements that satisfy the predicate; i.e.,
-// *
-// * filter p xs = [ x | x <- xs, p x]
-// */
-//function filter()
-//{
-//    // TODO
-//}
-
 const prepend = 'Widmogrod\Functional\prepend';
 
 /**
