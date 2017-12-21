@@ -2,25 +2,39 @@
 
 namespace test\Functional;
 
-use Widmogrod\Primitive\Listt;
-use function Widmogrod\Functional\head;
+use Eris\Generator;
+use Eris\TestTrait;
+use function Widmogrod\Functional\eql;
+use function Widmogrod\Functional\filter;
+use function Widmogrod\Functional\length;
 use function Widmogrod\Functional\repeat;
-use function Widmogrod\Functional\tail;
+use function Widmogrod\Functional\take;
 
 class RepeatTest extends \PHPUnit_Framework_TestCase
 {
-    public function test_it($value = 'ab')
+    use TestTrait;
+
+    public function test_it_should_generate_infinite_list()
     {
-        $result = repeat($value);
-        $this->assertInstanceOf(Listt::class, $result);
+        $this->forAll(
+            Generator\choose(1, 100),
+            Generator\string()
+        )->then(function ($n, $value) {
+            $list = take($n, repeat($value));
 
-        $this->assertSame($value, head($result));
-        $this->assertSame($value, head(tail($result)));
+            return length($list) === $n;
+        });
+    }
 
-        $it = $result->getIterator();
-        $this->assertInstanceOf(\Generator::class, $it);
-        $this->assertSame($value, $it->current());
-        $it->next();
-        $this->assertSame($value, $it->current());
+    public function test_it_should_generate_repetive_value()
+    {
+        $this->forAll(
+            Generator\choose(1, 100),
+            Generator\string()
+        )->then(function ($n, $value) {
+            $list = take($n, repeat($value));
+
+            return length(filter(eql($value), $list)) === $n;
+        });
     }
 }

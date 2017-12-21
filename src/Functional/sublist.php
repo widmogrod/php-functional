@@ -26,11 +26,9 @@ function take(int $n, Listt $xs = null)
             return fromNil();
         }
 
-        try {
-            return prepend(head($xs), take($n - 1, tail($xs)));
-        } catch (EmptyListError $e) {
-            return fromNil();
-        }
+        return $xs::of(function () use ($n, $xs) {
+            return [head($xs), take($n - 1, tail($xs))];
+        });
     })(...func_get_args());
 }
 

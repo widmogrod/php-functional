@@ -10,6 +10,7 @@ use Widmogrod\FantasyLand\Monad;
 use Widmogrod\FantasyLand\Traversable;
 use Widmogrod\Monad\Identity;
 use Widmogrod\Primitive\Listt;
+use Widmogrod\Primitive\ListtCons;
 
 /**
  * @var callable
@@ -285,8 +286,9 @@ function filter(callable $predicate, Foldable $list = null)
     return curryN(2, function (callable $predicate, Foldable $list) {
         return reduce(function (Listt $list, $x) use ($predicate) {
             return $predicate($x)
-                ? append($list, fromValue($x))
-                : $list;
+                ? ListtCons::of(function () use ($list, $x) {
+                    return [$x, $list];
+                }) : $list;
         }, fromNil(), $list);
     })(...func_get_args());
 }

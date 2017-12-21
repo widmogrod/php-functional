@@ -24,7 +24,8 @@ class TakeTest extends \PHPUnit_Framework_TestCase
         $e = print_r($expected->extract(), true);
 
         $this->assertTrue(
-            $result->equals($expected)
+            $result->equals($expected),
+            "$e != $r"
         );
     }
 
