@@ -13,6 +13,7 @@ class SnapshotIterator extends \IteratorIterator
 {
     private $inMemoryValid;
     private $inMemoryCurrent;
+    private $inSnapshot;
 
     public function valid()
     {
@@ -34,7 +35,12 @@ class SnapshotIterator extends \IteratorIterator
 
     public function snapshot()
     {
-        return new self($this->getInnerIterator());
+        if (null === $this->inSnapshot) {
+            $this->inSnapshot = new self($this->getInnerIterator());
+            $this->inSnapshot->next();
+        }
+
+        return $this->inSnapshot;
     }
 }
 
@@ -42,6 +48,9 @@ function fromIterable(iterable $i): Listt
 {
     if (is_array($i)) {
         $i = new \ArrayObject($i);
+    }
+
+    if ($i instanceof \IteratorAggregate) {
         $i = $i->getIterator();
     }
 
@@ -50,18 +59,19 @@ function fromIterable(iterable $i): Listt
         $i->rewind();
     }
 
+    return fromSnapshotIterator($i);
+}
+
+function fromSnapshotIterator(SnapshotIterator $i): Listt
+{
     if (!$i->valid()) {
-        return new ListtNil();
+        return fromNil();
     }
 
-    $value = $i->current();
-    $g = $i->snapshot();
-    $g->next();
-
-    return ListtCons::of(function () use ($g, $value) {
+    return ListtCons::of(function () use ($i) {
         return [
-            $value,
-            fromIterable($g)
+            $i->current(),
+            fromSnapshotIterator($i->snapshot())
         ];
     });
 }
@@ -79,22 +89,6 @@ function fromNil(): Listt
 {
     return new ListtNil();
 }
-
-/**
- * widthHeadTail :: ([x:xs] -> b) -> [a] -> b
- *
- * @param callable $fn
- * @param Listt $a
- * @return mixed
- * @throws \Widmogrod\Primitive\EmptyListError
- */
-function widthHeadTail(callable $fn, Listt $a = null)
-{
-    return curryN(2, function (callable $fn, Listt $a) {
-        return $fn(head($a), tail($a));
-    })(...func_get_args());
-}
-
 
 /**
  * @var callable

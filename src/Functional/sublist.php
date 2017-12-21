@@ -2,14 +2,31 @@
 
 namespace Widmogrod\Functional;
 
+use Widmogrod\Primitive\EmptyListError;
+use Widmogrod\Primitive\Listt;
+
 /**
  * take :: Int -> [a] -> [a]
  *
  * take n, applied to a list xs, returns the prefix of xs of length n, or xs itself if n > length xs:
+ *
+ * @param int $n
+ * @param Listt $a
+ * @return Listt
  */
-function take()
+function take(int $n, Listt $a = null)
 {
-    // TODO
+    return curryN(2, function (int $n, Listt $a): Listt {
+        if ($n < 1) {
+            return fromNil();
+        }
+
+        try {
+            return prepend(head($a), take($n - 1, tail($a)));
+        } catch (EmptyListError $e) {
+            return fromNil();
+        }
+    })(...func_get_args());
 }
 
 /**

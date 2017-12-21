@@ -35,6 +35,7 @@
       "src/Functional/miscellaneous.php",
       "src/Functional/listt.php",
       "src/Functional/zipping.php",
+      "src/Functional/sublist.php",
       "src/Functional/predicates.php",
       "src/Functional/strings.php",
       "src/Functional/monoid.php",
