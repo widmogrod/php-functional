@@ -22,21 +22,30 @@ function identity($x)
 }
 
 /**
+ * @var callable
+ */
+const constt = 'Widmogrod\Functional\constt';
+
+/**
  * const :: a -> b -> a
  *
  * const x is a unary function which evaluates to x for all inputs.
  *
  * For instance,
- *
+ * ```haskell
  *  >>> map (const 42) [0..3]
  *      [42,42,42,42]
+ * ```
  *
  * @param $a
  * @param $b
+ * @return callable
  */
-function constt($a, $b)
+function constt($a, $b = null)
 {
-    // TODO
+    return curryN(2, function ($a) {
+        return $a;
+    });
 }
 
 
