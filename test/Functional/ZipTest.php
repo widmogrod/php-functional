@@ -2,6 +2,7 @@
 
 namespace test\Functional;
 
+use function Widmogrod\Functional\fromNil;
 use Widmogrod\Primitive\Listt;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\zip;
@@ -31,19 +32,19 @@ class ZipTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'zipping of two empty lists should be an empty list' => [
-                '$a' => fromIterable([]),
-                '$b' => fromIterable([]),
-                '$expected' => fromIterable([]),
+                '$a' => fromNil(),
+                '$b' => fromNil(),
+                '$expected' => fromNil(),
             ],
             'zipping of two lists when left is an empty list' => [
-                '$a' => fromIterable([]),
+                '$a' => fromNil(),
                 '$b' => fromIterable([1, 2, 3, 4]),
-                '$expected' => fromIterable([]),
+                '$expected' => fromNil(),
             ],
             'zipping of two lists when right is an empty list' => [
                 '$a' => fromIterable([1, 2, 3, 4]),
-                '$b' => fromIterable([]),
-                '$expected' => fromIterable([]),
+                '$b' => fromNil(),
+                '$expected' => fromNil(),
             ],
             'zipping of two lists when left is shorter  list' => [
                 '$a' => fromIterable([1, 2, 3]),

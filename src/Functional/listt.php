@@ -71,9 +71,30 @@ const fromValue = 'Widmogrod\Functional\fromValue';
 function fromValue($value): Listt
 {
     return ListtCons::of(function () use ($value) {
-        return [$value, new ListtNil()];
+        return [$value, fromNil()];
     });
 }
+
+function fromNil(): Listt
+{
+    return new ListtNil();
+}
+
+/**
+ * widthHeadTail :: ([x:xs] -> b) -> [a] -> b
+ *
+ * @param callable $fn
+ * @param Listt $a
+ * @return mixed
+ * @throws \Widmogrod\Primitive\EmptyListError
+ */
+function widthHeadTail(callable $fn, Listt $a = null)
+{
+    return curryN(2, function (callable $fn, Listt $a) {
+        return $fn(head($a), tail($a));
+    })(...func_get_args());
+}
+
 
 /**
  * @var callable
@@ -105,7 +126,7 @@ function concat(Foldable $xs)
 {
     return foldr(function ($x, Listt $y) {
         return foldr(prepend, $y, $x);
-    }, ListtCons::mempty(), $xs);
+    }, fromNil(), $xs);
 }
 
 const prepend = 'Widmogrod\Functional\prepend';

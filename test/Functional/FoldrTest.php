@@ -12,7 +12,7 @@ class FoldrTest extends \PHPUnit_Framework_TestCase
 
         $result = f\foldr(function ($value, $accumulator) {
             return f\concatM($accumulator, f\fromIterable([$value + 1]));
-        }, f\fromIterable([]), $list);
+        }, f\fromNil(), $list);
 
         $this->assertEquals(
             $result,

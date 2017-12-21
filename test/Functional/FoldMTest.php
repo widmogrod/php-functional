@@ -4,6 +4,7 @@ namespace test\Functional;
 
 use function Widmogrod\Functional\foldM;
 use function Widmogrod\Functional\fromIterable;
+use function Widmogrod\Functional\fromNil;
 use function Widmogrod\Monad\Maybe\just;
 use function Widmogrod\Monad\Maybe\nothing;
 
@@ -37,8 +38,8 @@ class FoldMTest extends \PHPUnit_Framework_TestCase
                 '$expected' => nothing(),
             ],
             'empty array' => [
-                '$list' => fromIterable([]),
-                '$expected' => fromIterable([]),
+                '$list' => fromNil(),
+                '$expected' => fromNil(),
             ],
             'traversable' => [
                 '$list' => fromIterable(new \ArrayIterator([1, 3, 5, 7])),

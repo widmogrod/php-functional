@@ -4,6 +4,7 @@ namespace test\Functional;
 
 use function Widmogrod\Functional\filter;
 use function Widmogrod\Functional\fromIterable;
+use function Widmogrod\Functional\fromNil;
 
 class FilterTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,8 +33,8 @@ class FilterTest extends \PHPUnit_Framework_TestCase
                 '$expected' => fromIterable([1, 3, 5])
             ],
             'empty list' => [
-                '$list' => fromIterable([]),
-                '$expected' => fromIterable([])
+                '$list' => fromNil(),
+                '$expected' => fromNil()
             ],
             'traversable' => [
                 '$list' => fromIterable(new \ArrayIterator([1, 2, 3, 4, 5])),

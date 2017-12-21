@@ -2,6 +2,7 @@
 
 namespace test\Functional;
 
+use function Widmogrod\Functional\fromNil;
 use Widmogrod\Primitive\Listt;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\unzip;
@@ -27,8 +28,8 @@ class UnzipTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'unzipping of empty lists should be an tuple of empty lists' => [
-                '$a' => fromIterable([]),
-                '$expected' => [fromIterable([]), fromIterable([])],
+                '$a' => fromNil(),
+                '$expected' => [fromNil(), fromNil()],
             ],
             'unzipping of lists should be an tuple of lists' => [
                 '$a' => fromIterable([

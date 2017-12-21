@@ -12,7 +12,7 @@ class ReduceTest extends \PHPUnit_Framework_TestCase
 
         $result = f\reduce(function ($accumulator, $value) {
             return f\concatM($accumulator, f\fromIterable([$value + 1]));
-        }, f\fromIterable([]), $list);
+        }, f\fromNil(), $list);
 
         $this->assertEquals(
             $result,

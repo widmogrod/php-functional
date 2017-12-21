@@ -4,6 +4,7 @@ namespace test\Functional;
 
 use Widmogrod\FantasyLand\Foldable;
 use function Widmogrod\Functional\fromIterable;
+use function Widmogrod\Functional\fromNil;
 use function Widmogrod\Functional\length;
 
 class LengthTest extends \PHPUnit_Framework_TestCase
@@ -22,7 +23,7 @@ class LengthTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'Empty list should have length 0' => [
-                '$t' => fromIterable([]),
+                '$t' => fromNil(),
                 '$expected' => 0,
             ],
 
