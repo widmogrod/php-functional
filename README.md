@@ -276,43 +276,6 @@ $result = $scenario->Run([
 ]);
 ```
 
-### Haskell Do Notation in PHP
-**NOTE:** This is experimental feature.
-
-``` php
-use Widmogrod\Monad\IO as IO;
-use Widmogrod\Monad\Control as C;
-use Widmogrod\Functional as f;
-
-$do = control\doo([
-    IO\putStrLn('Your name:'),                      // put on screen line: Your name:
-    '$name' =>
-        IO\getLine(),                               // prompt for the name, and store it in '$name' key
-
-    control\runWith(IO\putStrLn, ['$name']),        // put on screen entered name
-
-    IO\putStrLn('Your surname:'),                   // put on screen line: Your surname:
-    '$surname' =>
-        IO\getLine(),                               // prompt for surname, and store it in '$surname' key
-
-    control\runWith(function($surname, $name) {     // put on screen: "Hello $surname, $name"
-        return IO\putStrLn(sprintf("Hello %s, %s", $surname, $name));
-    }, ['$surname', '$name']),
-]);
-
-// performs operation, before that nothings happens from above code.
-$do->run();
-```
-
-Example output:
-```txt
-Your name:
-Gabriel
-Your surname:
-Habryn
-Hello Habryn, Gabriel
-```
-
 ### Sequencing Monad operations
 This variant of `sequence_` ignores the result.
 
