@@ -5,45 +5,21 @@ namespace Widmogrod\Functional;
 use Widmogrod\FantasyLand\Foldable;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\ListtCons;
+use Widmogrod\Useful\SnapshotIterator;
 
+/**
+ * @var callable
+ */
 const fromIterable = 'Widmogrod\Functional\fromIterable';
 
-// TODO extract
-class SnapshotIterator extends \IteratorIterator
-{
-    private $inMemoryValid;
-    private $inMemoryCurrent;
-    private $inSnapshot;
-
-    public function valid()
-    {
-        if (null === $this->inMemoryValid) {
-            $this->inMemoryValid = parent::valid();
-        }
-
-        return $this->inMemoryValid;
-    }
-
-    public function current()
-    {
-        if (null === $this->inMemoryCurrent) {
-            $this->inMemoryCurrent = parent::current();
-        }
-
-        return $this->inMemoryCurrent;
-    }
-
-    public function snapshot()
-    {
-        if (null === $this->inSnapshot) {
-            $this->inSnapshot = new self($this->getInnerIterator());
-            $this->inSnapshot->next();
-        }
-
-        return $this->inSnapshot;
-    }
-}
-
+/**
+ * fromIterable :: iterable a -> [a]
+ *
+ * Adapt any native PHP value that is iterable into Listt.
+ *
+ * @param iterable $i
+ * @return Listt
+ */
 function fromIterable(iterable $i): Listt
 {
     if (is_array($i)) {
@@ -54,14 +30,19 @@ function fromIterable(iterable $i): Listt
         $i = $i->getIterator();
     }
 
-    if (!($i instanceof SnapshotIterator)) {
-        $i = new SnapshotIterator($i);
-        $i->rewind();
-    }
+    $i = new SnapshotIterator($i);
+    $i->rewind();
 
     return fromSnapshotIterator($i);
 }
 
+/**
+ * Utility function. Must not be used directly.
+ * Use fromValue() or fromIterable()
+ *
+ * @param SnapshotIterator $i
+ * @return Listt
+ */
 function fromSnapshotIterator(SnapshotIterator $i): Listt
 {
     if (!$i->valid()) {
@@ -81,12 +62,25 @@ function fromSnapshotIterator(SnapshotIterator $i): Listt
  */
 const fromValue = 'Widmogrod\Functional\fromValue';
 
+/**
+ * fromValue :: a -> [a]
+ *
+ * Create list containing only one value.
+ *
+ * @param mixed $value
+ * @return Listt
+ */
 function fromValue($value): Listt
 {
     return ListtCons::of(function () use ($value) {
         return [$value, fromNil()];
     });
 }
+
+/**
+ * @var callable
+ */
+const fromNil = 'Widmogrod\Functional\fromNil';
 
 function fromNil(): Listt
 {
