@@ -5,11 +5,28 @@ namespace test\Widmogrod\Primitive;
 use Widmogrod\FantasyLand\Monoid;
 use Widmogrod\Functional as f;
 use Widmogrod\Helpful\MonoidLaws;
+use Widmogrod\Helpful\SetoidLaws;
 use Widmogrod\Primitive\Product;
 use Widmogrod\Primitive\Stringg;
 
 class StringgTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @dataProvider provideRandomizedData
+     */
+    public function test_it_should_obay_setoid_laws(
+        $a,
+        $b,
+        $c
+    ) {
+        SetoidLaws::test(
+            f\curryN(3, [$this, 'assertEquals']),
+            $a,
+            $b,
+            $c
+        );
+    }
+
     /**
      * @dataProvider provideRandomizedData
      */
