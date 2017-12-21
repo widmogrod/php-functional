@@ -5,6 +5,7 @@ namespace test\Functional;
 use Widmogrod\Primitive\Listt;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
+use function Widmogrod\Functional\repeat;
 use function Widmogrod\Functional\take;
 
 class TakeTest extends \PHPUnit_Framework_TestCase
@@ -23,8 +24,7 @@ class TakeTest extends \PHPUnit_Framework_TestCase
         $e = print_r($expected->extract(), true);
 
         $this->assertTrue(
-            $result->equals($expected),
-            "$e != $r"
+            $result->equals($expected)
         );
     }
 
@@ -55,6 +55,11 @@ class TakeTest extends \PHPUnit_Framework_TestCase
                 '$a' => fromIterable([1, 2, 3, 4, 5]),
                 '$n' => 3000,
                 '$expected' => fromIterable([1, 2, 3, 4, 5]),
+            ],
+            'should return part of infinite list' => [
+                '$a' => repeat('a'),
+                '$n' => 3,
+                '$expected' => fromIterable(['a', 'a', 'a']),
             ],
         ];
     }

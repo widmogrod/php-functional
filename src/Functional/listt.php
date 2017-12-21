@@ -5,7 +5,6 @@ namespace Widmogrod\Functional;
 use Widmogrod\FantasyLand\Foldable;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\ListtCons;
-use Widmogrod\Primitive\ListtNil;
 
 const fromIterable = 'Widmogrod\Functional\fromIterable';
 
@@ -77,6 +76,9 @@ function fromSnapshotIterator(SnapshotIterator $i): Listt
     });
 }
 
+/**
+ * @var callable
+ */
 const fromValue = 'Widmogrod\Functional\fromValue';
 
 function fromValue($value): Listt
@@ -88,7 +90,7 @@ function fromValue($value): Listt
 
 function fromNil(): Listt
 {
-    return new ListtNil();
+    return ListtCons::mempty();
 }
 
 /**
@@ -124,6 +126,9 @@ function concat(Foldable $xs)
     }, fromNil(), $xs);
 }
 
+/**
+ * @var callable
+ */
 const prepend = 'Widmogrod\Functional\prepend';
 
 /**
@@ -140,6 +145,9 @@ function prepend($x, Listt $xs = null)
     })(...func_get_args());
 }
 
+/**
+ * @var callable
+ */
 const append = 'Widmogrod\Functional\append';
 
 /**
@@ -164,6 +172,11 @@ function append(Listt $a, Listt $b = null)
 }
 
 /**
+ * @var callable
+ */
+const head = 'Widmogrod\Functional\head';
+
+/**
  * head :: [a] -> a
  *
  * Extract the first element of a list, which must be non-empty.
@@ -178,6 +191,11 @@ function head(Listt $l)
 }
 
 /**
+ * @var callable
+ */
+const tail = 'Widmogrod\Functional\tail';
+
+/**
  * tail :: [a] -> [a]
  *
  * Extract the elements after the head of a list, which must be non-empty.
@@ -190,6 +208,11 @@ function tail(Listt $l)
 {
     return $l->tail();
 }
+
+/**
+ * @var callable
+ */
+const length = 'Widmogrod\Functional\length';
 
 /**
  * length :: Foldable t => t a -> Int
