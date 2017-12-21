@@ -6,7 +6,6 @@ use Widmogrod\Monad\Maybe;
 use function Widmogrod\Monad\Maybe\just;
 use const Widmogrod\Monad\Maybe\maybeNull;
 use function Widmogrod\Monad\Maybe\nothing;
-use Widmogrod\Primitive\Listt;
 use Widmogrod\Functional as f;
 
 class MaybeMonadAndCollectionTest extends \PHPUnit_Framework_TestCase
@@ -24,7 +23,7 @@ class MaybeMonadAndCollectionTest extends \PHPUnit_Framework_TestCase
         });
 
         $listOfFirstImages = f\pipeline(
-            Listt::of,
+           f\fromValue,
             f\map(maybeNull),
             f\map(f\bind($get('meta'))),
             f\map(f\bind($get('images'))),

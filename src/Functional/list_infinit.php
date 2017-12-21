@@ -1,12 +1,16 @@
 <?php
 
+namespace Widmogrod\Functional;
+
+use Widmogrod\Primitive\Listt;
+
 /**
  * iterate :: (a -> a) -> a -> [a]
  *
  * iterate f x returns an infinite list of repeated applications of f to x:
  *  iterate f x == [x, f x, f (f x), ...]
  */
-function iterate()
+function iterate(): Listt
 {
     // TODO
 }
@@ -16,7 +20,7 @@ function iterate()
  *
  * repeat x is an infinite list, with x the value of every element.
  */
-function repeat()
+function repeat(): Listt
 {
     // TODO
 }
@@ -27,7 +31,7 @@ function repeat()
  * replicate n x is a list of length n with x the value of every element.
  * It is an instance of the more general genericReplicate, in which n may be of any integral type.
  */
-function replicate()
+function replicate(): Listt
 {
     // TODO
 }
@@ -37,7 +41,7 @@ function replicate()
  *
  * cycle ties a finite list into a circular one, or equivalently, the infinite repetition of the original list. It is the identity on infinite lists.
  */
-function cycle()
+function cycle(Listt $l): Listt
 {
     // TODO
 }

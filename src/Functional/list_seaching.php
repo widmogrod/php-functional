@@ -1,5 +1,7 @@
 <?php
 
+namespace Widmogrod\Functional;
+
 /**
  * notElem :: (Foldable t, Eq a) => a -> t a -> Bool
  *

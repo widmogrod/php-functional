@@ -1,5 +1,7 @@
 <?php
 
+namespace Widmogrod\Functional;
+
 /**
  * take :: Int -> [a] -> [a]
  *

@@ -4,19 +4,75 @@ namespace Widmogrod\Functional;
 
 use Widmogrod\FantasyLand\Foldable;
 use Widmogrod\Primitive\Listt;
+use Widmogrod\Primitive\ListtCons;
+use Widmogrod\Primitive\ListtNil;
 
 const fromIterable = 'Widmogrod\Functional\fromIterable';
 
+class SnapshotIterator extends \IteratorIterator
+{
+    private $inMemoryValid;
+    private $inMemoryCurrent;
+
+    public function valid()
+    {
+        if (null === $this->inMemoryValid) {
+            $this->inMemoryValid = parent::valid();
+        }
+
+        return $this->inMemoryValid;
+    }
+
+    public function current()
+    {
+        if (null === $this->inMemoryCurrent) {
+            $this->inMemoryCurrent = parent::current();
+        }
+
+        return $this->inMemoryCurrent;
+    }
+
+    public function snapshot()
+    {
+        return new self($this->getInnerIterator());
+    }
+}
+
 function fromIterable(iterable $i): Listt
 {
-    return Listt::of($i);
+    if (is_array($i)) {
+        $i = new \ArrayObject($i);
+        $i = $i->getIterator();
+    }
+
+    if (!($i instanceof SnapshotIterator)) {
+        $i = new SnapshotIterator($i);
+        $i->rewind();
+    }
+
+    if (!$i->valid()) {
+        return new ListtNil();
+    }
+
+    $value = $i->current();
+    $g = $i->snapshot();
+    $g->next();
+
+    return ListtCons::of(function () use ($g, $value) {
+        return [
+            $value,
+            fromIterable($g)
+        ];
+    });
 }
 
 const fromValue = 'Widmogrod\Functional\fromValue';
 
 function fromValue($value): Listt
 {
-    return fromIterable([$value]);
+    return ListtCons::of(function () use ($value) {
+        return [$value, new ListtNil()];
+    });
 }
 
 /**
@@ -49,7 +105,7 @@ function concat(Foldable $xs)
 {
     return foldr(function ($x, Listt $y) {
         return foldr(prepend, $y, $x);
-    }, Listt::mempty(), $xs);
+    }, ListtCons::mempty(), $xs);
 }
 
 const prepend = 'Widmogrod\Functional\prepend';
@@ -64,7 +120,7 @@ const prepend = 'Widmogrod\Functional\prepend';
 function prepend($x, Listt $xs = null)
 {
     return curryN(2, function ($x, Listt $xs): Listt {
-        return append(fromIterable([$x]), $xs);
+        return append(fromValue($x), $xs);
     })(...func_get_args());
 }
 

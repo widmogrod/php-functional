@@ -15,6 +15,7 @@ use Widmogrod\Helpful\MonoidLaws;
 use Widmogrod\Primitive\Listt;
 use function Eris\Generator\choose;
 use function Eris\Generator\vector;
+use Widmogrod\Primitive\ListtCons;
 
 class ListtTest extends \PHPUnit_Framework_TestCase
 {
@@ -177,7 +178,7 @@ class ListtTest extends \PHPUnit_Framework_TestCase
             vector(1, choose(1, 1000))
         )(
             function ($sequence) {
-                $this->assertTrue(f\fromIterable($sequence)->tail()->equals(Listt::mempty()));
+                $this->assertTrue(f\fromIterable($sequence)->tail()->equals(ListtCons::mempty()));
             }
         );
     }
