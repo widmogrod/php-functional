@@ -21,7 +21,7 @@ class ReplicateTest extends \PHPUnit\Framework\TestCase
         )->then(function ($n, $value) {
             $list = replicate($n, $value);
 
-            return length($list) === $n;
+            $this->assertEquals($n, length($list));
         });
     }
 
@@ -33,7 +33,7 @@ class ReplicateTest extends \PHPUnit\Framework\TestCase
         )->then(function ($n, $value) {
             $list = replicate($n, $value);
 
-            return length(filter(eql($value), $list)) === $n;
+            $this->assertEquals($n, length(filter(eql($value), $list)));
         });
     }
 }

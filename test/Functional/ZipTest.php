@@ -85,7 +85,7 @@ class ZipTest extends \PHPUnit\Framework\TestCase
         )->then(function ($n, $a, $b) {
             $list = take($n, zip(repeat($a), repeat($b)));
 
-            return length(filter(eql([$a, $b]), $list)) === $n;
+            $this->assertEquals($n, length(filter(eql([$a, $b]), $list)));
         });
     }
 }

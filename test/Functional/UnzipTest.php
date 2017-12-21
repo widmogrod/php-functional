@@ -60,8 +60,8 @@ class UnzipTest extends \PHPUnit\Framework\TestCase
         )->then(function ($n, $x, $y) {
             [$xs, $ys] = unzip(repeat([$x, $y]));
 
-            return length(filter(eql($x), take($n, $xs))) === $n
-                && length(filter(eql($y), take($n, $ys))) === $n;
+            $this->assertEquals($n, length(filter(eql($x), take($n, $xs))));
+            $this->assertEquals($n, length(filter(eql($y), take($n, $ys))));
         });
     }
 }

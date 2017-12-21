@@ -1,25 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd"
-        backupGlobals="true"
-        backupStaticAttributes="false"
-        cacheTokens="false"
-        colors="false"
-        convertErrorsToExceptions="true"
-        convertNoticesToExceptions="true"
-        convertWarningsToExceptions="true"
-        forceCoversAnnotation="false"
-        mapTestClassNameToCoveredClassName="false"
-        processIsolation="false"
-        stopOnError="false"
-        stopOnFailure="false"
-        stopOnIncomplete="false"
-        stopOnSkipped="false"
-        timeoutForSmallTests="1"
-        timeoutForMediumTests="10"
-        timeoutForLargeTests="60"
-        verbose="false">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/6.3/phpunit.xsd">
     <testsuites>
         <testsuite name="Functional">
             <directory>./test/Functional</directory>
@@ -29,6 +10,9 @@
         </testsuite>
         <testsuite name="Primitive">
             <directory>./test/Primitive</directory>
+        </testsuite>
+        <testsuite name="Useful">
+            <directory>./test/Useful</directory>
         </testsuite>
         <testsuite name="Examples">
             <directory>./example/</directory>

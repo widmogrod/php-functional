@@ -22,7 +22,7 @@ class RepeatTest extends \PHPUnit\Framework\TestCase
         )->then(function ($n, $value) {
             $list = take($n, repeat($value));
 
-            return length($list) === $n;
+            $this->assertEquals($n, length($list));
         });
     }
 
@@ -34,7 +34,7 @@ class RepeatTest extends \PHPUnit\Framework\TestCase
         )->then(function ($n, $value) {
             $list = take($n, repeat($value));
 
-            return length(filter(eql($value), $list)) === $n;
+            return $this->assertEquals($n, length(filter(eql($value), $list)));
         });
     }
 }

@@ -17,7 +17,8 @@ class MatchTest extends \PHPUnit\Framework\TestCase
         $value,
         $expectedMessage
     ) {
-        $this->setExpectedException(PatternNotMatchedError::class, $expectedMessage);
+        $this->expectException(PatternNotMatchedError::class);
+        $this->expectExceptionMessage($expectedMessage);
 
         match($patterns, $value);
     }

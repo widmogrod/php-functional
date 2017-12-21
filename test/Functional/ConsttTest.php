@@ -16,8 +16,8 @@ class ConsttTest extends \PHPUnit\Framework\TestCase
             Generator\int(),
             Generator\int()
         )->then(function ($a, $b) {
-            return constt($a, $b) === $a
-                && constt($a)($b) === $a;
+            $this->assertEquals($a, constt($a, $b));
+            $this->assertEquals($a, constt($a)($b));
         });
     }
 }

@@ -6,7 +6,6 @@ use Widmogrod\Primitive\EmptyListError;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\ListtCons;
 use Widmogrod\Primitive\ListtNil;
-use function Widmogrod\Useful\match;
 
 /**
  * @var callable
@@ -86,26 +85,25 @@ const cycle = 'Widmogrod\Functional\cycle';
  *
  * cycle ties a finite list into a circular one, or equivalently, the infinite repetition of the original list. It is the identity on infinite lists.
  *
- * @param Listt $l
+ * @param Listt $xs
  * @return Listt
  * @throws EmptyListError
  */
-function cycle(Listt $l): Listt
+function cycle(Listt $xs): Listt
 {
-    if ($l instanceof ListtNil) {
+    if ($xs instanceof ListtNil) {
         throw new EmptyListError(__FUNCTION__);
     }
 
-    $cycle = match([
-        ListtNil::class => function () use (&$next) {
-            return $next;
-        },
-        ListtCons::class => identity
-    ]);
+    $cycle = function (Listt $xs, Listt $cycled) use (&$cycle) : Listt {
+        if ($cycled instanceof ListtNil) {
+            return cycle($xs);
+        }
 
-    $next = ListtCons::of(function () use ($l, $cycle) {
-        return [head($l), $cycle(tail($l))];
-    });
+        return ListtCons::of(function () use ($xs, $cycled, $cycle) {
+            return [head($cycled), $cycle($xs, tail($cycled))];
+        });
+    };
 
-    return $next;
+    return $cycle($xs, $xs);
 }

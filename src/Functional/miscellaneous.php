@@ -45,7 +45,7 @@ function constt($a, $b = null)
 {
     return curryN(2, function ($a) {
         return $a;
-    });
+    })(...func_get_args());
 }
 
 
