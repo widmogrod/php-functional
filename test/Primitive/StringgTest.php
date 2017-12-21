@@ -52,6 +52,8 @@ class StringgTest extends \PHPUnit\Framework\TestCase
 
     private function randomize()
     {
+        usleep(100);
+
         return Stringg::of(md5(random_int(0, 100)));
     }
 
