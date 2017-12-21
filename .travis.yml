@@ -17,9 +17,9 @@ cache:
 
 before_script:
  - composer self-update
- - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
- - chmod +x ./cc-test-reporter
- - ./cc-test-reporter before-build
+ - if [[ $COVERAGE == yes ]]; then curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter; fi
+ - if [[ $COVERAGE == yes ]]; then chmod +x ./cc-test-reporter; fi
+ - if [[ $COVERAGE == yes ]]; then ./cc-test-reporter before-build; fi
 
 install:
  - composer install --prefer-source
@@ -30,7 +30,8 @@ script:
  - if [[ $COVERAGE == yes ]]; then composer check-code; fi
 
 after_script:
- - if [[ $COVERAGE == yes ]]; then /cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT fi
+ - if [[ $COVERAGE == yes ]]; then cat ./codecoverage.xml | ./cc-test-reporter upload-coverage --input - ; fi
+ - if [[ $COVERAGE == yes ]]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
 
 notifications:
  email: false
