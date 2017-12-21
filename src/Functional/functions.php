@@ -337,8 +337,6 @@ function mcompose(callable $a, callable $b)
 /**
  * tryCatch :: Exception e => (a -> b) -> (e -> b) -> a -> b
  *
- * @deprecated Operation on native arrays will be replaced by Listt
- *
  * @param callable $function
  * @param callable $catchFunction
  * @param $value

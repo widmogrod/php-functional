@@ -62,9 +62,9 @@ const either = 'Widmogrod\Monad\Either\either';
  */
 function either(callable $left, callable $right = null, Either $either = null)
 {
-    return call_user_func_array(f\curryN(3, function (callable $left, callable $right, Either $either) {
+    return f\curryN(3, function (callable $left, callable $right, Either $either) {
         return $either->either($left, $right);
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 const doubleMap = 'Widmogrod\Monad\Either\doubleMap';
@@ -82,13 +82,13 @@ const doubleMap = 'Widmogrod\Monad\Either\doubleMap';
  */
 function doubleMap(callable $left, callable $right = null, Either $either = null)
 {
-    return call_user_func_array(f\curryN(3, function (callable $left, callable $right, Either $either) {
+    return f\curryN(3, function (callable $left, callable $right, Either $either) {
         return either(
             f\compose(left, $left),
             f\compose(right, $right),
             $either
         );
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 const tryCatch = 'Widmogrod\Monad\Either\tryCatch';
@@ -106,13 +106,13 @@ const tryCatch = 'Widmogrod\Monad\Either\tryCatch';
  */
 function tryCatch(callable $function = null, callable $catchFunction = null, $value = null)
 {
-    return call_user_func_array(f\curryN(3, function (callable $function, callable $catchFunction, $value) {
+    return f\curryN(3, function (callable $function, callable $catchFunction, $value) {
         return f\tryCatch(
             f\compose(right, $function),
             f\compose(left, $catchFunction),
             $value
         );
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 const toMaybe = 'Widmogrod\Monad\Either\toMaybe';

@@ -63,10 +63,7 @@ const compose = 'Widmogrod\Functional\compose';
  */
 function compose(callable $a, callable $b)
 {
-    return call_user_func_array(
-        reverse('Widmogrod\Functional\pipeline'),
-        func_get_args()
-    );
+    return reverse(pipeline)(...func_get_args());
 }
 
 /**
@@ -122,6 +119,6 @@ function flip(callable $func)
         $args[0] = $b;
         $args[1] = $a;
 
-        return call_user_func_array($func, $args);
+        return $func(...$args);
     })(...$args);
 }

@@ -19,8 +19,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
         $value,
         $expected
     ) {
-        /** @var callable $fn */
-        $fn = call_user_func_array('Widmogrod\Functional\pipeline', $functions);
+        $fn = f\pipeline(...$functions);
         $this->assertEquals(
             $expected,
             $fn($value)

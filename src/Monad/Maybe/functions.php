@@ -53,13 +53,13 @@ const maybe = 'Widmogrod\Monad\Maybe\maybe';
  */
 function maybe($default, callable $fn = null, Maybe $maybe = null)
 {
-    return call_user_func_array(f\curryN(3, function ($default, callable $fn, Maybe $maybe) {
+    return f\curryN(3, function ($default, callable $fn, Maybe $maybe) {
         if ($maybe instanceof Nothing) {
             return $default;
         }
 
         return $fn($maybe->extract());
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 const maybeNull = 'Widmogrod\Monad\Maybe\maybeNull';
@@ -94,7 +94,7 @@ const fromMaybe = 'Widmogrod\Monad\Maybe\fromMaybe';
  */
 function fromMaybe($default = null, Maybe $maybe = null)
 {
-    return call_user_func_array(f\curryN(2, function ($default, Maybe $maybe) {
+    return f\curryN(2, function ($default, Maybe $maybe) {
         return maybe($default, f\identity, $maybe);
-    }), func_get_args());
+    })(...func_get_args());
 }

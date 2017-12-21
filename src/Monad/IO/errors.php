@@ -50,7 +50,7 @@ const tryCatch = 'Widmogrod\Monad\IO\tryCatch';
  */
 function tryCatch(M\IO $io = null, callable $catchFunction = null)
 {
-    return call_user_func_array(f\curryN(2, function (M\IO $io, callable $catchFunction) {
+    return f\curryN(2, function (M\IO $io, callable $catchFunction) {
         return M\IO::of(function () use ($io, $catchFunction) {
             try {
                 return $io->run();
@@ -58,7 +58,7 @@ function tryCatch(M\IO $io = null, callable $catchFunction = null)
                 return $catchFunction($e);
             }
         });
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 const tryEither = 'Widmogrod\Monad\IO\tryEither';

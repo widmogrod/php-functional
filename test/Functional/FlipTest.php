@@ -18,7 +18,7 @@ class FlipTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $expected,
-            call_user_func_array($flipped, $args)
+            $flipped(...$args)
         );
     }
 
@@ -53,7 +53,7 @@ class FlipTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             \Closure::class,
-            call_user_func_array($curried, $args)
+            $curried(...$args)
         );
     }
 
