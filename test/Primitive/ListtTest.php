@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace test\Monad;
 
 use Eris\TestTrait;
@@ -7,15 +9,14 @@ use Widmogrod\FantasyLand\Applicative;
 use Widmogrod\FantasyLand\Functor;
 use Widmogrod\FantasyLand\Monoid;
 use Widmogrod\Functional as f;
-use function Widmogrod\Functional\fromNil;
-use const Widmogrod\Functional\fromValue;
 use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
 use Widmogrod\Helpful\MonadLaws;
 use Widmogrod\Helpful\MonoidLaws;
-use Widmogrod\Primitive\Listt;
+use const Widmogrod\Functional\fromValue;
 use function Eris\Generator\choose;
 use function Eris\Generator\vector;
+use function Widmogrod\Functional\fromNil;
 
 class ListtTest extends \PHPUnit\Framework\TestCase
 {
@@ -80,7 +81,7 @@ class ListtTest extends \PHPUnit\Framework\TestCase
         return [
             'Listt' => [
                 '$pure' => fromValue,
-                '$u'    => f\fromIterable([function () {
+                '$u' => f\fromIterable([function () {
                     return 1;
                 }]),
                 '$v' => f\fromIterable([function () {

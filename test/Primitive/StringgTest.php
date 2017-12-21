@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace test\Widmogrod\Primitive;
 
 use Widmogrod\FantasyLand\Monoid;
@@ -54,7 +56,7 @@ class StringgTest extends \PHPUnit\Framework\TestCase
     {
         usleep(100);
 
-        return Stringg::of(md5(random_int(0, 100)));
+        return Stringg::of(md5(sprintf('%d', random_int(0, 100))));
     }
 
     public function provideRandomizedData()

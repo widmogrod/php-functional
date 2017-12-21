@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace test\Monad;
 
 use Widmogrod\FantasyLand\Applicative;
@@ -134,7 +136,7 @@ class FreeTest extends \PHPUnit\Framework\TestCase
         return [
             'Pure' => [
                 '$pure' => Pure::of,
-                '$u'    => Pure::of(function () {
+                '$u' => Pure::of(function () {
                     return 1;
                 }),
                 '$v' => Pure::of(function () {

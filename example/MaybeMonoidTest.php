@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use Widmogrod\Functional as f;
 use Widmogrod\Monad\Maybe\Just;
 use Widmogrod\Monad\Maybe\Maybe;
-use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\Stringg;
 use const Widmogrod\Monad\Maybe\maybeNull;
 use function Widmogrod\Functional\map;
@@ -81,18 +82,18 @@ class MaybeMonoidTest extends \PHPUnit\Framework\TestCase
         return [
             'array with null values' => [
                 '$data' => [
-                    'firstName'  => 'First',
+                    'firstName' => 'First',
                     'middleName' => null,
-                    'lastName'   => 'Last'
+                    'lastName' => 'Last'
                 ],
                 '$expected' => ['First', 'Last'],
                 '$asString' => 'FirstLast',
             ],
             'array with strings' => [
                 '$data' => [
-                    'firstName'  => 'First',
+                    'firstName' => 'First',
                     'middleName' => 'Middle',
-                    'lastName'   => 'Last'
+                    'lastName' => 'Last'
                 ],
                 '$expected' => ['First', 'Middle', 'Last'],
                 '$asString' => 'FirstMiddleLast',

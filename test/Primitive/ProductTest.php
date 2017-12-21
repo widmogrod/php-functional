@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace test\Primitive;
 
 use Eris\TestTrait;

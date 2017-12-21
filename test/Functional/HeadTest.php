@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace test\Functional;
 
-use function Widmogrod\Functional\fromNil;
 use Widmogrod\Primitive\Listt;
 use function Widmogrod\Functional\fromIterable;
+use function Widmogrod\Functional\fromNil;
 use function Widmogrod\Functional\head;
 
 class HeadTest extends \PHPUnit\Framework\TestCase

@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace test\Monad;
 
 use Widmogrod\FantasyLand\Applicative;
 use Widmogrod\FantasyLand\Functor;
 use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
-use Widmogrod\Monad\Writer;
 use Widmogrod\Helpful\MonadLaws;
+use Widmogrod\Monad\Writer;
 
 class WriterTest extends \PHPUnit\Framework\TestCase
 {
@@ -82,7 +84,7 @@ class WriterTest extends \PHPUnit\Framework\TestCase
         return [
             'Writer' => [
                 '$pure' => Writer\pure,
-                '$u'    => Writer\pure(function () {
+                '$u' => Writer\pure(function () {
                     return 1;
                 }),
                 '$v' => Writer\pure(function () {

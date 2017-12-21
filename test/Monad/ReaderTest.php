@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace test\Monad;
 
 use Widmogrod\FantasyLand\Applicative;
 use Widmogrod\FantasyLand\Functor;
 use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
-use Widmogrod\Monad\Reader;
 use Widmogrod\Helpful\MonadLaws;
+use Widmogrod\Monad\Reader;
 
 class ReaderTest extends \PHPUnit\Framework\TestCase
 {
@@ -42,9 +44,9 @@ class ReaderTest extends \PHPUnit\Framework\TestCase
 
         return [
             'reader 0' => [
-                '$f'   => $hello,
-                '$g'   => $hi,
-                '$x'   => 54,
+                '$f' => $hello,
+                '$g' => $hi,
+                '$x' => 54,
                 '$env' => 666,
             ],
         ];
@@ -84,7 +86,7 @@ class ReaderTest extends \PHPUnit\Framework\TestCase
         return [
             'Reader' => [
                 '$pure' => Reader\pure,
-                '$u'    => Reader\pure(function () {
+                '$u' => Reader\pure(function () {
                     return 1;
                 }),
                 '$v' => Reader\pure(function () {
@@ -96,7 +98,7 @@ class ReaderTest extends \PHPUnit\Framework\TestCase
                 '$f' => function ($x) {
                     return 400 + $x;
                 },
-                '$x'      => 33,
+                '$x' => 33,
                 '$reader' => 3,
             ],
         ];
@@ -135,8 +137,8 @@ class ReaderTest extends \PHPUnit\Framework\TestCase
                 '$g' => function ($x) {
                     return $x + 5;
                 },
-                '$x'       => Reader\value(3),
-                '$reader'  => 'asd',
+                '$x' => Reader\value(3),
+                '$reader' => 'asd',
             ],
         ];
     }

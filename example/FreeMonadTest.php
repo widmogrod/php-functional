@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace example2;
 
 use Widmogrod\FantasyLand\Functor;
 use Widmogrod\Functional as f;
-use function Widmogrod\Functional\fromNil;
 use Widmogrod\Monad\Free as ff;
 use Widmogrod\Monad\Free\MonadFree;
 use Widmogrod\Monad\IO;
 use Widmogrod\Monad\State;
+use Widmogrod\Primitive\Listt;
 use const Widmogrod\Monad\IO\pure;
 use const Widmogrod\Monad\State\value;
-use Widmogrod\Primitive\Listt;
+use function Widmogrod\Functional\fromNil;
 use function Widmogrod\Useful\match;
 
 interface TeletypeF extends Functor
@@ -212,7 +214,7 @@ class FreeMonadTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'echo implementation via explicit chaining (bind)' => [echo_chaining_()],
-            'echo implementation via function composition'     => [echo_composition_()],
+            'echo implementation via function composition' => [echo_composition_()],
         ];
     }
 }

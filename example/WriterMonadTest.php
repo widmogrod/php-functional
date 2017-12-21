@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace example;
 
-use Widmogrod\Monad\Writer as W;
 use Widmogrod\Functional as f;
+use Widmogrod\Monad\Writer as W;
 use Widmogrod\Primitive\Stringg as S;
 
 class WriterMonadTest extends \PHPUnit\Framework\TestCase

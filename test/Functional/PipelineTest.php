@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace test\Functional;
 
 use Widmogrod\Functional as f;
@@ -31,8 +33,8 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
         return [
             'two function' => [
                 '$functions' => ['strtolower', 'strtoupper'],
-                '$value'     => 'aBcD',
-                '$expected'  => 'ABCD'
+                '$value' => 'aBcD',
+                '$expected' => 'ABCD'
             ],
         ];
     }

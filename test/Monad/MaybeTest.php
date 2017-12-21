@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace test\Monad;
 
 use Widmogrod\FantasyLand\Applicative;
 use Widmogrod\FantasyLand\Functor;
+use Widmogrod\Functional as f;
 use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
+use Widmogrod\Helpful\MonadLaws;
 use Widmogrod\Helpful\MonoidLaws;
 use Widmogrod\Monad\Maybe;
 use Widmogrod\Monad\Maybe\Just;
 use Widmogrod\Monad\Maybe\Nothing;
-use Widmogrod\Helpful\MonadLaws;
-use Widmogrod\Functional as f;
 use Widmogrod\Primitive\Stringg;
 
 class MaybeTest extends \PHPUnit\Framework\TestCase
@@ -35,7 +37,7 @@ class MaybeTest extends \PHPUnit\Framework\TestCase
         return [
             'Just' => [
                 '$return' => Just::of,
-                '$f'      => function ($x) {
+                '$f' => function ($x) {
                     return Just::of($x + 1);
                 },
                 '$g' => function ($x) {
@@ -45,7 +47,7 @@ class MaybeTest extends \PHPUnit\Framework\TestCase
             ],
             'Nothing' => [
                 '$return' => Nothing::of,
-                '$f'      => function ($x) {
+                '$f' => function ($x) {
                     return Nothing::of($x + 1);
                 },
                 '$g' => function ($x) {
@@ -83,7 +85,7 @@ class MaybeTest extends \PHPUnit\Framework\TestCase
         return [
             'Just' => [
                 '$pure' => Maybe\pure,
-                '$u'    => Just::of(function () {
+                '$u' => Just::of(function () {
                     return 1;
                 }),
                 '$v' => Just::of(function () {
@@ -99,7 +101,7 @@ class MaybeTest extends \PHPUnit\Framework\TestCase
             ],
             'Nothing' => [
                 '$pure' => Maybe\pure,
-                '$u'    => Nothing::of(function () {
+                '$u' => Nothing::of(function () {
                     return 1;
                 }),
                 '$v' => Nothing::of(function () {

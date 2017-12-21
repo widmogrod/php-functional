@@ -20,8 +20,8 @@
   "scripts": {
     "test": "phpunit --no-coverage",
     "testc": "phpunit --coverage-clover ./clover.xml",
-    "fix-code": "php-cs-fixer fix",
-    "check-code": "php-cs-fixer fix --verbose --diff --dry-run"
+    "fix-code": "php-cs-fixer fix --allow-risky=yes",
+    "check-code": "php-cs-fixer fix --verbose --diff --dry-run --allow-risky=yes"
   },
   "autoload": {
     "psr-4": {

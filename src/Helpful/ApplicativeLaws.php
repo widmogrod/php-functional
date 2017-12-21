@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Widmogrod\Helpful;
 
 use Widmogrod\FantasyLand\Applicative;
@@ -10,13 +12,13 @@ class ApplicativeLaws
     /**
      * Generic test to verify if a type obey the applicative laws.
      *
-     * @param callable $assertEqual   Asserting function (Applicative $a1, Applicative $a2, $message)
-     * @param callable $pure          Applicative "constructor"
+     * @param callable $assertEqual Asserting function (Applicative $a1, Applicative $a2, $message)
+     * @param callable $pure Applicative "constructor"
      * @param Applicative $u Applicative f => f (a -> b)
      * @param Applicative $v Applicative f => f (a -> b)
      * @param Applicative $w Applicative f => f (a -> b)
-     * @param callable $f             (a -> b)
-     * @param mixed $x                Value to put into a applicative
+     * @param callable $f (a -> b)
+     * @param mixed $x Value to put into a applicative
      */
     public static function test(
         callable $assertEqual,
