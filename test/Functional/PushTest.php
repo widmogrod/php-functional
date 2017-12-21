@@ -4,7 +4,7 @@ namespace test\Functional;
 
 use Widmogrod\Functional as f;
 
-class PushTest extends \PHPUnit_Framework_TestCase
+class PushTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

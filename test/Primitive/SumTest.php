@@ -7,7 +7,7 @@ use Widmogrod\Helpful\MonoidLaws;
 use Widmogrod\Helpful\SetoidLaws;
 use Widmogrod\Primitive\Sum;
 
-class SumTest extends \PHPUnit_Framework_TestCase
+class SumTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideSetoidLaws

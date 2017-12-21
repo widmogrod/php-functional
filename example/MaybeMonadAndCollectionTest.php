@@ -8,7 +8,7 @@ use const Widmogrod\Monad\Maybe\maybeNull;
 use function Widmogrod\Monad\Maybe\nothing;
 use Widmogrod\Functional as f;
 
-class MaybeMonadAndCollectionTest extends \PHPUnit_Framework_TestCase
+class MaybeMonadAndCollectionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

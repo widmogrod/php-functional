@@ -12,7 +12,7 @@ use function Widmogrod\Functional\iterate;
 use function Widmogrod\Functional\length;
 use function Widmogrod\Functional\take;
 
-class IterateTest extends \PHPUnit_Framework_TestCase
+class IterateTest extends \PHPUnit\Framework\TestCase
 {
     use TestTrait;
 

@@ -6,7 +6,7 @@ use Eris\Generator;
 use Eris\TestTrait;
 use function Widmogrod\Functional\constt;
 
-class ConsttTest extends \PHPUnit_Framework_TestCase
+class ConsttTest extends \PHPUnit\Framework\TestCase
 {
     use TestTrait;
 

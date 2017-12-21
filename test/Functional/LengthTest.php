@@ -7,7 +7,7 @@ use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
 use function Widmogrod\Functional\length;
 
-class LengthTest extends \PHPUnit_Framework_TestCase
+class LengthTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

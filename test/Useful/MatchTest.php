@@ -7,7 +7,7 @@ use Widmogrod\Useful\PatternNotMatchedError;
 use const Widmogrod\Functional\identity;
 use function Widmogrod\Useful\match;
 
-class MatchTest extends \PHPUnit_Framework_TestCase
+class MatchTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideInvalidPatterns

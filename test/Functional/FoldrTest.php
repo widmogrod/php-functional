@@ -4,7 +4,7 @@ namespace test\Functional;
 
 use Widmogrod\Functional as f;
 
-class FoldrTest extends \PHPUnit_Framework_TestCase
+class FoldrTest extends \PHPUnit\Framework\TestCase
 {
     public function test_foldr()
     {

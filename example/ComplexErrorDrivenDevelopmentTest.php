@@ -86,7 +86,7 @@ function handleRequest(array $request)
     )($request);
 }
 
-class ComplexErrorDrivenDevelopmentTest extends \PHPUnit_Framework_TestCase
+class ComplexErrorDrivenDevelopmentTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

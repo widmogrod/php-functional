@@ -6,7 +6,7 @@ use function Widmogrod\Functional\filter;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
 
-class FilterTest extends \PHPUnit_Framework_TestCase
+class FilterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

@@ -10,7 +10,7 @@ use function Widmogrod\Functional\length;
 use function Widmogrod\Functional\repeat;
 use function Widmogrod\Functional\take;
 
-class RepeatTest extends \PHPUnit_Framework_TestCase
+class RepeatTest extends \PHPUnit\Framework\TestCase
 {
     use TestTrait;
 

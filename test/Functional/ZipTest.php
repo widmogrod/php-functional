@@ -14,7 +14,7 @@ use function Widmogrod\Functional\repeat;
 use function Widmogrod\Functional\take;
 use function Widmogrod\Functional\zip;
 
-class ZipTest extends \PHPUnit_Framework_TestCase
+class ZipTest extends \PHPUnit\Framework\TestCase
 {
     use TestTrait;
 

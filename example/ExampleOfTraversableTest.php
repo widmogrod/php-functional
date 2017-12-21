@@ -10,7 +10,7 @@ function value_is($x)
     return $x % 2 == 1 ? m\nothing() : m\just($x);
 }
 
-class ExampleOfTraversableTest extends \PHPUnit_Framework_TestCase
+class ExampleOfTraversableTest extends \PHPUnit\Framework\TestCase
 {
     public function test_it_traverse_just()
     {

@@ -8,7 +8,7 @@ use function Widmogrod\Functional\fromNil;
 use function Widmogrod\Monad\Maybe\just;
 use function Widmogrod\Monad\Maybe\nothing;
 
-class FoldMTest extends \PHPUnit_Framework_TestCase
+class FoldMTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

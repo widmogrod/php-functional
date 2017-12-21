@@ -14,7 +14,7 @@ use function Widmogrod\Functional\repeat;
 use function Widmogrod\Functional\take;
 use function Widmogrod\Functional\unzip;
 
-class UnzipTest extends \PHPUnit_Framework_TestCase
+class UnzipTest extends \PHPUnit\Framework\TestCase
 {
     use TestTrait;
 

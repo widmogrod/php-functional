@@ -5,7 +5,7 @@ namespace example;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromValue;
 
-class ListComprehensionWithMonadTest extends \PHPUnit_Framework_TestCase
+class ListComprehensionWithMonadTest extends \PHPUnit\Framework\TestCase
 {
     public function test_it_should_combine_two_lists()
     {

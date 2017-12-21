@@ -177,7 +177,7 @@ function echo_composition_()
     )();
 }
 
-class FreeMonadTest extends \PHPUnit_Framework_TestCase
+class FreeMonadTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideEchoImplementation

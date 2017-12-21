@@ -14,7 +14,7 @@ use Widmogrod\Helpful\MonadLaws;
 use Widmogrod\Functional as f;
 use Widmogrod\Primitive\Stringg;
 
-class MaybeTest extends \PHPUnit_Framework_TestCase
+class MaybeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

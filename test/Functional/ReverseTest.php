@@ -4,7 +4,7 @@ namespace test\Functional;
 
 use function Widmogrod\Functional\reverse;
 
-class ReverseTest extends \PHPUnit_Framework_TestCase
+class ReverseTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

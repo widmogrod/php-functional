@@ -235,7 +235,7 @@ function matchRegexp(array $patterns, $value = null)
 /**
  * Inspired by https://github.com/politrons/TestDSL
  */
-class FreeBddStyleDSLTest extends \PHPUnit_Framework_TestCase
+class FreeBddStyleDSLTest extends \PHPUnit\Framework\TestCase
 {
     public function test_it_should_interpret_bdd_scenario()
     {

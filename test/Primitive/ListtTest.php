@@ -17,7 +17,7 @@ use Widmogrod\Primitive\Listt;
 use function Eris\Generator\choose;
 use function Eris\Generator\vector;
 
-class ListtTest extends \PHPUnit_Framework_TestCase
+class ListtTest extends \PHPUnit\Framework\TestCase
 {
     use TestTrait;
 

@@ -8,7 +8,7 @@ use Widmogrod\Helpful\MonoidLaws;
 use Widmogrod\Helpful\SetoidLaws;
 use Widmogrod\Primitive\Product;
 
-class ProductTest extends \PHPUnit_Framework_TestCase
+class ProductTest extends \PHPUnit\Framework\TestCase
 {
     use TestTrait;
     /**

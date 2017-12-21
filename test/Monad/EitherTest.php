@@ -12,7 +12,7 @@ use Widmogrod\Monad\Either\Right;
 use Widmogrod\Helpful\MonadLaws;
 use Widmogrod\Functional as f;
 
-class EitherTest extends \PHPUnit_Framework_TestCase
+class EitherTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

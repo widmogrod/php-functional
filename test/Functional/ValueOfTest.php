@@ -8,7 +8,7 @@ use function Widmogrod\Functional\valueOf;
 use function Widmogrod\Monad\Maybe\just;
 use function Widmogrod\Monad\Maybe\nothing;
 
-class ValueOfTest extends \PHPUnit_Framework_TestCase
+class ValueOfTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

@@ -4,7 +4,7 @@ namespace test\Functional;
 
 use Widmogrod\Functional as f;
 
-class ConcatTest extends \PHPUnit_Framework_TestCase
+class ConcatTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

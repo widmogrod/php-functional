@@ -4,7 +4,7 @@ namespace test\Functional;
 
 use function Widmogrod\Functional\applicator;
 
-class ApplicatorTest extends \PHPUnit_Framework_TestCase
+class ApplicatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

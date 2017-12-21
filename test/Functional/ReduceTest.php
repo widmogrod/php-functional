@@ -4,7 +4,7 @@ namespace test\Functional;
 
 use Widmogrod\Functional as f;
 
-class ReduceTest extends \PHPUnit_Framework_TestCase
+class ReduceTest extends \PHPUnit\Framework\TestCase
 {
     public function test_reduce()
     {

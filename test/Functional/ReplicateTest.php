@@ -9,7 +9,7 @@ use function Widmogrod\Functional\filter;
 use function Widmogrod\Functional\length;
 use function Widmogrod\Functional\replicate;
 
-class ReplicateTest extends \PHPUnit_Framework_TestCase
+class ReplicateTest extends \PHPUnit\Framework\TestCase
 {
     use TestTrait;
 

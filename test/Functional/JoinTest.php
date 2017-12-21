@@ -10,7 +10,7 @@ use Widmogrod\Monad\Identity;
 use function Widmogrod\Monad\Maybe\just;
 use Widmogrod\Monad\State;
 
-class JoinTest extends \PHPUnit_Framework_TestCase
+class JoinTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

@@ -7,7 +7,7 @@ use function Widmogrod\Functional\drop;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
 
-class DropTest extends \PHPUnit_Framework_TestCase
+class DropTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

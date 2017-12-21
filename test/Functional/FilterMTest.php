@@ -7,7 +7,7 @@ use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
 use function Widmogrod\Monad\Maybe\just;
 
-class FilterMTest extends \PHPUnit_Framework_TestCase
+class FilterMTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

@@ -4,7 +4,7 @@ namespace test\Functional;
 
 use Widmogrod\Functional as f;
 
-class InvokeTest extends \PHPUnit_Framework_TestCase
+class InvokeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

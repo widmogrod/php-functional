@@ -10,7 +10,7 @@ use function Widmogrod\Functional\map;
 use function Widmogrod\Monad\Maybe\just;
 use function Widmogrod\Monad\Maybe\maybeNull;
 
-class MaybeMonoidTest extends \PHPUnit_Framework_TestCase
+class MaybeMonoidTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

@@ -13,7 +13,7 @@ function read($file)
         : Either\Left::of(sprintf('File "%s" does not exists', $file));
 }
 
-class EitherMonadTest extends \PHPUnit_Framework_TestCase
+class EitherMonadTest extends \PHPUnit\Framework\TestCase
 {
     public function test_it_should_concat_content_of_two_files_only_when_files_exists()
     {

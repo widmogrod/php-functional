@@ -15,7 +15,7 @@ use function Widmogrod\Functional\curryN;
 use function Widmogrod\Monad\Free\foldFree;
 use function Widmogrod\Monad\Free\liftF;
 
-class FreeTest extends \PHPUnit_Framework_TestCase
+class FreeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideFunctorTestData

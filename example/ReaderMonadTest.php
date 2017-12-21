@@ -17,7 +17,7 @@ function ask($content)
     });
 }
 
-class ReaderMonadTest extends \PHPUnit_Framework_TestCase
+class ReaderMonadTest extends \PHPUnit\Framework\TestCase
 {
     public function test_it_should_pass_the_name_around()
     {

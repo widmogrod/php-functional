@@ -10,7 +10,7 @@ function sum($a, $b)
     return $a + $b;
 }
 
-class ApplicatorLiftTest extends \PHPUnit_Framework_TestCase
+class ApplicatorLiftTest extends \PHPUnit\Framework\TestCase
 {
     public function test_it_should_sum_all_from_one_list_with_elements_from_second()
     {

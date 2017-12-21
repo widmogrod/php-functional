@@ -6,7 +6,7 @@ use Widmogrod\Monad\Writer as W;
 use Widmogrod\Functional as f;
 use Widmogrod\Primitive\Stringg as S;
 
-class WriterMonadTest extends \PHPUnit_Framework_TestCase
+class WriterMonadTest extends \PHPUnit\Framework\TestCase
 {
     public function test_it_should_filter_with_logs()
     {

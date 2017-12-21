@@ -4,7 +4,7 @@ namespace test\Functional;
 
 use Widmogrod\Functional as f;
 
-class ComposeTest extends \PHPUnit_Framework_TestCase
+class ComposeTest extends \PHPUnit\Framework\TestCase
 {
     public function test_it_should_retun_function_accepting_arguments()
     {

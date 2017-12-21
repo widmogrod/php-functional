@@ -4,7 +4,7 @@ namespace example;
 
 use function Widmogrod\Functional\fromIterable;
 
-class FunctorCollectionTest extends \PHPUnit_Framework_TestCase
+class FunctorCollectionTest extends \PHPUnit\Framework\TestCase
 {
     public function test_it_should_return_new_map()
     {

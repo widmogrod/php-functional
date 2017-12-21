@@ -4,7 +4,7 @@ namespace test\Functional;
 
 use Widmogrod\Functional as f;
 
-class FlipTest extends \PHPUnit_Framework_TestCase
+class FlipTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideFunctions
