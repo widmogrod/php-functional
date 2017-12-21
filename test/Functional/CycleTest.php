@@ -8,11 +8,12 @@ use function Widmogrod\Functional\eql;
 use function Widmogrod\Functional\filter;
 use function Widmogrod\Functional\foldr;
 use const Widmogrod\Functional\identity;
+use function Widmogrod\Functional\cycle;
 use function Widmogrod\Functional\iterate;
 use function Widmogrod\Functional\length;
 use function Widmogrod\Functional\take;
 
-class IterateTest extends \PHPUnit_Framework_TestCase
+class CycleTest extends \PHPUnit_Framework_TestCase
 {
     use TestTrait;
 
@@ -22,9 +23,10 @@ class IterateTest extends \PHPUnit_Framework_TestCase
             Generator\choose(1, 100),
             Generator\int()
         )->then(function ($n, $value) {
-            $list = take($n, iterate(identity, $value));
+            $list = cycle(take($n, iterate(identity, $value)));
+            $list = take($n * 2, $list);
 
-            return length($list) === $n;
+            return length($list) === $n * 2;
         });
     }
 
@@ -38,10 +40,11 @@ class IterateTest extends \PHPUnit_Framework_TestCase
                 return $i + 1;
             };
 
-            $list = take($n, iterate($addOne, $value));
+            $list = cycle(take($n, iterate($addOne, $value)));
+            $list = take($n * 2, $list);
 
             return length(filter(eql($value), $list)) === $n
-                && $value + $n === foldr(identity, $list);
+                &&  ($value + $n) * 2 === foldr(identity, $list);
         });
     }
 }
