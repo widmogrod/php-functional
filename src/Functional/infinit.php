@@ -72,13 +72,7 @@ const replicate = 'Widmogrod\Functional\replicate';
 function replicate(int $n, $a = null): Listt
 {
     return curryN(2, function (int $n, $a): Listt {
-        if ($n < 1) {
-            return fromNil();
-        }
-
-        return ListtCons::of(function () use ($n, $a) {
-            return [$a, replicate($n - 1, $a)];
-        });
+        return take($n, repeat($a));
     })(...func_get_args());
 }
 
