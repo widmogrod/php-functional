@@ -9,7 +9,7 @@ use function Widmogrod\Functional\curryN;
  *
  * @param array $patterns
  * @param mixed $value
- * @throws \Exception
+ * @throws PatternNotMatchedError
  *
  * @return mixed
  */
