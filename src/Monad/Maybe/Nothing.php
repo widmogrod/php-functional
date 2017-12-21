@@ -69,7 +69,7 @@ class Nothing implements Maybe
      */
     public function orElse(callable $fn)
     {
-        return call_user_func($fn);
+        return $fn();
     }
 
     /**

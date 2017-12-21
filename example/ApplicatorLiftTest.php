@@ -10,12 +10,12 @@ function sum($a, $b)
     return $a + $b;
 }
 
-class ApplicatorLiftTest extends \PHPUnit_Framework_TestCase
+class ApplicatorLiftTest extends \PHPUnit\Framework\TestCase
 {
     public function test_it_should_sum_all_from_one_list_with_elements_from_second()
     {
-        $listA = Listt::of([1, 2]);
-        $listB = Listt::of([4, 5]);
+        $listA = f\fromIterable([1, 2]);
+        $listB = f\fromIterable([4, 5]);
 
         // sum <*> [1, 2] <*> [4, 5]
         $result = f\liftA2('example\sum', $listA, $listB);
@@ -27,12 +27,12 @@ class ApplicatorLiftTest extends \PHPUnit_Framework_TestCase
     {
         // sum <$> [1, 2] <*> [4, 5]
         $sum = f\curryN(2, 'example\sum');
-        $a = Listt::of([1, 2]);
-        $b = Listt::of([4, 5]);
+        $a = f\fromIterable([1, 2]);
+        $b = f\fromIterable([4, 5]);
 
         $result = f\map($sum, $a)->ap($b);
         $this->assertEquals(
-            Listt::of([5, 6, 6, 7]),
+            f\fromIterable([5, 6, 6, 7]),
             $result
         );
     }

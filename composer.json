@@ -5,7 +5,7 @@
     "php": ">=7.1"
   },
   "require-dev": {
-    "phpunit/phpunit": "^4.7",
+    "phpunit/phpunit": "^6",
     "friendsofphp/php-cs-fixer": "^2",
     "codeclimate/php-test-reporter": "^0.4.4",
     "giorgiosironi/eris": "^0.9"
@@ -30,7 +30,13 @@
       "Widmogrod\\": "./src"
     },
     "files": [
+      "src/Functional/array.php",
       "src/Functional/functions.php",
+      "src/Functional/miscellaneous.php",
+      "src/Functional/listt.php",
+      "src/Functional/zipping.php",
+      "src/Functional/sublist.php",
+      "src/Functional/infinit.php",
       "src/Functional/predicates.php",
       "src/Functional/strings.php",
       "src/Functional/monoid.php",
@@ -39,12 +45,12 @@
       "src/Monad/Either/functions.php",
       "src/Monad/Maybe/functions.php",
       "src/Monad/Free/functions.php",
-      "src/Monad/Free2/functions.php",
       "src/Monad/IO/functions.php",
       "src/Monad/IO/errors.php",
       "src/Monad/Reader/functions.php",
       "src/Monad/State/functions.php",
-      "src/Monad/Writer/functions.php"
+      "src/Monad/Writer/functions.php",
+      "src/Useful/match.php"
     ]
   }
 }

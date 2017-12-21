@@ -7,6 +7,8 @@ use Widmogrod\FantasyLand\Applicative;
 use Widmogrod\FantasyLand\Functor;
 use Widmogrod\FantasyLand\Monoid;
 use Widmogrod\Functional as f;
+use function Widmogrod\Functional\fromNil;
+use const Widmogrod\Functional\fromValue;
 use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
 use Widmogrod\Helpful\MonadLaws;
@@ -15,7 +17,7 @@ use Widmogrod\Primitive\Listt;
 use function Eris\Generator\choose;
 use function Eris\Generator\vector;
 
-class ListtTest extends \PHPUnit_Framework_TestCase
+class ListtTest extends \PHPUnit\Framework\TestCase
 {
     use TestTrait;
 
@@ -26,7 +28,7 @@ class ListtTest extends \PHPUnit_Framework_TestCase
     {
         MonadLaws::test(
             f\curryN(3, [$this, 'assertEquals']),
-            f\curryN(1, Listt::of),
+            f\curryN(1, fromValue),
             $f,
             $g,
             $x
@@ -36,10 +38,10 @@ class ListtTest extends \PHPUnit_Framework_TestCase
     public function provideData()
     {
         $addOne = function ($x) {
-            return Listt::of($x + 1);
+            return f\fromIterable([$x + 1]);
         };
         $addTwo = function ($x) {
-            return Listt::of($x + 2);
+            return f\fromIterable([$x + 2]);
         };
 
         return [
@@ -77,16 +79,16 @@ class ListtTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'Listt' => [
-                '$pure' => Listt::of,
-                '$u'    => Listt::of(function () {
+                '$pure' => fromValue,
+                '$u'    => f\fromIterable([function () {
                     return 1;
-                }),
-                '$v' => Listt::of(function () {
+                }]),
+                '$v' => f\fromIterable([function () {
                     return 5;
-                }),
-                '$w' => Listt::of(function () {
+                }]),
+                '$w' => f\fromIterable([function () {
                     return 7;
-                }),
+                }]),
                 '$f' => function ($x) {
                     return $x + 400;
                 },
@@ -121,7 +123,7 @@ class ListtTest extends \PHPUnit_Framework_TestCase
                 '$g' => function ($x) {
                     return $x + 5;
                 },
-                '$x' => Listt::of([1, 2, 3]),
+                '$x' => f\fromIterable([1, 2, 3]),
             ],
         ];
     }
@@ -141,7 +143,7 @@ class ListtTest extends \PHPUnit_Framework_TestCase
 
     private function randomize()
     {
-        return Listt::of(array_keys(array_fill(0, random_int(20, 100), null)));
+        return f\fromIterable(array_keys(array_fill(0, random_int(20, 100), null)));
     }
 
     public function provideRandomizedData()
@@ -155,20 +157,13 @@ class ListtTest extends \PHPUnit_Framework_TestCase
         }, array_fill(0, 50, null));
     }
 
-    public function test_head_on_empty_list_is_undefined()
-    {
-        $this->setExpectedException(\BadMethodCallException::class, 'head of empty Listt');
-
-        Listt::mempty()->head();
-    }
-
     public function test_head_extracts_first_element()
     {
         $this->forAll(
             vector(10, choose(1, 1000))
         )(
             function ($sequence) {
-                $list = Listt::of($sequence);
+                $list = f\fromIterable($sequence);
                 $current = current($sequence);
 
                 $this->assertSame($current, $list->head());
@@ -177,20 +172,13 @@ class ListtTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function test_tail_on_empty_list()
-    {
-        $this->setExpectedException(\BadMethodCallException::class, 'tail of empty Listt');
-
-        Listt::mempty()->tail();
-    }
-
     public function test_tail_with_single_element_Listt()
     {
         $this->forAll(
             vector(1, choose(1, 1000))
         )(
             function ($sequence) {
-                $this->assertTrue(Listt::of($sequence)->tail()->equals(Listt::mempty()));
+                $this->assertTrue(f\fromIterable($sequence)->tail()->equals(fromNil()));
             }
         );
     }
@@ -201,7 +189,7 @@ class ListtTest extends \PHPUnit_Framework_TestCase
             vector(10, choose(1, 1000))
         )(
             function ($sequence) {
-                $list = Listt::of($sequence);
+                $list = f\fromIterable($sequence);
                 array_shift($sequence);
 
                 $this->assertEquals($sequence, $list->tail()->extract());

@@ -10,14 +10,14 @@ use function Widmogrod\Functional\map;
 use function Widmogrod\Monad\Maybe\just;
 use function Widmogrod\Monad\Maybe\maybeNull;
 
-class MaybeMonoidTest extends \PHPUnit_Framework_TestCase
+class MaybeMonoidTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData
      */
     public function test_it_should_concat_only_strings_and_skip_nulls(array $data, array $expected, string $asString)
     {
-        $fullName = Listt::of($data)
+        $fullName = f\fromIterable($data)
             ->map(maybeNull)
             ->map(map(Stringg::of))
             ->reduce(f\concatM, just(Stringg::mempty()));
@@ -58,7 +58,7 @@ class MaybeMonoidTest extends \PHPUnit_Framework_TestCase
     {
         // $makeMaybeMonoid :: string -> Maybe Listt string
         $makeMaybeMonoid = function ($val): Maybe {
-            return maybeNull($val)->map(Listt::of);
+            return maybeNull($val)->map(f\fromValue);
         };
 
         // $names :: array Maybe Listt string
@@ -73,7 +73,7 @@ class MaybeMonoidTest extends \PHPUnit_Framework_TestCase
         $fullName = $firstName->concat($middleName)->concat($lastName);
 
         $this->assertInstanceOf(Just::class, $fullName);
-        $this->assertEquals($fullName, just(Listt::of($expected)));
+        $this->assertEquals($fullName, just(f\fromIterable($expected)));
     }
 
     public function provideData()

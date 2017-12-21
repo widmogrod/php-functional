@@ -7,7 +7,7 @@ use Widmogrod\Helpful\MonoidLaws;
 use Widmogrod\Primitive\Stringg;
 use Widmogrod\Functional as f;
 
-class StringgTest extends \PHPUnit_Framework_TestCase
+class StringgTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideRandomizedData

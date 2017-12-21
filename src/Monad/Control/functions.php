@@ -53,10 +53,7 @@ function runWith(callable $function, array $argsNames)
             return $base;
         }, []);
 
-        $value = call_user_func_array(
-            $function,
-            $args
-        )->run();
+        $value = $function(...$args)->run();
 
         $data[$key] = $value;
         $newState = [$key, $data];

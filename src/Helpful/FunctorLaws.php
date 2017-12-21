@@ -31,10 +31,7 @@ class FunctorLaws
         // composition: fmap (f . g)  ==  fmap f . fmap g
         $assertEqual(
             f\map(f\compose($f, $g), $x),
-            call_user_func(
-                f\compose(f\map($f), f\map($g)),
-                $x
-            ),
+            f\compose(f\map($f), f\map($g))($x),
             'composition'
         );
     }

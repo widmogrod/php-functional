@@ -33,7 +33,7 @@ class Just implements Maybe
      */
     public function bind(callable $transformation)
     {
-        return call_user_func($transformation, $this->value);
+        return $transformation($this->value);
     }
 
     /**

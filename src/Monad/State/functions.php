@@ -68,7 +68,7 @@ const state = 'Widmogrod\Monad\State\state';
 function state(callable $stateFunction)
 {
     return M\State::of(function ($state) use ($stateFunction) {
-        return call_user_func($stateFunction, $state);
+        return $stateFunction($state);
     });
 }
 
@@ -86,7 +86,7 @@ const gets = 'Widmogrod\Monad\State\gets';
 function gets(callable $transformation)
 {
     return M\State::of(function ($state) use ($transformation) {
-        return [call_user_func($transformation, $state), $state];
+        return [$transformation($state), $state];
     });
 }
 

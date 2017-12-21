@@ -10,7 +10,7 @@ use Widmogrod\Monad\State;
 use Widmogrod\Helpful\MonadLaws;
 use Widmogrod\Functional as f;
 
-class StateTest extends \PHPUnit_Framework_TestCase
+class StateTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

@@ -37,7 +37,7 @@ class State implements Monad
     {
         return self::of(function ($state) use ($function) {
             [$value, $newState] = $this->runState($state);
-            $m = call_user_func($function, $value);
+            $m = $function($value);
 
             return $m instanceof State
                 ? $m->runState($newState)
@@ -53,7 +53,7 @@ class State implements Monad
         return self::of(function ($state) use ($function) {
             [$value, $newState] = $this->runState($state);
 
-            return [call_user_func($function, $value), $newState];
+            return [$function($value), $newState];
         });
     }
 

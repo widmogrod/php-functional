@@ -33,7 +33,7 @@ class Right implements Either
      */
     public function bind(callable $transformation)
     {
-        return call_user_func($transformation, $this->value);
+        return $transformation($this->value);
     }
 
     /**
@@ -41,6 +41,6 @@ class Right implements Either
      */
     public function either(callable $left, callable $right)
     {
-        return call_user_func($right, $this->value);
+        return $right($this->value);
     }
 }

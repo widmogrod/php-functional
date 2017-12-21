@@ -4,15 +4,19 @@ namespace Widmogrod\Monad\Free;
 
 use Widmogrod\FantasyLand;
 
-interface MonadFree extends
-    FantasyLand\Monad
+interface MonadFree extends FantasyLand\Monad
 {
     /**
-     * Run interpretation
+     * ```
+     * foldFree :: Monad m => (forall x . f x -> m x) -> Free f a -> m a
+     * foldFree _ (Pure a)  = return a
+     * foldFree f (Free as) = f as >>= foldFree f
+     * ```
      *
-     * @param callable $interpretation
+     * @param callable $f (f x -> m x)
+     * @param callable $return
      *
-     * @return mixed
+     * @return FantasyLand\Monad
      */
-    public function runFree(callable $interpretation);
+    public function foldFree(callable $f, callable $return): FantasyLand\Monad;
 }

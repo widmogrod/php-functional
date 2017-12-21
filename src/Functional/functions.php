@@ -10,53 +10,7 @@ use Widmogrod\FantasyLand\Monad;
 use Widmogrod\FantasyLand\Traversable;
 use Widmogrod\Monad\Identity;
 use Widmogrod\Primitive\Listt;
-
-/**
- * @var callable
- */
-const push = 'Widmogrod\Functional\push';
-
-/**
- * push :: [a] -> [a] -> [a]
- *
- * Append array with values.
- *
- * @param array $array
- * @param array $values
- *
- * @return array
- */
-function push(array $array, array $values)
-{
-    foreach ($values as $value) {
-        $array[] = $value;
-    }
-
-    return $array;
-}
-
-/**
- * @var callable
- */
-const append = 'Widmogrod\Functional\append';
-
-/**
- * append :: [a] -> a -> [a]
- *
- * @param array $list
- * @param mixed $value
- *
- * @return array
- */
-function append($list, $value = null)
-{
-    return call_user_func_array(curryN(2, function ($list, $value) {
-        return push(
-            toNativeTraversable($list),
-            toNativeTraversable($value)
-        );
-    }), func_get_args());
-}
+use Widmogrod\Primitive\ListtCons;
 
 /**
  * @var callable
@@ -73,9 +27,9 @@ const applicator = 'Widmogrod\Functional\applicator';
  */
 function applicator($x, callable $f = null)
 {
-    return call_user_func_array(curryN(2, function ($y, callable $f) {
-        return call_user_func($f, $y);
-    }), func_get_args());
+    return curryN(2, function ($y, callable $f) {
+        return $f($y);
+    })(...func_get_args());
 }
 
 /**
@@ -93,110 +47,9 @@ const invoke = 'Widmogrod\Functional\invoke';
  */
 function invoke($method, $object = null)
 {
-    return call_user_func_array(curryN(2, function ($method, $object) {
-        return call_user_func([$object, $method]);
-    }), func_get_args());
-}
-
-/**
- * @var callable
- */
-const toFoldable = 'Widmogrod\Functional\toFoldable';
-
-/**
- * toFoldable :: Foldable t => a -> t a
- *
- * @param Foldable|\Traversable|array|mixed $value
- *
- * @return Foldable
- */
-function toFoldable($value)
-{
-    return $value instanceof Foldable
-        ? $value
-        : Listt::of(toNativeTraversable($value));
-}
-
-/**
- * @var callable
- */
-const toTraversable = 'Widmogrod\Functional\toTraversable';
-
-/**
- * toTraversable :: Traversable t => a -> t a
- *
- * @param Traversable|\Traversable|array|mixed $value
- *
- * @return Traversable
- */
-function toTraversable($value)
-{
-    return $value instanceof Traversable
-        ? $value
-        : Listt::of(toNativeTraversable($value));
-}
-
-/**
- * @var callable
- */
-const concat = 'Widmogrod\Functional\concat';
-
-/**
- * concat :: Foldable t => t [a] -> [a]
- *
- * <code>
- * concat([[1, 2], [3, 4]]) == [1, 2, 3, 4]
- * </code>
- *
- * The concatenation of all the elements of a container of lists.
- *
- * @param Foldable $foldable
- *
- * @return array
- */
-function concat(Foldable $foldable)
-{
-    return reduce(function ($agg, $value) {
-        return reduce(function ($agg, $v) {
-            $agg[] = $v;
-
-            return $agg;
-        }, $agg, toFoldable($value));
-    }, [], $foldable);
-}
-
-/**
- * @var callable
- */
-const toList = 'Widmogrod\Functional\toList';
-
-/**
- * toList :: Traversable t -> t a -> [a]
- *
- * @param Foldable $traversable
- *
- * @return mixed
- */
-function toList(Foldable $traversable)
-{
-    return reduce(append, [], $traversable);
-}
-
-/**
- * @var callable
- */
-const identity = 'Widmogrod\Functional\identity';
-
-/**
- * Return value passed to function
- *
- * @param mixed $x
- *
- * @return mixed
- */
-function identity($x)
-{
-    return $x;
+    return curryN(2, function ($method, $object) {
+        return $object->$method();
+    })(...func_get_args());
 }
 
 /**
@@ -210,12 +63,12 @@ function identity($x)
  */
 function curryN($numberOfArguments, callable $function, array $args = [])
 {
-    return function () use ($numberOfArguments, $function, $args) {
+    return function (...$argsNext) use ($numberOfArguments, $function, $args) {
         $argsLeft = $numberOfArguments - func_num_args();
 
         return $argsLeft <= 0
-            ? call_user_func_array($function, push($args, func_get_args()))
-            : curryN($argsLeft, $function, push($args, func_get_args()));
+            ? $function(...push_($args, $argsNext))
+            : curryN($argsLeft, $function, push_($args, $argsNext));
     };
 }
 
@@ -271,70 +124,13 @@ const tee = 'Widmogrod\Functional\tee';
  *
  * @return \Closure
  */
-function tee(callable $function = null, $value = null)
+function tee(callable $function, $value = null)
 {
-    return call_user_func_array(curryN(2, function (callable $function, $value) {
-        call_user_func($function, $value);
+    return curryN(2, function (callable $function, $value) {
+        $function($value);
 
         return $value;
-    }), func_get_args());
-}
-
-/**
- * @var callable
- */
-const compose = 'Widmogrod\Functional\compose';
-
-/**
- * Compose multiple functions into one.
- * Composition starts from right to left.
- *
- * <code>
- * compose('strtolower', 'strtoupper')('aBc') ≡ 'abc'
- * strtolower(strtouppser('aBc'))  ≡ 'abc'
- * </code>
- *
- * @param callable $a
- * @param callable $b,...
- *
- * @return \Closure         func($value) : mixed
- */
-function compose(callable $a, callable $b)
-{
-    return call_user_func_array(
-        reverse('Widmogrod\Functional\pipeline'),
-        func_get_args()
-    );
-}
-
-/**
- * @var callable
- */
-const pipeline = 'Widmogrod\Functional\pipeline';
-
-/**
- * Compose multiple functions into one.
- * Composition starts from left.
- *
- * <code>
- * compose('strtolower', 'strtoupper')('aBc') ≡ 'ABC'
- * strtouppser(strtolower('aBc'))  ≡ 'ABC'
- * </code>
- *
- * @param callable $a
- * @param callable $b,...
- *
- * @return \Closure         func($value) : mixed
- */
-function pipeline(callable $a, callable $b)
-{
-    $list = func_get_args();
-
-    return function ($value = null) use (&$list) {
-        return array_reduce($list, function ($accumulator, callable $a) {
-            return call_user_func($a, $accumulator);
-        }, $value);
-    };
+    })(...func_get_args());
 }
 
 /**
@@ -343,6 +139,8 @@ function pipeline(callable $a, callable $b)
 const reverse = 'Widmogrod\Functional\reverse';
 
 /**
+ * reverse :: (a -> b -> c -> d) -> (c -> b -> a -> d)
+ *
  * Call $function with arguments in reversed order
  *
  * @return \Closure
@@ -351,8 +149,8 @@ const reverse = 'Widmogrod\Functional\reverse';
  */
 function reverse(callable $function)
 {
-    return function () use ($function) {
-        return call_user_func_array($function, array_reverse(func_get_args()));
+    return function (...$args) use ($function) {
+        return $function(...array_reverse($args));
     };
 }
 
@@ -371,9 +169,9 @@ const map = 'Widmogrod\Functional\map';
  */
 function map(callable $transformation = null, Functor $value = null)
 {
-    return call_user_func_array(curryN(2, function (callable $transformation, Functor $value) {
+    return curryN(2, function (callable $transformation, Functor $value) {
         return $value->map($transformation);
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -391,9 +189,9 @@ const bind = 'Widmogrod\Functional\bind';
  */
 function bind(callable $function = null, Monad $value = null)
 {
-    return call_user_func_array(curryN(2, function (callable $function, Monad $value) {
+    return curryN(2, function (callable $function, Monad $value) {
         return $value->bind($function);
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -402,13 +200,13 @@ function bind(callable $function = null, Monad $value = null)
 const join = 'Widmogrod\Functional\join';
 
 /**
- * join :: Monad (Monad m) -> Monad m
+ * join :: Monad m => m (m a) -> m a
  *
  * @param Monad $monad
  *
  * @return Monad
  */
-function join(Monad $monad = null)
+function join(Monad $monad): Monad
 {
     return $monad->bind(identity);
 }
@@ -429,13 +227,13 @@ const reduce = 'Widmogrod\Functional\reduce';
  */
 function reduce(callable $callable, $accumulator = null, Foldable $foldable = null)
 {
-    return call_user_func_array(curryN(3, function (
+    return curryN(3, function (
         callable $callable,
         $accumulator,
         Foldable $foldable
     ) {
         return $foldable->reduce($callable, $accumulator);
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -457,19 +255,17 @@ const foldr = 'Widmogrod\Functional\foldr';
  */
 function foldr(callable $callable, $accumulator = null, Foldable $foldable = null)
 {
-    return call_user_func_array(curryN(3, function (
+    return curryN(3, function (
         callable $callable,
         $accumulator,
         Foldable $foldable
     ) {
         return reduce(
-            $callable,
+            flip($callable),
             $accumulator,
-            reduce(function ($accumulator, $value) {
-                return concatM(Listt::of([$value]), $accumulator);
-            }, Listt::of([]), $foldable)
+            reduce(flip(prepend), fromNil(), $foldable)
         );
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -487,13 +283,14 @@ const filter = 'Widmogrod\Functional\filter';
  */
 function filter(callable $predicate, Foldable $list = null)
 {
-    return call_user_func_array(curryN(2, function (callable $predicate, Foldable $list) {
-        return reduce(function ($list, $x) use ($predicate) {
-            return call_user_func($predicate, $x)
-                ? append($list, $x)
-                : $list;
-        }, [], $list);
-    }), func_get_args());
+    return curryN(2, function (callable $predicate, Foldable $list) {
+        return reduce(function (Listt $list, $x) use ($predicate) {
+            return $predicate($x)
+                ? ListtCons::of(function () use ($list, $x) {
+                    return [$x, $list];
+                }) : $list;
+        }, fromNil(), $list);
+    })(...func_get_args());
 }
 
 /**
@@ -539,130 +336,6 @@ function mcompose(callable $a, callable $b)
 }
 
 /**
- * @var callable
- */
-const flip = 'Widmogrod\Functional\flip';
-
-/**
- * flip :: (a -> b -> c) -> (b -> a -> c)
- *
- * @param callable $func
- *
- * @return callable
- */
-function flip(callable $func)
-{
-    $args = func_get_args();
-    array_shift($args);
-
-    return call_user_func_array(curryN(2, function ($a, $b) use ($func) {
-        $args = func_get_args();
-        $args[0] = $b;
-        $args[1] = $a;
-
-        return call_user_func_array($func, $args);
-    }), $args);
-}
-
-/**
- * @var callable
- */
-const isNativeTraversable = 'Widmogrod\Functional\isNativeTraversable';
-
-/**
- * isNativeTraversable :: a -> Boolean
- *
- * Evaluate if value is a traversable
- *
- * @param mixed $value
- *
- * @return bool
- */
-function isNativeTraversable($value)
-{
-    return \is_iterable($value);
-}
-
-/**
- * @var callable
- */
-const toNativeTraversable = 'Widmogrod\Functional\toNativeTraversable';
-
-/**
- * toNativeTraversable :: a -> [a]
- *
- * @param mixed $value
- *
- * @return array
- */
-function toNativeTraversable($value)
-{
-    return isNativeTraversable($value) ? $value : [$value];
-}
-
-/**
- * @var callable
- */
-const head = 'Widmogrod\Functional\head';
-
-/**
- * Return head of a traversable
- *
- * @param array|\Traversable $list
- *
- * @return null|mixed
- */
-function head($list)
-{
-    if (!isNativeTraversable($list)) {
-        return null;
-    }
-    foreach ($list as $item) {
-        return $item;
-    }
-
-    return null;
-}
-
-/**
- * @var callable
- */
-const tail = 'Widmogrod\Functional\tail';
-
-/**
- * Return tail of a traversable
- *
- * @param array|\Traversable $list
- *
- * @return null|array
- */
-function tail($list)
-{
-    if (!isNativeTraversable($list) || count($list) === 0) {
-        return null;
-    }
-
-    if (is_array($list)) {
-        $clone = $list;
-        array_shift($clone);
-
-        return $clone;
-    }
-
-    $values = [];
-    $first = true;
-    foreach ($list as $k => $v) {
-        if ($first) {
-            $first = false;
-        } else {
-            $values[$k] = $v;
-        }
-    }
-
-    return $values;
-}
-
-/**
  * tryCatch :: Exception e => (a -> b) -> (e -> b) -> a -> b
  *
  * @param callable $function
@@ -673,13 +346,13 @@ function tail($list)
  */
 function tryCatch(callable $function, callable $catchFunction, $value)
 {
-    return call_user_func_array(curryN(3, function (callable $function, callable $catchFunction, $value) {
+    return curryN(3, function (callable $function, callable $catchFunction, $value) {
         try {
-            return call_user_func($function, $value);
+            return $function($value);
         } catch (\Exception $e) {
-            return call_user_func($catchFunction, $e);
+            return $catchFunction($e);
         }
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -724,7 +397,7 @@ function liftM2(
     Monad $ma = null,
     Monad $mb = null
 ) {
-    return call_user_func_array(curryN(
+    return curryN(
         3,
         function (
             callable $transformation,
@@ -733,11 +406,11 @@ function liftM2(
         ) {
             return $ma->bind(function ($a) use ($mb, $transformation) {
                 return $mb->bind(function ($b) use ($a, $transformation) {
-                    return call_user_func($transformation, $a, $b);
+                    return $transformation($a, $b);
                 });
             });
         }
-    ), func_get_args());
+    )(...func_get_args());
 }
 
 /**
@@ -759,17 +432,17 @@ function liftA2(
     Applicative $fa = null,
     Applicative $fb = null
 ) {
-    return call_user_func_array(curryN(3, function (
+    return curryN(3, function (
         callable $transformation,
         Applicative $fa,
         Applicative $fb
     ) {
         return $fa->map(function ($a) use ($transformation) {
             return function ($b) use ($a, $transformation) {
-                return call_user_func($transformation, $a, $b);
+                return $transformation($a, $b);
             };
         })->ap($fb);
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -810,9 +483,9 @@ const sequence_ = 'Widmogrod\Functional\sequence_';
  *
  * @return Monad
  */
-function sequence_($monads)
+function sequence_(Monad ...$monads)
 {
-    return reduce(sequenceM, Identity::of([]), toFoldable($monads));
+    return reduce(sequenceM, Identity::of([]), fromIterable($monads));
 }
 
 /**
@@ -826,18 +499,18 @@ const traverse = 'Widmogrod\Functional\traverse';
  * Map each element of a structure to an action, evaluate these actions from left to right, and collect the results
  *
  * @param callable $transformation (a -> f b)
- * @param Traversable $t           t a
+ * @param Traversable $t t a
  *
  * @return Applicative     f (t b)
  */
 function traverse(callable $transformation, Traversable $t = null)
 {
-    return call_user_func_array(curryN(2, function (
+    return curryN(2, function (
         callable $transformation,
         Traversable $t
     ) {
         return $t->traverse($transformation);
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
@@ -852,109 +525,86 @@ const sequence = 'Widmogrod\Functional\sequence';
  *
  * @return Monad
  */
-function sequence($monads)
+function sequence(Monad ...$monads)
 {
-    return traverse(identity, toTraversable($monads));
+    return traverse(identity, fromIterable($monads));
 }
 
 /**
  * filterM :: Monad m => (a -> m Bool) -> [a] -> m [a]
  *
- * @param callable $f                   (a -> m Bool)
- * @param array|Traversable $collection [a]
+ * ```haskell
+ * filterM p = foldr (\ x -> liftA2 (\ flg -> if flg then (x:) else id) (p x)) (pure [])
+ * foldr :: (a -> b -> b) -> b -> t a -> b
+ * liftA2 :: (a -> b -> c) -> f a -> f b -> f c
+ *```
+ * @param callable $f (a -> m Bool)
+ * @param Foldable $xs [a]
  *
  * @return Monad m [a]
  */
-function filterM(callable $f, $collection)
+function filterM(callable $f, Foldable $xs = null)
 {
-    return call_user_func_array(curryN(2, function (
+    return curryN(2, function (
         callable $f,
-        $collection
+        $xs
     ) {
-        /** @var Monad $monad */
-        $monad = $f(head($collection));
-
-        $_filterM = function ($collection) use ($monad, $f, &$_filterM) {
-            if (count($collection) == 0) {
-                return $monad::of([]);
+        $result = foldr(function ($x, $ys) use ($f) {
+            $y = $f($x);
+            // Detect type of monad
+            if ($ys === null) {
+                $ys = $y::of(fromNil());
             }
 
-            $x = head($collection);
-            $xs = tail($collection);
+            return liftA2(function (bool $flg, $ys) use ($x) {
+                return $flg
+                    ? prepend($x, $ys)
+                    : $ys;
+            }, $y, $ys);
+        }, null, $xs);
 
-            return $f($x)->bind(function ($bool) use ($x, $xs, $monad, $_filterM) {
-                return $_filterM($xs)->bind(function (array $acc) use ($bool, $x, $monad) {
-                    if ($bool) {
-                        array_unshift($acc, $x);
-                    }
-
-                    return $monad::of($acc);
-                });
-            });
-        };
-
-        return $_filterM($collection);
-    }), func_get_args());
+        return $result === null
+            ? fromNil()
+            : $result;
+    })(...func_get_args());
 }
 
 /**
- * foldM :: Monad m => (a -> b -> m a) -> a -> [b] -> m a
+ * foldM :: (Foldable t, Monad m) => (b -> a -> m b) -> b -> t a -> m b
  *
- * @param callable $f                    (a -> b -> m a)
- * @param mixed $initial                 a
- * @param array|\Traversable $collection [b]
+ * ```haskell
+ * foldlM :: (Foldable t, Monad m) => (b -> a -> m b) -> b -> t a -> m b
+ * foldlM f z0 xs = foldr f' return xs z0
+ *      where f' x k z = f z x >>= k
+ *
+ * foldr :: (a -> b -> b) -> b -> t a -> b
+ * ```
+ *
+ * @param callable $f (a -> b -> m a)
+ * @param null $z0
+ * @param Foldable $xs [b]
  *
  * @return mixed m a
  */
-function foldM(callable $f, $initial, $collection)
+function foldM(callable $f, $z0 = null, Foldable $xs = null)
 {
-    return call_user_func_array(curryN(3, function (
+    return curryN(3, function (
         callable $f,
-        $initial,
-        $collection
+        $z0,
+        $xs
     ) {
-        /** @var Monad $monad */
-        $monad = $f($initial, head($collection));
-
-        $_foldM = function ($acc, $collection) use ($monad, $f, &$_foldM) {
-            if (count($collection) == 0) {
-                return $monad::of($acc);
+        $result = foldr(function ($x, $k) use ($f, $z0) {
+            if ($k === null) {
+                return $f($z0, $x);
+            } else {
+                return $k->bind(function ($z) use ($f, $x) {
+                    return $f($z, $x);
+                });
             }
+        }, null, $xs);
 
-            $x = head($collection);
-            $xs = tail($collection);
-
-            return $f($acc, $x)->bind(function ($result) use ($acc, $xs, $_foldM) {
-                return $_foldM($result, $xs);
-            });
-        };
-
-        return $_foldM($initial, $collection);
-    }), func_get_args());
-}
-
-/**
- * @experimental
- *
- * @param array $patterns
- * @param mixed $value
- *
- * @return mixed
- */
-function match(array $patterns, $value = null)
-{
-    return call_user_func_array(curryN(2, function (array $patterns, $value) {
-        $givenType = is_object($value) ? get_class($value) : gettype($value);
-        foreach ($patterns as $className => $fn) {
-            if ($value instanceof $className) {
-                return call_user_func($fn, $value);
-            }
-        }
-
-        throw new \Exception(sprintf(
-            'Cannot match "%s" type. Defined patterns are %s',
-            $givenType,
-            implode(', ', array_keys($patterns))
-        ));
-    }), func_get_args());
+        return $result === null
+            ? fromNil()
+            : $result;
+    })(...func_get_args());
 }

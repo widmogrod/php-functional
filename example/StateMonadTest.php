@@ -86,7 +86,7 @@ function retrieveRelated($productName)
     });
 }
 
-class StateMonadTest extends \PHPUnit_Framework_TestCase
+class StateMonadTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

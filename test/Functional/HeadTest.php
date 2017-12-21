@@ -2,42 +2,46 @@
 
 namespace test\Functional;
 
-use Widmogrod\Functional as f;
+use function Widmogrod\Functional\fromNil;
+use Widmogrod\Primitive\Listt;
+use function Widmogrod\Functional\fromIterable;
+use function Widmogrod\Functional\head;
 
-class HeadTest extends \PHPUnit_Framework_TestCase
+class HeadTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData
      */
-    public function test_it_should_take_head_of_a_list(
-        $list,
+    public function test_it_should_return_boxed_value(
+        Listt $listt,
         $expected
     ) {
-        $this->assertEquals(
+        $this->assertSame(
             $expected,
-            f\head($list)
+            head($listt)
         );
     }
 
     public function provideData()
     {
         return [
-            'simple list' => [
-                '$list'     => [1, 2],
-                '$expected' => 1
+            'Should return head from finite array' => [
+                '$listt' => fromIterable([1, 2, 3]),
+                '$expected' => 1,
             ],
-            'empty list' => [
-                '$list'     => [],
-                '$expected' => null
-            ],
-            'array iterator' => [
-                '$list'     => new \ArrayIterator([1, 2]),
-                '$expected' => 1
-            ],
-            'array object' => [
-                '$list'     => new \ArrayObject([1, 2]),
-                '$expected' => 1
+            'Should return head from finite iterator' => [
+                '$listt' => fromIterable(new \ArrayIterator([1, 2, 3])),
+                '$expected' => 1,
             ],
         ];
+    }
+
+    /**
+     * @expectedException \Widmogrod\Primitive\EmptyListError
+     * @expectedExceptionMessage Cannot call head() on empty list
+     */
+    public function test_it_should_throw_exception_when_list_is_empty()
+    {
+        head(fromNil());
     }
 }

@@ -11,7 +11,7 @@ class Writer implements FantasyLand\Monad
 
     public static function of($value, FantasyLand\Monoid $side = null)
     {
-        return new static($value, is_null($side) ? S::mempty() : $side);
+        return new static($value, $side === null ? S::mempty() : $side);
     }
 
     /**
@@ -32,7 +32,7 @@ class Writer implements FantasyLand\Monad
 
     public function bind(callable $function)
     {
-        [$value, $side] = call_user_func($function, $this->value)->runWriter();
+        [$value, $side] = $function($this->value)->runWriter();
 
         return new static($value, $this->side->concat($side));
     }

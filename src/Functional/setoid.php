@@ -16,7 +16,7 @@ const equal = 'Widmogrod\Functional\equal';
  */
 function equal(Setoid $a, Setoid $b = null)
 {
-    return call_user_func_array(curryN(2, function (Setoid $a, Setoid $b) {
+    return curryN(2, function (Setoid $a, Setoid $b) {
         return $a->equals($b);
-    }), func_get_args());
+    })(...func_get_args());
 }

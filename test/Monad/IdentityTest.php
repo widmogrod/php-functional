@@ -10,7 +10,7 @@ use Widmogrod\Monad\Identity;
 use Widmogrod\Helpful\MonadLaws;
 use Widmogrod\Functional as f;
 
-class IdentityTest extends \PHPUnit_Framework_TestCase
+class IdentityTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

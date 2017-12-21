@@ -3,15 +3,15 @@
 namespace example;
 
 use Widmogrod\FantasyLand\Functor;
-use Widmogrod\Monad\Free2\MonadFree;
-use Widmogrod\Monad\Free2\Pure;
+use Widmogrod\Monad\Free\MonadFree;
+use Widmogrod\Monad\Free\Pure;
 use Widmogrod\Monad\State;
 use const Widmogrod\Monad\State\value;
 use function Widmogrod\Functional\curryN;
-use function Widmogrod\Functional\match;
-use function Widmogrod\Functional\push;
-use function Widmogrod\Monad\Free2\foldFree;
-use function Widmogrod\Monad\Free2\liftF;
+use function Widmogrod\Functional\push_;
+use function Widmogrod\Monad\Free\foldFree;
+use function Widmogrod\Monad\Free\liftF;
+use function Widmogrod\Useful\match;
 
 interface ScenarioF extends Functor
 {
@@ -208,7 +208,7 @@ function wrapWithState(array $patterns, $state)
 {
     return array_map(function (callable $fn) use ($state) {
         return function () use ($fn, $state) {
-            $args = push([$state], func_get_args());
+            $args = push_([$state], func_get_args());
 
             return call_user_func_array($fn, $args);
         };
@@ -217,7 +217,7 @@ function wrapWithState(array $patterns, $state)
 
 function matchRegexp(array $patterns, $value = null)
 {
-    return call_user_func_array(curryN(2, function (array $patterns, $value) {
+    return curryN(2, function (array $patterns, $value) {
         foreach ($patterns as $pattern => $fn) {
             if (false !== preg_match($pattern, $value, $matches)) {
                 return call_user_func_array($fn, array_slice($matches, 1));
@@ -229,13 +229,13 @@ function matchRegexp(array $patterns, $value = null)
             $value,
             implode(', ', array_keys($patterns))
         ));
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 /**
  * Inspired by https://github.com/politrons/TestDSL
  */
-class Free2BddStyleDSLTest extends \PHPUnit_Framework_TestCase
+class FreeBddStyleDSLTest extends \PHPUnit\Framework\TestCase
 {
     public function test_it_should_interpret_bdd_scenario()
     {

@@ -6,11 +6,11 @@ use Widmogrod\Monad\Writer as W;
 use Widmogrod\Functional as f;
 use Widmogrod\Primitive\Stringg as S;
 
-class WriterMonadTest extends \PHPUnit_Framework_TestCase
+class WriterMonadTest extends \PHPUnit\Framework\TestCase
 {
     public function test_it_should_filter_with_logs()
     {
-        $data = [1, 10, 15, 20, 25];
+        $data = f\fromIterable([1, 10, 15, 20, 25]);
 
         $filter = function ($i) {
             if ($i % 2 == 1) {
@@ -25,7 +25,7 @@ class WriterMonadTest extends \PHPUnit_Framework_TestCase
         list($result, $log) = f\filterM($filter, $data)->runWriter();
 
         $this->assertEquals(
-            [10],
+            f\fromIterable([10]),
             $result
         );
         $this->assertEquals(

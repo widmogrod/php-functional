@@ -2,16 +2,20 @@
 
 namespace test\Monad;
 
+use Widmogrod\FantasyLand\Applicative;
 use Widmogrod\FantasyLand\Functor;
+use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
 use Widmogrod\Helpful\MonadLaws;
-use function Widmogrod\Monad\Free\liftF;
 use Widmogrod\Monad\Free\MonadFree;
 use Widmogrod\Monad\Free\Pure;
-use const Widmogrod\Functional\identity;
 use Widmogrod\Monad\Identity;
+use const Widmogrod\Functional\identity;
+use function Widmogrod\Functional\curryN;
+use function Widmogrod\Monad\Free\foldFree;
+use function Widmogrod\Monad\Free\liftF;
 
-class FreeTest extends \PHPUnit_Framework_TestCase
+class FreeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideFunctorTestData
@@ -24,8 +28,8 @@ class FreeTest extends \PHPUnit_Framework_TestCase
         FunctorLaws::test(
             function (MonadFree $a, MonadFree $b, $message) {
                 $this->assertEquals(
-                    $a->runFree(identity),
-                    $b->runFree(identity),
+                    foldFree(Identity::of, $a, Identity::of),
+                    foldFree(Identity::of, $b, Identity::of),
                     $message
                 );
             },
@@ -39,22 +43,22 @@ class FreeTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'Pure' => [
-                '$f' => function ($x) {
+                '$f' => function (int $x) {
                     return $x + 1;
                 },
-                '$g' => function ($x) {
+                '$g' => function (int $x) {
                     return $x + 5;
                 },
                 '$x' => Pure::of(1),
             ],
             'Free' => [
-                '$f' => function ($x) {
+                '$f' => function (int $x) {
                     return $x + 1;
                 },
-                '$g' => function ($x) {
+                '$g' => function (int $x) {
                     return $x + 5;
                 },
-                '$x' => liftF(Identity::of(1)),
+                '$x' => liftF(Pure::of(1)),
             ],
         ];
     }
@@ -67,14 +71,12 @@ class FreeTest extends \PHPUnit_Framework_TestCase
         MonadLaws::test(
             function (MonadFree $f, MonadFree $g, $message) {
                 $this->assertEquals(
-                    $f->runFree(identity),
-                    $g->runFree(identity),
+                    foldFree(Identity::of, $f, Identity::of),
+                    foldFree(Identity::of, $g, Identity::of),
                     $message
                 );
             },
-            function ($x) {
-                return Pure::of($x);
-            },
+            Pure::of,
             $f,
             $g,
             $x
@@ -83,15 +85,11 @@ class FreeTest extends \PHPUnit_Framework_TestCase
 
     public function provideMonadTestData()
     {
-        $addOne = function ($x) {
-            return liftF(Identity::of(
-                $x + 1
-            ));
+        $addOne = function (int $x) {
+            return Pure::of($x + 1);
         };
-        $addTwo = function ($x) {
-            return liftF(Identity::of(
-                $x + 2
-            ));
+        $addTwo = function (int $x) {
+            return Pure::of($x + 2);
         };
 
         return [
@@ -99,6 +97,56 @@ class FreeTest extends \PHPUnit_Framework_TestCase
                 '$f' => $addOne,
                 '$g' => $addTwo,
                 '$x' => 10,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideApplicativeTestData
+     */
+    public function test_it_should_obey_applicative_laws(
+        $pure,
+        Applicative $u,
+        Applicative $v,
+        Applicative $w,
+        callable $f,
+        $x
+    ) {
+        ApplicativeLaws::test(
+            function (MonadFree $a, MonadFree $b, $message) {
+                $this->assertEquals(
+                    foldFree(identity, $a, Identity::of),
+                    foldFree(identity, $b, Identity::of),
+                    $message
+                );
+            },
+            curryN(1, $pure),
+            $u,
+            $v,
+            $w,
+            $f,
+            $x
+        );
+    }
+
+    public function provideApplicativeTestData()
+    {
+        return [
+            'Pure' => [
+                '$pure' => Pure::of,
+                '$u'    => Pure::of(function () {
+                    return 1;
+                }),
+                '$v' => Pure::of(function () {
+                    return 5;
+                }),
+                '$w' => Pure::of(function () {
+                    return 7;
+                }),
+                '$f' => function ($x) {
+                    return 400 + $x;
+                },
+                '$x' => 33
             ],
         ];
     }

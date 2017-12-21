@@ -12,10 +12,9 @@ use Widmogrod\Monad\Maybe\Just;
 use Widmogrod\Monad\Maybe\Nothing;
 use Widmogrod\Helpful\MonadLaws;
 use Widmogrod\Functional as f;
-use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\Stringg;
 
-class MaybeTest extends \PHPUnit_Framework_TestCase
+class MaybeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData
@@ -134,9 +133,9 @@ class MaybeTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'Just' => [
-                '$x' => Just::of(Listt::of(1)),
-                '$y' => Just::of(Listt::of(2)),
-                '$z' => Just::of(Listt::of(3))
+                '$x' => Just::of(f\fromIterable([1])),
+                '$y' => Just::of(f\fromIterable([2])),
+                '$z' => Just::of(f\fromIterable([3]))
             ],
             'Nothing' => [
                 '$x' => Nothing::mempty(),

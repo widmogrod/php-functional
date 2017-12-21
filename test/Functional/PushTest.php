@@ -4,7 +4,7 @@ namespace test\Functional;
 
 use Widmogrod\Functional as f;
 
-class PushTest extends \PHPUnit_Framework_TestCase
+class PushTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData
@@ -14,7 +14,7 @@ class PushTest extends \PHPUnit_Framework_TestCase
         $value,
         $expected
     ) {
-        $this->assertEquals($expected, f\push($array, $value));
+        $this->assertEquals($expected, f\push_($array, $value));
     }
 
     public function provideData()

@@ -48,12 +48,12 @@ function updateDatabase(array $request)
 
 function updateDatabaseStep(array $request)
 {
-    return call_user_func(E\tryCatch(
+    return E\tryCatch(
         f\tee('updateDatabase'),
         function (\Exception $e) {
             return $e->getMessage();
         }
-    ), $request);
+    )($request);
 }
 
 // sendMessage :: Either a b -> Either c d
@@ -78,15 +78,15 @@ function returnFailure($data)
 
 function handleRequest(array $request)
 {
-    return call_user_func(f\pipeline(
+    return f\pipeline(
         'validateInput',
         f\map('canonizeEmail'),
         f\bind('updateDatabaseStep'),
         'sendMessage'
-    ), $request);
+    )($request);
 }
 
-class ComplexErrorDrivenDevelopmentTest extends \PHPUnit_Framework_TestCase
+class ComplexErrorDrivenDevelopmentTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

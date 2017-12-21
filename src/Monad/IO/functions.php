@@ -41,7 +41,7 @@ function until(callable $predicate, callable $do, $base, M\IO $ioValue)
             $isFulfilled = $predicate($value);
             $base = $isFulfilled
                 ? $base
-                : call_user_func($do, $value, $base);
+                : $do($value, $base);
         } while (!$isFulfilled);
 
         return $base;

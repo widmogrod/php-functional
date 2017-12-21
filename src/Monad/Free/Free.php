@@ -2,68 +2,117 @@
 
 namespace Widmogrod\Monad\Free;
 
-use Widmogrod\Common;
 use Widmogrod\FantasyLand;
+use function Widmogrod\Functional\bind;
 
+/**
+ * Free (f (Free f a))
+ *
+ * Based on https://hackage.haskell.org/package/free-4.12.4/docs/Control-Monad-Free-Class.html
+ */
 class Free implements MonadFree
 {
-    use Common\PointedTrait;
-
     const of = 'Widmogrod\Monad\Free\Free::of';
 
-    private $fn;
+    /**
+     * @var FantasyLand\Functor
+     */
+    private $f;
+
+    public function __construct(FantasyLand\Functor $f)
+    {
+        $this->f = $f;
+    }
 
     /**
      * @inheritdoc
      */
-    public static function of($functor, $value = null)
+    public static function of($f)
     {
-        return new self($functor, $value);
-    }
-
-    private function __construct(callable $fn, $value = null)
-    {
-        $this->fn = $fn;
-        $this->value = $value;
+        return new self($f);
     }
 
     /**
+     * ```
+     * instance Functor f => Apply (Free f) where
+     *   Pure a  <.> Pure b = Pure (a b)
+     *   Pure a  <.> Free fb = Free $ fmap a <$> fb
+     *   Free fa <.> b = Free $ (<.> b) <$> fa
+     *
+     * instance Functor f => Applicative (Free f) where
+     *   pure = Pure
+     *     Pure a <*> Pure b = Pure $ a b
+     *     Pure a <*> Free mb = Free $ fmap a <$> mb
+     *     Free ma <*> b = Free $ (<*> b) <$> ma
+     *
+     * ($) :: (a -> b) -> a -> b
+     * (<*>) :: f (a -> b) -> f a -> f b
+     * (<$>) :: Functor f => (a -> b) -> f a -> f b
+     * ```
+     *
      * @inheritdoc
      */
     public function ap(FantasyLand\Apply $b)
     {
-        return $this->bind(function ($f) use ($b) {
-            return $b->map($f);
-        });
+        return new self(
+            $this->f->map(function ($ma) use ($b) {
+                return $b->map($ma);
+            })
+        );
     }
 
     /**
+     * ```
+     * instance Functor f => Bind (Free f) where
+     *   Pure a >>- f = f a
+     *   Free m >>- f = Free ((>>- f) <$> m)
+     * instance Functor f => Monad (Free f) where
+     *   return = pure
+     *     Pure a >>= f = f a
+     *     Free m >>= f = Free ((>>= f) <$> m)
+     *
+     * (<$>) :: Functor f => (a -> b) -> f a -> f b
+     * ```
+     *
      * @inheritdoc
      */
     public function bind(callable $function)
     {
-        return self::of(function ($x) use ($function) {
-            return call_user_func($this->fn, $x)->bind($function);
-        }, $this->value);
+        return new self(
+            $this->f->map(bind($function))
+        );
     }
 
     /**
+     * ```
+     * instance Functor f => Functor (Free f) where
+     *  fmap f = go where
+     *      go (Pure a)  = Pure (f a)
+     *      go (Free fa) = Free (go <$> fa)
+     *
+     * (<$>) :: Functor f => (a -> b) -> f a -> f b
+     *```
+     *
      * @inheritdoc
      */
-    public function map(callable $function)
+    public function map(callable $go)
     {
-        return self::of(function ($x) use ($function) {
-            return call_user_func($this->fn, $x)->map($function);
-        }, $this->value);
+        return new self(
+            $this->f->map($go)
+        );
     }
 
     /**
+     * ```
+     * foldFree f (Free as) = f as >>= foldFree f
+     * ```
+     *
      * @inheritdoc
      */
-    public function runFree(callable $interpretation)
+    public function foldFree(callable $f, callable $return): FantasyLand\Monad
     {
-        return $interpretation($this->value)->bind(function ($result) use ($interpretation) {
-            return call_user_func($this->fn, $result)->runFree($interpretation);
+        return $f($this->f)->bind(function (MonadFree $next) use ($f, $return) : FantasyLand\Monad {
+            return $next->foldFree($f, $return);
         });
     }
 }

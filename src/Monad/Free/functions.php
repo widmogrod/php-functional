@@ -2,33 +2,44 @@
 
 namespace Widmogrod\Monad\Free;
 
-use Widmogrod\Functional as f;
-
-const liftF = 'Widmogrod\Monad\Free\liftF';
+use Widmogrod\FantasyLand\Functor;
+use Widmogrod\FantasyLand\Monad;
+use function Widmogrod\Functional\curryN;
 
 /**
- * @param mixed $value
+ * A version of lift that can be used with just a Functor for f.
  *
- * @return Free
+ * ```
+ * liftF :: (Functor f, MonadFree f m) => f a -> m a
+ * ```
+ *
+ * @param Functor $f
+ *
+ * @return MonadFree
  */
-function liftF($value)
+function liftF(Functor $f): MonadFree
 {
-    return Free::of(Pure::of, $value);
+    return Free::of($f);
 }
 
-const runFree = 'Widmogrod\Monad\Free\runFree';
-
 /**
- * runFree :: Monad m => (a -> m b) -> MonadFree f a -> m b
+ * The very definition of a free monad is that given a natural transformation you get a monad homomorphism.
  *
- * @param callable $interpretation Monad m => (a -> m b) -> m b
+ * ```
+ * foldFree :: Monad m => (forall x . f x -> m x) -> Free f a -> m a
+ * foldFree _ (Pure a)  = return a
+ * foldFree f (Free as) = f as >>= foldFree f
+ * ```
+ *
+ * @param callable $interpreter (f x => m x)
  * @param MonadFree $free
+ * @param callable $return
  *
- * @return mixed
+ * @return Monad|callable
  */
-function runFree(callable $interpretation, MonadFree $free = null)
+function foldFree(callable $interpreter, MonadFree $free = null, callable $return = null)
 {
-    return call_user_func_array(f\curryN(2, function (callable $interpretation, MonadFree $free) {
-        return $free->runFree($interpretation);
-    }), func_get_args());
+    return curryN(3, function (callable $interpreter, MonadFree $free, callable $return): Monad {
+        return $free->foldFree($interpreter, $return);
+    })(...func_get_args());
 }

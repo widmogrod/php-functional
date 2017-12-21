@@ -10,7 +10,7 @@ use Widmogrod\Monad\IO;
 use Widmogrod\Helpful\MonadLaws;
 use Widmogrod\Functional as f;
 
-class IOTest extends \PHPUnit_Framework_TestCase
+class IOTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

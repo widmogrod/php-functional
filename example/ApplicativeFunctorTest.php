@@ -2,13 +2,14 @@
 
 namespace example;
 
+use function Widmogrod\Functional\fromIterable;
 use Widmogrod\Primitive\Listt;
 
-class ApplicativeFunctorTest extends \PHPUnit_Framework_TestCase
+class ApplicativeFunctorTest extends \PHPUnit\Framework\TestCase
 {
     public function test_it_should_apply_every_function_in_collection_with_every_item_in_second()
     {
-        $collectionA = Listt::of([
+        $collectionA = fromIterable([
             function ($a) {
                 return 3 + $a;
             },
@@ -17,7 +18,7 @@ class ApplicativeFunctorTest extends \PHPUnit_Framework_TestCase
             },
         ]);
 
-        $collectionB = Listt::of([
+        $collectionB = fromIterable([
             1,
             2
         ]);
@@ -25,6 +26,6 @@ class ApplicativeFunctorTest extends \PHPUnit_Framework_TestCase
         $result = $collectionA->ap($collectionB);
 
         $this->assertInstanceOf(Listt::class, $result);
-        $this->assertEquals(Listt::of([4, 5, 5, 6]), $result);
+        $this->assertEquals(fromIterable([4, 5, 5, 6]), $result);
     }
 }

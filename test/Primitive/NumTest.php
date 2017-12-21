@@ -6,7 +6,7 @@ use Widmogrod\Functional as f;
 use Widmogrod\Helpful\SetoidLaws;
 use Widmogrod\Primitive\Num;
 
-class NumTest extends \PHPUnit_Framework_TestCase
+class NumTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideSetoidLaws

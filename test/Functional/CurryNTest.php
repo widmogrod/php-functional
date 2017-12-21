@@ -4,7 +4,7 @@ namespace test\Functional;
 
 use Widmogrod\Functional as f;
 
-class CurryNTest extends \PHPUnit_Framework_TestCase
+class CurryNTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideArgumentsWithFunctions

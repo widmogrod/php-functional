@@ -9,7 +9,7 @@ use Widmogrod\Helpful\FunctorLaws;
 use Widmogrod\Monad\Writer;
 use Widmogrod\Helpful\MonadLaws;
 
-class WriterTest extends \PHPUnit_Framework_TestCase
+class WriterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData

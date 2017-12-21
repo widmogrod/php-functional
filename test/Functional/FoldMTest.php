@@ -2,10 +2,13 @@
 
 namespace test\Functional;
 
-use Widmogrod\Functional as f;
-use Widmogrod\Monad\Maybe as m;
+use function Widmogrod\Functional\foldM;
+use function Widmogrod\Functional\fromIterable;
+use function Widmogrod\Functional\fromNil;
+use function Widmogrod\Monad\Maybe\just;
+use function Widmogrod\Monad\Maybe\nothing;
 
-class FoldMTest extends \PHPUnit_Framework_TestCase
+class FoldMTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData
@@ -15,11 +18,11 @@ class FoldMTest extends \PHPUnit_Framework_TestCase
         $expected
     ) {
         $addSingleDigit = function ($acc, $i) {
-            return $i > 9 ? m\nothing() : m\just($acc + $i);
+            return $i > 9 ? nothing() : just($acc + $i);
         };
         $this->assertEquals(
             $expected,
-            f\foldM($addSingleDigit, 0, $list)->extract()
+            foldM($addSingleDigit, 0, $list)
         );
     }
 
@@ -27,20 +30,20 @@ class FoldMTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'just' => [
-                '$list'     => [1, 3, 5, 7],
-                '$expected' => 16
+                '$list' => fromIterable([1, 3, 5, 7]),
+                '$expected' => just(16)
             ],
             'nothing' => [
-                '$list'     => [1, 3, 42, 7],
-                '$expected' => null
+                '$list' => fromIterable([1, 3, 42, 7]),
+                '$expected' => nothing(),
             ],
             'empty array' => [
-                '$list'     => [],
-                '$expected' => 0
+                '$list' => fromNil(),
+                '$expected' => fromNil(),
             ],
             'traversable' => [
-                '$list'     => new \ArrayIterator([1, 3, 5, 7]),
-                '$expected' => 16
+                '$list' => fromIterable(new \ArrayIterator([1, 3, 5, 7])),
+                '$expected' => just(16)
             ],
         ];
     }

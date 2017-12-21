@@ -3,7 +3,7 @@
 namespace Widmogrod\Monad\Free;
 
 use Widmogrod\Common;
-use Widmogrod\FantasyLand\Apply;
+use Widmogrod\FantasyLand;
 
 class Pure implements MonadFree
 {
@@ -14,7 +14,7 @@ class Pure implements MonadFree
     /**
      * @inheritdoc
      */
-    public function ap(Apply $b)
+    public function ap(FantasyLand\Apply $b)
     {
         return $b->map($this->value);
     }
@@ -24,7 +24,7 @@ class Pure implements MonadFree
      */
     public function bind(callable $function)
     {
-        return call_user_func($function, $this->value);
+        return $function($this->value);
     }
 
     /**
@@ -32,14 +32,18 @@ class Pure implements MonadFree
      */
     public function map(callable $function)
     {
-        return self::of(call_user_func($function, $this->value));
+        return self::of($function($this->value));
     }
 
     /**
+     * ```
+     * foldFree _ (Pure a)  = return a
+     * ```
+     *
      * @inheritdoc
      */
-    public function runFree(callable $interpretation)
+    public function foldFree(callable $f, callable $return): FantasyLand\Monad
     {
-        return $this->value;
+        return $return($this->value);
     }
 }

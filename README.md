@@ -55,7 +55,7 @@ Monad is Functor and Applicative. You could say that Monad implements Functor an
 use Widmogrod\Functional as f;
 use Widmogrod\Primitive\Listt;
 
-$list = Listt::of([
+$list = f\fromIterable([
    ['id' => 1, 'name' => 'One'],
    ['id' => 2, 'name' => 'Two'],
    ['id' => 3, 'name' => 'Three'],
@@ -65,7 +65,7 @@ $result = $list->map(function($a) {
     return $a['id'] + 1;
 });
 
-assert($result === Listt::of([2, 3, 4]));
+assert($result === f\fromIterable([2, 3, 4]));
 ```
 
 ### List Applicative Functor
@@ -80,7 +80,7 @@ of applying function from the left list to a value in the right one.
 use Widmogrod\Functional as f;
 use Widmogrod\Primitive\Listt;
 
-$listA = Listt::of([
+$listA = f\fromIterable([
     function($a) {
         return 3 + $a;
     },
@@ -88,13 +88,13 @@ $listA = Listt::of([
         return 4 + $a;
     },
 ]);
-$listB = Listt::of([
+$listB = f\fromIterable([
     1, 2
 ]);
 
 $result = $listA->ap($listB);
 
-assert($result === Listt::of([4, 5, 5, 6]));
+assert($result === f\fromIterable([4, 5, 5, 6]));
 ```
 
 ### Maybe Monoid
@@ -123,7 +123,7 @@ $get = function ($key) {
     });
 };
 
-$result = Listt::of($data)
+$result = f\fromIterable($data)
     ->map(Maybe\maybeNull)
     ->bind($get('meta'))
     ->bind($get('images'))
@@ -244,13 +244,12 @@ Free monad enables you to do exactly that, and more:
 
 #### Echo program
 Example Free Monad example of `echo program` can be found here:
-- See source code [FreeMonadTest.php](/example/FreeMonadTest.php) - example based on first implementation of Free
-- See source code [Free2MonadTest.php](/example/Free2MonadTest.php) - example based on second implementation of Free, based on [Haskell implementation](https://hackage.haskell.org/package/free-4.12.4/docs/Control-Monad-Free-Class.html)
+- See source code [FreeMonadTest.php](/example/FreeMonadTest.php) - example based on second implementation of Free, based on [Haskell implementation](https://hackage.haskell.org/package/free-4.12.4/docs/Control-Monad-Free-Class.html)
 
 #### DSL for `BDD` tests
 Example that use `Free Monad` to creates simple DSL (Domain Specific Language) to define BDD type of framework: 
 
-- See source code [Free2BddStyleDSLTest.php](/example/Free2BddStyleDSLTest.php) 
+- See source code [FreeBddStyleDSLTest.php](/example/FreeBddStyleDSLTest.php) 
 ```php
 $state = [
     'productsCount' => 0,

@@ -31,7 +31,7 @@ const concatM = 'Widmogrod\Functional\concatM';
  */
 function concatM(Semigroup $a, Semigroup $b)
 {
-    return call_user_func_array(curryN(2, function (Semigroup $a, Semigroup $b) {
+    return curryN(2, function (Semigroup $a, Semigroup $b) {
         return $a->concat($b);
-    }), func_get_args());
+    })(...func_get_args());
 }

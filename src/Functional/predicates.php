@@ -14,9 +14,9 @@ const eql = 'Widmogrod\Functional\eql';
  */
 function eql($expected, $value = null)
 {
-    return call_user_func_array(curryN(2, function ($expected, $value) {
+    return curryN(2, function ($expected, $value) {
         return $expected === $value;
-    }), func_get_args());
+    })(...func_get_args());
 }
 
 const orr = 'Widmogrod\Functional\orr';
@@ -32,7 +32,7 @@ const orr = 'Widmogrod\Functional\orr';
  */
 function orr(callable $predicateA, callable $predicateB = null, $value = null)
 {
-    return call_user_func_array(curryN(3, function (callable $a, callable $b, $value) {
-        return call_user_func($a, $value) || call_user_func($b, $value);
-    }), func_get_args());
+    return curryN(3, function (callable $a, callable $b, $value) {
+        return $a($value) || $b($value);
+    })(...func_get_args());
 }
