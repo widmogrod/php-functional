@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace example;
 
-use function Widmogrod\Functional\fromIterable;
 use Widmogrod\Primitive\Listt;
+use function Widmogrod\Functional\fromIterable;
 
 class ApplicativeFunctorTest extends \PHPUnit\Framework\TestCase
 {

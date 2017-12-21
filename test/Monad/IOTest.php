@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace test\Monad;
 
 use Widmogrod\FantasyLand\Applicative;
 use Widmogrod\FantasyLand\Functor;
+use Widmogrod\Functional as f;
 use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
-use Widmogrod\Monad\IO;
 use Widmogrod\Helpful\MonadLaws;
-use Widmogrod\Functional as f;
+use Widmogrod\Monad\IO;
 
 class IOTest extends \PHPUnit\Framework\TestCase
 {
@@ -91,7 +93,7 @@ class IOTest extends \PHPUnit\Framework\TestCase
         return [
             'IO' => [
                 '$pure' => IO\pure,
-                '$u'    => IO\pure(function () {
+                '$u' => IO\pure(function () {
                     return 1;
                 }),
                 '$v' => IO\pure(function () {

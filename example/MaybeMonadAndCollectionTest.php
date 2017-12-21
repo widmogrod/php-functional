@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace example;
 
-use Widmogrod\Monad\Maybe;
-use function Widmogrod\Monad\Maybe\just;
-use const Widmogrod\Monad\Maybe\maybeNull;
-use function Widmogrod\Monad\Maybe\nothing;
 use Widmogrod\Functional as f;
+use Widmogrod\Monad\Maybe;
+use const Widmogrod\Monad\Maybe\maybeNull;
+use function Widmogrod\Monad\Maybe\just;
+use function Widmogrod\Monad\Maybe\nothing;
 
 class MaybeMonadAndCollectionTest extends \PHPUnit\Framework\TestCase
 {
@@ -23,7 +25,7 @@ class MaybeMonadAndCollectionTest extends \PHPUnit\Framework\TestCase
         });
 
         $listOfFirstImages = f\pipeline(
-           f\fromValue,
+            f\fromValue,
             f\map(maybeNull),
             f\map(f\bind($get('meta'))),
             f\map(f\bind($get('images'))),

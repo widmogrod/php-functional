@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Widmogrod\Monad\Reader;
 
 use Widmogrod\Monad as M;

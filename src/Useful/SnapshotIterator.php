@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Widmogrod\Useful;
 
 class SnapshotIterator extends \IteratorIterator

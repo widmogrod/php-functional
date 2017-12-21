@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace test\Monad;
 
 use Widmogrod\FantasyLand\Applicative;
 use Widmogrod\FantasyLand\Functor;
+use Widmogrod\Functional as f;
 use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
-use Widmogrod\Monad\Identity;
 use Widmogrod\Helpful\MonadLaws;
-use Widmogrod\Functional as f;
+use Widmogrod\Monad\Identity;
 
 class IdentityTest extends \PHPUnit\Framework\TestCase
 {

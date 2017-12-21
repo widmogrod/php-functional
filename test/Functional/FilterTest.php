@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace test\Functional;
 
 use function Widmogrod\Functional\filter;

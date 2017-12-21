@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Widmogrod\Monad\IO;
 
 use Widmogrod\Functional as f;

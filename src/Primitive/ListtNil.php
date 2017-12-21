@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Widmogrod\Primitive;
 
 use Widmogrod\Common;
 use Widmogrod\FantasyLand;
-use Widmogrod\Functional as f;
 
 class ListtNil implements Listt
 {

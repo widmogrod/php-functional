@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Widmogrod\Monad\Either;
 
 use Widmogrod\Functional as f;
@@ -54,9 +56,9 @@ const either = 'Widmogrod\Monad\Either\either';
  *
  * either :: (a -> c) -> (b -> c) -> Either a b -> c
  *
- * @param callable $left  (a -> c)
+ * @param callable $left (a -> c)
  * @param callable $right (b -> c)
- * @param Either $either  Either a b
+ * @param Either $either Either a b
  *
  * @return mixed            c
  */
@@ -98,9 +100,9 @@ const tryCatch = 'Widmogrod\Monad\Either\tryCatch';
  *
  * tryCatch :: Exception e => (a -> b) -> (e -> c) -> a -> Either c b
  *
- * @param callable $function      (a -> b)
+ * @param callable $function (a -> b)
  * @param callable $catchFunction (e -> c)
- * @param mixed $value            a
+ * @param mixed $value a
  *
  * @return Either|\Closure
  */

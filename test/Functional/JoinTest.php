@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace test\Functional;
 
 use Widmogrod\FantasyLand\Monad;
-use function Widmogrod\Functional\flip;
-use const Widmogrod\Functional\identity;
-use function Widmogrod\Functional\join;
 use Widmogrod\Monad\Identity;
-use function Widmogrod\Monad\Maybe\just;
 use Widmogrod\Monad\State;
+use const Widmogrod\Functional\identity;
+use function Widmogrod\Functional\flip;
+use function Widmogrod\Functional\join;
+use function Widmogrod\Monad\Maybe\just;
 
 class JoinTest extends \PHPUnit\Framework\TestCase
 {

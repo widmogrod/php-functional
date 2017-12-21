@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace test\Functional;
 
 use Widmogrod\Functional as f;
@@ -26,23 +28,23 @@ class CurryNTest extends \PHPUnit\Framework\TestCase
         return [
             'curry N = 0' => [
                 '$numberOfArguments' => 0,
-                '$function'          => $function,
-                '$default'           => [],
+                '$function' => $function,
+                '$default' => [],
             ],
             'curry with default arguments for non argument curry' => [
                 '$numberOfArguments' => 0,
-                '$function'          => $function,
-                '$default'           => ['test'],
+                '$function' => $function,
+                '$default' => ['test'],
             ],
             'curry one' => [
                 '$numberOfArguments' => 1,
-                '$function'          => $function,
-                '$default'           => [],
+                '$function' => $function,
+                '$default' => [],
             ],
             'curry with one argument binded' => [
                 '$numberOfArguments' => 1,
-                '$function'          => $function,
-                '$default'           => ['test'],
+                '$function' => $function,
+                '$default' => ['test'],
             ],
         ];
     }

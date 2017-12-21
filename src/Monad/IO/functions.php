@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Widmogrod\Monad\IO;
 
 use Widmogrod\Functional as f;
@@ -27,9 +29,9 @@ const until = 'Widmogrod\Monad\IO\until';
  * until :: (a -> Bool) -> (a -> b -> b) -> b -> IO a -> IO b
  *
  * @param callable $predicate (a -> Bool)
- * @param callable $do        (a -> b -> a)
- * @param mixed $base         b
- * @param M\IO $ioValue       IO a
+ * @param callable $do (a -> b -> a)
+ * @param mixed $base b
+ * @param M\IO $ioValue IO a
  *
  * @return M\IO
  */

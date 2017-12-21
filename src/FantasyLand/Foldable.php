@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Widmogrod\FantasyLand;
 
 interface Foldable
@@ -7,8 +9,8 @@ interface Foldable
     /**
      * reduce :: (b -> a -> b) -> b -> b
      *
-     * @param callable $function    Binary function ($accumulator, $value)
-     * @param mixed $accumulator    Value to witch reduce
+     * @param callable $function Binary function ($accumulator, $value)
+     * @param mixed $accumulator Value to witch reduce
      *
      * @return mixed                Same type as $accumulator
      */

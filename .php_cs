@@ -46,5 +46,6 @@ return PhpCsFixer\Config::create()
         'header_comment' => false,
         'linebreak_after_opening_tag' => true,
         'array_syntax' => ['syntax' => 'short'],
+        'declare_strict_types' => true,
     ])
     ->setFinder($finder);

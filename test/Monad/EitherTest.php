@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace test\Monad;
 
 use Widmogrod\FantasyLand\Applicative;
 use Widmogrod\FantasyLand\Functor;
+use Widmogrod\Functional as f;
 use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
+use Widmogrod\Helpful\MonadLaws;
 use Widmogrod\Monad\Either;
 use Widmogrod\Monad\Either\Left;
 use Widmogrod\Monad\Either\Right;
-use Widmogrod\Helpful\MonadLaws;
-use Widmogrod\Functional as f;
 
 class EitherTest extends \PHPUnit\Framework\TestCase
 {
@@ -33,7 +35,7 @@ class EitherTest extends \PHPUnit\Framework\TestCase
         return [
             'Right' => [
                 '$return' => Right::of,
-                '$f'      => function ($x) {
+                '$f' => function ($x) {
                     return Right::of($x + 1);
                 },
                 '$g' => function ($x) {
@@ -44,7 +46,7 @@ class EitherTest extends \PHPUnit\Framework\TestCase
             // I don't know if Left should be tested?
             'Left' => [
                 '$return' => Left::of,
-                '$f'      => function ($x) {
+                '$f' => function ($x) {
                     return Left::of($x);
                 },
                 '$g' => function ($x) {
@@ -82,7 +84,7 @@ class EitherTest extends \PHPUnit\Framework\TestCase
         return [
             'Right' => [
                 '$pure' => Either\pure,
-                '$u'    => Right::of(function () {
+                '$u' => Right::of(function () {
                     return 1;
                 }),
                 '$v' => Right::of(function () {
@@ -98,7 +100,7 @@ class EitherTest extends \PHPUnit\Framework\TestCase
             ],
             'Left' => [
                 '$pure' => Either\pure,
-                '$u'    => Left::of(function () {
+                '$u' => Left::of(function () {
                     return 1;
                 }),
                 '$v' => Left::of(function () {

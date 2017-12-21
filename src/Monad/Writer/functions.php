@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Widmogrod\Monad\Writer;
 
-use Widmogrod\Monad as M;
 use Widmogrod\FantasyLand;
+use Widmogrod\Monad as M;
 
 const pure = 'Widmogrod\Monad\Writer\pure';
 

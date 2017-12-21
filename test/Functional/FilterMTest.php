@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace test\Functional;
 
 use function Widmogrod\Functional\filterM;
@@ -30,15 +32,15 @@ class FilterMTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'simple list' => [
-                '$list'     => fromIterable([1, 2, 3, 4, 5]),
+                '$list' => fromIterable([1, 2, 3, 4, 5]),
                 '$expected' => just(fromIterable([1, 3, 5]))
             ],
             'empty list' => [
-                '$list'     => fromNil(),
+                '$list' => fromNil(),
                 '$expected' => fromNil()
             ],
             'traversable' => [
-                '$list'     => fromIterable(new \ArrayIterator([1, 2, 3, 4, 5])),
+                '$list' => fromIterable(new \ArrayIterator([1, 2, 3, 4, 5])),
                 '$expected' => just(fromIterable([1, 3, 5])),
             ],
         ];
