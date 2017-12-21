@@ -25,13 +25,13 @@ install:
  - composer install --prefer-source
 
 script:
- - composer test
+ - if [[ $COVERAGE != yes ]]; then composer test; fi
  - if [[ $COVERAGE == yes ]]; then composer testc; fi
  - if [[ $COVERAGE == yes ]]; then composer check-code; fi
 
 after_script:
- - if [[ $COVERAGE == yes ]]; then cat ./codecoverage.xml | ./cc-test-reporter upload-coverage --input - ; fi
- - if [[ $COVERAGE == yes ]]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
+ - if [[ $COVERAGE == yes ]]; then ./cc-test-reporter upload-coverage --input ./codecoverage.xml ; fi
+ - if [[ $COVERAGE == yes ]]; then ./cc-test-reporter after-build --coverage-input-type clover --exit-code $TRAVIS_TEST_RESULT; fi
 
 notifications:
  email: false
