@@ -141,7 +141,9 @@ const prepend = 'Widmogrod\Functional\prepend';
 function prepend($x, Listt $xs = null)
 {
     return curryN(2, function ($x, Listt $xs): Listt {
-        return append(fromValue($x), $xs);
+        return ListtCons::of(function () use ($x, $xs) {
+            return [$x, $xs];
+        });
     })(...func_get_args());
 }
 

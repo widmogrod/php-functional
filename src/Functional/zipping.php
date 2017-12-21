@@ -4,6 +4,7 @@ namespace Widmogrod\Functional;
 
 use Widmogrod\Primitive\EmptyListError;
 use Widmogrod\Primitive\Listt;
+use Widmogrod\Primitive\ListtCons;
 
 /**
  * @var callable
@@ -16,23 +17,23 @@ const zip = 'Widmogrod\Functional\zip';
  * zip takes two lists and returns a list of corresponding pairs. If one input list is short, excess elements of the longer list are discarded.
  * zip is right-lazy:
  *
- * @param Listt $a
- * @param Listt|null $b
+ * @param Listt $xs
+ * @param Listt|null $ys
  * @return Listt
  */
-function zip(Listt $a, Listt $b = null)
+function zip(Listt $xs, Listt $ys = null)
 {
-    return curryN(2, function (Listt $a, Listt $b): Listt {
+    return curryN(2, function (Listt $xs, Listt $ys): Listt {
         try {
-            $x = head($a);
-            $y = head($b);
-            $xs = tail($a);
-            $ys = tail($b);
+            $x = head($xs);
+            $y = head($ys);
 
-            return prepend(
-                [$x, $y],
-                zip($xs, $ys)
-            );
+            return ListtCons::of(function () use ($x, $y, $xs, $ys) {
+                return [
+                    [$x, $y],
+                    zip(tail($xs), tail($ys))
+                ];
+            });
         } catch (EmptyListError $e) {
             return fromNil();
         }

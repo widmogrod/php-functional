@@ -2,13 +2,22 @@
 
 namespace test\Functional;
 
-use function Widmogrod\Functional\fromNil;
+use Eris\Generator;
+use Eris\TestTrait;
 use Widmogrod\Primitive\Listt;
+use function Widmogrod\Functional\eql;
+use function Widmogrod\Functional\filter;
 use function Widmogrod\Functional\fromIterable;
+use function Widmogrod\Functional\fromNil;
+use function Widmogrod\Functional\length;
+use function Widmogrod\Functional\repeat;
+use function Widmogrod\Functional\take;
 use function Widmogrod\Functional\zip;
 
 class ZipTest extends \PHPUnit_Framework_TestCase
 {
+    use TestTrait;
+
     /**
      * @dataProvider provideData
      */
@@ -65,5 +74,18 @@ class ZipTest extends \PHPUnit_Framework_TestCase
                 ]),
             ]
         ];
+    }
+
+    public function test_it_should_work_on_infinite_lists()
+    {
+        $this->forAll(
+            Generator\choose(1, 100),
+            Generator\string(),
+            Generator\string()
+        )->then(function ($n, $a, $b) {
+            $list = take($n, zip(repeat($a), repeat($b)));
+
+            return length(filter(eql([$a, $b]), $list)) === $n;
+        });
     }
 }
