@@ -4,6 +4,7 @@ namespace example2;
 
 use Widmogrod\FantasyLand\Functor;
 use Widmogrod\Functional as f;
+use function Widmogrod\Functional\fromNil;
 use Widmogrod\Monad\Free as ff;
 use Widmogrod\Monad\Free\MonadFree;
 use Widmogrod\Monad\IO;
@@ -11,7 +12,6 @@ use Widmogrod\Monad\State;
 use const Widmogrod\Monad\IO\pure;
 use const Widmogrod\Monad\State\value;
 use Widmogrod\Primitive\Listt;
-use Widmogrod\Primitive\ListtCons;
 use function Widmogrod\Useful\match;
 
 interface TeletypeF extends Functor
@@ -186,7 +186,7 @@ class FreeMonadTest extends \PHPUnit_Framework_TestCase
     {
         $result = ff\foldFree(interpretState, $echo, value);
         $this->assertInstanceOf(State::class, $result);
-        $result = State\execState($result, ListtCons::mempty());
+        $result = State\execState($result, fromNil());
 
         $this->assertEquals($result, f\fromIterable([
             'GetLine',

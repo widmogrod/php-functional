@@ -7,6 +7,7 @@ use Widmogrod\FantasyLand\Applicative;
 use Widmogrod\FantasyLand\Functor;
 use Widmogrod\FantasyLand\Monoid;
 use Widmogrod\Functional as f;
+use function Widmogrod\Functional\fromNil;
 use const Widmogrod\Functional\fromValue;
 use Widmogrod\Helpful\ApplicativeLaws;
 use Widmogrod\Helpful\FunctorLaws;
@@ -15,7 +16,6 @@ use Widmogrod\Helpful\MonoidLaws;
 use Widmogrod\Primitive\Listt;
 use function Eris\Generator\choose;
 use function Eris\Generator\vector;
-use Widmogrod\Primitive\ListtCons;
 
 class ListtTest extends \PHPUnit_Framework_TestCase
 {
@@ -178,7 +178,7 @@ class ListtTest extends \PHPUnit_Framework_TestCase
             vector(1, choose(1, 1000))
         )(
             function ($sequence) {
-                $this->assertTrue(f\fromIterable($sequence)->tail()->equals(ListtCons::mempty()));
+                $this->assertTrue(f\fromIterable($sequence)->tail()->equals(fromNil()));
             }
         );
     }

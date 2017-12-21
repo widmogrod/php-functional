@@ -10,7 +10,6 @@ use Widmogrod\FantasyLand\Monad;
 use Widmogrod\FantasyLand\Traversable;
 use Widmogrod\Monad\Identity;
 use Widmogrod\Primitive\Listt;
-use Widmogrod\Primitive\ListtCons;
 
 /**
  * @var callable
@@ -263,7 +262,7 @@ function foldr(callable $callable, $accumulator = null, Foldable $foldable = nul
         return reduce(
             flip($callable),
             $accumulator,
-            reduce(flip(prepend), ListtCons::mempty(), $foldable)
+            reduce(flip(prepend), fromNil(), $foldable)
         );
     })(...func_get_args());
 }
@@ -288,7 +287,7 @@ function filter(callable $predicate, Foldable $list = null)
             return $predicate($x)
                 ? append($list, fromValue($x))
                 : $list;
-        }, ListtCons::mempty(), $list);
+        }, fromNil(), $list);
     })(...func_get_args());
 }
 
@@ -552,7 +551,7 @@ function filterM(callable $f, Foldable $xs = null)
             $y = $f($x);
             // Detect type of monad
             if ($ys === null) {
-                $ys = $y::of(ListtCons::mempty());
+                $ys = $y::of(fromNil());
             }
 
             return liftA2(function (bool $flg, $ys) use ($x) {
@@ -563,7 +562,7 @@ function filterM(callable $f, Foldable $xs = null)
         }, null, $xs);
 
         return $result === null
-            ? ListtCons::mempty()
+            ? fromNil()
             : $result;
     })(...func_get_args());
 }
@@ -603,7 +602,7 @@ function foldM(callable $f, $z0 = null, Foldable $xs = null)
         }, null, $xs);
 
         return $result === null
-            ? ListtCons::mempty()
+            ? fromNil()
             : $result;
     })(...func_get_args());
 }

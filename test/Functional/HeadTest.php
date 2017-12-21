@@ -2,10 +2,10 @@
 
 namespace test\Functional;
 
+use function Widmogrod\Functional\fromNil;
 use Widmogrod\Primitive\Listt;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\head;
-use Widmogrod\Primitive\ListtCons;
 
 class HeadTest extends \PHPUnit_Framework_TestCase
 {
@@ -42,6 +42,6 @@ class HeadTest extends \PHPUnit_Framework_TestCase
      */
     public function test_it_should_throw_exception_when_list_is_empty()
     {
-        head(ListtCons::mempty());
+        head(fromNil());
     }
 }

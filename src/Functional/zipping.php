@@ -4,7 +4,6 @@ namespace Widmogrod\Functional;
 
 use Widmogrod\Primitive\EmptyListError;
 use Widmogrod\Primitive\Listt;
-use Widmogrod\Primitive\ListtCons;
 
 /**
  * @var callable
@@ -35,7 +34,7 @@ function zip(Listt $a, Listt $b = null)
                 zip($xs, $ys)
             );
         } catch (EmptyListError $e) {
-            return ListtCons::mempty();
+            return fromNil();
         }
     })(...func_get_args());
 }
@@ -63,5 +62,5 @@ function unzip(Listt $a): array
             prepend($a, $as),
             prepend($b, $bs)
         ];
-    }, [ListtCons::mempty(), ListtCons::mempty()], $a);
+    }, [fromNil(), fromNil()], $a);
 }

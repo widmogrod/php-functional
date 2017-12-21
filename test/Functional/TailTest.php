@@ -2,8 +2,8 @@
 
 namespace test\Functional;
 
+use function Widmogrod\Functional\fromNil;
 use Widmogrod\Primitive\Listt;
-use Widmogrod\Primitive\ListtCons;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\tail;
 
@@ -27,8 +27,8 @@ class TailTest extends \PHPUnit_Framework_TestCase
                 '$expected' => fromIterable([2, 3]),
             ],
             'Should return tail from finite iterator' => [
-                '$listt' => fromIterable(new \ArrayIterator([1, 2, 3])),
-                '$expected' => fromIterable([2, 3]),
+                '$listt' => fromIterable(new \ArrayIterator([1, 2, 3, 4, 5, 6])),
+                '$expected' => fromIterable([2, 3, 4, 5, 6]),
             ],
         ];
     }
@@ -39,6 +39,6 @@ class TailTest extends \PHPUnit_Framework_TestCase
      */
     public function test_it_should_throw_exception_when_list_is_empty()
     {
-        tail(ListtCons::mempty());
+        tail(fromNil());
     }
 }
