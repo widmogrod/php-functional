@@ -60,8 +60,8 @@ function unzip(Listt $a): array
         [$as, $bs] = $abs;
 
         return [
-            append($a, $as),
-            append($b, $bs)
+            prepend($a, $as),
+            prepend($b, $bs)
         ];
     }, [ListtCons::mempty(), ListtCons::mempty()], $a);
 }

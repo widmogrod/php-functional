@@ -17,11 +17,13 @@ class ZipTest extends \PHPUnit_Framework_TestCase
         Listt $expected
     ) {
         $result = zip($a, $b);
+
         $r = print_r($result->extract(), true);
         $e = print_r($expected->extract(), true);
+
         $this->assertTrue(
             $result->equals($expected),
-            "$e-> != $r"
+            "$e != $r"
         );
     }
 
@@ -46,6 +48,15 @@ class ZipTest extends \PHPUnit_Framework_TestCase
             'zipping of two lists when left is shorter  list' => [
                 '$a' => fromIterable([1, 2, 3]),
                 '$b' => fromIterable(['a', 'b', 'c', 'd']),
+                '$expected' => fromIterable([
+                    [1, 'a'],
+                    [2, 'b'],
+                    [3, 'c']
+                ]),
+            ],
+            'zipping of two lists when right is shorter  list' => [
+                '$a' => fromIterable([1, 2, 3, 4]),
+                '$b' => fromIterable(['a', 'b', 'c']),
                 '$expected' => fromIterable([
                     [1, 'a'],
                     [2, 'b'],
