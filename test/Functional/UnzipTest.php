@@ -2,13 +2,22 @@
 
 namespace test\Functional;
 
-use function Widmogrod\Functional\fromNil;
+use Eris\Generator;
+use Eris\TestTrait;
 use Widmogrod\Primitive\Listt;
+use function Widmogrod\Functional\eql;
+use function Widmogrod\Functional\filter;
 use function Widmogrod\Functional\fromIterable;
+use function Widmogrod\Functional\fromNil;
+use function Widmogrod\Functional\length;
+use function Widmogrod\Functional\repeat;
+use function Widmogrod\Functional\take;
 use function Widmogrod\Functional\unzip;
 
 class UnzipTest extends \PHPUnit_Framework_TestCase
 {
+    use TestTrait;
+
     /**
      * @dataProvider provideData
      */
@@ -40,5 +49,19 @@ class UnzipTest extends \PHPUnit_Framework_TestCase
                 '$expected' => [fromIterable([1, 2, 3]), fromIterable(['a', 'b', 'c'])],
             ],
         ];
+    }
+
+    public function test_it_should_work_on_infinite_lists()
+    {
+        $this->forAll(
+            Generator\choose(1, 100),
+            Generator\string(),
+            Generator\string()
+        )->then(function ($n, $x, $y) {
+            [$xs, $ys] = unzip(repeat([$x, $y]));
+
+            return length(filter(eql($x), take($n, $xs))) === $n
+                && length(filter(eql($y), take($n, $ys))) === $n;
+        });
     }
 }

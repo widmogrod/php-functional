@@ -50,18 +50,23 @@ const unzip = 'Widmogrod\Functional\unzip';
  *
  * unzip transforms a list of pairs into a list of first components and a list of second components.
  *
- * @param Listt $a
+ * @param Listt $xs
  * @return array
  */
-function unzip(Listt $a): array
+function unzip(Listt $xs): array
 {
-    return foldr(function ($ab, $abs) {
-        [$a, $b] = $ab;
-        [$as, $bs] = $abs;
+    try {
+        [$x, $y] = head($xs);
 
         return [
-            prepend($a, $as),
-            prepend($b, $bs)
+            ListtCons::of(function () use ($x, $xs) {
+                return [$x, unzip(tail($xs))[0]];
+            }),
+            ListtCons::of(function () use ($y, $xs) {
+                return [$y, unzip(tail($xs))[1]];
+            }),
         ];
-    }, [fromNil(), fromNil()], $a);
+    } catch (EmptyListError $e) {
+        return [fromNil(), fromNil()];
+    }
 }
