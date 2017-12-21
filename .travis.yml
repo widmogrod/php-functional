@@ -30,7 +30,6 @@ script:
  - if [[ $COVERAGE == yes ]]; then composer check-code; fi
 
 after_script:
- - if [[ $COVERAGE == yes ]]; then ./cc-test-reporter upload-coverage --input ./codecoverage.xml ; fi
  - if [[ $COVERAGE == yes ]]; then ./cc-test-reporter after-build --coverage-input-type clover --exit-code $TRAVIS_TEST_RESULT; fi
 
 notifications:

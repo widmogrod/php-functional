@@ -19,7 +19,7 @@
   "prefer-stable": true,
   "scripts": {
     "test": "phpunit --no-coverage",
-    "testc": "phpunit --coverage-clover ./codecoverage.xml",
+    "testc": "phpunit --coverage-clover ./clover.xml",
     "fix-code": "php-cs-fixer fix",
     "check-code": "php-cs-fixer fix --verbose --diff --dry-run"
   },
