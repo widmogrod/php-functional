@@ -9,6 +9,7 @@ use Widmogrod\Primitive\ListtNil;
 
 const fromIterable = 'Widmogrod\Functional\fromIterable';
 
+// TODO extract
 class SnapshotIterator extends \IteratorIterator
 {
     private $inMemoryValid;

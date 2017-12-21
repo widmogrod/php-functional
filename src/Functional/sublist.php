@@ -11,18 +11,22 @@ use Widmogrod\Primitive\Listt;
  * take n, applied to a list xs, returns the prefix of xs of length n, or xs itself if n > length xs:
  *
  * @param int $n
- * @param Listt $a
+ * @param Listt $xs
  * @return Listt
  */
-function take(int $n, Listt $a = null)
+function take(int $n, Listt $xs = null)
 {
-    return curryN(2, function (int $n, Listt $a): Listt {
+    return curryN(2, function (int $n, Listt $xs): Listt {
         if ($n < 1) {
             return fromNil();
         }
 
+        if ($n > length($xs)) {
+            return $xs;
+        }
+
         try {
-            return prepend(head($a), take($n - 1, tail($a)));
+            return prepend(head($xs), take($n - 1, tail($xs)));
         } catch (EmptyListError $e) {
             return fromNil();
         }
@@ -33,10 +37,27 @@ function take(int $n, Listt $a = null)
  * drop :: Int -> [a] -> [a]
  *
  * drop n xs returns the suffix of xs after the first n elements, or [] if n > length xs:
+ * @param int $n
+ * @param Listt $xs
+ * @return Listt
  */
-function drop()
+function drop(int $n, Listt $xs = null)
 {
-    // TODO
+    return curryN(2, function (int $n, Listt $xs): Listt {
+        if ($n < 1) {
+            return $xs;
+        }
+
+        if ($n > length($xs)) {
+            return fromNil();
+        }
+
+        try {
+            return drop($n - 1, tail($xs));
+        } catch (EmptyListError $e) {
+            return fromNil();
+        }
+    })(...func_get_args());
 }
 
 /**
