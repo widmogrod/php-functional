@@ -39,7 +39,6 @@
       "src/Functional/strings.php",
       "src/Functional/monoid.php",
       "src/Functional/setoid.php",
-      "src/Monad/Control/functions.php",
       "src/Monad/Either/functions.php",
       "src/Monad/Maybe/functions.php",
       "src/Monad/Free/functions.php",
