@@ -97,7 +97,7 @@ class ListtNil implements Listt
      *
      * @throws TypeMismatchError
      */
-    public function concat(FantasyLand\Semigroup $value)
+    public function concat(FantasyLand\Semigroup $value): FantasyLand\Semigroup
     {
         if ($value instanceof Listt) {
             return $value;

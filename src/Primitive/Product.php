@@ -29,7 +29,7 @@ class Product extends Num implements
     /**
      * @inheritdoc
      */
-    public function concat(FantasyLand\Semigroup $value)
+    public function concat(FantasyLand\Semigroup $value): FantasyLand\Semigroup
     {
         if ($value instanceof self) {
             return self::of($this->extract() * $value->extract());

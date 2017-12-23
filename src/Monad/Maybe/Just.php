@@ -41,7 +41,7 @@ class Just implements Maybe
     /**
      * @inheritdoc
      */
-    public function concat(FantasyLand\Semigroup $value)
+    public function concat(FantasyLand\Semigroup $value): FantasyLand\Semigroup
     {
         if (!($value instanceof Maybe)) {
             throw new TypeMismatchError($value, Maybe::class);

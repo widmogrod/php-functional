@@ -45,7 +45,7 @@ class Nothing implements Maybe
     /**
      * @inheritdoc
      */
-    public function concat(FantasyLand\Semigroup $value)
+    public function concat(FantasyLand\Semigroup $value): FantasyLand\Semigroup
     {
         return $value;
     }

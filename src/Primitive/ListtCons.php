@@ -143,7 +143,7 @@ class ListtCons implements Listt, \IteratorAggregate
      *
      * @throws TypeMismatchError
      */
-    public function concat(FantasyLand\Semigroup $value)
+    public function concat(FantasyLand\Semigroup $value): FantasyLand\Semigroup
     {
         if ($value instanceof ListtNil) {
             return $this;
