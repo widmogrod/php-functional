@@ -16,9 +16,9 @@ const emptyM = 'Widmogrod\Functional\emptyM';
  *
  * @return Monoid
  */
-function emptyM(Monoid $a)
+function emptyM(Monoid $a): Monoid
 {
-    return $a->getEmpty();
+    return $a::mempty();
 }
 
 const concatM = 'Widmogrod\Functional\concatM';
