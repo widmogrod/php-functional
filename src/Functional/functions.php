@@ -169,7 +169,7 @@ const map = 'Widmogrod\Functional\map';
  * @param callable $transformation
  * @param Functor  $value
  */
-function map(callable $transformation = null, Functor $value = null)
+function map(callable $transformation, Functor $value = null)
 {
     return curryN(2, function (callable $transformation, Functor $value) {
         return $value->map($transformation);
@@ -189,7 +189,7 @@ const bind = 'Widmogrod\Functional\bind';
  * @param callable $function
  * @param Monad    $value
  */
-function bind(callable $function = null, Monad $value = null)
+function bind(callable $function, Monad $value = null)
 {
     return curryN(2, function (callable $function, Monad $value) {
         return $value->bind($function);
