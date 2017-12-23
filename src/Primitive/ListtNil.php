@@ -109,7 +109,7 @@ class ListtNil implements Listt
     /**
      * @inheritdoc
      */
-    public function equals($other)
+    public function equals($other): bool
     {
         return $other instanceof self
             ? true

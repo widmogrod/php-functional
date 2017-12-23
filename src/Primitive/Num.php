@@ -20,7 +20,7 @@ class Num implements
     /**
      * @inheritdoc
      */
-    public function equals($other)
+    public function equals($other): bool
     {
         return $other instanceof self
             ? $this->extract() === $other->extract()

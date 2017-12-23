@@ -11,5 +11,5 @@ interface Setoid
      *
      * @return bool
      */
-    public function equals($other);
+    public function equals($other): bool;
 }

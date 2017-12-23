@@ -163,7 +163,7 @@ class ListtCons implements Listt, \IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function equals($other)
+    public function equals($other): bool
     {
         return $other instanceof self
             ? $this->extract() === $other->extract()
