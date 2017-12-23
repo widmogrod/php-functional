@@ -11,9 +11,9 @@ interface Traversable extends Functor
      *
      * Where the `a` is value inside of container.
      *
-     * @param callable $f (a -> f b)
+     * @param callable $fn (a -> f b)
      *
      * @return Applicative f (t b)
      */
-    public function traverse(callable $f);
+    public function traverse(callable $fn);
 }
