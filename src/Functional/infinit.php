@@ -22,8 +22,8 @@ const iterate = 'Widmogrod\Functional\iterate';
  * ```haskell
  * iterate f x == [x, f x, f (f x), ...]
  * ```
- * @param callable $fn
- * @param mixed $a
+ * @param  callable $fn
+ * @param  mixed    $a
  * @return Listt
  */
 function iterate(callable $fn, $a = null)
@@ -66,8 +66,8 @@ const replicate = 'Widmogrod\Functional\replicate';
  * replicate n x is a list of length n with x the value of every element.
  * It is an instance of the more general genericReplicate, in which n may be of any integral type.
  *
- * @param int $n
- * @param mixed $a
+ * @param  int   $n
+ * @param  mixed $a
  * @return Listt
  */
 function replicate(int $n, $a = null): Listt
@@ -87,7 +87,7 @@ const cycle = 'Widmogrod\Functional\cycle';
  *
  * cycle ties a finite list into a circular one, or equivalently, the infinite repetition of the original list. It is the identity on infinite lists.
  *
- * @param Listt $xs
+ * @param  Listt          $xs
  * @return Listt
  * @throws EmptyListError
  */

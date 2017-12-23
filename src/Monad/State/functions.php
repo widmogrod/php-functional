@@ -139,7 +139,7 @@ const runState = 'Widmogrod\Monad\State\runState';
  * Unwrap a state monad computation as a function.
  *
  * @param M\State $state
- * @param mixed $initialState
+ * @param mixed   $initialState
  *
  * @return mixed
  */
@@ -156,7 +156,7 @@ const evalState = 'Widmogrod\Monad\State\evalState';
  * Evaluate a state computation with the given initial state and return the final value, discarding the final state.
  *
  * @param M\State $state
- * @param mixed $initialState
+ * @param mixed   $initialState
  *
  * @return mixed
  */
@@ -173,7 +173,7 @@ const execState = 'Widmogrod\Monad\State\execState';
  * Evaluate a state computation with the given initial state and return the final state, discarding the final value.
  *
  * @param M\State $state
- * @param mixed $initialState
+ * @param mixed   $initialState
  *
  * @return mixed
  */

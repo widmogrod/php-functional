@@ -56,11 +56,11 @@ const either = 'Widmogrod\Monad\Either\either';
  *
  * either :: (a -> c) -> (b -> c) -> Either a b -> c
  *
- * @param callable $left (a -> c)
- * @param callable $right (b -> c)
- * @param Either $either Either a b
+ * @param callable $left   (a -> c)
+ * @param callable $right  (b -> c)
+ * @param Either   $either Either a b
  *
- * @return mixed            c
+ * @return mixed c
  */
 function either(callable $left, callable $right = null, Either $either = null)
 {
@@ -78,7 +78,7 @@ const doubleMap = 'Widmogrod\Monad\Either\doubleMap';
  *
  * @param callable $left
  * @param callable $right
- * @param Either $either
+ * @param Either   $either
  *
  * @return Left|Right
  */
@@ -100,9 +100,9 @@ const tryCatch = 'Widmogrod\Monad\Either\tryCatch';
  *
  * tryCatch :: Exception e => (a -> b) -> (e -> c) -> a -> Either c b
  *
- * @param callable $function (a -> b)
+ * @param callable $function      (a -> b)
  * @param callable $catchFunction (e -> c)
- * @param mixed $value a
+ * @param mixed    $value         a
  *
  * @return Either|\Closure
  */

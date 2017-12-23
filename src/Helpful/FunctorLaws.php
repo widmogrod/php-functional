@@ -13,9 +13,9 @@ class FunctorLaws
      * Generic test to verify if a type obey the functor laws.
      *
      * @param callable $assertEqual Asserting function (Functor $f1, Functor $f2, $message)
-     * @param callable $f (a -> b)
-     * @param callable $g (a -> b)
-     * @param Functor $x f a
+     * @param callable $f           (a -> b)
+     * @param callable $g           (a -> b)
+     * @param Functor  $x           f a
      */
     public static function test(
         callable $assertEqual,

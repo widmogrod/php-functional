@@ -47,9 +47,9 @@ const maybe = 'Widmogrod\Monad\Maybe\maybe';
 /**
  * maybe :: b -> (a -> b) -> Maybe a -> b
  *
- * @param null $default
+ * @param null     $default
  * @param callable $fn
- * @param Maybe $maybe
+ * @param Maybe    $maybe
  *
  * @return mixed|\Closure
  */

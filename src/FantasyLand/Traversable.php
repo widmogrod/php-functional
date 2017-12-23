@@ -13,7 +13,7 @@ interface Traversable extends Functor
      *
      * @param callable $f (a -> f b)
      *
-     * @return Applicative     f (t b)
+     * @return Applicative f (t b)
      */
     public function traverse(callable $f);
 }
