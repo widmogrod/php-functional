@@ -97,7 +97,7 @@ class Free implements MonadFree
      *
      * @inheritdoc
      */
-    public function map(callable $go)
+    public function map(callable $go): FantasyLand\Functor
     {
         return new self(
             $this->f->map($go)

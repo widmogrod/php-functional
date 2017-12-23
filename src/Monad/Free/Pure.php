@@ -32,7 +32,7 @@ class Pure implements MonadFree
     /**
      * @inheritdoc
      */
-    public function map(callable $function)
+    public function map(callable $function): FantasyLand\Functor
     {
         return self::of($function($this->value));
     }

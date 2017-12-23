@@ -19,7 +19,7 @@ class Identity implements
     /**
      * @inheritdocus
      */
-    public function map(callable $transformation)
+    public function map(callable $transformation): FantasyLand\Functor
     {
         return static::of($this->bind($transformation));
     }

@@ -46,7 +46,7 @@ class Writer implements FantasyLand\Monad
         });
     }
 
-    public function map(callable $function)
+    public function map(callable $function): FantasyLand\Functor
     {
         return static::of($function($this->value), $this->side);
     }

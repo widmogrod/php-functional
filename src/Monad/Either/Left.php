@@ -25,7 +25,7 @@ class Left implements Either
     /**
      * @inheritdoc
      */
-    public function map(callable $transformation)
+    public function map(callable $transformation): FantasyLand\Functor
     {
         return $this;
     }

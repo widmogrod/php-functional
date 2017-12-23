@@ -25,7 +25,7 @@ class Right implements Either
     /**
      * @inheritdoc
      */
-    public function map(callable $transformation)
+    public function map(callable $transformation): FantasyLand\Functor
     {
         return self::of($this->bind($transformation));
     }

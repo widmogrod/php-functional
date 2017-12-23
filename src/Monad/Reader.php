@@ -35,7 +35,7 @@ class Reader implements FantasyLand\Monad
         });
     }
 
-    public function map(callable $function)
+    public function map(callable $function): FantasyLand\Functor
     {
         return self::of(function ($env) use ($function) {
             return $function($this->runReader($env));

@@ -42,7 +42,7 @@ class ListtCons implements Listt, \IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function map(callable $transformation)
+    public function map(callable $transformation): FantasyLand\Functor
     {
         return self::of(function () use ($transformation) {
             [$head, $tail] = $this->headTail();

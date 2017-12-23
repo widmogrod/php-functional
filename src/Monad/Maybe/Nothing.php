@@ -29,7 +29,7 @@ class Nothing implements Maybe
     /**
      * @inheritdoc
      */
-    public function map(callable $transformation)
+    public function map(callable $transformation): FantasyLand\Functor
     {
         return $this;
     }
