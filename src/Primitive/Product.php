@@ -21,14 +21,6 @@ class Product extends Num implements
     /**
      * @inheritdoc
      */
-    public function getEmpty()
-    {
-        return self::mempty();
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function concat(FantasyLand\Semigroup $value): FantasyLand\Semigroup
     {
         if ($value instanceof self) {

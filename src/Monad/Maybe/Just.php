@@ -69,14 +69,6 @@ class Just implements Maybe
     /**
      * @inheritdoc
      */
-    public function getEmpty()
-    {
-        return self::mempty();
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function orElse(callable $fn)
     {
         return $this;

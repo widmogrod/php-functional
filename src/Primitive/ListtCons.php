@@ -111,10 +111,10 @@ class ListtCons implements Listt, \IteratorAggregate
      * (<$>) :: Functor f => (a -> b) -> f a -> f b
      * (<*>) :: f (a -> b) -> f a -> f b
      */
-    public function traverse(callable $f)
+    public function traverse(callable $fn)
     {
-        return f\foldr(function ($x, $ys) use ($f) {
-            $functor = $f($x);
+        return f\foldr(function ($x, $ys) use ($fn) {
+            $functor = $fn($x);
 
             return $functor
                 ->map(f\prepend)
@@ -128,14 +128,6 @@ class ListtCons implements Listt, \IteratorAggregate
     public static function mempty()
     {
         return new ListtNil();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getEmpty()
-    {
-        return self::mempty();
     }
 
     /**

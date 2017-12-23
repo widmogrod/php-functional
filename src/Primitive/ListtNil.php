@@ -71,7 +71,7 @@ class ListtNil implements Listt
      * (<$>) :: Functor f => (a -> b) -> f a -> f b
      * (<*>) :: f (a -> b) -> f a -> f b
      */
-    public function traverse(callable $f)
+    public function traverse(callable $fn)
     {
         throw new EmptyListError(__FUNCTION__);
     }
@@ -82,14 +82,6 @@ class ListtNil implements Listt
     public static function mempty()
     {
         return self::of([]);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getEmpty()
-    {
-        return self::mempty();
     }
 
     /**

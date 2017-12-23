@@ -29,14 +29,6 @@ class Stringg implements
     /**
      * @inheritdoc
      */
-    public function getEmpty()
-    {
-        return self::mempty();
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function concat(FantasyLand\Semigroup $value): FantasyLand\Semigroup
     {
         if ($value instanceof self) {
