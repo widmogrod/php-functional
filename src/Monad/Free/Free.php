@@ -54,7 +54,7 @@ class Free implements MonadFree
      *
      * @inheritdoc
      */
-    public function ap(FantasyLand\Apply $b)
+    public function ap(FantasyLand\Apply $b): FantasyLand\Apply
     {
         return new self(
             $this->f->map(function ($ma) use ($b) {

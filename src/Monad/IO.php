@@ -28,7 +28,7 @@ class IO implements
     /**
      * @inheritdoc
      */
-    public function ap(FantasyLand\Apply $b)
+    public function ap(FantasyLand\Apply $b): FantasyLand\Apply
     {
         return $b->map($this->run());
     }

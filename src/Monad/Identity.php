@@ -27,7 +27,7 @@ class Identity implements
     /**
      * @inheritdoc
      */
-    public function ap(FantasyLand\Apply $applicative)
+    public function ap(FantasyLand\Apply $applicative): FantasyLand\Apply
     {
         return $applicative->map($this->value);
     }

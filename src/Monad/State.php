@@ -24,7 +24,7 @@ class State implements FantasyLand\Monad
     /**
      * @inheritdoc
      */
-    public function ap(FantasyLand\Apply $b)
+    public function ap(FantasyLand\Apply $b): FantasyLand\Apply
     {
         return $this->bind(function ($f) use ($b) {
             return $b->map($f);

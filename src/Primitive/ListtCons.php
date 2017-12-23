@@ -56,7 +56,7 @@ class ListtCons implements Listt, \IteratorAggregate
      *
      * fs <*> xs = [f x | f <- fs, x <- xs]
      */
-    public function ap(FantasyLand\Apply $applicative)
+    public function ap(FantasyLand\Apply $applicative): FantasyLand\Apply
     {
         return $this->reduce(function ($accumulator, $value) use ($applicative) {
             /** @var $applicative self */

@@ -11,5 +11,5 @@ interface Apply extends Functor
      *
      * @return self
      */
-    public function ap(self $b);
+    public function ap(self $b): self;
 }

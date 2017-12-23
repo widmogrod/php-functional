@@ -17,7 +17,7 @@ class Left implements Either
     /**
      * @inheritdoc
      */
-    public function ap(FantasyLand\Apply $b)
+    public function ap(FantasyLand\Apply $b): FantasyLand\Apply
     {
         return $this;
     }
