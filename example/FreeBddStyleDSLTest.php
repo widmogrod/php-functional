@@ -35,7 +35,7 @@ class Given implements ScenarioF
     /**
      * @inheritdoc
      */
-    public function map(callable $function)
+    public function map(callable $function): Functor
     {
         return new self(
             $this->desc,
@@ -59,7 +59,7 @@ class When implements ScenarioF
     /**
      * @inheritdoc
      */
-    public function map(callable $function)
+    public function map(callable $function): Functor
     {
         return new self(
             $this->action,
@@ -82,7 +82,7 @@ class Then implements ScenarioF
     /**
      * @inheritdoc
      */
-    public function map(callable $function)
+    public function map(callable $function): Functor
     {
         return new self(
             $this->assertion,

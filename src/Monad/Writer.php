@@ -39,14 +39,14 @@ class Writer implements FantasyLand\Monad
         return new static($value, $this->side->concat($side));
     }
 
-    public function ap(FantasyLand\Apply $b)
+    public function ap(FantasyLand\Apply $b): FantasyLand\Apply
     {
         return $this->bind(function ($f) use ($b) {
             return $b->map($f);
         });
     }
 
-    public function map(callable $function)
+    public function map(callable $function): FantasyLand\Functor
     {
         return static::of($function($this->value), $this->side);
     }

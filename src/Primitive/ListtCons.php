@@ -42,7 +42,7 @@ class ListtCons implements Listt, \IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function map(callable $transformation)
+    public function map(callable $transformation): FantasyLand\Functor
     {
         return self::of(function () use ($transformation) {
             [$head, $tail] = $this->headTail();
@@ -56,7 +56,7 @@ class ListtCons implements Listt, \IteratorAggregate
      *
      * fs <*> xs = [f x | f <- fs, x <- xs]
      */
-    public function ap(FantasyLand\Apply $applicative)
+    public function ap(FantasyLand\Apply $applicative): FantasyLand\Apply
     {
         return $this->reduce(function ($accumulator, $value) use ($applicative) {
             /** @var $applicative self */
@@ -111,10 +111,10 @@ class ListtCons implements Listt, \IteratorAggregate
      * (<$>) :: Functor f => (a -> b) -> f a -> f b
      * (<*>) :: f (a -> b) -> f a -> f b
      */
-    public function traverse(callable $f)
+    public function traverse(callable $fn)
     {
-        return f\foldr(function ($x, $ys) use ($f) {
-            $functor = $f($x);
+        return f\foldr(function ($x, $ys) use ($fn) {
+            $functor = $fn($x);
 
             return $functor
                 ->map(f\prepend)
@@ -132,18 +132,10 @@ class ListtCons implements Listt, \IteratorAggregate
 
     /**
      * @inheritdoc
-     */
-    public function getEmpty()
-    {
-        return self::mempty();
-    }
-
-    /**
-     * @inheritdoc
      *
      * @throws TypeMismatchError
      */
-    public function concat(FantasyLand\Semigroup $value)
+    public function concat(FantasyLand\Semigroup $value): FantasyLand\Semigroup
     {
         if ($value instanceof ListtNil) {
             return $this;
@@ -163,7 +155,7 @@ class ListtCons implements Listt, \IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function equals($other)
+    public function equals($other): bool
     {
         return $other instanceof self
             ? $this->extract() === $other->extract()

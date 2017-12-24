@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Widmogrod\Monad;
 
 use Widmogrod\Common;
-use Widmogrod\FantasyLand\Apply;
-use Widmogrod\FantasyLand\Monad;
+use Widmogrod\FantasyLand;
 
-class State implements Monad
+class State implements FantasyLand\Monad
 {
     const of = 'Widmogrod\Monad\State::of';
 
@@ -25,7 +24,7 @@ class State implements Monad
     /**
      * @inheritdoc
      */
-    public function ap(Apply $b)
+    public function ap(FantasyLand\Apply $b): FantasyLand\Apply
     {
         return $this->bind(function ($f) use ($b) {
             return $b->map($f);
@@ -50,7 +49,7 @@ class State implements Monad
     /**
      * @inheritdoc
      */
-    public function map(callable $function)
+    public function map(callable $function): FantasyLand\Functor
     {
         return self::of(function ($state) use ($function) {
             [$value, $newState] = $this->runState($state);

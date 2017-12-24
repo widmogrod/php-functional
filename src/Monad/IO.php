@@ -28,7 +28,7 @@ class IO implements
     /**
      * @inheritdoc
      */
-    public function ap(FantasyLand\Apply $b)
+    public function ap(FantasyLand\Apply $b): FantasyLand\Apply
     {
         return $b->map($this->run());
     }
@@ -56,7 +56,7 @@ class IO implements
     /**
      * @inheritdoc
      */
-    public function map(callable $function)
+    public function map(callable $function): FantasyLand\Functor
     {
         return $this->bind(function ($value) use ($function) {
             return static::of(function () use ($function, $value) {

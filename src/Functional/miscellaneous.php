@@ -70,7 +70,7 @@ const compose = 'Widmogrod\Functional\compose';
  * @param callable $a
  * @param callable $b,...
  *
- * @return \Closure         func($value) : mixed
+ * @return \Closure func($value) : mixed
  */
 function compose(callable $a, callable $b)
 {
@@ -94,7 +94,7 @@ const pipeline = 'Widmogrod\Functional\pipeline';
  * @param callable $a
  * @param callable $b,...
  *
- * @return \Closure         func($value) : mixed
+ * @return \Closure func($value) : mixed
  */
 function pipeline(callable $a, callable $b)
 {

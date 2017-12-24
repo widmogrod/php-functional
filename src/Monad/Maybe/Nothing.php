@@ -21,7 +21,7 @@ class Nothing implements Maybe
     /**
      * @inheritdoc
      */
-    public function ap(FantasyLand\Apply $applicative)
+    public function ap(FantasyLand\Apply $applicative): FantasyLand\Apply
     {
         return $this;
     }
@@ -29,7 +29,7 @@ class Nothing implements Maybe
     /**
      * @inheritdoc
      */
-    public function map(callable $transformation)
+    public function map(callable $transformation): FantasyLand\Functor
     {
         return $this;
     }
@@ -45,7 +45,7 @@ class Nothing implements Maybe
     /**
      * @inheritdoc
      */
-    public function concat(FantasyLand\Semigroup $value)
+    public function concat(FantasyLand\Semigroup $value): FantasyLand\Semigroup
     {
         return $value;
     }
@@ -56,14 +56,6 @@ class Nothing implements Maybe
     public static function mempty()
     {
         return new static();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getEmpty()
-    {
-        return self::mempty();
     }
 
     /**

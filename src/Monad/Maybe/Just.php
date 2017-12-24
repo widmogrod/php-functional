@@ -17,7 +17,7 @@ class Just implements Maybe
     /**
      * @inheritdoc
      */
-    public function ap(FantasyLand\Apply $applicative)
+    public function ap(FantasyLand\Apply $applicative): FantasyLand\Apply
     {
         return $applicative->map($this->value);
     }
@@ -25,7 +25,7 @@ class Just implements Maybe
     /**
      * @inheritdoc
      */
-    public function map(callable $transformation)
+    public function map(callable $transformation): FantasyLand\Functor
     {
         return self::of($this->bind($transformation));
     }
@@ -41,7 +41,7 @@ class Just implements Maybe
     /**
      * @inheritdoc
      */
-    public function concat(FantasyLand\Semigroup $value)
+    public function concat(FantasyLand\Semigroup $value): FantasyLand\Semigroup
     {
         if (!($value instanceof Maybe)) {
             throw new TypeMismatchError($value, Maybe::class);
@@ -64,14 +64,6 @@ class Just implements Maybe
     public static function mempty()
     {
         return new Nothing();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getEmpty()
-    {
-        return self::mempty();
     }
 
     /**

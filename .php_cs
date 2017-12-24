@@ -47,5 +47,6 @@ return PhpCsFixer\Config::create()
         'linebreak_after_opening_tag' => true,
         'array_syntax' => ['syntax' => 'short'],
         'declare_strict_types' => true,
+        'phpdoc_align' => true,
     ])
     ->setFinder($finder);

@@ -9,8 +9,8 @@ use function Widmogrod\Functional\curryN;
 /**
  * match :: #{ Pattern -> (a -> b)} -> a -> b
  *
- * @param array $patterns
- * @param mixed $value
+ * @param  array                  $patterns
+ * @param  mixed                  $value
  * @throws PatternNotMatchedError
  *
  * @return mixed

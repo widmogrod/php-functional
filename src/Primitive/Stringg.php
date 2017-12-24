@@ -29,15 +29,7 @@ class Stringg implements
     /**
      * @inheritdoc
      */
-    public function getEmpty()
-    {
-        return self::mempty();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function concat(FantasyLand\Semigroup $value)
+    public function concat(FantasyLand\Semigroup $value): FantasyLand\Semigroup
     {
         if ($value instanceof self) {
             return self::of($this->value . $value->extract());
@@ -49,7 +41,7 @@ class Stringg implements
     /**
      * @inheritdoc
      */
-    public function equals($other)
+    public function equals($other): bool
     {
         return $other instanceof self
             ? $this->extract() === $other->extract()

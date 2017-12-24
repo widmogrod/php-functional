@@ -21,7 +21,7 @@ interface Cacher
 
     /**
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return self
      */

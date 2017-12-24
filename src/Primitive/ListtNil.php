@@ -20,7 +20,7 @@ class ListtNil implements Listt
     /**
      * @inheritdoc
      */
-    public function map(callable $transformation)
+    public function map(callable $transformation): FantasyLand\Functor
     {
         return $this;
     }
@@ -30,7 +30,7 @@ class ListtNil implements Listt
      *
      * fs <*> xs = [f x | f <- fs, x <- xs]
      */
-    public function ap(FantasyLand\Apply $applicative)
+    public function ap(FantasyLand\Apply $applicative): FantasyLand\Apply
     {
         return $this;
     }
@@ -71,7 +71,7 @@ class ListtNil implements Listt
      * (<$>) :: Functor f => (a -> b) -> f a -> f b
      * (<*>) :: f (a -> b) -> f a -> f b
      */
-    public function traverse(callable $f)
+    public function traverse(callable $fn)
     {
         throw new EmptyListError(__FUNCTION__);
     }
@@ -86,18 +86,10 @@ class ListtNil implements Listt
 
     /**
      * @inheritdoc
-     */
-    public function getEmpty()
-    {
-        return self::mempty();
-    }
-
-    /**
-     * @inheritdoc
      *
      * @throws TypeMismatchError
      */
-    public function concat(FantasyLand\Semigroup $value)
+    public function concat(FantasyLand\Semigroup $value): FantasyLand\Semigroup
     {
         if ($value instanceof Listt) {
             return $value;
@@ -109,7 +101,7 @@ class ListtNil implements Listt
     /**
      * @inheritdoc
      */
-    public function equals($other)
+    public function equals($other): bool
     {
         return $other instanceof self
             ? true

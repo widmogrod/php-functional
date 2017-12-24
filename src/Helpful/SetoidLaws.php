@@ -11,9 +11,9 @@ class SetoidLaws
 {
     /**
      * @param callable $assertEqual
-     * @param Setoid $a
-     * @param Setoid $b
-     * @param Setoid $c
+     * @param Setoid   $a
+     * @param Setoid   $b
+     * @param Setoid   $c
      */
     public static function test(
         callable $assertEqual,

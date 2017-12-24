@@ -33,9 +33,9 @@ function liftF(Functor $f): MonadFree
  * foldFree f (Free as) = f as >>= foldFree f
  * ```
  *
- * @param callable $interpreter (f x => m x)
+ * @param callable  $interpreter (f x => m x)
  * @param MonadFree $free
- * @param callable $return
+ * @param callable  $return
  *
  * @return Monad|callable
  */

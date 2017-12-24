@@ -34,7 +34,7 @@ class PutStrLn implements TeletypeF
     /**
      * @inheritdoc
      */
-    public function map(callable $function)
+    public function map(callable $function): Functor
     {
         return new self(
             $this->str,
@@ -58,7 +58,7 @@ class GetLine implements TeletypeF
     /**
      * @inheritdoc
      */
-    public function map(callable $function)
+    public function map(callable $function): Functor
     {
         return new self(function ($x) use ($function) {
             return $function(($this->processor)($x));
@@ -71,7 +71,7 @@ class ExitSuccess implements TeletypeF
     /**
      * @inheritdoc
      */
-    public function map(callable $function)
+    public function map(callable $function): Functor
     {
         return $this;
     }

@@ -19,8 +19,8 @@ const zip = 'Widmogrod\Functional\zip';
  * zip takes two lists and returns a list of corresponding pairs. If one input list is short, excess elements of the longer list are discarded.
  * zip is right-lazy:
  *
- * @param Listt $xs
- * @param Listt|null $ys
+ * @param  Listt      $xs
+ * @param  Listt|null $ys
  * @return Listt
  */
 function zip(Listt $xs, Listt $ys = null)
@@ -52,7 +52,7 @@ const unzip = 'Widmogrod\Functional\unzip';
  *
  * unzip transforms a list of pairs into a list of first components and a list of second components.
  *
- * @param Listt $xs
+ * @param  Listt $xs
  * @return array
  */
 function unzip(Listt $xs): array
