@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace test\Primitive;
 
-use Widmogrod\Functional as f;
 use Widmogrod\Helpful\SetoidLaws;
 use Widmogrod\Primitive\Num;
 
@@ -19,7 +18,7 @@ class NumTest extends \PHPUnit\Framework\TestCase
         $c
     ) {
         SetoidLaws::test(
-            f\curryN(3, [$this, 'assertEquals']),
+            [$this, 'assertEquals'],
             $a,
             $b,
             $c

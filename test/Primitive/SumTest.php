@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace test\Primitive;
 
-use Widmogrod\Functional as f;
 use Widmogrod\Helpful\MonoidLaws;
 use Widmogrod\Helpful\SetoidLaws;
 use Widmogrod\Primitive\Product;
@@ -21,7 +20,7 @@ class SumTest extends \PHPUnit\Framework\TestCase
         $c
     ) {
         SetoidLaws::test(
-            f\curryN(3, [$this, 'assertEquals']),
+            [$this, 'assertEquals'],
             $a,
             $b,
             $c
@@ -37,7 +36,7 @@ class SumTest extends \PHPUnit\Framework\TestCase
         $c
     ) {
         MonoidLaws::test(
-            f\curryN(3, [$this, 'assertEquals']),
+            [$this, 'assertEquals'],
             $a,
             $b,
             $c

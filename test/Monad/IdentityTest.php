@@ -20,7 +20,7 @@ class IdentityTest extends \PHPUnit\Framework\TestCase
     public function test_if_identity_monad_obeys_the_laws($f, $g, $x)
     {
         MonadLaws::test(
-            f\curryN(3, [$this, 'assertEquals']),
+            [$this, 'assertEquals'],
             f\curryN(1, Identity::of),
             $f,
             $g,
@@ -57,7 +57,7 @@ class IdentityTest extends \PHPUnit\Framework\TestCase
         $x
     ) {
         ApplicativeLaws::test(
-            f\curryN(3, [$this, 'assertEquals']),
+            [$this, 'assertEquals'],
             f\curryN(1, Identity::of),
             $u,
             $v,
@@ -97,7 +97,7 @@ class IdentityTest extends \PHPUnit\Framework\TestCase
         Functor $x
     ) {
         FunctorLaws::test(
-            f\curryN(3, [$this, 'assertEquals']),
+            [$this, 'assertEquals'],
             $f,
             $g,
             $x

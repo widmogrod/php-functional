@@ -24,7 +24,7 @@ class MaybeTest extends \PHPUnit\Framework\TestCase
     public function test_if_maybe_monad_obeys_the_laws($return, $f, $g, $x)
     {
         MonadLaws::test(
-            f\curryN(3, [$this, 'assertEquals']),
+            [$this, 'assertEquals'],
             f\curryN(1, $return),
             $f,
             $g,
@@ -70,7 +70,7 @@ class MaybeTest extends \PHPUnit\Framework\TestCase
         $x
     ) {
         ApplicativeLaws::test(
-            f\curryN(3, [$this, 'assertEquals']),
+            [$this, 'assertEquals'],
             f\curryN(1, $pure),
             $u,
             $v,
@@ -124,7 +124,7 @@ class MaybeTest extends \PHPUnit\Framework\TestCase
     public function test_it_should_obey_monoid_laws($x, $y, $z)
     {
         MonoidLaws::test(
-            f\curryN(3, [$this, 'assertEquals']),
+            [$this, 'assertEquals'],
             $x,
             $y,
             $z
@@ -166,7 +166,7 @@ class MaybeTest extends \PHPUnit\Framework\TestCase
         Functor $x
     ) {
         FunctorLaws::test(
-            f\curryN(3, [$this, 'assertEquals']),
+            [$this, 'assertEquals'],
             $f,
             $g,
             $x
