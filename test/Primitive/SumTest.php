@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace test\Primitive;
 
+use Eris\TestTrait;
+use Eris\Generator;
 use Widmogrod\Helpful\MonoidLaws;
 use Widmogrod\Helpful\SetoidLaws;
 use Widmogrod\Primitive\Product;
@@ -11,61 +13,52 @@ use Widmogrod\Primitive\Sum;
 
 class SumTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider provideRandomizedData
-     */
-    public function test_it_should_obay_setoid_laws(
-        $a,
-        $b,
-        $c
-    ) {
-        SetoidLaws::test(
-            [$this, 'assertEquals'],
-            $a,
-            $b,
-            $c
-        );
+    use TestTrait;
+
+    public function test_it_should_obay_setoid_laws()
+    {
+        $this->forAll(
+            Generator\choose(0, 1000),
+            Generator\choose(1000, 4000),
+            Generator\choose(4000, 100000)
+        )->then(function (int $x, int $y, int $z) {
+            SetoidLaws::test(
+                [$this, 'assertEquals'],
+                Sum::of($x),
+                Sum::of($y),
+                Sum::of($z)
+            );
+        });
     }
 
-    /**
-     * @dataProvider provideRandomizedData
-     */
-    public function test_it_should_obay_monoid_laws(
-        $a,
-        $b,
-        $c
-    ) {
-        MonoidLaws::test(
-            [$this, 'assertEquals'],
-            $a,
-            $b,
-            $c
-        );
+    public function test_it_should_obay_monoid_laws()
+    {
+        $this->forAll(
+            Generator\choose(0, 1000),
+            Generator\choose(1000, 4000),
+            Generator\choose(4000, 100000)
+        )->then(function (int $x, int $y, int $z) {
+            MonoidLaws::test(
+                [$this, 'assertEquals'],
+                Sum::of($x),
+                Sum::of($y),
+                Sum::of($z)
+            );
+        });
     }
+
 
     /**
      * @expectedException \Widmogrod\Primitive\TypeMismatchError
      * @expectedExceptionMessage Expected type is Widmogrod\Primitive\Sum but given Widmogrod\Primitive\Product
-     * @dataProvider provideRandomizedData
      */
-    public function test_it_should_reject_concat_on_different_type(Sum $a)
+    public function test_it_should_reject_concat_on_different_type()
     {
-        $a->concat(Product::of(1));
-    }
-
-    private function randomize()
-    {
-        return Sum::of(random_int(-100000000, 100000000));
-    }
-
-    public function provideRandomizedData()
-    {
-        return array_map(function () {
-            return [
-                $this->randomize(),
-                $this->randomize(),
-                $this->randomize(),
-            ];
-        }, array_fill(0, 50, null));
+        $this->forAll(
+            Generator\int(),
+            Generator\string()
+        )->then(function (int $x, string $y) {
+            Sum::of($x)->concat(Product::of($y));
+        });
     }
 }
