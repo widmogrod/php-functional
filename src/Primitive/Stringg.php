@@ -44,7 +44,7 @@ class Stringg implements
     public function equals($other): bool
     {
         return $other instanceof self
-            ? $this->extract() === $other->extract()
+            ? $this->value === $other->value
             : false;
     }
 }

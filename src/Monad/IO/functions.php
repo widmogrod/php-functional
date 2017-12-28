@@ -175,7 +175,7 @@ function getArgs()
             ));
         }
 
-        return f\tail($_SERVER['argv']);
+        return f\tail(f\fromIterable($_SERVER['argv']));
     });
 }
 

@@ -28,7 +28,7 @@ class ListtTest extends \PHPUnit\Framework\TestCase
     public function test_if_list_obeys_the_laws($f, $g, $x)
     {
         MonadLaws::test(
-            f\curryN(3, [$this, 'assertEquals']),
+            [$this, 'assertEquals'],
             f\curryN(1, fromValue),
             $f,
             $g,
@@ -66,7 +66,7 @@ class ListtTest extends \PHPUnit\Framework\TestCase
         $x
     ) {
         ApplicativeLaws::test(
-            f\curryN(3, [$this, 'assertEquals']),
+            [$this, 'assertEquals'],
             f\curryN(1, $pure),
             $u,
             $v,
@@ -107,7 +107,7 @@ class ListtTest extends \PHPUnit\Framework\TestCase
         Functor $x
     ) {
         FunctorLaws::test(
-            f\curryN(3, [$this, 'assertEquals']),
+            [$this, 'assertEquals'],
             $f,
             $g,
             $x
@@ -135,7 +135,7 @@ class ListtTest extends \PHPUnit\Framework\TestCase
     public function test_it_should_obey_monoid_laws(Monoid $x, Monoid $y, Monoid $z)
     {
         MonoidLaws::test(
-            f\curryN(3, [$this, 'assertEquals']),
+            [$this, 'assertEquals'],
             $x,
             $y,
             $z

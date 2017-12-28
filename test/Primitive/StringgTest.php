@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace test\Widmogrod\Primitive;
 
-use Widmogrod\FantasyLand\Monoid;
-use Widmogrod\Functional as f;
+use Eris\Generator;
+use Eris\TestTrait;
 use Widmogrod\Helpful\MonoidLaws;
 use Widmogrod\Helpful\SetoidLaws;
 use Widmogrod\Primitive\Product;
@@ -13,60 +13,51 @@ use Widmogrod\Primitive\Stringg;
 
 class StringgTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider provideRandomizedData
-     */
-    public function test_it_should_obay_setoid_laws(
-        $a,
-        $b,
-        $c
-    ) {
-        SetoidLaws::test(
-            f\curryN(3, [$this, 'assertEquals']),
-            $a,
-            $b,
-            $c
-        );
+    use TestTrait;
+
+    public function test_it_should_obay_setoid_laws()
+    {
+        $this->forAll(
+            Generator\char(),
+            Generator\string(),
+            Generator\names()
+        )->then(function (string $x, string $y, string $z) {
+            SetoidLaws::test(
+                [$this, 'assertEquals'],
+                Stringg::of($x),
+                Stringg::of($y),
+                Stringg::of($z)
+            );
+        });
     }
 
-    /**
-     * @dataProvider provideRandomizedData
-     */
-    public function test_it_should_obey_monoid_laws(Monoid $x, Monoid $y, Monoid $z)
+    public function test_it_should_obey_monoid_laws()
     {
-        MonoidLaws::test(
-            f\curryN(3, [$this, 'assertEquals']),
-            $x,
-            $y,
-            $z
-        );
+        $this->forAll(
+            Generator\char(),
+            Generator\string(),
+            Generator\names()
+        )->then(function (string $x, string $y, string $z) {
+            MonoidLaws::test(
+                [$this, 'assertEquals'],
+                Stringg::of($x),
+                Stringg::of($y),
+                Stringg::of($z)
+            );
+        });
     }
 
     /**
      * @expectedException \Widmogrod\Primitive\TypeMismatchError
      * @expectedExceptionMessage Expected type is Widmogrod\Primitive\Stringg but given Widmogrod\Primitive\Product
-     * @dataProvider provideRandomizedData
      */
-    public function test_it_should_reject_concat_on_different_type(Stringg $a)
+    public function test_it_should_reject_concat_on_different_type()
     {
-        $a->concat(Product::of(1));
-    }
-
-    private function randomize()
-    {
-        usleep(100);
-
-        return Stringg::of(md5(sprintf('%d', random_int(0, 100))));
-    }
-
-    public function provideRandomizedData()
-    {
-        return array_map(function () {
-            return [
-                $this->randomize(),
-                $this->randomize(),
-                $this->randomize(),
-            ];
-        }, array_fill(0, 50, null));
+        $this->forAll(
+            Generator\string(),
+            Generator\int()
+        )->then(function (string $x, int $y) {
+            Stringg::of($x)->concat(Product::of($y));
+        });
     }
 }

@@ -4,41 +4,28 @@ declare(strict_types=1);
 
 namespace test\Primitive;
 
-use Widmogrod\Functional as f;
+use Eris\TestTrait;
+use Eris\Generator;
 use Widmogrod\Helpful\SetoidLaws;
 use Widmogrod\Primitive\Num;
 
 class NumTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider provideSetoidLaws
-     */
-    public function test_it_should_obay_setoid_laws(
-        $a,
-        $b,
-        $c
-    ) {
-        SetoidLaws::test(
-            f\curryN(3, [$this, 'assertEquals']),
-            $a,
-            $b,
-            $c
-        );
-    }
+    use TestTrait;
 
-    private function randomize()
+    public function test_it_should_obay_setoid_laws()
     {
-        return Num::of(random_int(-100000000, 100000000));
-    }
-
-    public function provideSetoidLaws()
-    {
-        return array_map(function () {
-            return [
-                $this->randomize(),
-                $this->randomize(),
-                $this->randomize(),
-            ];
-        }, array_fill(0, 50, null));
+        $this->forAll(
+            Generator\choose(0, 1000),
+            Generator\choose(1000, 4000),
+            Generator\choose(4000, 100000)
+        )->then(function (int $x, int $y, int $z) {
+            SetoidLaws::test(
+                [$this, 'assertEquals'],
+                Num::of($x),
+                Num::of($y),
+                Num::of($z)
+            );
+        });
     }
 }
