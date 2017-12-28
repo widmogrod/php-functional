@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace test\Primitive;
 
+use Eris\Generator;
 use Eris\TestTrait;
 use Widmogrod\Helpful\MonoidLaws;
 use Widmogrod\Helpful\SetoidLaws;
@@ -14,63 +15,49 @@ class ProductTest extends \PHPUnit\Framework\TestCase
 {
     use TestTrait;
 
-    /**
-     * @dataProvider provideSetoidLaws
-     */
-    public function test_it_should_obay_setoid_laws(
-        $a,
-        $b,
-        $c
-    ) {
-        SetoidLaws::test(
-            [$this, 'assertEquals'],
-            $a,
-            $b,
-            $c
-        );
+    public function test_it_should_obay_setoid_laws()
+    {
+        $this->forAll(
+            Generator\choose(0, 1000),
+            Generator\choose(1000, 4000),
+            Generator\choose(4000, 100000)
+        )->then(function (int $x, int $y, int $z) {
+            SetoidLaws::test(
+                [$this, 'assertEquals'],
+                Product::of($x),
+                Product::of($y),
+                Product::of($z)
+            );
+        });
     }
 
-    /**
-     * @dataProvider provideSetoidLaws
-     */
-    public function test_it_should_obay_monoid_laws(
-        $a,
-        $b,
-        $c
-    ) {
-        MonoidLaws::test(
-            [$this, 'assertEquals'],
-            $a,
-            $b,
-            $c
-        );
+    public function test_it_should_obay_monoid_laws()
+    {
+        $this->forAll(
+            Generator\choose(0, 1000),
+            Generator\choose(1000, 4000),
+            Generator\choose(4000, 100000)
+        )->then(function (int $x, int $y, int $z) {
+            MonoidLaws::test(
+                [$this, 'assertEquals'],
+                Product::of($x),
+                Product::of($y),
+                Product::of($z)
+            );
+        });
     }
 
     /**
      * @expectedException \Widmogrod\Primitive\TypeMismatchError
      * @expectedExceptionMessage Expected type is Widmogrod\Primitive\Product but given Widmogrod\Primitive\Stringg
-     * @dataProvider provideSetoidLaws
      */
-    public function test_it_should_reject_concat_on_different_type(Product $a)
+    public function test_it_should_reject_concat_on_different_type()
     {
-        $a->concat(Stringg::of("a"));
-    }
-
-    private function randomize()
-    {
-        usleep(100);
-
-        return Product::of(random_int(-1000, 1000));
-    }
-
-    public function provideSetoidLaws()
-    {
-        return array_map(function () {
-            return [
-                $this->randomize(),
-                $this->randomize(),
-                $this->randomize(),
-            ];
-        }, array_fill(0, 50, null));
+        $this->forAll(
+            Generator\int(),
+            Generator\string()
+        )->then(function (int $x, string $y) {
+            Product::of($x)->concat(Stringg::of($y));
+        });
     }
 }
