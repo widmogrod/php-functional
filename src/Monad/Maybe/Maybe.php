@@ -9,6 +9,7 @@ use Widmogrod\FantasyLand;
 
 interface Maybe extends
     FantasyLand\Monad,
+    FantasyLand\Foldable,
     Common\ValueOfInterface,
     FantasyLand\Monoid
 {

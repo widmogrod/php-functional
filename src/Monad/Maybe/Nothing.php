@@ -73,4 +73,15 @@ class Nothing implements Maybe
     {
         return null;
     }
+
+    /**
+     * foldl _ z Nothing = z
+     * foldl f z (Just x) = f z x
+     *
+     * @inheritdoc
+     */
+    public function reduce(callable $function, $accumulator)
+    {
+        return $accumulator;
+    }
 }
