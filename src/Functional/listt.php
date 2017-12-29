@@ -51,7 +51,7 @@ function fromSnapshotIterator(SnapshotIterator $i): Listt
         return fromNil();
     }
 
-    return ListtCons::of(function () use ($i) {
+    return new ListtCons(function () use ($i) {
         return [
             $i->current(),
             fromSnapshotIterator($i->snapshot())
@@ -74,9 +74,7 @@ const fromValue = 'Widmogrod\Functional\fromValue';
  */
 function fromValue($value): Listt
 {
-    return ListtCons::of(function () use ($value) {
-        return [$value, fromNil()];
-    });
+    return ListtCons::of($value);
 }
 
 /**
@@ -137,7 +135,7 @@ const prepend = 'Widmogrod\Functional\prepend';
 function prepend($x, Listt $xs = null)
 {
     return curryN(2, function ($x, Listt $xs): Listt {
-        return ListtCons::of(function () use ($x, $xs) {
+        return new ListtCons(function () use ($x, $xs) {
             return [$x, $xs];
         });
     })(...func_get_args());

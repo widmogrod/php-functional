@@ -30,7 +30,7 @@ function zip(Listt $xs, Listt $ys = null)
             $x = head($xs);
             $y = head($ys);
 
-            return ListtCons::of(function () use ($x, $y, $xs, $ys) {
+            return new ListtCons(function () use ($x, $y, $xs, $ys) {
                 return [
                     [$x, $y],
                     zip(tail($xs), tail($ys))
@@ -61,10 +61,10 @@ function unzip(Listt $xs): array
         [$x, $y] = head($xs);
 
         return [
-            ListtCons::of(function () use ($x, $xs) {
+            new ListtCons(function () use ($x, $xs) {
                 return [$x, unzip(tail($xs))[0]];
             }),
-            ListtCons::of(function () use ($y, $xs) {
+            new ListtCons(function () use ($y, $xs) {
                 return [$y, unzip(tail($xs))[1]];
             }),
         ];

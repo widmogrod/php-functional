@@ -288,7 +288,7 @@ function filter(callable $predicate, Foldable $list = null)
     return curryN(2, function (callable $predicate, Foldable $list) {
         return reduce(function (Listt $list, $x) use ($predicate) {
             return $predicate($x)
-                ? ListtCons::of(function () use ($list, $x) {
+                ? new ListtCons(function () use ($list, $x) {
                     return [$x, $list];
                 }) : $list;
         }, fromNil(), $list);

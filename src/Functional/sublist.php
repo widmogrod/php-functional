@@ -28,7 +28,7 @@ function take(int $n, Listt $xs = null)
             return fromNil();
         }
 
-        return $xs::of(function () use ($n, $xs) {
+        return new $xs(function () use ($n, $xs) {
             return [head($xs), take($n - 1, tail($xs))];
         });
     })(...func_get_args());
