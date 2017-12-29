@@ -113,9 +113,9 @@ const concat = 'Widmogrod\Functional\concat';
  *
  * @return Listt
  */
-function concat(Foldable $xs)
+function concat(Foldable $xs): Listt
 {
-    return foldr(function ($x, Listt $y) {
+    return foldr(function (Foldable $x, Listt $y) {
         return foldr(prepend, $y, $x);
     }, fromNil(), $xs);
 }
