@@ -7,6 +7,7 @@ namespace test\Functional;
 use function Widmogrod\Functional\filter;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
+use Widmogrod\Primitive\Listt;
 
 class FilterTest extends \PHPUnit\Framework\TestCase
 {
@@ -14,16 +15,20 @@ class FilterTest extends \PHPUnit\Framework\TestCase
      * @dataProvider provideData
      */
     public function test_it_should_filter_with_maybe(
-        $list,
-        $expected
+        Listt $list,
+        Listt $expected
     ) {
         $filter = function (int $i): bool {
             return $i % 2 === 1;
         };
 
-        $this->assertEquals(
-            $expected,
-            filter($filter, $list)
+        $result = filter($filter, $list);
+        $r = print_r($result->extract(), true);
+        $e = print_r($expected->extract(), true);
+
+        $this->assertTrue(
+            $result->equals($expected),
+            "$e != $r"
         );
     }
 

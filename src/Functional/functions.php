@@ -11,6 +11,7 @@ use Widmogrod\FantasyLand\Functor;
 use Widmogrod\FantasyLand\Monad;
 use Widmogrod\FantasyLand\Traversable;
 use Widmogrod\Monad\Identity;
+use Widmogrod\Primitive\EmptyListError;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\ListtCons;
 
@@ -278,20 +279,31 @@ const filter = 'Widmogrod\Functional\filter';
 /**
  * filter :: (a -> Bool) -> [a] -> [a]
  *
- * @param callable $predicate
- * @param Foldable $list
+ * Because I want to make list filtering lazy,
+ * implementation of this method diverge from Haskell one
  *
- * @return Foldable
+ * ```haskell
+ * filter pred (x:xs)
+ *      | pred x         = x : filter pred xs
+ *      | otherwise      = filter pred xs
+ * ```
+ *
+ * @param  callable $predicate
+ * @param  Listt    $xs
+ * @return Listt
  */
-function filter(callable $predicate, Foldable $list = null)
+function filter(callable $predicate, Listt $xs = null)
 {
-    return curryN(2, function (callable $predicate, Foldable $list) {
-        return reduce(function (Listt $list, $x) use ($predicate) {
-            return $predicate($x)
-                ? new ListtCons(function () use ($list, $x) {
-                    return [$x, $list];
-                }) : $list;
-        }, fromNil(), $list);
+    return curryN(2, function (callable $predicate, Listt $xs): Listt {
+        try {
+            return $predicate(head($xs))
+                ? new ListtCons(function () use ($predicate, $xs) : array {
+                    return [head($xs), filter($predicate, tail($xs))];
+                })
+                : filter($predicate, tail($xs));
+        } catch (EmptyListError $e) {
+            return fromNil();
+        }
     })(...func_get_args());
 }
 

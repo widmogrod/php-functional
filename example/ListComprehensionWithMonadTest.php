@@ -20,14 +20,13 @@ class ListComprehensionWithMonadTest extends \PHPUnit\Framework\TestCase
                     });
             });
 
-        $this->assertEquals(
-            fromIterable([
-                [1, 'a'],
-                [1, 'b'],
-                [2, 'a'],
-                [2, 'b']
-            ]),
-            $result
-        );
+        $expected = fromIterable([
+            [1, 'a'],
+            [1, 'b'],
+            [2, 'a'],
+            [2, 'b']
+        ]);
+
+        $this->assertTrue($expected->equals($result));
     }
 }
