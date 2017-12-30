@@ -295,15 +295,17 @@ const filter = 'Widmogrod\Functional\filter';
 function filter(callable $predicate, Listt $xs = null)
 {
     return curryN(2, function (callable $predicate, Listt $xs): Listt {
-        try {
-            return $predicate(head($xs))
-                ? new ListtCons(function () use ($predicate, $xs) : array {
-                    return [head($xs), filter($predicate, tail($xs))];
-                })
-                : filter($predicate, tail($xs));
-        } catch (EmptyListError $e) {
-            return fromNil();
-        }
+        return new ListtCons(function () use ($predicate, $xs) {
+            try {
+                return $predicate(head($xs))
+                    ? new ListtCons(function () use ($predicate, $xs) {
+                        return [head($xs), filter($predicate, tail($xs))];
+                    })
+                    : filter($predicate, tail($xs));
+            } catch (EmptyListError $e) {
+                return fromNil();
+            }
+        });
     })(...func_get_args());
 }
 

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use Widmogrod\Primitive\Listt;
 use function Widmogrod\Functional\filter;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
-use Widmogrod\Primitive\Listt;
+use function Widmogrod\Functional\repeat;
+use function Widmogrod\Functional\take;
 
 class FilterTest extends \PHPUnit\Framework\TestCase
 {
@@ -46,6 +48,10 @@ class FilterTest extends \PHPUnit\Framework\TestCase
             'traversable' => [
                 '$list' => fromIterable(new \ArrayIterator([1, 2, 3, 4, 5])),
                 '$expected' => fromIterable([1, 3, 5]),
+            ],
+            'filter everything' => [
+                '$list' => take(300, repeat(2)),
+                '$expected' => fromNil(),
             ],
         ];
     }

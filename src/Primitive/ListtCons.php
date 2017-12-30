@@ -7,6 +7,8 @@ namespace Widmogrod\Primitive;
 use Widmogrod\Common;
 use Widmogrod\FantasyLand;
 use Widmogrod\Functional as f;
+use function Widmogrod\Functional\constt;
+use const Widmogrod\Functional\noop;
 
 class ListtCons implements Listt, \IteratorAggregate
 {
@@ -39,7 +41,16 @@ class ListtCons implements Listt, \IteratorAggregate
     {
         $tail = $this;
         do {
-            [$head, $tail] = $tail->headTail();
+            $result = $tail->lazyHeadTail(function ($x, Listt $xs): array {
+                return [$x, $xs];
+            }, noop);
+
+            if (!is_array($result)) {
+                return;
+            }
+
+            [$head, $tail] = $result;
+
             yield $head;
         } while ($tail instanceof self);
     }
@@ -50,9 +61,9 @@ class ListtCons implements Listt, \IteratorAggregate
     public function map(callable $transformation): FantasyLand\Functor
     {
         return new self(function () use ($transformation) {
-            [$head, $tail] = $this->headTail();
-
-            return [$transformation($head), $tail->map($transformation)];
+            return $this->lazyHeadTail(function ($x, Listt $xs) use ($transformation) {
+                return [$transformation($x), $xs->map($transformation)];
+            }, constt(self::mempty()));
         });
     }
 
@@ -148,9 +159,9 @@ class ListtCons implements Listt, \IteratorAggregate
 
         if ($value instanceof self) {
             return new self(function () use ($value) {
-                [$x, $xs] = $this->headTail();
-
-                return [$x, $xs->concat($value)];
+                return $this->lazyHeadTail(function ($x, Listt $xs) use ($value) {
+                    return [$x, $xs->concat($value)];
+                }, constt(self::mempty()));
             });
         }
 
@@ -162,7 +173,7 @@ class ListtCons implements Listt, \IteratorAggregate
      */
     public function equals($other): bool
     {
-        return $other instanceof self
+        return $other instanceof Listt
             ? $this->extract() === $other->extract()
             : false;
     }
@@ -172,9 +183,11 @@ class ListtCons implements Listt, \IteratorAggregate
      */
     public function head()
     {
-        [$head] = $this->headTail();
-
-        return $head;
+        return $this->lazyHeadTail(function ($head) {
+            return $head;
+        }, function () {
+            throw new EmptyListError(__FUNCTION__);
+        });
     }
 
     /**
@@ -182,13 +195,25 @@ class ListtCons implements Listt, \IteratorAggregate
      */
     public function tail(): Listt
     {
-        [$head, $tail] = $this->headTail();
-
-        return $tail;
+        return $this->lazyHeadTail(function ($head, $tail) {
+            return $tail;
+        }, function () {
+            throw new EmptyListError(__FUNCTION__);
+        });
     }
 
-    public function headTail(): array
+    private function lazyHeadTail(callable $headTail, callable $nil)
     {
-        return call_user_func($this->next);
+        $result = $this;
+
+        do {
+            $result = call_user_func($result->next);
+        } while ($result instanceof self);
+
+        if ($result instanceof ListtNil) {
+            return $nil();
+        }
+
+        return $headTail(...$result);
     }
 }
