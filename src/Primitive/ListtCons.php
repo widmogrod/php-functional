@@ -12,6 +12,9 @@ class ListtCons implements Listt, \IteratorAggregate
 {
     public const of = 'Widmogrod\Primitive\ListtCons::of';
 
+    /**
+     * @var callable
+     */
     private $next;
 
     /**
@@ -19,7 +22,9 @@ class ListtCons implements Listt, \IteratorAggregate
      */
     public static function of($value)
     {
-        return new static($value);
+        return new self(function () use ($value): array {
+            return [$value, self::mempty()];
+        });
     }
 
     public function __construct(callable $next)
@@ -44,7 +49,7 @@ class ListtCons implements Listt, \IteratorAggregate
      */
     public function map(callable $transformation): FantasyLand\Functor
     {
-        return self::of(function () use ($transformation) {
+        return new self(function () use ($transformation) {
             [$head, $tail] = $this->headTail();
 
             return [$transformation($head), $tail->map($transformation)];
@@ -142,7 +147,7 @@ class ListtCons implements Listt, \IteratorAggregate
         }
 
         if ($value instanceof self) {
-            return self::of(function () use ($value) {
+            return new self(function () use ($value) {
                 [$x, $xs] = $this->headTail();
 
                 return [$x, $xs->concat($value)];

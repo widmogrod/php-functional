@@ -29,7 +29,7 @@ const iterate = 'Widmogrod\Functional\iterate';
 function iterate(callable $fn, $a = null)
 {
     return curryN(2, function (callable $fn, $a): Listt {
-        return ListtCons::of(function () use ($fn, $a) {
+        return new ListtCons(function () use ($fn, $a) {
             return [$a, iterate($fn, $fn($a))];
         });
     })(...func_get_args());
@@ -50,7 +50,7 @@ const repeat = 'Widmogrod\Functional\repeat';
  */
 function repeat($a)
 {
-    return ListtCons::of(function () use ($a, &$list) {
+    return new ListtCons(function () use ($a, &$list) {
         return [$a, repeat($a)];
     });
 }
@@ -102,7 +102,7 @@ function cycle(Listt $xs): Listt
             return cycle($xs);
         }
 
-        return ListtCons::of(function () use ($xs, $cycled, $cycle) {
+        return new ListtCons(function () use ($xs, $cycled, $cycle) {
             return [head($cycled), $cycle($xs, tail($cycled))];
         });
     };

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace test\Functional;
 
 use Widmogrod\Functional as f;
+use Widmogrod\Monad\Maybe\Just;
+use Widmogrod\Monad\Maybe\Nothing;
 
 class ConcatTest extends \PHPUnit\Framework\TestCase
 {
@@ -58,6 +60,14 @@ class ConcatTest extends \PHPUnit\Framework\TestCase
                     'c',
                     3
                 ]),
+            ],
+            'Just of lists' => [
+                '$array' => Just::of(f\fromIterable(['a', 1, 3])),
+                '$expected' => f\fromIterable(['a', 1, 3]),
+            ],
+            'Nothing of lists' => [
+                '$array' => Nothing::mempty(),
+                '$expected' => f\fromNil()
             ],
         ];
     }

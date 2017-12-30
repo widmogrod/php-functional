@@ -11,7 +11,7 @@ class ListtNil implements Listt
 {
     use Common\PointedTrait;
 
-    public const of = 'Widmogrod\Primitive\Listt::of';
+    public const of = 'Widmogrod\Primitive\ListtConst::of';
 
     public function __construct()
     {

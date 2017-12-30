@@ -81,4 +81,15 @@ class Just implements Maybe
     {
         return $this->value;
     }
+
+    /**
+     * foldl _ z Nothing = z
+     * foldl f z (Just x) = f z x
+     *
+     * @inheritdoc
+     */
+    public function reduce(callable $function, $accumulator)
+    {
+        return $function($accumulator, $this->value);
+    }
 }
