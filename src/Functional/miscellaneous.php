@@ -7,6 +7,21 @@ namespace Widmogrod\Functional;
 /**
  * @var callable
  */
+const noop = 'Widmogrod\Functional\noop';
+
+/**
+ * noop :: _ -> _
+ *
+ * @return null
+ */
+function noop()
+{
+    return null;
+}
+
+/**
+ * @var callable
+ */
 const identity = 'Widmogrod\Functional\identity';
 
 /**
