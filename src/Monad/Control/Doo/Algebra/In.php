@@ -1,19 +1,23 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Widmogrod\Monad\Control\Doo\Algebra;
 
 use Widmogrod\FantasyLand\Functor;
+use function Widmogrod\Functional\compose;
 
 class In implements DooF
 {
     private $names;
     private $fn;
+    private $next;
 
-    public function __construct(array $names, callable $fn)
+    public function __construct(array $names, callable $fn, callable $next)
     {
         $this->names = $names;
         $this->fn = $fn;
+        $this->next = $next;
     }
 
     /**
@@ -23,7 +27,8 @@ class In implements DooF
     {
         return new self(
             $this->names,
-            $this->fn
+            $this->fn,
+            compose($function, $this->next)
         );
     }
 
@@ -32,6 +37,6 @@ class In implements DooF
      */
     public function patternMatched(callable $fn)
     {
-        return $fn($this->names, $this->fn);
+        return $fn($this->names, $this->fn, $this->next);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Widmogrod\Monad\Control\Doo;
 
 use Widmogrod\FantasyLand\Monad;
@@ -19,5 +20,5 @@ function let(string $name, Monad $m): MonadFree
 
 function in(array $names, callable $fn): MonadFree
 {
-    return liftF(new Algebra\In($names, $fn));
+    return liftF(new Algebra\In($names, $fn, Pure::of));
 }

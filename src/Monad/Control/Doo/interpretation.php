@@ -42,13 +42,13 @@ function interpretation(DooF $f)
                 });
             });
         },
-        In::class => function (array $names, callable $fn): Reader {
-            return Reader::of(function (Registry $registry) use ($names, $fn) {
+        In::class => function (array $names, callable $fn, callable $next): Reader {
+            return Reader::of(function (Registry $registry) use ($names, $fn, $next) {
                 $args = array_map(function ($name) use ($registry) {
                     return $registry->get($name);
                 }, $names);
 
-                return Pure::of($fn(...$args));
+                return $next($fn(...$args));
             });
         },
     ], $f);

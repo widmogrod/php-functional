@@ -8,7 +8,7 @@ use Widmogrod\Useful\PatternMatcher;
 
 /**
  *  DooF next = Let name m next
- *            | In [name] fn
+ *            | In [name] fn (m -> next)
  */
 interface DooF extends Functor, PatternMatcher
 {

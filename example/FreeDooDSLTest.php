@@ -15,7 +15,7 @@ class FreeDooDSLTest extends \PHPUnit\Framework\TestCase
     {
         $result = doo(
             let('a', Identity::of(1)),
-            let('b', Identity::of(2)),
+            let('b', Identity::of(3)),
             let('c', in(['a', 'b'], function (int $a, int $b): Identity {
                 return Identity::of($a + $b);
             })),
@@ -24,6 +24,6 @@ class FreeDooDSLTest extends \PHPUnit\Framework\TestCase
             })
         );
 
-        $this->assertEquals(Identity::of(9), $result);
+        $this->assertEquals(Identity::of(16), $result);
     }
 }
