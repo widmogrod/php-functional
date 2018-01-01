@@ -38,7 +38,6 @@ class FreeDooDSLTest extends \PHPUnit\Framework\TestCase
                                 return Identity::of($c * $c);
                             });
                     });
-
             });
 
         $this->assertEquals(Identity::of(16), $result);

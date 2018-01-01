@@ -35,7 +35,7 @@ function interpretation(DooF $f)
     return match([
         Let::class => function (string $name, Monad $m, MonadFree $next): Reader {
             return Reader::of(function (Registry $registry) use ($name, $m, $next) {
-                return $m->bind(function ($v) use ($name, $next, &$registry) {
+                return $m->bind(function ($v) use ($name, $next, $registry) {
                     $registry->set($name, $v);
 
                     return $next;
@@ -44,9 +44,7 @@ function interpretation(DooF $f)
         },
         In::class => function (array $names, callable $fn, callable $next): Reader {
             return Reader::of(function (Registry $registry) use ($names, $fn, $next) {
-                $args = array_map(function ($name) use ($registry) {
-                    return $registry->get($name);
-                }, $names);
+                $args = array_map([$registry, 'get'], $names);
 
                 return $next($fn(...$args));
             });
