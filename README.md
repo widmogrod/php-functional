@@ -4,7 +4,8 @@
 ## Introduction
 
 Functional programing is a fascinating concept.
-The purpose of this library is to explore `Functors`, `Applicative Functors` and `Monads` in OOP PHP, and provide examples of real world use case.
+The purpose of this library is to explore `Functors`, `Applicative Functors` 
+and `Monads` in OOP PHP, and provide examples of real world use case.
 
 Monad types available in the project:
  * `State Monad`
@@ -15,14 +16,15 @@ Monad types available in the project:
  * `Reader Monad`
  * `Writer Monad`
 
-Exploring functional programing space I noticed that working with primitive values from PHP is very hard and complicates implementation of many functional structures.
+Exploring functional programing space I noticed that working with primitive values from PHP 
+is very hard and complicates implementation of many functional structures.
 To simplify this experience, set of higher order primitives is introduced in library:
  * `Num`
  * `Sum`
  * `Product`
  * `Stringg`
  * `Listt` (a.k.a List Monad, since `list` is a protected keyword in PHP)
-
+ 
 ## Installation
 
 ```
@@ -30,18 +32,20 @@ composer require widmogrod/php-functional
 ```
 
 ## Development
-
 This repository follows [semantic versioning concept](http://semver.org/).
-If you want to contribute, just follow [GitHub workflow](https://guides.github.com/introduction/flow/) and open a pull request.
+If you want to contribute, just follow [CONTRIBUTING.md](/CONTRIBUTING.md)
 
-More information about changes you can find in [change log](/CHANGELOG.md)
 
 ## Testing
 
-Quality assurance is brought to you by [PHPSpec](http://www.phpspec.net/)
+Quality assurance is brought to you by:
+- [PHPUnit](https://phpunit.de)
+- [Eris](https://github.com/giorgiosironi/eris) - QuickCheck and property-based testing tools to the PHP and PHPUnit ecosystem.
+- [PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) - A tool to automatically fix PHP coding standards issues
 
 ```
 composer test
+composer fix 
 ```
 
 ## Use Cases
@@ -51,7 +55,7 @@ You can find more use cases and examples in the [example directory](/example/).
 Monad is Functor and Applicative. You could say that Monad implements Functor and Applicative.
 
 ### List Functor
-``` php
+```php
 use Widmogrod\Functional as f;
 use Widmogrod\Primitive\Listt;
 
@@ -72,11 +76,11 @@ assert($result === f\fromIterable([2, 3, 4]));
 Apply function on list of values and as a result, receive list of all possible combinations
 of applying function from the left list to a value in the right one.
 
-``` haskell
+```haskell
 [(+3),(+4)] <*> [1, 2] == [4, 5, 5, 6]
 ```
 
-``` php
+```php
 use Widmogrod\Functional as f;
 use Widmogrod\Primitive\Listt;
 
@@ -104,7 +108,7 @@ Using Maybe as an instance of Monoid simplifies concat and reduce operations by 
 Extracting from a list of uneven values can be tricky and produce nasty code full of `if (isset)` statements.
 By combining List and Maybe Monad, this process becomes simpler and more readable.
 
-``` php
+```php
 use Widmogrod\Monad\Maybe;
 use Widmogrod\Primitive\Listt;
 
@@ -138,7 +142,7 @@ This results in nasty `try catch` blocks and many of if statements.
 Either Monad shows how we can fail gracefully without breaking the execution chain and making the code more readable.
 The following example demonstrates combining the contents of two files into one. If one of those files does not exist the operation fails gracefully.
 
-``` php
+```php
 use Widmogrod\Functional as f;
 use Widmogrod\Monad\Either;
 
@@ -164,7 +168,7 @@ assert($concat->extract() === 'File "aaa" does not exists');
 ### IO Monad
 Example usage of `IO Monad`. Read input from `stdin`, and print it to `stdout`.
 
-``` php
+```php
 use Widmogrod\Monad\IO as IO;
 use Widmogrod\Functional as f;
 
@@ -176,7 +180,7 @@ $readFromInput(Monad\Identity::of('Enter something and press <enter>'))->run();
 ### Writer Monad
 The `Writer monad` is useful to keep logs in a pure way. Coupled with `filterM` for example, this allows you to know exactly why an element was filtered.
 
-``` php
+```php
 
 use Widmogrod\Monad\Writer as W;
 use Widmogrod\Functional as f;
@@ -202,7 +206,7 @@ list($result, $log) = f\filterM($filter, $data)->runWriter();
 
 The `Reader monad` provides a way to share a common environment, such as configuration information or class instances, across multiple functions.
 
-``` php
+```php
 
 use Widmogrod\Monad\Reader as R;
 use Widmogrod\Functional as f;
@@ -276,21 +280,56 @@ $result = $scenario->Run([
 ]);
 ```
 
-### Sequencing Monad operations
-This variant of `sequence_` ignores the result.
+## Haskell `do notation` in PHP
+Why Haskell's do notation is interesting?
 
-``` php
-use Widmogrod\Monad\IO as IO;
-use Widmogrod\Functional as f;
+In Haskell is just an "syntax sugar" and in many ways is not needed, 
+but in PHP control flow of monads can be hard to track.
 
-f\sequence_([
-    IO\putStrLn('Your name:'),
-    IO\getLine(),
-    IO\putStrLn('Your surname:'),
-    IO\getLine(),
-    IO\putStrLn('Thank you'),
-])->run();
+Consider example, that use only chaining `bind()` 
+and compare it to the same version but with `do notation` in PHP.
+
+### Control flow without do notation
+
+```php
+$result = Identity::of(1)
+    ->bind(function ($a) {
+        return Identity::of(3)
+            ->bind(function ($b) use ($a) {
+                return Identity::of($a + $b)
+                    ->bind(function ($c) {
+                        return Identity::of($c * $c);
+                    });
+            });
+    });
+
+$this->assertEquals(Identity::of(16), $result);
 ```
+
+### Control flow with do notation
+
+```php
+$result = doo(
+    let('a', Identity::of(1)),
+    let('b', Identity::of(3)),
+    let('c', in(['a', 'b'], function (int $a, int $b): Identity {
+        return Identity::of($a + $b);
+    })),
+    in(['c'], function (int $c): Identity {
+        return Identity::of($c * $c);
+    })
+);
+
+assert($result === Identity::of(16));
+```
+
+Everyone needs to judge by itself, but in my opinion `do notation`improve readability of code in PHP.
+
+#### Book `Functional PHP` by Gilles Crettenand <a href="https://www.packtpub.com/application-development/functional-php"><img align="right" height="160" src="functional-php.png"></a>
+
+In recently published book  [`Functional PHP` by Gilles Crettenand](https://www.packtpub.com/application-development/functional-php), you can learn more applications of `widmogrod/php-functional`, see how it compares to other projects and how in an effortless way apply functional thinking in daily work.
+
+[Buy the book at PacktPub](https://www.packtpub.com/application-development/functional-php)
 
 ## References
 Here links to their articles`/`libraries that help me understood the domain:
