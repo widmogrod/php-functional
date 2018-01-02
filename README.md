@@ -24,7 +24,7 @@ To simplify this experience, set of higher order primitives is introduced in lib
  * `Product`
  * `Stringg`
  * `Listt` (a.k.a List Monad, since `list` is a protected keyword in PHP)
-
+ 
 ## Installation
 
 ```
@@ -325,6 +325,11 @@ assert($result === Identity::of(16));
 
 Everyone needs to judge by itself, but in my opinion `do notation`improve readability of code in PHP.
 
+#### Book `Functional PHP` by Gilles Crettenand <a href="https://www.packtpub.com/application-development/functional-php"><img align="right" height="160" src="functional-php.png"></a>
+
+In recently published book  [`Functional PHP` by Gilles Crettenand](https://www.packtpub.com/application-development/functional-php), you can learn more applications of `widmogrod/php-functional`, see how it compares to other projects and how in an effortless way apply functional thinking in daily work.
+
+[Buy the book at PacktPub](https://www.packtpub.com/application-development/functional-php)
 
 ## References
 Here links to their articles`/`libraries that help me understood the domain:
