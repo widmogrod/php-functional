@@ -10,7 +10,6 @@ use Widmogrod\FantasyLand\Foldable;
 use Widmogrod\FantasyLand\Functor;
 use Widmogrod\FantasyLand\Monad;
 use Widmogrod\FantasyLand\Traversable;
-use Widmogrod\Monad\Identity;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\ListtCons;
 
@@ -457,37 +456,27 @@ const sequenceM = 'Widmogrod\Functional\sequenceM';
  *
  * a.k.a haskell >>
  *
- * Sequentially compose two actions, discarding any value produced by the first, like sequencing operators (such as the semicolon) in imperative languages.
+ * Sequentially compose two actions, discarding any value produced by the first,
+ * like sequencing operators (such as the semicolon) in imperative languages.
+ *
+ * This implementation allow to **compose more than just two monads**.
  *
  * @param Monad $a
  * @param Monad $b
  *
  * @return Monad
  */
-function sequenceM(Monad $a, Monad $b)
+function sequenceM(Monad $a, Monad $b = null): Monad
 {
-    return $a->bind(function () use ($b) {
-        return $b;
-    });
-}
-
-/**
- * @var callable
- */
-const sequence_ = 'Widmogrod\Functional\sequence_';
-
-/**
- * sequence_ :: Monad m => [m a] -> m ()
- *
- * @todo consider to do it like this: foldr (>>) (return ())
- *
- * @param Monad[] $monads
- *
- * @return Monad
- */
-function sequence_(Monad ...$monads)
-{
-    return reduce(sequenceM, Identity::of([]), fromIterable($monads));
+    return curryN(2, function (Monad ...$monads): Monad {
+        return array_reduce($monads, function (?Monad $a, Monad $b) {
+            return $a
+                ? $a->bind(function () use ($b) {
+                    return $b;
+                })
+                : $b;
+        }, null);
+    })(...func_get_args());
 }
 
 /**
@@ -513,23 +502,6 @@ function traverse(callable $transformation, Traversable $t = null)
     ) {
         return $t->traverse($transformation);
     })(...func_get_args());
-}
-
-/**
- * @var callable
- */
-const sequence = 'Widmogrod\Functional\sequence';
-
-/**
- * sequence :: Monad m => t (m a) -> m (t a)
- *
- * @param Traversable|Monad[] $monads
- *
- * @return Monad
- */
-function sequence(Monad ...$monads)
-{
-    return traverse(identity, fromIterable($monads));
 }
 
 /**
