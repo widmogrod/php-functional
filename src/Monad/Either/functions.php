@@ -130,3 +130,35 @@ function toMaybe(Either $either)
 {
     return either(Maybe\nothing, Maybe\just, $either);
 }
+
+const fromLeft = 'Widmogrod\Monad\Either\fromLeft';
+
+/**
+ * fromLeft :: a -> Either a b -> a
+ *
+ * @param  mixed  $a
+ * @param  Either $either
+ * @return mixed
+ */
+function fromLeft($a, Either $either = null)
+{
+    return f\curryN(2, function ($a, Either $either = null) {
+        return either(f\identity, f\constt($a), $either);
+    })(...func_get_args());
+}
+
+const fromRight = 'Widmogrod\Monad\Either\fromRight';
+
+/**
+ * fromRight :: b -> Either a b -> b
+ *
+ * @param  mixed  $a
+ * @param  Either $either
+ * @return mixed
+ */
+function fromRight($a, Either $either = null)
+{
+    return f\curryN(2, function ($a, Either $either = null) {
+        return either(f\constt($a), f\identity, $either);
+    })(...func_get_args());
+}
