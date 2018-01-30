@@ -157,7 +157,7 @@ class Square implements ExpF
         return $fn($this->a, $this->next);
     }
 }
-
+const sum = 'example\sum';
 
 function sum(MonadFree $a, MonadFree $b): MonadFree
 {
@@ -166,10 +166,14 @@ function sum(MonadFree $a, MonadFree $b): MonadFree
     }, $a, $b);
 }
 
+const int = 'example\int';
+
 function int(int $int): MonadFree
 {
     return liftF(new IntVal($int, Pure::of));
 }
+
+const mul = 'example\mul';
 
 function mul(MonadFree $a, MonadFree $b): MonadFree
 {
@@ -177,6 +181,8 @@ function mul(MonadFree $a, MonadFree $b): MonadFree
         return liftF(new Multiply($a, $b, Pure::of));
     }, $a, $b);
 }
+
+const square = 'example\square';
 
 function square(MonadFree $a): MonadFree
 {

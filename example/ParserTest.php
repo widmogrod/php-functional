@@ -23,6 +23,9 @@ use function Widmogrod\Functional\span;
 use function Widmogrod\Monad\Maybe\just;
 use function Widmogrod\Monad\Maybe\nothing;
 
+// Some dependencies are needed
+require_once __DIR__ . '/FreeCalculatorTest.php';
+
 /**
  *  ParserF a next
  *      = RuleChar a (a -> next)
@@ -120,6 +123,7 @@ function maybeMapFirst(callable $fn)
 {
     return function ($result) use ($fn) {
         [$matched, $rest] = $result;
+
         return just([
             $fn($matched),
             $rest
@@ -143,8 +147,10 @@ function allOfP(Listt $matchers, callable $map = null, Listt $a = null)
             return $b instanceof Just
                 ? $b->bind(function ($result) use ($matcher) {
                     [$matched, $rest] = $result;
+
                     return $matcher($rest)->map(function ($result) use ($matched) {
                         [$matched2, $rest2] = $result;
+
                         return [concatM($matched, fromValue($matched2)), $rest2];
                     });
                 })
@@ -185,6 +191,7 @@ function lazyP(callable $fn, Listt $a = null)
 function denest(callable $matcher)
 {
     $map = [];
+
     return function (Listt $a) use ($matcher, &$map) {
         $key = spl_object_id($a);
         if (isset($map[$key])) {
@@ -192,11 +199,13 @@ function denest(callable $matcher)
         }
 
         $map[$key] = true;
+
         return $matcher($a);
     };
 }
 
-function tokens(string $input) : Listt {
+function tokens(string $input) : Listt
+{
     $tokens = preg_split('//', $input);
     $tokens = array_filter($tokens);
     $tokens = fromIterable($tokens);
@@ -205,7 +214,7 @@ function tokens(string $input) : Listt {
     return $tokens;
 }
 
-class FreeParserTest extends \PHPUnit\Framework\TestCase
+class ParserTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Grammar
@@ -344,6 +353,7 @@ class FreeParserTest extends \PHPUnit\Framework\TestCase
             &$expression, $operator, &$expression
         ]), function (Listt $attr) {
             [$a, $op, $b] =  $attr->extract();
+
             return $op($a, $b);
         }));
 
