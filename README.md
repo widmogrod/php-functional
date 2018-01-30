@@ -248,12 +248,12 @@ Free monad enables you to do exactly that, and more:
 
 #### Echo program
 Example Free Monad example of `echo program` can be found here:
-- See source code [FreeMonadTest.php](/example/FreeMonadTest.php) - example based on second implementation of Free, based on [Haskell implementation](https://hackage.haskell.org/package/free-4.12.4/docs/Control-Monad-Free-Class.html)
+- See source code of [FreeMonadTest.php](/example/FreeMonadTest.php) - example based on second implementation of Free, based on [Haskell implementation](https://hackage.haskell.org/package/free-4.12.4/docs/Control-Monad-Free-Class.html)
 
 #### DSL for `BDD` tests
 Example that use `Free Monad` to creates simple DSL (Domain Specific Language) to define BDD type of framework: 
 
-- See source code [FreeBddStyleDSLTest.php](/example/FreeBddStyleDSLTest.php) 
+- See source code of [FreeBddStyleDSLTest.php](/example/FreeBddStyleDSLTest.php) 
 ```php
 $state = [
     'productsCount' => 0,
@@ -278,6 +278,32 @@ $result = $scenario->Run([
         return $state['productsCount'] === $expected;
     },
 ]);
+```
+
+#### Free Monad Calculator example
+Example of a `DSL` for a naive calculator that is implemented by using FreeMonad.
+
+Free monad can be interpreted as a real calculator or calculation formatter a.k.a. pretty printer.
+Additional thing that I wanted to tackle was a Free Monad Optimisation.
+
+Considering that Free Monad is like AST, question arose in my mind - can I travers it and update it to simplify computation?
+Hot to do it? What are limitation of Free Monad? Calculator example is an outcome of those questions.
+
+- See source code of [FreeCalculatorTest.php](/example/FreeCalculatorTest.php) 
+
+```php
+$calc = mul(
+    sum(int(2), int(1)),
+    sum(int(2), int(1))
+);
+
+$expected = '((2+1)^2)';
+
+$result = foldFree(compose(interpretPrint, optimizeCalc), $calc, Identity::of);
+$this->assertEquals(
+    Identity::of(Stringg::of($expected)),
+    $result
+);
 ```
 
 ## Haskell `do notation` in PHP
