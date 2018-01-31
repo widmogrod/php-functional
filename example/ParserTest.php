@@ -187,7 +187,7 @@ function lazyP(callable $fn, Listt $a = null)
     })(...func_get_args());
 }
 
-// denest :: ([a] -> (b, [a]))) -> ([a] -> Maybe(b, [a])))
+// denest :: ([a] -> (b, [a]))) -> ([a] -> Maybe (b, [a])))
 function denest(callable $matcher)
 {
     $map = [];
