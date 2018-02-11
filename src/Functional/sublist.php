@@ -6,6 +6,8 @@ namespace Widmogrod\Functional;
 
 use Widmogrod\Primitive\EmptyListError;
 use Widmogrod\Primitive\Listt;
+use Widmogrod\Primitive\ListtCons;
+use Widmogrod\Primitive\ListtNil;
 
 /**
  * @var callable
@@ -59,6 +61,47 @@ function drop(int $n, Listt $xs = null)
         } catch (EmptyListError $e) {
             return fromNil();
         }
+    })(...func_get_args());
+}
+
+/**
+ * @var callable
+ */
+const dropWhile = 'Widmogrod\Functional\dropWhile';
+
+/**
+ *
+ * dropWhile :: (a -> Bool) -> [a] -> [a]
+ *
+ * ```haskell
+ * dropWhile _ []          =  []
+ * dropWhile p xs@(x:xs')
+ *  | p x       =  dropWhile p xs'
+ *  | otherwise =  xs
+ * ```
+ *
+ * @param callable $predicate
+ * @param Listt $xs
+ * @return Listt
+ */
+function dropWhile(callable $predicate, Listt $xs = null)
+{
+    return curryN(2, function (callable $predicate, Listt $xs): Listt {
+        if ($xs instanceof ListtNil) {
+            return $xs;
+        }
+
+        $tail = $xs;
+        do {
+            $x = head($tail);
+            if (!$predicate($x)) {
+                return $tail;
+            }
+
+            $tail = tail($tail);
+        } while ($tail instanceof ListtCons);
+
+        return fromNil();
     })(...func_get_args());
 }
 
