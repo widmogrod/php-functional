@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace example;
 
-use function Widmogrod\Functional\dropWhile;
 use Widmogrod\Monad\Identity;
 use Widmogrod\Monad\Maybe\Just;
 use Widmogrod\Monad\Maybe\Maybe;
@@ -16,6 +15,7 @@ use function Widmogrod\Functional\append;
 use function Widmogrod\Functional\bind;
 use function Widmogrod\Functional\concatM;
 use function Widmogrod\Functional\curryN;
+use function Widmogrod\Functional\dropWhile;
 use function Widmogrod\Functional\emptyM;
 use function Widmogrod\Functional\equal;
 use function Widmogrod\Functional\fromIterable;
@@ -406,6 +406,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
                 $trimNil = dropWhile(function (Stringg $s) {
                     return trim($s->extract()) === "";
                 }, $a);
+
                 return $fn($trimNil);
             })(...func_get_args());
         };
@@ -416,6 +417,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
                 $trimNil = dropWhile(function (Stringg $s) {
                     return trim($s->extract(), " ") === "";
                 }, $a);
+
                 return $fn($trimNil);
             })(...func_get_args());
         };
@@ -448,7 +450,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $grouping = allOfP(fromIterable([
             $parOp, &$typeName, $parCl,
         ]), function (Listt $attr) {
-            return ['grp' => $attr->extract()[1]];
+            return ['grp', $attr->extract()[1]];
         });
 
         $args = $lexeme2(manyP(fromIterable([
@@ -478,7 +480,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         ])));
 
         $representations = manyP(fromIterable([
-            oneOfP(fromIterable([$or, $typeName])),
+            oneOfP(fromIterable([$typeName, $or])),
         ]), function (Listt $a) {
             return ['representation', $a->extract()];
         });
@@ -504,8 +506,55 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $result = $expression($tokens);
         $ast = $result->extract()[0];
 
-        print_r($ast);
-
-//        $this->assertEquals(['typeName', "Some"], $ast);
+        $this->assertEquals(
+            ["types",
+                [
+                    ["declaration",
+                        [
+                            ["typeName", ["Maybe", ["args", ["a"]]]],
+                            ["representation",
+                                [
+                                    ["typeName", ["Just", ["args", ["a"]]]],
+                                    "|",
+                                    ["typeName", ["Nothing", []]]
+                                ]
+                            ]
+                        ]
+                    ],
+                    ["declaration",
+                        [
+                            ["typeName", ["A", []]],
+                            ["representation", [
+                                ["typeName", ["B", []]]]
+                            ]
+                        ]
+                    ],
+                    ["declaration",
+                        [
+                            ["typeName", ["Either", ["args", ["a", "b"]]]],
+                            ["representation",
+                                [
+                                    ["typeName", ["Left", ["args", ["a"]]]],
+                                    "|",
+                                    ["typeName", ["Right", ["args", ["b"]]]]
+                                ]
+                            ]
+                        ]
+                    ],
+                    ["declaration",
+                        [
+                            ["typeName", ["Free", ["args", ["f", "a"]]]],
+                            ["representation",
+                                [
+                                    ["typeName", ["Pure", ["args", ["a"]]]], "|",
+                                    ["typeName", ["Free", ["args", ["f", ["grp", ["typeName", ["Free", ["args", ["f", "a"]]]]]]]]]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            $ast
+        );
     }
 }
