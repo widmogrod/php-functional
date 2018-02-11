@@ -21,6 +21,24 @@ function eql($expected, $value = null)
     })(...func_get_args());
 }
 
+const lt = 'Widmogrod\Functional\lt';
+
+/**
+ * lt :: a -> a -> Bool
+ *
+ * @param mixed $expected
+ * @param mixed $value
+ *
+ * @return mixed
+ */
+function lt($expected, $value = null)
+{
+    return curryN(2, function ($expected, $value) {
+        return $value < $expected;
+    })(...func_get_args());
+}
+
+
 const orr = 'Widmogrod\Functional\orr';
 
 /**
