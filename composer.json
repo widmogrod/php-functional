@@ -21,7 +21,8 @@
     "test": "phpunit --no-coverage",
     "testc": "phpunit --coverage-clover ./clover.xml",
     "fix-code": "php-cs-fixer fix --allow-risky=yes",
-    "check-code": "php-cs-fixer fix --verbose --diff --dry-run --allow-risky=yes"
+    "check-code": "php-cs-fixer fix --verbose --diff --dry-run --allow-risky=yes",
+    "xdebug": "php -d xdebug.profiler_enable=1 -d xdebug.profiler_output_dir=$(pwd) vendor/bin/phpunit --filter=test_generate_union_type"
   },
   "autoload": {
     "psr-4": {

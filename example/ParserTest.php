@@ -4,68 +4,43 @@ declare(strict_types=1);
 
 namespace example;
 
-use function Widmogrod\Monad\Free\foldFree;
+use function Widmogrod\Functional\dropWhile;
 use Widmogrod\Monad\Identity;
 use Widmogrod\Monad\Maybe\Just;
 use Widmogrod\Monad\Maybe\Maybe;
+use Widmogrod\Primitive\EmptyListError;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\Stringg;
-use const Widmogrod\Functional\concatM;
 use const Widmogrod\Functional\fromValue;
+use function Widmogrod\Functional\append;
 use function Widmogrod\Functional\bind;
 use function Widmogrod\Functional\concatM;
 use function Widmogrod\Functional\curryN;
+use function Widmogrod\Functional\emptyM;
+use function Widmogrod\Functional\equal;
 use function Widmogrod\Functional\fromIterable;
+use function Widmogrod\Functional\fromNil;
 use function Widmogrod\Functional\fromValue;
+use function Widmogrod\Functional\head;
 use function Widmogrod\Functional\length;
 use function Widmogrod\Functional\reduce;
-use function Widmogrod\Functional\span;
+use function Widmogrod\Functional\tail;
+use function Widmogrod\Monad\Free\foldFree;
 use function Widmogrod\Monad\Maybe\just;
 use function Widmogrod\Monad\Maybe\nothing;
 
 // Some dependencies are needed
 require_once __DIR__ . '/FreeCalculatorTest.php';
 
+
 /**
- *  ParserF a next
- *      = RuleChar a (a -> next)
- *      | RuleNumbers (a -> next)
- *      | Grammar [Def] (a -> next)
- *
- *      | Ref name (a -> next)
- *      | Def name Ref (a -> next)
- *      | OneOf [Rule] (a -> next)
- *      | AllOf [Rule] (a -> next)
- *      | Parse Grammar (a -> next)
- *
- *
- *      | Token  (Either (matched, rest) -> next)
- *
- *      | Lazy (_ -> MonadFree) (MonadFree -> next)
- *
- *      | ParseInput (_ -> next)
- *      | ConsumeOne   stream (char -> Bool) (Either ((matched, stream) -> next) (stream -> next))
- *      | ConsumeWhile stream (char -> Bool) (Either ((matched, stream) -> next) (stream -> next))
- *
- *
- *      | Match [char] (char -> Bool) ([matched] -> token) ([Either token error, [rest-char]] -> next)
- *      | AllOf [char] [Match] ([matched] -> token) ([Either token error, rest] -> next)
- *
- *      | OneOf [Match]
- *
- *       ... ... ... ...
- *
- *      match :: (a -> Bool) -> [a] -> Maybe ([a], [a])
- *
- *      numbers :: [a] -> Maybe [a]
+ *      match      :: Monoid a, Semigroup a, Setoid a => (a -> Bool) -> [a] -> Maybe (a, [a])
+ *      numbers :: [a] -> Maybe (a, [a])
  *      numbers = match isNumber
  *
- *      tokenize :: Maybe [a] -> (...a -> b) -> Maybe b
+ *      char :: a -> [a] -> Maybe (a, [a])
  *
- *      allof :: [Maybe a] -> ([a] -> b) -> Maybe b
- *      oneof :: [Maybe a] -> Maybe a
- *
- *      tokenize' :: ([a] -> Maybe ([a], [a])) -> ([a] -> b) -> [a] -> Maybe (b, [a])
+ *      tokenize' :: ([a] -> Maybe (a, [a])) -> ([a] -> b) -> [a] -> Maybe (b, [a])
  *      allof' :: ([([a] -> Maybe (b, [a]))] -> ([b] -> b) -> [a] -> Maybe (b, [a])
  *      oneof' :: ([([a] -> Maybe (b, [a]))] -> [a] -> Maybe (b, [a])
  *
@@ -74,33 +49,50 @@ require_once __DIR__ . '/FreeCalculatorTest.php';
  *      foldr :: (a -> b -> b) -> b -> t a -> b
  *      foldl :: (b -> a -> b) -> b -> t a -> b
  *
- *
  *      literal  = tokenize numbers (\ys -> atoi(concat(ys)))
  *      operator = oneof' [tokenize (char "+") OpSum
  *                        ,tokenize (char "*") OpMul]
  *
  *      denest :: ([a] -> (b, [a]))) -> ([a] -> Maybe(b, [a])))
  *
- *
- *
- *       Stream s u m
+ *      Stream s u m
  */
 
-// match :: (a -> Bool) -> [a] -> Maybe ([a], [a])
+// match :: Monoid a, Semigroup a, Setoid a => (a -> a -> Bool) -> [a] -> Maybe (a, [a])
 function matchP(callable $predicate, Listt $a = null)
 {
     return curryN(2, function (callable $predicate, Listt $a) {
-        [$matched, $rest] = span($predicate, $a);
+        try {
+            $matched = emptyM(head($a));
+            $rest = $a;
+            do {
+                try {
+                    $x = head($rest);
+                    $xs = tail($rest);
+                } catch (EmptyListError $e) {
+                    break;
+                }
 
-        return length($matched) > 0
-            ? just([$matched, $rest])
-            : nothing();
+                $continue = $predicate($x, $matched);
+
+                if ($continue) {
+                    $matched = concatM($matched, $x);
+                    $rest = $xs;
+                }
+            } while ($continue);
+
+            return equal($matched, emptyM($matched))
+                ? nothing()
+                : just([$matched, $rest]);
+        } catch (EmptyListError $e) {
+            return nothing();
+        }
     })(...func_get_args());
 }
 
 const numbersP = 'example\\numbersP';
 
-// numbers :: [a] -> Maybe ([a], [a])
+// numbers :: [a] -> Maybe (a, [a])
 function numbersP(Listt $a)
 {
     return matchP(function (Stringg $s) {
@@ -108,14 +100,20 @@ function numbersP(Listt $a)
     }, $a);
 }
 
-// char :: Char -> [a] -> Maybe ([a], [a])
+// char :: Char -> [a] -> Maybe (a, [a])
 function charP(string $char, Listt $a = null)
 {
     return curryN(2, function (string $char, Listt $a) {
-        return matchP(function (Stringg $s) use ($char) {
-            // TODO this should be called once
-            return $s->extract() === $char;
-        }, $a);
+        try {
+            $x = head($a);
+            $xs = tail($a);
+
+            return equal($x, Stringg::of($char))
+                ? just([$x, $xs])
+                : nothing();
+        } catch (EmptyListError $e) {
+            return nothing();
+        }
     })(...func_get_args());
 }
 
@@ -131,18 +129,18 @@ function maybeMapFirst(callable $fn)
     };
 }
 
-// tokenize' :: ([a] -> Maybe ([a], [a])) -> (a -> b) -> [a] -> Maybe (b, [a])
-function tokenizeP(callable $matcher, callable $map = null, Listt $a = null)
+// tokenize' :: ([a] -> Maybe (a, [a])) -> (a -> b) -> [a] -> Maybe (b, [a])
+function tokenizeP(callable $matcher, callable $transform = null, Listt $a = null)
 {
-    return curryN(3, function (callable $matcher, callable $map, Listt $a) {
-        return bind(maybeMapFirst($map), $matcher($a));
+    return curryN(3, function (callable $matcher, callable $transform, Listt $a) {
+        return bind(maybeMapFirst($transform), $matcher($a));
     })(...func_get_args());
 }
 
-// allof' :: ([([a] -> Maybe b)] -> ([b] -> b) -> [a] -> Maybe b
-function allOfP(Listt $matchers, callable $map = null, Listt $a = null)
+// allof' :: ([([a] -> Maybe (b, [a]))] -> ([b] -> b) -> [a] -> Maybe (b, [a])
+function allOfP(Listt $matchers, callable $transform = null, Listt $a = null)
 {
-    return curryN(3, function (Listt $matchers, callable $map, Listt $a) {
+    return curryN(3, function (Listt $matchers, callable $transform, Listt $a) {
         $result = reduce(function (?Maybe $b, callable $matcher) use ($a) {
             return $b instanceof Just
                 ? $b->bind(function ($result) use ($matcher) {
@@ -158,7 +156,36 @@ function allOfP(Listt $matchers, callable $map = null, Listt $a = null)
         }, null, $matchers);
 
         return $result instanceof Maybe
-            ? bind(maybeMapFirst($map), $result)
+            ? bind(maybeMapFirst($transform), $result)
+            : nothing();
+    })(...func_get_args());
+}
+
+
+// many' :: ([([a] -> Maybe (b, [a]))] -> ([b] -> b) -> [a] -> Maybe (b, [a])
+// Zero or more.
+function manyP(Listt $matchers, callable $transform = null, Listt $a = null)
+{
+    return curryN(3, function (Listt $matchers, callable $transform, Listt $a) {
+        $res = fromNil();
+        $m = oneOfP($matchers);
+
+        do {
+            $r = $m($a);
+            if ($r instanceof Just) {
+                [$mached, $rest] = $r->extract();
+                // TODO this is also kind-a not optimal
+                $res = append($res, fromValue($mached));
+                $a = $rest;
+            }
+        } while ($r instanceof Just);
+
+        $result = length($res) > 0
+            ? just([$res, $a])
+            : nothing();
+
+        return $result instanceof Maybe
+            ? bind(maybeMapFirst($transform), $result)
             : nothing();
     })(...func_get_args());
 }
@@ -204,7 +231,7 @@ function denest(callable $matcher)
     };
 }
 
-function tokens(string $input) : Listt
+function tokens(string $input): Listt
 {
     $tokens = preg_split('//', $input);
     $tokens = array_filter($tokens);
@@ -216,47 +243,23 @@ function tokens(string $input) : Listt
 
 class ParserTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * Grammar
-     *
-     * Expr = IntVal a
-     *      | Sum Expr Expr
-     *      | Mul Expr Expr
-     *      | Sqr Expr
-     *
-     * Token = Num a
-     *      | Op a
-     *      | ParenthesisOpen
-     *      | ParenthesisClose
-     *
-     *   (1 + 2)        === Sum(IntVal(1), IntVal(2))
-     *   1 + (2 + 3)    === Sum(IntVal(1), Sum(IntVal(2), IntVal(3))
-     *   1 + 3^2        === Sum(IntVal(1), Sqr(3))
-     *
-     */
     public function test_generated_ast()
     {
-        $hf = function (callable $fn, Listt $l = null) {
-            return curryN(2, function (callable $fn, Listt $l) {
-                return $fn(reduce(concatM, Stringg::mempty(), $l));
-            })(...func_get_args());
-        };
-
-        $literal = tokenizeP(numbersP, $hf(function (Stringg $a) {
+        $literal = tokenizeP(numbersP, function (Stringg $a) {
             return ['int', $a->extract()];
-        }));
-        $opAdd = tokenizeP(charP('+'), $hf(function (Stringg $a) {
+        });
+        $opAdd = tokenizeP(charP('+'), function (Stringg $a) {
             return ['add', $a->extract()];
-        }));
-        $opMul = tokenizeP(charP('*'), $hf(function (Stringg $a) {
+        });
+        $opMul = tokenizeP(charP('*'), function (Stringg $a) {
             return ['mul', $a->extract()];
-        }));
-        $parOp = tokenizeP(charP('('), $hf(function (Stringg $a) {
+        });
+        $parOp = tokenizeP(charP('('), function (Stringg $a) {
             return ['po', $a->extract()];
-        }));
-        $parCl = tokenizeP(charP(')'), $hf(function (Stringg $a) {
+        });
+        $parCl = tokenizeP(charP(')'), function (Stringg $a) {
             return ['pc', $a->extract()];
-        }));
+        });
 
         $operator = oneOfP(fromIterable([
             $opAdd, $opMul
@@ -323,27 +326,21 @@ class ParserTest extends \PHPUnit\Framework\TestCase
 
     public function test_integration_with_free_calc()
     {
-        $hf = function (callable $fn, Listt $l = null) {
-            return curryN(2, function (callable $fn, Listt $l) {
-                return $fn(reduce(concatM, Stringg::mempty(), $l));
-            })(...func_get_args());
-        };
-
-        $literal = tokenizeP(numbersP, $hf(function (Stringg $a) {
+        $literal = tokenizeP(numbersP, function (Stringg $a) {
             return int((int) $a->extract());
-        }));
-        $opAdd = tokenizeP(charP('+'), $hf(function (Stringg $a) {
+        });
+        $opAdd = tokenizeP(charP('+'), function (Stringg $a) {
             return sum;
-        }));
-        $opMul = tokenizeP(charP('*'), $hf(function (Stringg $a) {
+        });
+        $opMul = tokenizeP(charP('*'), function (Stringg $a) {
             return mul;
-        }));
-        $parOp = tokenizeP(charP('('), $hf(function (Stringg $a) {
+        });
+        $parOp = tokenizeP(charP('('), function (Stringg $a) {
             return $a->extract();
-        }));
-        $parCl = tokenizeP(charP(')'), $hf(function (Stringg $a) {
+        });
+        $parCl = tokenizeP(charP(')'), function (Stringg $a) {
             return $a->extract();
-        }));
+        });
 
         $operator = oneOfP(fromIterable([
             $opAdd, $opMul
@@ -352,7 +349,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $binary = denest(allOfP(fromIterable([
             &$expression, $operator, &$expression
         ]), function (Listt $attr) {
-            [$a, $op, $b] =  $attr->extract();
+            [$a, $op, $b] = $attr->extract();
 
             return $op($a, $b);
         }));
@@ -381,5 +378,128 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             Identity::of(Stringg::of($expected)),
             $result
         );
+    }
+
+    /**
+     * type Maybe a = Just a | Nothing
+     * type Either a b = Left a | Right b
+     * type Free f a = Pure a | Free f (Free f a)
+     *
+     *
+     * type UnionF _ next
+     *  | Declare_ name [args] (a -> next)
+     *  | Union_ a name [args] (a -> next)
+     *
+     * exp =
+     * declaraton = "type" type "=" type "|"
+     *
+     * spaces = " \n\r"
+     * type   = word args
+     * word   = char word
+     * args   = word | word args
+     */
+    public function test_generate_union_type()
+    {
+        // lexeme :: ([a] -> Maybe (a, [a])) -> [a] -> Maybe (a, [a])
+        $lexeme = function (callable $fn, Listt $a = null) {
+            return curryN(2, function (callable $fn, Listt $a) {
+                // TODO Not optimal, for test only
+                $trimNil = dropWhile(function (Stringg $s) {
+                    return trim($s->extract()) === "";
+                }, $a);
+                return $fn($trimNil);
+            })(...func_get_args());
+        };
+
+        // lexeme :: ([a] -> Maybe (a, [a])) -> [a] -> Maybe (a, [a])
+        $lexeme2 = function (callable $fn, Listt $a = null) {
+            return curryN(2, function (callable $fn, Listt $a) {
+                $trimNil = dropWhile(function (Stringg $s) {
+                    return trim($s->extract(), " ") === "";
+                }, $a);
+                return $fn($trimNil);
+            })(...func_get_args());
+        };
+
+        $or = $lexeme(charP('|'));
+        $eql = $lexeme(charP('='));
+//        $spaces = matchP(function (Stringg $s) {
+//            return trim($s->extract()) === "";
+//        });
+        $upperCaseWord = $lexeme(matchP(function (Stringg $s, Stringg $matched) {
+            return equal($matched, emptyM($matched))
+                ? preg_match('/[A-Z]/', $s->extract())
+                : preg_match('/[a-z]/i', $s->extract());
+        }));
+        $lowerCaseWord = $lexeme2(matchP(function (Stringg $s, Stringg $matched) {
+            return strlen($matched->extract())
+                ? false
+                : preg_match('/[a-z]/', $s->extract());
+        }));
+        $reservedType = $lexeme(matchP(function (Stringg $s, Stringg $matched) {
+            $c = concatM($matched, $s);
+            $e = Stringg::of('type');
+            if (equal($c, $e)) {
+                return true;
+            }
+
+            return preg_match(sprintf('/^%s(.+)/', $c->extract()), $e->extract());
+        }));
+
+        $args = $lexeme2(manyP(fromIterable([
+            $lowerCaseWord,
+        ]), function (Listt $attr) {
+            return ['args', $attr->extract()];
+        }));
+
+        $typeNameWithoutArgs = $lexeme(allOfP(fromIterable([
+            $upperCaseWord
+        ]), function (Listt $a) {
+            list($name) = $a->extract();
+
+            return ['typeName', [$name, []]];
+        }));
+
+        $typeNameWithArgs = $lexeme(allOfP(fromIterable([
+            $upperCaseWord, $args
+        ]), function (Listt $a) {
+            list($name, $args) = $a->extract();
+
+            return ['typeName', [$name, $args]];
+        }));
+
+        $typeName = $lexeme(oneOfP(fromIterable([
+            $typeNameWithArgs, $typeNameWithoutArgs
+        ])));
+
+        $representations = manyP(fromIterable([
+            oneOfP(fromIterable([$or, $typeName])),
+        ]), function (Listt $a) {
+            return ['representation', $a->extract()];
+        });
+
+        $declaration = allOfP(fromIterable([
+            $reservedType, $typeName, $eql, $representations,
+        ]), function (Listt $a) {
+            list(, $type, , $rep) = $a->extract();
+
+            return ['declaration', [$type, $rep]];
+        });
+
+        $tokens = tokens('
+        type Maybe a = Just a | Nothing
+        type A = B
+        type Either a b = Left a | Right b
+        ');
+        $expression = manyP(fromIterable([$declaration]), function (Listt $a) {
+            return ['types', $a->extract()];
+        });
+
+        $result = $expression($tokens);
+        $ast = $result->extract()[0];
+
+        print_r($ast);
+
+//        $this->assertEquals(['typeName', "Some"], $ast);
     }
 }
