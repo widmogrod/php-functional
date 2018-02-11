@@ -80,8 +80,8 @@ const dropWhile = 'Widmogrod\Functional\dropWhile';
  *  | otherwise =  xs
  * ```
  *
- * @param callable $predicate
- * @param Listt $xs
+ * @param  callable $predicate
+ * @param  Listt    $xs
  * @return Listt
  */
 function dropWhile(callable $predicate, Listt $xs = null)
