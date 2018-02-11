@@ -393,7 +393,6 @@ class ParserTest extends \PHPUnit\Framework\TestCase
      * exp =
      * declaraton = "type" type "=" type "|"
      *
-     * spaces = " \n\r"
      * type   = word args
      * word   = char word
      * args   = word | word args
@@ -423,9 +422,9 @@ class ParserTest extends \PHPUnit\Framework\TestCase
 
         $or = $lexeme(charP('|'));
         $eql = $lexeme(charP('='));
-//        $spaces = matchP(function (Stringg $s) {
-//            return trim($s->extract()) === "";
-//        });
+        $parOp = $lexeme(charP('('));
+        $parCl = $lexeme(charP(')'));
+
         $upperCaseWord = $lexeme(matchP(function (Stringg $s, Stringg $matched) {
             return equal($matched, emptyM($matched))
                 ? preg_match('/[A-Z]/', $s->extract())
@@ -446,8 +445,14 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             return preg_match(sprintf('/^%s(.+)/', $c->extract()), $e->extract());
         }));
 
+        $grouping = allOfP(fromIterable([
+            $parOp, &$typeName, $parCl,
+        ]), function (Listt $attr) {
+            return ['grp' => $attr->extract()[1]];
+        });
+
         $args = $lexeme2(manyP(fromIterable([
-            $lowerCaseWord,
+            oneofP(fromIterable([$lowerCaseWord, $grouping])),
         ]), function (Listt $attr) {
             return ['args', $attr->extract()];
         }));
@@ -490,6 +495,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         type Maybe a = Just a | Nothing
         type A = B
         type Either a b = Left a | Right b
+        type Free f a = Pure a | Free f (Free f a)
         ');
         $expression = manyP(fromIterable([$declaration]), function (Listt $a) {
             return ['types', $a->extract()];
