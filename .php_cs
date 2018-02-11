@@ -33,7 +33,7 @@ return PhpCsFixer\Config::create()
         'no_leading_import_slash' => true,
         'no_extra_consecutive_blank_lines' => ['use'],
         'blank_line_before_return' => true,
-        'self_accessor' => true,
+        'self_accessor' => false,
         'no_short_bool_cast' => true,
         'no_trailing_comma_in_singleline_array' => true,
         'no_singleline_whitespace_before_semicolons' => true,
