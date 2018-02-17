@@ -1,7 +1,7 @@
 # Contribution guidelines
 
 ## Creating pull request
-1. Open a related issue in the [Issue Tracker](https://github.com/EduardoGR/php-functional/issues)
+1. Open a related issue in the [Issue Tracker](https://github.com/widmogrod/php-functional/issues)
 2. Fork repository on Web Page
 3. Clone this repository `git clone https://github.com/{your-username}/php-functional`
 4. Create a branch with expressive name `git checkout -b {your-username}-{what-i-am-going-to-develop}`
