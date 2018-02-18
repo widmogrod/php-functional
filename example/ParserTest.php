@@ -206,6 +206,62 @@ function oneOfP(Listt $matchers, Listt $a = null)
     })(...func_get_args());
 }
 
+// endByP :: ([a] -> Maybe b) -> ([a] -> Maybe b) -> [a] -> Maybe [b]
+function endByP(callable $matcher, callable $matcherEnd = null, callable $transform = null, Listt $a = null)
+{
+    return curryN(4, function (callable $matcher, callable $matcherEnd, callable $transform, Listt $a): Maybe {
+        $before = fromNil();
+        $resultEnd = nothing();
+        $matched = false;
+        try {
+            do {
+                $resultEnd = $matcherEnd($a);
+                $matched = $resultEnd instanceof Just;
+                if (!$matched) {
+                    $before = append($before, fromValue(head($a)));
+                    $a = tail($a);
+                }
+            } while (!$matched);
+        } catch (EmptyListError $e) {
+            // Jup, do nothing.
+        }
+
+        if (!$matched) {
+            return nothing();
+        }
+
+        $result = $matcher($before);
+        if ($result instanceof Just) {
+            [$m, $rest] = $result->extract();
+            if (length($rest)) {
+                return nothing();
+            }
+
+            [$e, $restEnd] = $resultEnd->extract();
+
+            return just([
+                $transform(fromIterable([$m, $e])),
+                $restEnd
+            ]);
+        }
+
+        return nothing();
+    })(...func_get_args());
+}
+
+function maybeP(callable $matcher, Listt $a = null)
+{
+    return curryN(2, function (callable $matcher, Listt $a) {
+        $r = $matcher($a);
+
+        return $r instanceof Just
+            ? $r
+            : just([[], $a]);
+    })(...func_get_args());
+}
+
+
+
 // lazyP :: ([a] -> Maybe b) -> [a] -> Maybe [b]
 function lazyP(callable $fn, Listt $a = null)
 {
@@ -381,9 +437,9 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * type Maybe a = Just a | Nothing
-     * type Either a b = Left a | Right b
-     * type Free f a = Pure a | Free f (Free f a)
+     * data Maybe a = Just a | Nothing
+     * data Either a b = Left a | Right b
+     * data Free f a = Pure a | Free f (Free f a)
      *
      *
      * type UnionF _ next
@@ -422,6 +478,30 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             })(...func_get_args());
         };
 
+        // lexeme :: ([a] -> Maybe (a, [a])) -> [a] -> Maybe (a, [a])
+        $lexemeOr = function (callable $fn, Listt $a = null) {
+            return curryN(2, function (callable $fn, Listt $a) {
+                $trimNil = dropWhile(function (Stringg $s) {
+                    return trim($s->extract(), " \0\n\t\r|") === "";
+                }, $a);
+
+                return $fn($trimNil);
+            })(...func_get_args());
+        };
+
+        $reserved = function (string $name) {
+            return matchP(function (Stringg $s, Stringg $matched) use ($name) {
+                $c = concatM($matched, $s);
+                $e = Stringg::of($name);
+                if (equal($c, $e)) {
+                    return true;
+                }
+
+                // TODO not optimal :/
+                return preg_match(sprintf('/^%s(.+)/', preg_quote($c->extract())), $e->extract());
+            });
+        };
+
         $or = $lexeme(charP('|'));
         $eql = $lexeme(charP('='));
         $parOp = $lexeme(charP('('));
@@ -437,15 +517,20 @@ class ParserTest extends \PHPUnit\Framework\TestCase
                 ? false
                 : preg_match('/[a-z]/', $s->extract());
         }));
-        $reservedType = $lexeme(matchP(function (Stringg $s, Stringg $matched) {
-            $c = concatM($matched, $s);
-            $e = Stringg::of('type');
-            if (equal($c, $e)) {
-                return true;
-            }
+        $reservedData = $lexeme($reserved('data'));
+        $reservedDeriving = $lexeme($reserved('deriving'));
 
-            return preg_match(sprintf('/^%s(.+)/', $c->extract()), $e->extract());
-        }));
+        $classDerivde = manyP(fromIterable([
+            $upperCaseWord
+        ]), function (Listt $a) {
+            return ['deriveClass', $a->extract()];
+        });
+
+        $dataDeriving = allOfP(fromIterable([
+            $reservedDeriving, $parOp, $classDerivde, $parCl,
+        ]), function (Listt $l) {
+            return ['deriving', $l->extract()[2]];
+        });
 
         $grouping = allOfP(fromIterable([
             $parOp, &$typeName, $parCl,
@@ -475,31 +560,41 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             return ['typeName', [$name, $args]];
         }));
 
-        $typeName = $lexeme(oneOfP(fromIterable([
-            $typeNameWithArgs, $typeNameWithoutArgs
+        $typeName = $lexemeOr(oneOfP(fromIterable([
+            $typeNameWithArgs,
+            $typeNameWithoutArgs
         ])));
 
         $representations = manyP(fromIterable([
-            oneOfP(fromIterable([$typeName, $or])),
+            $typeName,
         ]), function (Listt $a) {
             return ['representation', $a->extract()];
         });
 
         $declaration = allOfP(fromIterable([
-            $reservedType, $typeName, $eql, $representations,
+            $reservedData, $typeName, $eql, $representations,
         ]), function (Listt $a) {
             list(, $type, , $rep) = $a->extract();
 
             return ['declaration', [$type, $rep]];
         });
 
+        $declarationDerived = endByP($declaration, $dataDeriving, function (Listt $a) {
+            [$declaration, $derived] = $a->extract();
+
+            return ['declaration-derived', [$declaration, $derived]];
+        });
+
         $tokens = tokens('
-        type Maybe a = Just a | Nothing
-        type A = B
-        type Either a b = Left a | Right b
-        type Free f a = Pure a | Free f (Free f a)
+        data A = B deriving (Show)
+        data Maybe a = Just a | Nothing
+        data Either a b = Left a | Right b
+        data Free f a = Pure a | Free f (Free f a)
         ');
-        $expression = manyP(fromIterable([$declaration]), function (Listt $a) {
+        $expression = manyP(fromIterable([
+            $declarationDerived,
+            $declaration,
+        ]), function (Listt $a) {
             return ['types', $a->extract()];
         });
 
@@ -507,53 +602,29 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $ast = $result->extract()[0];
 
         $this->assertEquals(
-            ["types",
-                [
-                    ["declaration",
-                        [
-                            ["typeName", ["Maybe", ["args", ["a"]]]],
-                            ["representation",
-                                [
-                                    ["typeName", ["Just", ["args", ["a"]]]],
-                                    "|",
-                                    ["typeName", ["Nothing", []]]
-                                ]
-                            ]
-                        ]
-                    ],
-                    ["declaration",
-                        [
-                            ["typeName", ["A", []]],
-                            ["representation", [
-                                ["typeName", ["B", []]]]
-                            ]
-                        ]
-                    ],
-                    ["declaration",
-                        [
-                            ["typeName", ["Either", ["args", ["a", "b"]]]],
-                            ["representation",
-                                [
-                                    ["typeName", ["Left", ["args", ["a"]]]],
-                                    "|",
-                                    ["typeName", ["Right", ["args", ["b"]]]]
-                                ]
-                            ]
-                        ]
-                    ],
-                    ["declaration",
-                        [
-                            ["typeName", ["Free", ["args", ["f", "a"]]]],
-                            ["representation",
-                                [
-                                    ["typeName", ["Pure", ["args", ["a"]]]], "|",
-                                    ["typeName", ["Free", ["args", ["f", ["grp", ["typeName", ["Free", ["args", ["f", "a"]]]]]]]]]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ],
+            ["types", [
+                ["declaration-derived", [
+                    ["declaration", [
+                        ["typeName", ["A", []]],
+                        ["representation", [
+                            ["typeName", ["B", []]]]]]],
+                    ["deriving", ["deriveClass", ["Show"]]]]],
+                ["declaration", [
+                    ["typeName", ["Maybe", ["args", ["a"]]]],
+                    ["representation", [
+                        ["typeName", ["Just", ["args", ["a"]]]],
+                        ["typeName", ["Nothing", []]]]]]],
+                ["declaration", [
+                    ["typeName", ["Either", ["args", ["a", "b"]]]],
+                    ["representation", [
+                        ["typeName", ["Left", ["args", ["a"]]]],
+                        ["typeName", ["Right", ["args", ["b"]]]]]]]],
+                ["declaration", [
+                    ["typeName", ["Free", ["args", ["f", "a"]]]],
+                    ["representation", [
+                        ["typeName", ["Pure", ["args", ["a"]]]],
+                        ["typeName", ["Free", ["args", ["f", ["grp", ["typeName", ["Free", ["args", ["f", "a"]]]]]]]]]]]]]
+            ]],
             $ast
         );
     }
