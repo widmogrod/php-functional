@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace Widmogrod\Monad\Control\Doo\Algebra;
 
-use Widmogrod\FantasyLand\Functor;
+use FunctionalPHP\FantasyLand\Functor;
 use Widmogrod\Useful\PatternMatcher;
 
 /**

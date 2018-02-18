@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Widmogrod\Primitive;
 
-use Widmogrod\FantasyLand;
+use FunctionalPHP\FantasyLand;
 
 class Product extends Num implements
     FantasyLand\Monoid,

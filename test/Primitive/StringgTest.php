@@ -6,8 +6,8 @@ namespace test\Widmogrod\Primitive;
 
 use Eris\Generator;
 use Eris\TestTrait;
-use Widmogrod\Helpful\MonoidLaws;
-use Widmogrod\Helpful\SetoidLaws;
+use FunctionalPHP\FantasyLand\Helpful\MonoidLaws;
+use FunctionalPHP\FantasyLand\Helpful\SetoidLaws;
 use Widmogrod\Primitive\Product;
 use Widmogrod\Primitive\Stringg;
 

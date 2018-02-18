@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace example;
 
-use Widmogrod\FantasyLand\Functor;
+use FunctionalPHP\FantasyLand\Functor;
 use Widmogrod\Monad\Free\MonadFree;
 use Widmogrod\Monad\Free\Pure;
 use Widmogrod\Monad\State;

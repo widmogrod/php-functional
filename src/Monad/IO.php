@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Widmogrod\Monad;
 
 use Widmogrod\Common;
-use Widmogrod\FantasyLand;
+use FunctionalPHP\FantasyLand;
 
 class IO implements
     FantasyLand\Monad,

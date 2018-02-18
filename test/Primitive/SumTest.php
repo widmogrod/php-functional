@@ -6,8 +6,8 @@ namespace test\Primitive;
 
 use Eris\TestTrait;
 use Eris\Generator;
-use Widmogrod\Helpful\MonoidLaws;
-use Widmogrod\Helpful\SetoidLaws;
+use FunctionalPHP\FantasyLand\Helpful\MonoidLaws;
+use FunctionalPHP\FantasyLand\Helpful\SetoidLaws;
 use Widmogrod\Primitive\Product;
 use Widmogrod\Primitive\Sum;
 

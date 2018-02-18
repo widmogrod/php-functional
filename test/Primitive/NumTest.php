@@ -6,7 +6,7 @@ namespace test\Primitive;
 
 use Eris\TestTrait;
 use Eris\Generator;
-use Widmogrod\Helpful\SetoidLaws;
+use FunctionalPHP\FantasyLand\Helpful\SetoidLaws;
 use Widmogrod\Primitive\Num;
 
 class NumTest extends \PHPUnit\Framework\TestCase

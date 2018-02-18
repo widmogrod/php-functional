@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Widmogrod\Functional;
 
-use Widmogrod\FantasyLand\Setoid;
+use FunctionalPHP\FantasyLand\Setoid;
 
 const equal = 'Widmogrod\Functional\equal';
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
-use Widmogrod\FantasyLand\Monad;
+use FunctionalPHP\FantasyLand\Monad;
 use Widmogrod\Monad\Identity;
 use Widmogrod\Monad\State;
 use const Widmogrod\Functional\identity;

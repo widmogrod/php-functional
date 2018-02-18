@@ -4,8 +4,53 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d3bba8e335a995bd53543036052e37ba",
-    "packages": [],
+    "content-hash": "722371fce21dbeed7ea53b65ff26950a",
+    "packages": [
+        {
+            "name": "functional-php/fantasy-land",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/functional-php/fantasy-land.git",
+                "reference": "c855c856e70db81032a8a4fd17bd74a58d26a279"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/functional-php/fantasy-land/zipball/c855c856e70db81032a8a4fd17bd74a58d26a279",
+                "reference": "c855c856e70db81032a8a4fd17bd74a58d26a279",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2",
+                "giorgiosironi/eris": "^0.9",
+                "phpunit/phpunit": "^5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FunctionalPHP\\": "./src"
+                },
+                "files": [
+                    "src/FantasyLand/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Gabriel Habryn",
+                    "email": "widmogrod+github@gmail.com"
+                }
+            ],
+            "description": "Specification for interoperability of common algebraic structures in PHP",
+            "time": "2018-02-18T14:54:04+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "composer/semver",

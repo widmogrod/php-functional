@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Widmogrod\Functional;
 
-use Widmogrod\FantasyLand\Foldable;
+use FunctionalPHP\FantasyLand\Foldable;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\ListtCons;
 use Widmogrod\Useful\SnapshotIterator;

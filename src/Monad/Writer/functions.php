@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad\Writer;
 
-use Widmogrod\FantasyLand;
+use FunctionalPHP\FantasyLand;
 use Widmogrod\Monad as M;
 
 const pure = 'Widmogrod\Monad\Writer\pure';
