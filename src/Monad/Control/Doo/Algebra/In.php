@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad\Control\Doo\Algebra;
 
-use Widmogrod\FantasyLand\Functor;
+use FunctionalPHP\FantasyLand\Functor;
 use function Widmogrod\Functional\compose;
 
 class In implements DooF

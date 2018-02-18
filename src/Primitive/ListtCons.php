@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Widmogrod\Primitive;
 
 use Widmogrod\Common;
-use Widmogrod\FantasyLand;
+use FunctionalPHP\FantasyLand;
 use Widmogrod\Functional as f;
 
 class ListtCons implements Listt, \IteratorAggregate

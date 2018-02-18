@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad\Control\Doo;
 
-use Widmogrod\FantasyLand\Monad;
+use FunctionalPHP\FantasyLand\Monad;
 use Widmogrod\Monad\Free\MonadFree;
 use Widmogrod\Monad\Free\Pure;
 use function Widmogrod\Monad\Free\liftF;

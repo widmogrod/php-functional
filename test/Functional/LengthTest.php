@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
-use Widmogrod\FantasyLand\Foldable;
+use FunctionalPHP\FantasyLand\Foldable;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
 use function Widmogrod\Functional\length;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad\Free;
 
-use Widmogrod\FantasyLand;
+use FunctionalPHP\FantasyLand;
 
 interface MonadFree extends FantasyLand\Monad
 {

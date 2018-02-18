@@ -3,8 +3,8 @@
 declare(strict_types=1);
 namespace Widmogrod\Monad\Control\Doo\Algebra;
 
-use Widmogrod\FantasyLand\Functor;
-use Widmogrod\FantasyLand\Monad;
+use FunctionalPHP\FantasyLand\Functor;
+use FunctionalPHP\FantasyLand\Monad;
 use Widmogrod\Monad\Free\MonadFree;
 
 class Let implements DooF

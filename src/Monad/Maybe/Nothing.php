@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad\Maybe;
 
-use Widmogrod\FantasyLand;
+use FunctionalPHP\FantasyLand;
 
 class Nothing implements Maybe
 {

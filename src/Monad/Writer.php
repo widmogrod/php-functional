@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad;
 
-use Widmogrod\FantasyLand;
+use FunctionalPHP\FantasyLand;
 use Widmogrod\Primitive\Stringg as S;
 
 class Writer implements FantasyLand\Monad

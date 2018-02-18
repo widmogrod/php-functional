@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace test\Monad;
 
-use Widmogrod\FantasyLand\Applicative;
-use Widmogrod\FantasyLand\Functor;
+use FunctionalPHP\FantasyLand\Applicative;
+use FunctionalPHP\FantasyLand\Functor;
 use Widmogrod\Functional as f;
-use Widmogrod\Helpful\ApplicativeLaws;
-use Widmogrod\Helpful\FunctorLaws;
-use Widmogrod\Helpful\MonadLaws;
-use Widmogrod\Helpful\MonoidLaws;
+use FunctionalPHP\FantasyLand\Helpful\ApplicativeLaws;
+use FunctionalPHP\FantasyLand\Helpful\FunctorLaws;
+use FunctionalPHP\FantasyLand\Helpful\MonadLaws;
+use FunctionalPHP\FantasyLand\Helpful\MonoidLaws;
 use Widmogrod\Monad\Maybe;
 use Widmogrod\Monad\Maybe\Just;
 use Widmogrod\Monad\Maybe\Nothing;

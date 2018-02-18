@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace test\Monad;
 
-use Widmogrod\FantasyLand\Applicative;
-use Widmogrod\FantasyLand\Functor;
-use Widmogrod\Helpful\ApplicativeLaws;
-use Widmogrod\Helpful\FunctorLaws;
-use Widmogrod\Helpful\MonadLaws;
+use FunctionalPHP\FantasyLand\Applicative;
+use FunctionalPHP\FantasyLand\Functor;
+use FunctionalPHP\FantasyLand\Helpful\ApplicativeLaws;
+use FunctionalPHP\FantasyLand\Helpful\FunctorLaws;
+use FunctionalPHP\FantasyLand\Helpful\MonadLaws;
 use Widmogrod\Monad\Writer;
 
 class WriterTest extends \PHPUnit\Framework\TestCase

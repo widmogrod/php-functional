@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad\Free;
 
-use Widmogrod\FantasyLand\Functor;
-use Widmogrod\FantasyLand\Monad;
+use FunctionalPHP\FantasyLand\Functor;
+use FunctionalPHP\FantasyLand\Monad;
 use function Widmogrod\Functional\curryN;
 
 /**

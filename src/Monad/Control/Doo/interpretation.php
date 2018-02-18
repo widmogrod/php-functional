@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace Widmogrod\Monad\Control\Doo;
 
-use Widmogrod\FantasyLand\Monad;
+use FunctionalPHP\FantasyLand\Monad;
 use Widmogrod\Monad\Control\Doo\Algebra\DooF;
 use Widmogrod\Monad\Control\Doo\Algebra\In;
 use Widmogrod\Monad\Control\Doo\Algebra\Let;

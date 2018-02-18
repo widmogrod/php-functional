@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Widmogrod\Functional;
 
 use Widmogrod\Common\ValueOfInterface;
-use Widmogrod\FantasyLand\Applicative;
-use Widmogrod\FantasyLand\Foldable;
-use Widmogrod\FantasyLand\Functor;
-use Widmogrod\FantasyLand\Monad;
-use Widmogrod\FantasyLand\Traversable;
+use FunctionalPHP\FantasyLand\Applicative;
+use FunctionalPHP\FantasyLand\Foldable;
+use FunctionalPHP\FantasyLand\Functor;
+use FunctionalPHP\FantasyLand\Monad;
+use FunctionalPHP\FantasyLand\Traversable;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\ListtCons;
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Widmogrod\Functional;
 
-use Widmogrod\FantasyLand\Monoid;
-use Widmogrod\FantasyLand\Semigroup;
+use FunctionalPHP\FantasyLand\Monoid;
+use FunctionalPHP\FantasyLand\Semigroup;
 
 const emptyM = 'Widmogrod\Functional\emptyM';
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Widmogrod\Monad\Maybe;
 
 use Widmogrod\Common;
-use Widmogrod\FantasyLand;
+use FunctionalPHP\FantasyLand;
 use Widmogrod\Primitive\TypeMismatchError;
 
 class Just implements Maybe
