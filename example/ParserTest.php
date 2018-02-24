@@ -31,6 +31,7 @@ use function Widmogrod\Monad\Maybe\nothing;
 
 // Some dependencies are needed
 require_once __DIR__ . '/FreeCalculatorTest.php';
+require_once __DIR__ . '/FreeUnionTypeGeneratorTest.php';
 
 
 /**
@@ -261,7 +262,6 @@ function maybeP(callable $matcher, Listt $a = null)
 }
 
 
-
 // lazyP :: ([a] -> Maybe b) -> [a] -> Maybe [b]
 function lazyP(callable $fn, Listt $a = null)
 {
@@ -453,7 +453,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
      * word   = char word
      * args   = word | word args
      */
-    public function test_generate_union_type()
+    public function test_generate_data_types_as_array()
     {
         // lexeme :: ([a] -> Maybe (a, [a])) -> [a] -> Maybe (a, [a])
         $lexeme = function (callable $fn, Listt $a = null) {
@@ -627,5 +627,192 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             ]],
             $ast
         );
+    }
+
+    public function buildParserForDataTypes()
+    {
+        // lexeme :: ([a] -> Maybe (a, [a])) -> [a] -> Maybe (a, [a])
+        $lexeme = function (callable $fn, Listt $a = null) {
+            return curryN(2, function (callable $fn, Listt $a) {
+                // TODO Not optimal, for test only
+                $trimNil = dropWhile(function (Stringg $s) {
+                    return trim($s->extract()) === "";
+                }, $a);
+
+                return $fn($trimNil);
+            })(...func_get_args());
+        };
+
+        // lexeme :: ([a] -> Maybe (a, [a])) -> [a] -> Maybe (a, [a])
+        $lexeme2 = function (callable $fn, Listt $a = null) {
+            return curryN(2, function (callable $fn, Listt $a) {
+                $trimNil = dropWhile(function (Stringg $s) {
+                    return trim($s->extract(), " ") === "";
+                }, $a);
+
+                return $fn($trimNil);
+            })(...func_get_args());
+        };
+
+        // lexeme :: ([a] -> Maybe (a, [a])) -> [a] -> Maybe (a, [a])
+        $lexemeOr = function (callable $fn, Listt $a = null) {
+            return curryN(2, function (callable $fn, Listt $a) {
+                $trimNil = dropWhile(function (Stringg $s) {
+                    return trim($s->extract(), " \0\n\t\r|") === "";
+                }, $a);
+
+                return $fn($trimNil);
+            })(...func_get_args());
+        };
+
+        $reserved = function (string $name) {
+            return matchP(function (Stringg $s, Stringg $matched) use ($name) {
+                $c = concatM($matched, $s);
+                $e = Stringg::of($name);
+                if (equal($c, $e)) {
+                    return true;
+                }
+
+                // TODO not optimal :/
+                return preg_match(sprintf('/^%s(.+)/', preg_quote($c->extract())), $e->extract());
+            });
+        };
+
+        $or = $lexeme(charP('|'));
+        $eql = $lexeme(charP('='));
+        $parOp = $lexeme(charP('('));
+        $parCl = $lexeme(charP(')'));
+
+        $upperCaseWord = $lexeme(matchP(function (Stringg $s, Stringg $matched) {
+            return equal($matched, emptyM($matched))
+                ? preg_match('/[A-Z]/', $s->extract())
+                : preg_match('/[a-z]/i', $s->extract());
+        }));
+        $lowerCaseWord = $lexeme2(matchP(function (Stringg $s, Stringg $matched) {
+            return strlen($matched->extract())
+                ? false
+                : preg_match('/[a-z]/', $s->extract());
+        }));
+        $reservedData = $lexeme($reserved('data'));
+        $reservedDeriving = $lexeme($reserved('deriving'));
+
+        $classDerivde = manyP(fromIterable([
+            $upperCaseWord
+        ]), function (Listt $a) {
+            return derived($a->extract());
+        });
+
+        $dataDeriving = allOfP(fromIterable([
+            $reservedDeriving, $parOp, $classDerivde, $parCl,
+        ]), function (Listt $l) {
+            return $l->extract()[2];
+        });
+
+        $grouping = allOfP(fromIterable([
+            $parOp, &$typeName, $parCl,
+        ]), function (Listt $attr) {
+            return $attr->extract()[1];
+        });
+
+        $args = $lexeme2(manyP(fromIterable([
+            oneofP(fromIterable([$lowerCaseWord, $grouping])),
+        ]), function (Listt $attr) {
+            return $attr->extract();
+        }));
+
+        $typeNameWithoutArgs = $lexeme(allOfP(fromIterable([
+            $upperCaseWord
+        ]), function (Listt $a) {
+            list($name) = $a->extract();
+
+            return [$name, []];
+        }));
+
+        $typeNameWithArgs = $lexeme(allOfP(fromIterable([
+            $upperCaseWord, $args
+        ]), function (Listt $a) {
+            list($name, $args) = $a->extract();
+
+            return [$name, $args];
+        }));
+
+        $typeName = $lexemeOr(oneOfP(fromIterable([
+            $typeNameWithArgs,
+            $typeNameWithoutArgs
+        ])));
+
+        $representations = manyP(fromIterable([
+            $typeName,
+        ]), function (Listt $a): Listt {
+            return $a;
+        });
+
+        $declaration = allOfP(fromIterable([
+            $reservedData, $typeName, $eql, $representations,
+        ]), function (Listt $a) {
+            list(, list($tname, $targ), , $rep) = $a->extract();
+
+            return declaree(data_($tname, $targ), fromIterable($rep)->map(function ($t) {
+                list($tname, $targ) = $t;
+
+                return type($tname, $targ);
+            }));
+        });
+
+        $declarationDerived = endByP($declaration, $dataDeriving, function (Listt $a) {
+            [$declaration, $derived] = $a->extract();
+
+            return declaree($declaration, fromValue($derived));
+        });
+
+
+        $expression = manyP(fromIterable([
+            $declarationDerived,
+            $declaration,
+        ]), function (Listt $a) {
+            return $a->extract();
+        });
+
+        return $expression;
+    }
+
+    /**
+     * @dataProvider provideGeneratedCode
+     */
+    public function test_generate_data_types_as_free_string(string $input, string $expectedFileContents)
+    {
+        $tokens = tokens($input);
+
+        $expression = $this->buildParserForDataTypes();
+        $result = $expression($tokens);
+        $ast = $result->extract()[0][0];
+
+        $expected = file_get_contents(sprintf(__DIR__ . '/_Parser_assets/%s', $expectedFileContents));
+
+        $result = foldFree(interpretTypesAndGenerate, $ast, Identity::of);
+        $generated = $result->extract()->generate();
+        $this->assertEquals($expected, $generated);
+    }
+
+    public function provideGeneratedCode()
+    {
+        return [
+            'data A = B deriving (Show)' => [
+                '$declaration' => 'data A = B deriving (Show)',
+                '$toImplementation' => 'A.txt',
+            ],
+            'data Maybe a = Just a | Nothing' => [
+                '$declaration' => 'data Maybe a = Just a | Nothing',
+                '$toImplementation' => 'Maybe.txt',
+            ],
+            'data Either a b = Left a | Right b' => [
+                '$declaration' => 'data Either a b = Left a | Right b',
+                '$toImplementation' => 'Either.txt',
+            ],
+            'data FreeT f a = Pure a | Free f (FreeT f a)' => [
+                '$declaration' => 'data FreeT f a = Pure a | Free f (FreeT f a)',
+                '$toImplementation' => 'FreeT.txt',
+            ],
+        ];
     }
 }

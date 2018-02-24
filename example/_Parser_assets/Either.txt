@@ -1,0 +1,23 @@
+interface Either {}
+class Left implements Either {
+    private $a;
+
+    public function __construct($a) {
+        $this->a = $a;
+ 
+    }
+    public function patternMatched(callable $fn) {
+        return $fn($this->a);
+    }
+}
+class Right implements Either {
+    private $b;
+
+    public function __construct($b) {
+        $this->b = $b;
+ 
+    }
+    public function patternMatched(callable $fn) {
+        return $fn($this->b);
+    }
+}

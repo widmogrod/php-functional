@@ -1,0 +1,25 @@
+interface FreeT {}
+class Pure implements FreeT {
+    private $a;
+
+    public function __construct($a) {
+        $this->a = $a;
+ 
+    }
+    public function patternMatched(callable $fn) {
+        return $fn($this->a);
+    }
+}
+class Free implements FreeT {
+    private $f;
+private $FreeT;
+
+    public function __construct($f,$FreeT) {
+        $this->f = $f;
+$this->FreeT = $FreeT;
+ 
+    }
+    public function patternMatched(callable $fn) {
+        return $fn($this->f, $this->FreeT);
+    }
+}

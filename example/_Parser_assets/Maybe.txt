@@ -1,0 +1,18 @@
+interface Maybe {}
+class Just implements Maybe {
+    private $a;
+
+    public function __construct($a) {
+        $this->a = $a;
+ 
+    }
+    public function patternMatched(callable $fn) {
+        return $fn($this->a);
+    }
+}
+class Nothing implements Maybe {
+    
+    public function patternMatched(callable $fn) {
+        return $fn();
+    }
+}
