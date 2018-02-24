@@ -262,7 +262,6 @@ function maybeP(callable $matcher, Listt $a = null)
 }
 
 
-
 // lazyP :: ([a] -> Maybe b) -> [a] -> Maybe [b]
 function lazyP(callable $fn, Listt $a = null)
 {
@@ -630,7 +629,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function test_generate_data_types_as_free_string()
+    public function buildParserForDataTypes()
     {
         // lexeme :: ([a] -> Maybe (a, [a])) -> [a] -> Maybe (a, [a])
         $lexeme = function (callable $fn, Listt $a = null) {
@@ -753,8 +752,9 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         ]), function (Listt $a) {
             list(, list($tname, $targ), , $rep) = $a->extract();
 
-            return declaree(data_($tname, $targ), fromIterable($rep)->map(function($t) {
+            return declaree(data_($tname, $targ), fromIterable($rep)->map(function ($t) {
                 list($tname, $targ) = $t;
+
                 return type($tname, $targ);
             }));
         });
@@ -765,12 +765,6 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             return declaree($declaration, fromValue($derived));
         });
 
-        $tokens = tokens('
-        data A = B deriving (Show)
-        data Maybe a = Just a | Nothing
-        data Either a b = Left a | Right b
-        data Free f a = Pure a | Free f (Free f a)
-        ');
 
         $expression = manyP(fromIterable([
             $declarationDerived,
@@ -779,21 +773,46 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             return $a->extract();
         });
 
+        return $expression;
+    }
+
+    /**
+     * @dataProvider provideGeneratedCode
+     */
+    public function test_generate_data_types_as_free_string(string $input, string $expectedFileContents)
+    {
+        $tokens = tokens($input);
+
+        $expression = $this->buildParserForDataTypes();
         $result = $expression($tokens);
         $ast = $result->extract()[0][0];
 
-        $expected = 'interface A extends Show {}
-class B implements A {
-    
-    public function patternMatched(callable $fn) {
-        return $fn();
-    }
-}
-';
+        $expected = file_get_contents(sprintf(__DIR__ . '/_Parser_assets/%s', $expectedFileContents));
 
         $result = foldFree(interpretTypesAndGenerate, $ast, Identity::of);
         $generated = $result->extract()->generate();
         $this->assertEquals($expected, $generated);
+    }
 
+    public function provideGeneratedCode()
+    {
+        return [
+            'data A = B deriving (Show)' => [
+                '$declaration' => 'data A = B deriving (Show)',
+                '$toImplementation' => 'A.txt',
+            ],
+            'data Maybe a = Just a | Nothing' => [
+                '$declaration' => 'data Maybe a = Just a | Nothing',
+                '$toImplementation' => 'Maybe.txt',
+            ],
+            'data Either a b = Left a | Right b' => [
+                '$declaration' => 'data Either a b = Left a | Right b',
+                '$toImplementation' => 'Either.txt',
+            ],
+            'data FreeT f a = Pure a | Free f (FreeT f a)' => [
+                '$declaration' => 'data FreeT f a = Pure a | Free f (FreeT f a)',
+                '$toImplementation' => 'FreeT.txt',
+            ],
+        ];
     }
 }

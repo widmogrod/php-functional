@@ -1,0 +1,7 @@
+interface A extends Show {}
+class B implements A {
+    
+    public function patternMatched(callable $fn) {
+        return $fn();
+    }
+}
