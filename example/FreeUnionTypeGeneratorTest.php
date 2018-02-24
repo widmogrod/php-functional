@@ -136,11 +136,13 @@ class Derived_ implements UnionF
     }
 }
 
-function data_(string $name, array $args): MonadFree {
+function data_(string $name, array $args): MonadFree
+{
     return liftF(new Declare_($name, $args, Pure::of));
 }
 
-function declaree(MonadFree $data, Listt $mx): MonadFree {
+function declaree(MonadFree $data, Listt $mx): MonadFree
+{
     return reduce(function (MonadFree $m, callable $next) {
         return $m->bind($next);
     }, $data, $mx);
@@ -152,7 +154,6 @@ function declareType(string $name, array $args, callable $first, callable ...$re
     $mx = prepend($first, $mx);
 
     return declaree(data_($name, $args), $mx);
-
 }
 
 function type(string $name, array $args = [], $a = null)
@@ -256,11 +257,12 @@ class GeneratorLazy
 const interpretTypesAndGenerate = 'example\interpretTypesAndGenerate';
 
 /**
- * @param UnionF $f
+ * @param  UnionF                                   $f
  * @return Identity
  * @throws \Widmogrod\Useful\PatternNotMatchedError
  */
-function interpretTypesAndGenerate(UnionF $f): Identity {
+function interpretTypesAndGenerate(UnionF $f): Identity
+{
     return match([
         Declare_::class => function (string $name, array $args, callable $next): Identity {
             $a = new GeneratorLazy();
