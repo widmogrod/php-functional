@@ -10,7 +10,6 @@ use Widmogrod\Monad\Maybe\Maybe;
 use Widmogrod\Primitive\EmptyListError;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\Stringg;
-use const Widmogrod\Functional\fromValue;
 use function Widmogrod\Functional\append;
 use function Widmogrod\Functional\bind;
 use function Widmogrod\Functional\concatM;
@@ -28,6 +27,7 @@ use function Widmogrod\Functional\tail;
 use function Widmogrod\Monad\Free\foldFree;
 use function Widmogrod\Monad\Maybe\just;
 use function Widmogrod\Monad\Maybe\nothing;
+use const Widmogrod\Functional\fromValue;
 
 // Some dependencies are needed
 require_once __DIR__ . '/FreeCalculatorTest.php';
