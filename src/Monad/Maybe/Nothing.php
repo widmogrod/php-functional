@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Widmogrod\Monad\Maybe;
 
 use FunctionalPHP\FantasyLand;
+use Widmogrod\Useful\PatternMatcher;
 
-class Nothing implements Maybe
+class Nothing implements Maybe, PatternMatcher
 {
     const of = 'Widmogrod\Monad\Maybe\Nothing::of';
 
@@ -83,5 +84,13 @@ class Nothing implements Maybe
     public function reduce(callable $function, $accumulator)
     {
         return $accumulator;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function patternMatched(callable $fn)
+    {
+        return $fn();
     }
 }
