@@ -254,6 +254,10 @@ class Set implements Monoid
     {
     }
 
+    public static function withValue($n)
+    {
+    }
+
     /**
      * @inheritdoc
      */
@@ -334,6 +338,7 @@ class Subst extends Map implements PatternMatcher
     }
 }
 
+const nullSubst = 'example\nullSubst';
 
 // nullSubst :: Subst
 // nullSubst = Map.empty
@@ -341,6 +346,8 @@ function nullSubst(): Subst
 {
     return Subst::mempty();
 }
+
+const composeSubst = 'example\composeSubst';
 
 // composeSubst :: Subst → Subst → Subst
 // composeSubst s1 s2 = (Map.map (apply s1) s2) ‘Map.union‘ s1
@@ -395,7 +402,7 @@ const ftv = 'example\ftv';
 /**
  * ftv :: a → Set.Set String
  *
- * @param  Type|Listt|Scheme|TypeEnv                $t
+ * @param  Type|Listt|Scheme|TypeEnv $t
  * @return Set
  * @throws \Widmogrod\Useful\PatternNotMatchedError
  */
@@ -404,7 +411,7 @@ function ftv($t): Set
     return match([
         // instance Types Type where
         TVar::class => function ($n): Set {
-            return new Set($n);
+            return Set::withValue($n);
         },
         TBool::class => function (): Set {
             return Set::mempty();
@@ -479,6 +486,79 @@ function apply(Subst $s, $a = null)
     })(...func_get_args());
 }
 
+// data TIEnv = TIEnv { }
+// data TIState = TIState{tiSupply :: Int }
+// type TI a = ErrorT String (ReaderT TIEnv (StateT TIState IO)) a
+//class TI
+
+// instantiate :: Scheme → TI Type
+function instantiate(Scheme): TI {
+    // instantiate (Scheme vars t)
+    //                  = do nvars ← mapM (λ   → newTyVar "a") vars
+    //                      let s = Map.fromList (zip vars nvars)
+    //                      return $ apply s t
+}
+
+/*
+tiLit :: Lit → TI (Subst , Type )
+tiLit (LInt ) = return (nullSubst, TInt)
+tiLit (LBool   ) = return (nullSubst, TBool)
+*/
+/**
+ * @param Lit $li
+ * @return mixed
+ * @throws \Widmogrod\Useful\PatternNotMatchedError
+ */
+function tiLit(Lit $li)
+{
+    return match([
+        LInt::class => new TI([nullSubst(), TInt::class]),
+        TBool::class => new TI([nullSubst(), TBool::class]),
+    ], $li);
+}
+
+/**
+ * ti :: TypeEnv → Exp → TI (Subst , Type )
+ *
+ * @return mixed
+ * @throws \Widmogrod\Useful\PatternNotMatchedError
+ */
+function ti(TypeEnv $env, Exp $e): TI
+{
+    return match([
+        EVar::class => function () use ($env) {
+            return match([
+                Nothing::class => function () {
+
+                },
+                Just::class => function ($sigma) {
+                    return instantiate($sigma)->bind(function ($t) {
+                        return [nullSubst, $t];
+                    });
+                },
+            ], $env);
+        },
+        ELit::class => function (Lit $l) {
+            return tiLit($l);
+        },
+        EAbs::class => function () {
+
+        },
+        EApp::class => function () {
+
+        },
+        ELet::class => function () {
+
+        },
+    ], $e);
+}
+
+// typeInference :: Map.Map String Scheme → Exp → TI Type
+function typeInference(Map $env, Exp $e): TI
+{
+
+}
+
 class FreeMonadTest extends \PHPUnit\Framework\TestCase
 {
     /**
@@ -499,6 +579,7 @@ class FreeMonadTest extends \PHPUnit\Framework\TestCase
                     new EAbs("x", new EVar("x")),
                     new EVar("id")
                 ),
+                'expected' => 'a1 -> a1',
             ],
             // e1 = ELet "id" (EAbs "x" (EVar "x")) (EApp (EVar "id") (EVar "id"))
             'let id = (x -> x) in id id' => [
@@ -513,6 +594,7 @@ class FreeMonadTest extends \PHPUnit\Framework\TestCase
                         new EVar('id')
                     )
                 ),
+                'expected' => 'a3 -> a3',
             ],
             // e2 = ELet "id" (EAbs "x" (ELet "y" (EVar "x") (EVar "y"))) (EApp (EVar "id") (EVar "id"))
             'let id = (x -> let y = x in y) in id id ' => [
@@ -531,6 +613,7 @@ class FreeMonadTest extends \PHPUnit\Framework\TestCase
                         new EVar('id')
                     )
                 ),
+                'expected' => 'a3 -> a3',
             ],
             // e3 = ELet "id" (EAbs "x" (ELet "y" (EVar "x") (EVar "y"))) (EApp (EApp (EVar "id") (EVar "id")) (ELit (LInt 2)))
             'let id = (x -> let y = x in y) in ((id id) 2)' => [
@@ -552,19 +635,23 @@ class FreeMonadTest extends \PHPUnit\Framework\TestCase
                         new ELit(new LInt(2))
                     )
                 ),
+                'expected' => 'Int',
             ],
             // e4 = ELet "id" (EAbs "x" (EApp (EVar "x") (EVar "x"))) (EVar "id")
-            'let id = (x -> (x x)) in id' => new ELet(
-                'id',
-                new EAbs(
-                    'x',
-                    new EApp(
-                        new EVar('x'),
-                        new EVar('x')
-                    )
+            'let id = (x -> (x x)) in id' => [
+                'expression' => new ELet(
+                    'id',
+                    new EAbs(
+                        'x',
+                        new EApp(
+                            new EVar('x'),
+                            new EVar('x')
+                        )
+                    ),
+                    new EVar('id')
                 ),
-                new EVar('id')
-            ),
+                'expected' => 'error: occur check fails: a0 vs. a0 -> a1',
+            ],
             // e5 = EAbs "m" (ELet "y" (EVar "m")
             //       (ELet "x" (EApp (EVar "y") (ELit (LBool True)))
             //          (EVar "x")))
@@ -583,7 +670,8 @@ class FreeMonadTest extends \PHPUnit\Framework\TestCase
                             new EVar('x')
                         )
                     )
-                )
+                ),
+                'expected' => '(Bool -> a1) -> a1',
             ],
             // e6 = EApp (ELit (LInt 2)) (ELit (LInt 2))
             '(2 2)' => [
@@ -591,6 +679,16 @@ class FreeMonadTest extends \PHPUnit\Framework\TestCase
                     new ELit(new LInt(2)),
                     new ELit(new LInt(2))
                 ),
+                'expected' => 'error: types do not unify: Int vs. Int -> a0',
+            ],
+            // e7 = ELet "id" (EAbs "x" (EVar "y")) (EVar "id")
+            'let id = (x -> y) in id)' => [
+                'expression' => new ELet(
+                    'id',
+                    new EAbs("x", new EVar("y")),
+                    new EVar("id")
+                ),
+                'expected' => 'error: unbound variable: y',
             ],
         ];
     }
