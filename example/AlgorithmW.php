@@ -677,6 +677,33 @@ function showType(Type $t)
     ], $t);
 }
 
+/**
+ * @param Type $t
+ * @return mixed
+ * @throws \Widmogrod\Useful\PatternNotMatchedError
+ */
+function showImpl(Exp $e)
+{
+    return match([
+        ELit::class => match([
+            LInt::class => identity,
+            LBool::class => identity,
+        ]),
+        EVar::class => function ($n) {
+            return $n;
+        },
+        ELet::class => function ($n, Exp $e1, Exp $e2) {
+            return sprintf('let %s = %s in %s', $n, showImpl($e1), showImpl($e2));
+        },
+        EApp::class => function (Exp $e1, Exp $e2) {
+            return sprintf('%s %s', showImpl($e1), showImpl($e2));
+        },
+        EAbs::class => function ($arg, Exp $e) {
+            return sprintf('(%s -> %s)', $arg, showImpl($e));
+        }
+    ], $e);
+}
+
 class FreeMonadTest extends \PHPUnit\Framework\TestCase
 {
     /**
@@ -684,6 +711,7 @@ class FreeMonadTest extends \PHPUnit\Framework\TestCase
      */
     public function test(Exp $expression, $expected)
     {
+        echo showImpl($expression), "\n";
         $this->assertInstanceOf(Exp::class, $expression);
         $result = typeInference(Map::mempty(), $expression);
         $this->assertEquals($expected, showType($result));
@@ -705,14 +733,14 @@ class FreeMonadTest extends \PHPUnit\Framework\TestCase
                 'expected' => 'Int',
             ],
             // e0 = ELet "id" (EAbs "x" (EVar "x")) (EVar "id")
-//            'let id = (x -> x) in id)' => [
-//                'expression' => new ELet(
-//                    'id',
-//                    new EAbs("x", new EVar("x")),
-//                    new EVar("id")
-//                ),
-//                'expected' => 'a1 -> a1',
-//            ],
+            'let id = (x -> x) in id)' => [
+                'expression' => new ELet(
+                    'id',
+                    new EAbs("x", new EVar("x")),
+                    new EVar("id")
+                ),
+                'expected' => 'a1 -> a1',
+            ],
 //            // e1 = ELet "id" (EAbs "x" (EVar "x")) (EApp (EVar "id") (EVar "id"))
 //            'let id = (x -> x) in id id' => [
 //                'expression' => new ELet(
