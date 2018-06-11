@@ -35,10 +35,10 @@ use Widmogrod\Monad\Maybe\Nothing;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Useful\PatternMatcher;
 use function Widmogrod\Functional\concatM;
-use function Widmogrod\Functional\constt;
 use function Widmogrod\Functional\curryN;
 use function Widmogrod\Functional\foldr;
 use function Widmogrod\Functional\fromIterable;
+use function Widmogrod\Functional\fromNil;
 use function Widmogrod\Functional\map;
 use function Widmogrod\Functional\reduce;
 use function Widmogrod\Functional\zip;
@@ -168,7 +168,7 @@ class LBool implements Lit
     }
 }
 
-interface Type
+interface Type extends PatternMatcher
 {
 }
 
@@ -176,7 +176,7 @@ class TVar implements Type
 {
     private $string;
 
-    public function __construct($string)
+    public function __construct(string $string)
     {
         $this->string = $string;
     }
@@ -279,7 +279,7 @@ class Set
         ]));
     }
 
-    public static function insert($value, Set $set): Listt
+    public static function insert($value, Set $set): Set
     {
         $new = clone $set::$data;
         $new[$value] = true;
@@ -350,7 +350,7 @@ class Map
     public static function union(Map $a, Map $b): Map
     {
         return reduce(function (Map $acc, $key) use ($b) {
-            return static::insert($ksey, $b::$data[$key], $acc);
+            return static::insert($key, $b::$data[$key], $acc);
         }, $a, static::elems($b));
     }
 
@@ -391,9 +391,9 @@ class Map
     }
 }
 
-function lookup(Map $map, $key): Maybe
+function lookup(Map $map, string $key): Maybe
 {
-    return MaP::lookup($key, $map);
+    return $map::lookup($key, $map);
 }
 
 // type Subst = Map.Map String Type
@@ -529,14 +529,20 @@ function apply(Subst $s, $a = null)
             TVar::class => function ($n) use ($s, $a) {
                 return match([
                     Just::class => identity,        // Justt → t
-                    Nothing::class => constt($a),   // Nothing → TVar n
+                    Nothing::class => function () use ($a) {
+                        return $a;
+                    },   // Nothing → TVar n
                 ], lookup($s, $n));
             },
             TFun::class => function (Type $t1, Type $t2) use ($s) {
                 return new TFun(apply($s, $t1), apply($s, $t2));
             },
-            TBool::class => constt($a),
-            TInt::class => constt($a),
+            TBool::class => function () use ($a) {
+                return $a;
+            },
+            TInt::class => function () use ($a) {
+                return $a;
+            },
             // instance Types Scheme where
             Scheme::class => function (Listt $vars, Type $t) use ($s) {
                 // apply s (Scheme vars t) = Scheme vars (apply (foldr Map.delete s vars) t)
@@ -566,19 +572,23 @@ function apply(Subst $s, $a = null)
 
 $increment = 0;
 
+function newVar($name)
+{
+    global $increment;
+    return new TVar(sprintf('%s%d', $name, ++$increment));
+}
+
 // instantiate :: Scheme → TI Type
 function instantiate(Scheme $s)
 {
-    global $increment;
-
     // instantiate (Scheme vars t)
     //                  = do nvars ← mapM (λ   → newTyVar "a") vars
     //                      let s = Map.fromList (zip vars nvars)
     //                      return $ apply s t
     return match([
-        Scheme::class => function (Listt $vars, Type $t) use (&$increment) {
-            $nvars = map(function () use (&$increment) {
-                return new TVar('$a' . (++$increment));
+        Scheme::class => function (Listt $vars, Type $t) {
+            $nvars = map(function () {
+                return newVar('a');
             }, $vars);
 
             $s = Subst::fromList(zip($vars, $nvars));
@@ -600,8 +610,12 @@ tiLit (LBool   ) = return (nullSubst, TBool)
 function tiLit(Lit $li)
 {
     return match([
-        LInt::class => constt([nullSubst(), new TInt()]),
-        LBool::class => constt([nullSubst(), new TBool()]),
+        LInt::class => function () {
+            return [nullSubst(), new TInt()];
+        },
+        LBool::class => function () {
+            return [nullSubst(), new TBool()];
+        },
     ], $li);
 }
 
@@ -629,11 +643,18 @@ function ti(TypeEnv $env, Exp $e)
                 ELit::class => function (Lit $l) {
                     return tiLit($l);
                 },
-                EAbs::class => function () {
-                    throw new Exception('not implemented');
+                EAbs::class => function ($n, Exp $e) use ($env, $envMap) {
+//                    throw new Exception('not implemented');
+                    $tv = newVar('a');
+                    $sk = new Scheme(fromNil(), $tv);
+                    $env = new TypeEnv(Map::insert($n, $sk, $envMap));
+                    [$s1, $t1] = ti($env, $e);
+                    return [$s1, new TFun($tv, $t1)];
+
                 },
-                EApp::class => function () {
+                EApp::class => function () use ($env, $envMap) {
                     throw new Exception('not implemented');
+
                 },
                 ELet::class => function ($n, Exp $e1, Exp $e2) use ($env, $envMap) {
                     [$s1, $t1] = ti($env, $e1);
@@ -668,9 +689,15 @@ function typeInference(Map $env, Exp $e)
 function showType(Type $t)
 {
     return match([
-        TInt::class => constt('Int'),
-        TBool::class => constt('Bool'),
-        TVar::class => identity,
+        TInt::class => function () {
+            return 'Int';
+        },
+        TBool::class => function () {
+            return 'Bool';
+        },
+        TVar::class => function ($n) {
+            return $n;
+        },
         TFun::class => function (Type $t1, Type $t2) {
             return sprintf('(%s -> %s)', showType($t1), showType($t2));
         }
@@ -739,7 +766,7 @@ class FreeMonadTest extends \PHPUnit\Framework\TestCase
                     new EAbs("x", new EVar("x")),
                     new EVar("id")
                 ),
-                'expected' => 'a1 -> a1',
+                'expected' => '(a1 -> a1)',
             ],
 //            // e1 = ELet "id" (EAbs "x" (EVar "x")) (EApp (EVar "id") (EVar "id"))
 //            'let id = (x -> x) in id id' => [
