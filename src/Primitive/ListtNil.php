@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Widmogrod\Primitive;
 
-use Widmogrod\Common;
 use FunctionalPHP\FantasyLand;
+use Widmogrod\Common;
 
-class ListtNil implements Listt
+class ListtNil implements Listt, \IteratorAggregate
 {
     use Common\PointedTrait;
 
@@ -122,5 +122,13 @@ class ListtNil implements Listt
     public function tail(): Listt
     {
         throw new EmptyListError(__FUNCTION__);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getIterator()
+    {
+        return new \ArrayObject();
     }
 }
