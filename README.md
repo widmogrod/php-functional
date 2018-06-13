@@ -26,6 +26,10 @@ To simplify this experience, set of higher order primitives is introduced in lib
  * `Stringg`
  * `Listt` (a.k.a List Monad, since `list` is a protected keyword in PHP)
  
+## Applications
+Known applications of this project
+- [Algorithm W](https://github.com/widmogrod/php-algorithm-w) implemented in PHP based on Martin Grabmüller work.
+ 
 ## Installation
 
 ```
@@ -368,3 +372,4 @@ Here links to their articles`/`libraries that help me understood the domain:
  * http://robotlolita.me/2013/12/08/a-monad-in-practicality-first-class-failures.html
  * http://robotlolita.me/2014/03/20/a-monad-in-practicality-controlling-time.html
  * https://github.com/folktale/data.either
+ * https://github.com/widmogrod/php-algorithm-w
