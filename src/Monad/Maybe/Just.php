@@ -7,8 +7,9 @@ namespace Widmogrod\Monad\Maybe;
 use Widmogrod\Common;
 use FunctionalPHP\FantasyLand;
 use Widmogrod\Primitive\TypeMismatchError;
+use Widmogrod\Useful\PatternMatcher;
 
-class Just implements Maybe
+class Just implements Maybe, PatternMatcher
 {
     use Common\PointedTrait;
 
@@ -91,5 +92,13 @@ class Just implements Maybe
     public function reduce(callable $function, $accumulator)
     {
         return $function($accumulator, $this->value);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function patternMatched(callable $fn)
+    {
+        return $fn($this->value);
     }
 }

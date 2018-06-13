@@ -30,4 +30,12 @@ class PatternNotMatchedError extends \Exception
 
         return new self($message);
     }
+
+    public static function tupleMismatch($patternCount, $valueCount)
+    {
+        $message = 'tupleMismatch(%d != %d)';
+        $message = sprintf($message, $patternCount, $valueCount);
+
+        return new self($message);
+    }
 }

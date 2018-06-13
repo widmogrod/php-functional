@@ -4,7 +4,18 @@ declare(strict_types=1);
 
 namespace Widmogrod\Useful;
 
+use Widmogrod\Monad\Maybe\Just;
+use Widmogrod\Primitive\Listt;
+use function Widmogrod\Functional\concatM;
 use function Widmogrod\Functional\curryN;
+use function Widmogrod\Functional\fromIterable;
+use function Widmogrod\Functional\fromNil;
+use function Widmogrod\Functional\fromValue;
+use function Widmogrod\Functional\zip;
+use function Widmogrod\Monad\Maybe\just;
+use function Widmogrod\Monad\Maybe\nothing;
+
+const any = 'Widmogrod\Useful\PatternAny';
 
 /**
  * match :: #{ Pattern -> (a -> b)} -> a -> b
@@ -23,13 +34,72 @@ function match(array $patterns, $value = null)
         }
 
         foreach ($patterns as $className => $fn) {
-            if ($value instanceof $className) {
-                return $value instanceof PatternMatcher
-                    ? $value->patternMatched($fn)
-                    : $fn($value);
+            $isTuplePattern = is_int($className) && is_array($fn);
+            if ($isTuplePattern) {
+                [$tuple, $fn] = $fn;
+                $result = matchTuple($tuple, $value);
+                if ($result instanceof Just) {
+                    return $fn(...$result->extract());
+                }
+            }
+
+            if (isMatch($value, $className)) {
+                return isAny($className)
+                    ? $fn($value)
+                    : matchApply($value, $fn);
             }
         }
 
         throw PatternNotMatchedError::cannotMatch($value, array_keys($patterns));
     })(...func_get_args());
+}
+
+function isMatch($value, $className): bool
+{
+    if (is_array($value)) {
+        return false;
+    }
+
+    if ($value instanceof $className) {
+        return true;
+    }
+
+    return isAny($className);
+}
+
+function isAny($className)
+{
+    return $className === any;
+}
+
+function matchTuple(array $tuplePattern, array $valueTuple)
+{
+    $patternCount = count($tuplePattern);
+    $valueCount = count($valueTuple);
+
+    if ($valueCount !== $patternCount) {
+        return nothing();
+    }
+
+    $collectArgs = function (): Listt {
+        return fromIterable(func_get_args());
+    };
+
+    $args = fromNil();
+    foreach (zip(fromIterable($tuplePattern), fromIterable($valueTuple)) as [$className, $value]) {
+        if (!isMatch($value, $className)) {
+            return nothing();
+        }
+
+        $args = concatM($args, isAny($className) ? fromValue($value) : matchApply($value, $collectArgs));
+    }
+
+    return just(iterator_to_array($args));
+}
+
+function matchApply($value, callable $fn)
+{
+    return $value instanceof PatternMatcher
+        ? $value->patternMatched($fn)
+        : $fn($value);
 }
