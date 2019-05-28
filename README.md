@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/widmogrod/php-functional.svg)](https://travis-ci.org/widmogrod/php-functional)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/895bddc952aefca0d82a/test_coverage)](https://codeclimate.com/github/widmogrod/php-functional/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/895bddc952aefca0d82a/maintainability)](https://codeclimate.com/github/widmogrod/php-functional/maintainability)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwidmogrod%2Fphp-functional.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwidmogrod%2Fphp-functional?ref=badge_shield)
 ## Introduction
 
 Functional programing is a fascinating concept.
@@ -373,3 +374,7 @@ Here links to their articles`/`libraries that help me understood the domain:
  * http://robotlolita.me/2014/03/20/a-monad-in-practicality-controlling-time.html
  * https://github.com/folktale/data.either
  * https://github.com/widmogrod/php-algorithm-w
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwidmogrod%2Fphp-functional.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwidmogrod%2Fphp-functional?ref=badge_large)
