@@ -83,7 +83,7 @@ function curryN($numberOfArguments, callable $function, array $args = [])
  */
 function curry(callable $function, array $args = [])
 {
-    $reflectionOfFunction = new \ReflectionFunction($function);
+    $reflectionOfFunction = new \ReflectionFunction(\Closure::fromCallable($function));
 
     $numberOfArguments = count($reflectionOfFunction->getParameters());
     // We cant expect more arguments than are defined in function
