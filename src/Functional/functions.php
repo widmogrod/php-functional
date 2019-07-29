@@ -388,8 +388,8 @@ const liftM2 = 'Widmogrod\Functional\liftM2';
  *  liftM2 (+) (Just 1) Nothing = Nothing
  *
  * @param callable $transformation
- * @param Monad $ma
- * @param Monad $mb
+ * @param Monad    $ma
+ * @param Monad    $mb
  *
  * @return Monad|\Closure
  */

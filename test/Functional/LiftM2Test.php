@@ -32,7 +32,6 @@ class LiftM2Test extends \PHPUnit\Framework\TestCase
 
     public function monadsProvider()
     {
-
         $sumIntegers = static function (int $a, int $b) {
             return $a + $b;
         };
