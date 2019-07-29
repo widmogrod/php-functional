@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Widmogrod\Functional;
 
-use Widmogrod\Common\ValueOfInterface;
 use FunctionalPHP\FantasyLand\Applicative;
 use FunctionalPHP\FantasyLand\Foldable;
 use FunctionalPHP\FantasyLand\Functor;
 use FunctionalPHP\FantasyLand\Monad;
 use FunctionalPHP\FantasyLand\Traversable;
+use Widmogrod\Common\ValueOfInterface;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\ListtCons;
 
@@ -379,7 +379,7 @@ function reThrow(\Exception $e)
 const liftM2 = 'Widmogrod\Functional\liftM2';
 
 /**
- * Lift result of transformation function , called with values from two monads.
+ * Lift result of transformation function, called with values from two monads.
  *
  * liftM2 :: Monad m => (a -> b -> c) -> m a -> m b -> m c
  *
@@ -388,8 +388,8 @@ const liftM2 = 'Widmogrod\Functional\liftM2';
  *  liftM2 (+) (Just 1) Nothing = Nothing
  *
  * @param callable $transformation
- * @param Monad    $ma
- * @param Monad    $mb
+ * @param Monad $ma
+ * @param Monad $mb
  *
  * @return Monad|\Closure
  */
@@ -405,8 +405,41 @@ function liftM2(
             Monad $ma,
             Monad $mb
         ) {
+            return bindM2(function ($a, $b) use ($transformation, $mb): Monad {
+                return $mb::of($transformation($a, $b));
+            }, $ma, $mb);
+        }
+    )(...func_get_args());
+}
+
+/**
+ * @var callable
+ */
+const bindM2 = 'Widmogrod\Functional\bindM2';
+
+/**
+ * bindM2 :: Monad m => (a -> b -> m c) -> m a -> m b -> m c
+ *
+ * @param callable $transformation
+ * @param Monad    $ma
+ * @param Monad    $mb
+ *
+ * @return Monad|\Closure
+ */
+function bindM2(
+    callable $transformation = null,
+    Monad $ma = null,
+    Monad $mb = null
+) {
+    return curryN(
+        3,
+        function (
+            callable $transformation,
+            Monad $ma,
+            Monad $mb
+        ) {
             return $ma->bind(function ($a) use ($mb, $transformation) {
-                return $mb->map(function ($b) use ($a, $transformation) {
+                return $mb->bind(function ($b) use ($a, $transformation) {
                     return $transformation($a, $b);
                 });
             });

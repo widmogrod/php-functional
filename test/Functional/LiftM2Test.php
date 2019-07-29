@@ -9,7 +9,7 @@ use Widmogrod\Functional as f;
 use Widmogrod\Monad\Either;
 use Widmogrod\Monad\Maybe;
 
-class Lift2MTest extends \PHPUnit\Framework\TestCase
+class LiftM2Test extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider monadsProvider

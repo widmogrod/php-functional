@@ -19,7 +19,7 @@ class EitherMonadTest extends \PHPUnit\Framework\TestCase
 {
     public function test_it_should_concat_content_of_two_files_only_when_files_exists()
     {
-        $concatF = f\liftM2(function ($first, $second) {
+        $concatF = f\bindM2(function ($first, $second) {
             return $first . $second;
         });
 

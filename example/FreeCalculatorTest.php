@@ -11,7 +11,7 @@ use Widmogrod\Monad\Identity;
 use Widmogrod\Primitive\Stringg;
 use Widmogrod\Useful\PatternMatcher;
 use function Widmogrod\Functional\compose;
-use function Widmogrod\Functional\liftM2;
+use function Widmogrod\Functional\bindM2;
 use function Widmogrod\Monad\Free\foldFree;
 use function Widmogrod\Monad\Free\liftF;
 use function Widmogrod\Useful\match;
@@ -161,7 +161,7 @@ const sum = 'example\sum';
 
 function sum(MonadFree $a, MonadFree $b): MonadFree
 {
-    return liftM2(function ($a, $b) {
+    return bindM2(function ($a, $b) {
         return liftF(new Sum($a, $b, Pure::of));
     }, $a, $b);
 }
@@ -177,7 +177,7 @@ const mul = 'example\mul';
 
 function mul(MonadFree $a, MonadFree $b): MonadFree
 {
-    return liftM2(function ($a, $b) {
+    return bindM2(function ($a, $b) {
         return liftF(new Multiply($a, $b, Pure::of));
     }, $a, $b);
 }
