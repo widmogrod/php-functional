@@ -406,7 +406,7 @@ function liftM2(
             Monad $mb
         ) {
             return $ma->bind(function ($a) use ($mb, $transformation) {
-                return $mb->bind(function ($b) use ($a, $transformation) {
+                return $mb->map(function ($b) use ($a, $transformation) {
                     return $transformation($a, $b);
                 });
             });
