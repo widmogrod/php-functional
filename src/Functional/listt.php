@@ -128,9 +128,9 @@ const prepend = 'Widmogrod\Functional\prepend';
 /**
  * prepend :: a -> [a] -> [a]
  *
- * @param  mixed $x
- * @param  Listt $xs
- * @return Listt
+ * @param  mixed          $x
+ * @param  Listt          $xs
+ * @return Listt|\Closure
  */
 function prepend($x, Listt $xs = null)
 {

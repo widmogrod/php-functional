@@ -80,7 +80,7 @@ const doubleMap = 'Widmogrod\Monad\Either\doubleMap';
  * @param callable $right
  * @param Either   $either
  *
- * @return Left|Right
+ * @return Left|Right|\Closure
  */
 function doubleMap(callable $left, callable $right = null, Either $either = null)
 {

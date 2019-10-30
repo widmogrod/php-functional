@@ -26,12 +26,12 @@ const concatM = 'Widmogrod\Functional\concatM';
 /**
  * concatM :: a -> a -> a
  *
- * @param Semigroup $a
- * @param Semigroup $b
+ * @param Semigroup      $a
+ * @param Semigroup|null $b
  *
- * @return Semigroup
+ * @return Semigroup|\Closure
  */
-function concatM(Semigroup $a, Semigroup $b)
+function concatM(Semigroup $a, Semigroup $b = null)
 {
     return curryN(2, function (Semigroup $a, Semigroup $b) {
         return $a->concat($b);

@@ -280,7 +280,7 @@ const filter = 'Widmogrod\Functional\filter';
  * @param callable $predicate
  * @param Foldable $list
  *
- * @return Foldable
+ * @return Foldable|\Closure
  */
 function filter(callable $predicate, Foldable $list = null)
 {
@@ -497,7 +497,7 @@ const sequenceM = 'Widmogrod\Functional\sequenceM';
  * @param Monad $a
  * @param Monad $b
  *
- * @return Monad
+ * @return Monad|\Closure
  */
 function sequenceM(Monad $a, Monad $b = null): Monad
 {
@@ -525,7 +525,7 @@ const traverse = 'Widmogrod\Functional\traverse';
  * @param callable    $transformation (a -> f b)
  * @param Traversable $t              t a
  *
- * @return Applicative f (t b)
+ * @return \Closure|Applicative f (t b)
  */
 function traverse(callable $transformation, Traversable $t = null)
 {
@@ -548,7 +548,7 @@ function traverse(callable $transformation, Traversable $t = null)
  * @param callable $f  (a -> m Bool)
  * @param Foldable $xs [a]
  *
- * @return Monad m [a]
+ * @return \Closure|Monad m [a]
  */
 function filterM(callable $f, Foldable $xs = null)
 {
