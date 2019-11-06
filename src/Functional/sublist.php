@@ -19,9 +19,9 @@ const take = 'Widmogrod\Functional\take';
  *
  * take n, applied to a list xs, returns the prefix of xs of length n, or xs itself if n > length xs:
  *
- * @param  int   $n
- * @param  Listt $xs
- * @return Listt
+ * @param  int            $n
+ * @param  Listt          $xs
+ * @return Listt|\Closure
  */
 function take(int $n, Listt $xs = null)
 {
@@ -45,9 +45,9 @@ const drop = 'Widmogrod\Functional\drop';
  * drop :: Int -> [a] -> [a]
  *
  * drop n xs returns the suffix of xs after the first n elements, or [] if n > length xs:
- * @param  int   $n
- * @param  Listt $xs
- * @return Listt
+ * @param  int            $n
+ * @param  Listt          $xs
+ * @return Listt|\Closure
  */
 function drop(int $n, Listt $xs = null)
 {
@@ -80,9 +80,9 @@ const dropWhile = 'Widmogrod\Functional\dropWhile';
  *  | otherwise =  xs
  * ```
  *
- * @param  callable $predicate
- * @param  Listt    $xs
- * @return Listt
+ * @param  callable       $predicate
+ * @param  Listt          $xs
+ * @return Listt|\Closure
  */
 function dropWhile(callable $predicate, Listt $xs = null)
 {
@@ -122,9 +122,9 @@ const span = 'Widmogrod\Functional\span';
  * where first element is longest prefix (possibly empty) of xs of elements
  * that satisfy p and second element is the remainder of the list
  *
- * @param  callable $predicate
- * @param  Listt    $xs
- * @return array
+ * @param  callable       $predicate
+ * @param  Listt          $xs
+ * @return array|\Closure
  */
 function span(callable $predicate, Listt $xs = null)
 {

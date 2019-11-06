@@ -14,7 +14,7 @@ const equal = 'Widmogrod\Functional\equal';
  * @param Setoid $a
  * @param Setoid $b
  *
- * @return bool
+ * @return bool|\Closure
  */
 function equal(Setoid $a, Setoid $b = null)
 {

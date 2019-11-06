@@ -48,7 +48,7 @@ const tryCatch = 'Widmogrod\Monad\IO\tryCatch';
  * @param M\IO     $io
  * @param callable $catchFunction
  *
- * @return M\IO
+ * @return M\IO|\Closure
  */
 function tryCatch(M\IO $io = null, callable $catchFunction = null)
 {
