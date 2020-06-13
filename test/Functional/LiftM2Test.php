@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace test\Functional;
 
 use FunctionalPHP\FantasyLand\Monad;
+use Widmogrod\Common\ValueOfInterface;
 use Widmogrod\Functional as f;
 use Widmogrod\Monad\Either;
+use Widmogrod\Monad\IO;
 use Widmogrod\Monad\Maybe;
 
 class LiftM2Test extends \PHPUnit\Framework\TestCase
@@ -19,14 +21,13 @@ class LiftM2Test extends \PHPUnit\Framework\TestCase
         Monad $mb,
         callable $transformation,
         string $expectedFQCN,
-        $expectedExtracted = null
+        callable $valueAssertion = null
     ) {
         $mc = f\liftM2($transformation, $ma, $mb);
 
         $this->assertInstanceOf($expectedFQCN, $mc);
-
-        if ($expectedExtracted !== null) {
-            $this->assertSame($expectedExtracted, f\valueOf($mc));
+        if($valueAssertion !== null) {
+            $valueAssertion($mc);
         }
     }
 
@@ -35,6 +36,10 @@ class LiftM2Test extends \PHPUnit\Framework\TestCase
         $sumIntegers = static function (int $a, int $b) {
             return $a + $b;
         };
+
+        $sameValueOf = f\curryN(2, function ($expected, ValueOfInterface $actual) {
+            $this->assertSame($expected, f\valueOf($actual));
+        });
 
         return [
             'maybe all nothing' => [
@@ -60,32 +65,48 @@ class LiftM2Test extends \PHPUnit\Framework\TestCase
                 Maybe\just(2),
                 $sumIntegers,
                 Maybe\Just::class,
-                3
+                $sameValueOf(3)
             ],
             'either all left' => [
                 Either\left('a'),
                 Either\left('b'),
                 $sumIntegers,
-                Either\Left::class
+                Either\Left::class,
+                $sameValueOf('a')
             ],
             'either first right' => [
                 Either\right(3),
                 Either\left('b'),
                 $sumIntegers,
-                Either\Left::class
+                Either\Left::class,
+                $sameValueOf('b')
             ],
             'either second right' => [
                 Either\left('a'),
                 Either\right(4),
                 $sumIntegers,
-                Either\Left::class
+                Either\Left::class,
+                $sameValueOf('a')
             ],
             'either all right' => [
                 Either\right(3),
                 Either\right(4),
                 $sumIntegers,
                 Either\Right::class,
-                7
+                $sameValueOf(7)
+            ],
+            'io' => [
+                IO::of(function () {
+                    return 1;
+                }),
+                IO::of(function () {
+                    return 2;
+                }),
+                $sumIntegers,
+                IO::class,
+                function (IO $io) {
+                    $this->assertSame(3, $io->run());
+                }
             ]
         ];
     }
