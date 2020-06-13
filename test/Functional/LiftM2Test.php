@@ -26,7 +26,7 @@ class LiftM2Test extends \PHPUnit\Framework\TestCase
         $mc = f\liftM2($transformation, $ma, $mb);
 
         $this->assertInstanceOf($expectedFQCN, $mc);
-        if($valueAssertion !== null) {
+        if ($valueAssertion !== null) {
             $valueAssertion($mc);
         }
     }
