@@ -405,9 +405,11 @@ function liftM2(
             Monad $ma,
             Monad $mb
         ) {
-            return bindM2(function ($a, $b) use ($transformation, $mb): Monad {
-                return $mb::of($transformation($a, $b));
-            }, $ma, $mb);
+            return $ma->bind(function ($a) use ($mb, $transformation) {
+                return $mb->map(function ($b) use ($a, $transformation) {
+                    return $transformation($a, $b);
+                });
+            });
         }
     )(...func_get_args());
 }
