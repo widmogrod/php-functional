@@ -398,18 +398,10 @@ function liftM2(
     Monad $ma = null,
     Monad $mb = null
 ) {
-    return curryN(
-        3,
-        function (
-            callable $transformation,
-            Monad $ma,
-            Monad $mb
-        ) {
-            return bindM2(function ($a, $b) use ($transformation, $mb): Monad {
-                return $mb::of($transformation($a, $b));
-            }, $ma, $mb);
-        }
-    )(...func_get_args());
+    return call_user_func_array(
+        liftA2,
+        func_get_args()
+    );
 }
 
 /**
