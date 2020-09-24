@@ -26,7 +26,7 @@ const any = 'Widmogrod\Useful\PatternAny';
  *
  * @return mixed
  */
-function match(array $patterns, $value = null)
+function matchPatterns(array $patterns, $value = null)
 {
     return curryN(2, function (array $patterns, $value) {
         if (count($patterns) === 0) {

@@ -18,7 +18,7 @@ use function Widmogrod\Functional\prepend;
 use function Widmogrod\Functional\reduce;
 use function Widmogrod\Monad\Free\foldFree;
 use function Widmogrod\Monad\Free\liftF;
-use function Widmogrod\Useful\match;
+use function Widmogrod\Useful\matchPatterns;
 
 /**
  * type UnionF _ next
@@ -263,7 +263,7 @@ const interpretTypesAndGenerate = 'example\interpretTypesAndGenerate';
  */
 function interpretTypesAndGenerate(UnionF $f): Identity
 {
-    return match([
+    return matchPatterns([
         Declare_::class => function (string $name, array $args, callable $next): Identity {
             $a = new GeneratorLazy();
             $a->declaration = [
@@ -293,7 +293,7 @@ class FreeUnionTypeGeneratorTest extends \PHPUnit\Framework\TestCase
     {
         // $interpret :: UnionF -> Identity Free a
         $interpret = function (UnionF $f): Identity {
-            return match([
+            return matchPatterns([
                 Declare_::class => function (string $name, array $args, callable $next): Identity {
                     return Identity::of([
                         'interface' => $name,
