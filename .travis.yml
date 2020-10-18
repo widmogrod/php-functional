@@ -3,12 +3,13 @@ language: php
 dist: trusty
 
 php:
- - 7.2
  - 7.3
+ - 7.4
+ - nightly
 
 matrix:
  include:
-  - php: 7.2
+  - php: nightly
     env: COVERAGE=yes
 
 cache:
