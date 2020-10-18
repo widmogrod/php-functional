@@ -265,7 +265,7 @@ class FreeBddStyleDSLTest extends \PHPUnit\Framework\TestCase
             },
         ]);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertArrayHasKey('productsCount', $result);
         $this->assertArrayHasKey('products', $result);
 
