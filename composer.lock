@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3fcd8a402072ed92dfe5f13c0c8ce44f",
+    "content-hash": "6bb8ed7b7477164c8a6528a28c37850d",
     "packages": [
         {
             "name": "functional-php/fantasy-land",
@@ -4033,7 +4033,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.0"
+        "php": "^7.3|^8.0"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"
