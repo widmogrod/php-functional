@@ -13,7 +13,7 @@ use function Widmogrod\Functional\curryN;
 use function Widmogrod\Functional\push_;
 use function Widmogrod\Monad\Free\foldFree;
 use function Widmogrod\Monad\Free\liftF;
-use function Widmogrod\Useful\match;
+use function Widmogrod\Useful\matchPatterns;
 
 interface ScenarioF extends Functor
 {
@@ -162,7 +162,7 @@ const interpretScenario = 'example\interpretScenario';
  */
 function interpretScenario(callable $interpretAction, callable $interpretAssertion, ScenarioF $f)
 {
-    return match([
+    return matchPatterns([
         Given::class => function (Given $a): State {
             return State::of(function () use ($a) {
                 return [$a->next, $a->state];

@@ -14,7 +14,7 @@ use function Widmogrod\Functional\compose;
 use function Widmogrod\Functional\bindM2;
 use function Widmogrod\Monad\Free\foldFree;
 use function Widmogrod\Monad\Free\liftF;
-use function Widmogrod\Useful\match;
+use function Widmogrod\Useful\matchPatterns;
 
 /**
  *  Exp a next
@@ -201,7 +201,7 @@ const interpretInt = 'example\interpretInt';
  */
 function interpretInt(ExpF $f)
 {
-    return match([
+    return matchPatterns([
         IntVal::class => function (int $x, callable $next): Identity {
             return Identity::of($x)->map($next);
         },
@@ -227,7 +227,7 @@ const interpretPrint = 'example\interpretPrint';
  */
 function interpretPrint(ExpF $f)
 {
-    return match([
+    return matchPatterns([
         IntVal::class => function (int $x, callable $next): Identity {
             return Identity::of(Stringg::of("$x"))->map($next);
         },
@@ -259,7 +259,7 @@ const optimizeCalc = 'example\optimizeCalc';
  */
 function optimizeCalc(ExpF $f)
 {
-    return match([
+    return matchPatterns([
         IntVal::class => function ($x, callable $next) {
             return new IntVal($x, $next);
         },
