@@ -2,7 +2,7 @@
   "name": "widmogrod/php-functional",
   "description": "Functors, Applicative and Monads are fascinating concept. Purpose of this library is to explore them in OOP PHP world.",
   "require": {
-    "php": "^8.0",
+    "php": "^7.3|^8.0",
     "functional-php/fantasy-land": "^1"
   },
   "require-dev": {
