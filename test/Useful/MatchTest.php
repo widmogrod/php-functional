@@ -6,7 +6,7 @@ namespace test\Useful;
 
 use Widmogrod\Useful\PatternMatcher;
 use Widmogrod\Useful\PatternNotMatchedError;
-use function Widmogrod\Useful\match;
+use function Widmogrod\Useful\matchPatterns;
 use const Widmogrod\Functional\identity;
 use const Widmogrod\Useful\any;
 
@@ -23,7 +23,7 @@ class MatchTest extends \PHPUnit\Framework\TestCase
         $this->expectException(PatternNotMatchedError::class);
         $this->expectExceptionMessage($expectedMessage);
 
-        match($patterns, $value);
+        matchPatterns($patterns, $value);
     }
 
     public function provideInvalidPatterns()
@@ -61,7 +61,7 @@ class MatchTest extends \PHPUnit\Framework\TestCase
         $value,
         $expected
     ) {
-        $result = match($patterns, $value);
+        $result = matchPatterns($patterns, $value);
         $this->assertSame(
             $expected,
             $result
