@@ -87,8 +87,8 @@ const pipeline = 'Widmogrod\Functional\pipeline';
  * Composition starts from left.
  *
  * <code>
- * compose('strtolower', 'strtoupper')('aBc') ≡ 'ABC'
- * strtouppser(strtolower('aBc'))  ≡ 'ABC'
+ * pipeline('strtolower', 'strtoupper')('aBc') ≡ 'ABC'
+ * strtoupper(strtolower('aBc'))  ≡ 'ABC'
  * </code>
  *
  * @param callable $a
@@ -107,6 +107,37 @@ function pipeline(callable $a, callable $b)
     };
 }
 
+/**
+ * @var callable
+ */
+const pipe = 'Widmogrod\Functional\pipe';
+
+/**
+ * The first argument becomes the input of the composition
+ * of functions given as arguments following the former.
+ * Composition stats from left.
+ *
+ * <code>
+ * pipe('aBc', 'strtolower', 'strtoupper') ≡ 'ABC'
+ * strtoupper(strtolower('aBc')) ≡ 'ABC'
+ * </code>
+ *
+ * @param  mixed    $in
+ * @param  callable $fab
+ * @param  callable ...$fbc
+ * @return mixed
+ */
+function pipe(
+    $in,
+    callable $fab,
+    callable ...$fbc
+) {
+    $callables = count($fbc) > 0
+        ? $fbc
+        : [identity];
+
+    return pipeline($fab, ...$callables)($in);
+}
 
 /**
  * @var callable
