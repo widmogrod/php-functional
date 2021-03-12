@@ -3,12 +3,13 @@ language: php
 dist: trusty
 
 php:
- - 7.2
  - 7.3
+ - 7.4
+ - nightly
 
 matrix:
  include:
-  - php: 7.2
+  - php: 7.4
     env: COVERAGE=yes
 
 cache:
@@ -17,6 +18,7 @@ cache:
 
 before_script:
  - composer self-update
+ - composer install --ignore-platform-reqs
  - if [[ $COVERAGE == yes ]]; then curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter; fi
  - if [[ $COVERAGE == yes ]]; then chmod +x ./cc-test-reporter; fi
  - if [[ $COVERAGE == yes ]]; then ./cc-test-reporter before-build; fi
