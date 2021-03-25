@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "722371fce21dbeed7ea53b65ff26950a",
+    "content-hash": "a715ea65d9c889698251574a74aab4d6",
     "packages": [
         {
             "name": "functional-php/fantasy-land",
@@ -434,28 +434,30 @@
         },
         {
             "name": "giorgiosironi/eris",
-            "version": "0.9.0",
+            "version": "0.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giorgiosironi/eris.git",
-                "reference": "538bbdaeb5679d094a33864fd54f85d6a4ffaa74"
+                "reference": "e8c4ff4960c1df5115ffe17ecc9c485e12f96939"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giorgiosironi/eris/zipball/538bbdaeb5679d094a33864fd54f85d6a4ffaa74",
-                "reference": "538bbdaeb5679d094a33864fd54f85d6a4ffaa74",
+                "url": "https://api.github.com/repos/giorgiosironi/eris/zipball/e8c4ff4960c1df5115ffe17ecc9c485e12f96939",
+                "reference": "e8c4ff4960c1df5115ffe17ecc9c485e12f96939",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5",
-                "phpunit/phpunit": ">4,<7"
+                "php": ">=5.5"
             },
             "require-dev": {
-                "fabpot/php-cs-fixer": "^1.11.2",
-                "icomefromthenet/reverse-regex": "v0.0.6.3"
+                "friendsofphp/php-cs-fixer": "^2.0",
+                "icomefromthenet/reverse-regex": "v0.0.6.3",
+                "phpunit/phpunit": ">=4.1 <8",
+                "sebastian/comparator": ">=1.2.4"
             },
             "suggest": {
-                "icomefromthenet/reverse-regex": "v0.0.6.3 for the regex() Generator"
+                "icomefromthenet/reverse-regex": "v0.0.6.3 for the regex() Generator",
+                "phpunit/phpunit": "Standard way to run generated test cases"
             },
             "type": "library",
             "autoload": {
@@ -472,20 +474,24 @@
             ],
             "authors": [
                 {
-                    "name": "Gabriele Lana",
-                    "email": "gabriele.lana@gmail.com"
-                },
-                {
                     "name": "Giorgio Sironi",
                     "email": "info@giorgiosironi.com"
                 },
                 {
                     "name": "Mirko Bonadei",
                     "email": "mirko.bonadei@gmail.com"
+                },
+                {
+                    "name": "Gabriele Lana",
+                    "email": "gabriele.lana@gmail.com"
                 }
             ],
             "description": "PHP library for property-based testing. Integrates with PHPUnit.",
-            "time": "2017-03-12T17:39:53+00:00"
+            "support": {
+                "issues": "https://github.com/giorgiosironi/eris/issues",
+                "source": "https://github.com/giorgiosironi/eris/tree/0.12.0"
+            },
+            "time": "2021-03-25T12:22:38+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -2895,7 +2901,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.1"
+        "php": "^7.1|^8.0"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }
