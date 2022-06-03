@@ -10,7 +10,7 @@ class SnapshotIterator extends \IteratorIterator
     private $inMemoryCurrent;
     private $inSnapshot;
 
-    public function valid()
+    public function valid(): bool
     {
         if (null === $this->inMemoryValid) {
             $this->inMemoryValid = parent::valid();
@@ -19,7 +19,7 @@ class SnapshotIterator extends \IteratorIterator
         return $this->inMemoryValid;
     }
 
-    public function current()
+    public function current(): mixed
     {
         if (null === $this->inMemoryCurrent) {
             $this->inMemoryCurrent = parent::current();

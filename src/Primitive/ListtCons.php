@@ -35,7 +35,7 @@ class ListtCons implements Listt, \IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         $tail = $this;
         do {
