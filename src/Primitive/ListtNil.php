@@ -127,7 +127,7 @@ class ListtNil implements Listt, \IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new \ArrayObject();
     }
