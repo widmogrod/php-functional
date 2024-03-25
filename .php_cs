@@ -2,7 +2,7 @@
 $finder = PhpCsFixer\Finder::create()
     ->exclude('vendor')
     ->in(__DIR__);
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setUsingCache(true)
     ->setRules([
         '@PSR2' => true,
@@ -14,7 +14,7 @@ return PhpCsFixer\Config::create()
         'indentation_type' => true,
         'blank_line_after_namespace' => true,
         'line_ending' => true,
-        'lowercase_constants' => true,
+        //'lowercase_constants' => true,
         'lowercase_keywords' => true,
         'no_closing_tag' => true,
         'single_line_after_imports' => true,
@@ -23,7 +23,7 @@ return PhpCsFixer\Config::create()
         'whitespace_after_comma_in_array' => true,
         'blank_line_after_opening_tag' => true,
         'no_empty_statement' => true,
-        'no_extra_consecutive_blank_lines' => true,
+        // 'no_extra_consecutive_blank_lines' => true,
         'function_typehint_space' => true,
         'no_leading_namespace_whitespace' => true,
         'no_blank_lines_after_class_opening' => true,
@@ -31,8 +31,8 @@ return PhpCsFixer\Config::create()
         'phpdoc_scalar' => true,
         'phpdoc_types' => true,
         'no_leading_import_slash' => true,
-        'no_extra_consecutive_blank_lines' => ['use'],
-        'blank_line_before_return' => true,
+        // 'no_extra_consecutive_blank_lines' => ['use'],
+        //'blank_line_before_return' => true,
         'self_accessor' => false,
         'no_short_bool_cast' => true,
         'no_trailing_comma_in_singleline_array' => true,
@@ -48,5 +48,6 @@ return PhpCsFixer\Config::create()
         'array_syntax' => ['syntax' => 'short'],
         'declare_strict_types' => true,
         'phpdoc_align' => true,
+        'php_unit_no_expectation_annotation' => true,
     ])
     ->setFinder($finder);

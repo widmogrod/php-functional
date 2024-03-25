@@ -23,11 +23,11 @@ class ApplicatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \ArgumentCountError
-     * @expectedExceptionMessage Too few arguments to function
      */
     public function test_it_should_fail_when_function_requires_more_argumetns()
     {
+        $this->expectException(\ArgumentCountError::class, 'Too few arguments to function');
+
         applicator(1, function (int $i, string $a): int {
             return 10 + $i;
         });

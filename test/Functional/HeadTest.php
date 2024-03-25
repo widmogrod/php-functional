@@ -39,11 +39,11 @@ class HeadTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \Widmogrod\Primitive\EmptyListError
-     * @expectedExceptionMessage Cannot call head() on empty list
      */
     public function test_it_should_throw_exception_when_list_is_empty()
     {
+        $this->expectException(\Widmogrod\Primitive\EmptyListError::class, 'Cannot call head() on empty list');
+
         head(fromNil());
     }
 }
