@@ -1,5 +1,5 @@
 {
-  "name": "widmogrod/php-functional",
+  "name": "vjsingla/php-functional",
   "description": "Functors, Applicative and Monads are fascinating concept. Purpose of this library is to explore them in OOP PHP world.",
   "require": {
     "php": "^7.1|^8.0|^8.1",
