@@ -16,7 +16,7 @@ class CurryNTest extends \PHPUnit\Framework\TestCase
         $function,
         $default
     ) {
-        $this->assertInternalType('callable', f\curryN($numberOfArguments, $function, $default));
+        $this->assertIsCallable(f\curryN($numberOfArguments, $function, $default));
     }
 
     public function provideArgumentsWithFunctions()

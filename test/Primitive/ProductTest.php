@@ -10,6 +10,7 @@ use FunctionalPHP\FantasyLand\Helpful\MonoidLaws;
 use FunctionalPHP\FantasyLand\Helpful\SetoidLaws;
 use Widmogrod\Primitive\Product;
 use Widmogrod\Primitive\Stringg;
+use Widmogrod\Primitive\TypeMismatchError;
 
 class ProductTest extends \PHPUnit\Framework\TestCase
 {
@@ -47,12 +48,10 @@ class ProductTest extends \PHPUnit\Framework\TestCase
         });
     }
 
-    /**
-     * @expectedException \Widmogrod\Primitive\TypeMismatchError
-     * @expectedExceptionMessage Expected type is Widmogrod\Primitive\Product but given Widmogrod\Primitive\Stringg
-     */
     public function test_it_should_reject_concat_on_different_type()
     {
+        $this->expectExceptionMessage("Expected type is Widmogrod\Primitive\Product but given Widmogrod\Primitive\Stringg");
+        $this->expectException(TypeMismatchError::class);
         $this->forAll(
             Generator\int(),
             Generator\string()

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use Widmogrod\Primitive\EmptyListError;
 use Widmogrod\Primitive\Listt;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
@@ -35,12 +36,10 @@ class TailTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @expectedException \Widmogrod\Primitive\EmptyListError
-     * @expectedExceptionMessage Cannot call tail() on empty list
-     */
     public function test_it_should_throw_exception_when_list_is_empty()
     {
+        $this->expectExceptionMessage("Cannot call tail() on empty list");
+        $this->expectException(EmptyListError::class);
         tail(fromNil());
     }
 }
