@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [ 7.2, 7.3 ]
+        php: [ 8.0, 8.4 ]
         include:
-          - php: 7.2
+          - php: 8.4
             coverage: yes
     steps:
       - name: Checkout code
