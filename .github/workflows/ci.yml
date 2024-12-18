@@ -58,6 +58,7 @@ jobs:
         run: composer check-code
         env:
           XDEBUG_MODE: coverage
+          PHP_CS_FIXER_IGNORE_ENV: true
 
       - name: Upload test coverage (if applicable)
         if: ${{ matrix.coverage == 'yes' }}
