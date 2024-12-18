@@ -132,7 +132,7 @@ const prepend = 'Widmogrod\Functional\prepend';
  * @param  Listt          $xs
  * @return Listt|\Closure
  */
-function prepend($x, Listt $xs = null)
+function prepend($x, ?Listt $xs = null)
 {
     return curryN(2, function ($x, Listt $xs): Listt {
         return new ListtCons(function () use ($x, $xs) {
@@ -160,7 +160,7 @@ const append = 'Widmogrod\Functional\append';
  * @param  Listt|null     $b
  * @return Listt|callable
  */
-function append(Listt $a, Listt $b = null)
+function append(Listt $a, ?Listt $b = null)
 {
     return curryN(2, function (Listt $a, Listt $b): Listt {
         return $a->concat($b);

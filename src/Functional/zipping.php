@@ -23,7 +23,7 @@ const zip = 'Widmogrod\Functional\zip';
  * @param  Listt|null     $ys
  * @return Listt|\Closure
  */
-function zip(Listt $xs, Listt $ys = null)
+function zip(Listt $xs, ?Listt $ys = null)
 {
     return curryN(2, function (Listt $xs, Listt $ys): Listt {
         try {

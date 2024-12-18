@@ -39,7 +39,7 @@ function liftF(Functor $f): MonadFree
  *
  * @return Monad|callable
  */
-function foldFree(callable $interpreter, MonadFree $free = null, callable $return = null)
+function foldFree(callable $interpreter, ?MonadFree $free = null, ?callable $return = null)
 {
     return curryN(3, function (callable $interpreter, MonadFree $free, callable $return): Monad {
         return $free->foldFree($interpreter, $return);

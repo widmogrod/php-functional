@@ -31,7 +31,7 @@ const concatM = 'Widmogrod\Functional\concatM';
  *
  * @return Semigroup|\Closure
  */
-function concatM(Semigroup $a, Semigroup $b = null)
+function concatM(Semigroup $a, ?Semigroup $b = null)
 {
     return curryN(2, function (Semigroup $a, Semigroup $b) {
         return $a->concat($b);
