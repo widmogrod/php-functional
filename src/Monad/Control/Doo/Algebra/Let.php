@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Widmogrod\Monad\Control\Doo\Algebra;
 
 use FunctionalPHP\FantasyLand\Functor;

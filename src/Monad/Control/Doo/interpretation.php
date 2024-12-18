@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Widmogrod\Monad\Control\Doo;
 
 use FunctionalPHP\FantasyLand\Monad;
@@ -9,13 +10,13 @@ use Widmogrod\Monad\Control\Doo\Algebra\In;
 use Widmogrod\Monad\Control\Doo\Algebra\Let;
 use Widmogrod\Monad\Control\Doo\Registry\Registry;
 use Widmogrod\Monad\Free\MonadFree;
-use Widmogrod\Monad\Free\Pure;
 use Widmogrod\Monad\Reader;
-use const Widmogrod\Monad\Reader\pure;
+use Widmogrod\Useful\PatternNotMatchedError;
 use function Widmogrod\Functional\sequenceM;
 use function Widmogrod\Monad\Free\foldFree;
 use function Widmogrod\Monad\Reader\runReader;
 use function Widmogrod\Useful\matchPatterns;
+use const Widmogrod\Monad\Reader\pure;
 
 /**
  * @var callable
@@ -28,7 +29,7 @@ const interpretation = 'Widmogrod\Monad\Control\Doo\interpretation';
  * @param  DooF   $f
  * @return Reader
  *
- * @throws \Widmogrod\Useful\PatternNotMatchedError
+ * @throws PatternNotMatchedError
  */
 function interpretation(DooF $f)
 {

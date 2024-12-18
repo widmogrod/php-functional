@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad\IO;
 
+use Closure;
+use Exception;
 use Widmogrod\Functional as f;
 use Widmogrod\Monad as M;
 use Widmogrod\Monad\Either as E;
@@ -29,11 +31,11 @@ const throwIO = 'Widmogrod\Monad\IO\throwIO';
  *
  * throwIO :: Exception e -> IO a
  *
- * @param \Exception $e
+ * @param Exception $e
  *
  * @return M\IO
  */
-function throwIO(\Exception $e)
+function throwIO(Exception $e)
 {
     return M\IO::of(function () use ($e) {
         throw $e;
@@ -48,7 +50,7 @@ const tryCatch = 'Widmogrod\Monad\IO\tryCatch';
  * @param M\IO     $io
  * @param callable $catchFunction
  *
- * @return M\IO|\Closure
+ * @return M\IO|Closure
  */
 function tryCatch(?M\IO $io = null, ?callable $catchFunction = null)
 {
@@ -56,7 +58,7 @@ function tryCatch(?M\IO $io = null, ?callable $catchFunction = null)
         return M\IO::of(function () use ($io, $catchFunction) {
             try {
                 return $io->run();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return $catchFunction($e);
             }
         });

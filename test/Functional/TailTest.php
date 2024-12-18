@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use ArrayIterator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+use Widmogrod\Primitive\EmptyListError;
 use Widmogrod\Primitive\Listt;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
 use function Widmogrod\Functional\tail;
 
-class TailTest extends \PHPUnit\Framework\TestCase
+class TailTest extends TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it_should_return_boxed_value(
         Listt $listt,
         Listt $expected
@@ -21,26 +23,24 @@ class TailTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(tail($listt)->equals($expected));
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'Should return tail from finite array' => [
-                '$listt' => fromIterable([1, 2, 3]),
-                '$expected' => fromIterable([2, 3]),
+                fromIterable([1, 2, 3]),
+                fromIterable([2, 3]),
             ],
             'Should return tail from finite iterator' => [
-                '$listt' => fromIterable(new \ArrayIterator([1, 2, 3, 4, 5, 6])),
-                '$expected' => fromIterable([2, 3, 4, 5, 6]),
+                fromIterable(new ArrayIterator([1, 2, 3, 4, 5, 6])),
+                fromIterable([2, 3, 4, 5, 6]),
             ],
         ];
     }
 
-    /**
-     * @expectedException \Widmogrod\Primitive\EmptyListError
-     * @expectedExceptionMessage Cannot call tail() on empty list
-     */
     public function test_it_should_throw_exception_when_list_is_empty()
     {
+        $this->expectException(EmptyListError::class);
+        $this->expectExceptionMessage('Cannot call tail() on empty list');
         tail(fromNil());
     }
 }

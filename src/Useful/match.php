@@ -22,9 +22,9 @@ const any = 'Widmogrod\Useful\PatternAny';
  *
  * @param  array                  $patterns
  * @param  mixed                  $value
+ * @return mixed
  * @throws PatternNotMatchedError
  *
- * @return mixed
  */
 function matchPatterns(array $patterns, $value = null)
 {

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 
-class ReduceTest extends \PHPUnit\Framework\TestCase
+class ReduceTest extends TestCase
 {
     public function test_reduce()
     {

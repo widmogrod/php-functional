@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace example;
 
+use Exception;
 use FunctionalPHP\FantasyLand\Functor;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Monad\Free\MonadFree;
 use Widmogrod\Monad\Free\Pure;
 use Widmogrod\Monad\State;
-use const Widmogrod\Monad\State\value;
 use function Widmogrod\Functional\curryN;
 use function Widmogrod\Functional\push_;
 use function Widmogrod\Monad\Free\foldFree;
 use function Widmogrod\Monad\Free\liftF;
 use function Widmogrod\Useful\matchPatterns;
+use const Widmogrod\Monad\State\value;
 
 interface ScenarioF extends Functor
 {
@@ -110,7 +112,6 @@ function then_(string $assertion): MonadFree
 {
     return liftF(new Then($assertion, Pure::of('-then-')));
 }
-
 
 class Scenario
 {
@@ -226,7 +227,7 @@ function matchRegexp(array $patterns, $value = null)
             }
         }
 
-        throw new \Exception(sprintf(
+        throw new Exception(sprintf(
             'Cannot match "%s" to list of regexp %s',
             $value,
             implode(', ', array_keys($patterns))
@@ -237,7 +238,7 @@ function matchRegexp(array $patterns, $value = null)
 /**
  * Inspired by https://github.com/politrons/TestDSL
  */
-class FreeBddStyleDSLTest extends \PHPUnit\Framework\TestCase
+class FreeBddStyleDSLTest extends TestCase
 {
     public function test_it_should_interpret_bdd_scenario()
     {
@@ -265,7 +266,8 @@ class FreeBddStyleDSLTest extends \PHPUnit\Framework\TestCase
             },
         ]);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
+
         $this->assertArrayHasKey('productsCount', $result);
         $this->assertArrayHasKey('products', $result);
 

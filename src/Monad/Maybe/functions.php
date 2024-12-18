@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad\Maybe;
 
+use Closure;
 use Widmogrod\Functional as f;
 
 const pure = 'Widmogrod\Monad\Maybe\pure';
@@ -33,9 +34,9 @@ function nothing()
 const just = 'Widmogrod\Monad\Maybe\just';
 
 /**
+ * @param  mixed $value
  * @return Just
  *
- * @param mixed $value
  */
 function just($value)
 {
@@ -51,7 +52,7 @@ const maybe = 'Widmogrod\Monad\Maybe\maybe';
  * @param callable $fn
  * @param Maybe    $maybe
  *
- * @return mixed|\Closure
+ * @return mixed|Closure
  */
 function maybe($default, ?callable $fn = null, ?Maybe $maybe = null)
 {

@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 use Widmogrod\Monad\Maybe\Just;
 use Widmogrod\Monad\Maybe\Maybe;
 use Widmogrod\Primitive\Stringg;
-use const Widmogrod\Monad\Maybe\maybeNull;
 use function Widmogrod\Functional\map;
 use function Widmogrod\Monad\Maybe\just;
 use function Widmogrod\Monad\Maybe\maybeNull;
+use const Widmogrod\Monad\Maybe\maybeNull;
 
-class MaybeMonoidTest extends \PHPUnit\Framework\TestCase
+class MaybeMonoidTest extends TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it_should_concat_only_strings_and_skip_nulls(array $data, array $expected, string $asString)
     {
         $fullName = f\fromIterable($data)
@@ -27,9 +27,7 @@ class MaybeMonoidTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($fullName, just(Stringg::of($asString)));
     }
 
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it_should_concat_only_just_values_naive_string_implementation(array $data, array $expected, string $asString)
     {
         // $makeMaybeMonoid :: string -> Maybe Stringg
@@ -52,9 +50,7 @@ class MaybeMonoidTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($fullName, just(Stringg::of($asString)));
     }
 
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it_should_concat_only_just_values_list_naive_implementation2(array $data, array $expected)
     {
         // $makeMaybeMonoid :: string -> Maybe Listt string
@@ -77,26 +73,26 @@ class MaybeMonoidTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($fullName, just(f\fromIterable($expected)));
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'array with null values' => [
-                '$data' => [
+                [
                     'firstName' => 'First',
                     'middleName' => null,
                     'lastName' => 'Last'
                 ],
-                '$expected' => ['First', 'Last'],
-                '$asString' => 'FirstLast',
+                ['First', 'Last'],
+                'FirstLast',
             ],
             'array with strings' => [
-                '$data' => [
+                [
                     'firstName' => 'First',
                     'middleName' => 'Middle',
                     'lastName' => 'Last'
                 ],
-                '$expected' => ['First', 'Middle', 'Last'],
-                '$asString' => 'FirstMiddleLast',
+                ['First', 'Middle', 'Last'],
+                'FirstMiddleLast',
             ]
         ];
     }

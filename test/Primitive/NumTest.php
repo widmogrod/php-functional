@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace test\Primitive;
 
-use Eris\TestTrait;
 use Eris\Generator;
+use Eris\TestTrait;
 use FunctionalPHP\FantasyLand\Helpful\SetoidLaws;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Primitive\Num;
 
-class NumTest extends \PHPUnit\Framework\TestCase
+class NumTest extends TestCase
 {
     use TestTrait;
 

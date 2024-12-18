@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Widmogrod\Functional;
 
+use ArrayObject;
+use Closure;
 use FunctionalPHP\FantasyLand\Foldable;
+use IteratorAggregate;
+use Widmogrod\Primitive\EmptyListError;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\ListtCons;
 use Widmogrod\Useful\SnapshotIterator;
@@ -25,10 +29,10 @@ const fromIterable = 'Widmogrod\Functional\fromIterable';
 function fromIterable(iterable $i): Listt
 {
     if (is_array($i)) {
-        $i = new \ArrayObject($i);
+        $i = new ArrayObject($i);
     }
 
-    if ($i instanceof \IteratorAggregate) {
+    if ($i instanceof IteratorAggregate) {
         $i = $i->getIterator();
     }
 
@@ -128,9 +132,9 @@ const prepend = 'Widmogrod\Functional\prepend';
 /**
  * prepend :: a -> [a] -> [a]
  *
- * @param  mixed          $x
- * @param  Listt          $xs
- * @return Listt|\Closure
+ * @param  mixed         $x
+ * @param  Listt         $xs
+ * @return Listt|Closure
  */
 function prepend($x, ?Listt $xs = null)
 {
@@ -177,9 +181,9 @@ const head = 'Widmogrod\Functional\head';
  *
  * Extract the first element of a list, which must be non-empty.
  *
- * @param  Listt                               $l
+ * @param  Listt          $l
  * @return mixed
- * @throws \Widmogrod\Primitive\EmptyListError
+ * @throws EmptyListError
  */
 function head(Listt $l)
 {
@@ -196,9 +200,9 @@ const tail = 'Widmogrod\Functional\tail';
  *
  * Extract the elements after the head of a list, which must be non-empty.
  *
- * @param  Listt                               $l
+ * @param  Listt          $l
  * @return Listt
- * @throws \Widmogrod\Primitive\EmptyListError
+ * @throws EmptyListError
  */
 function tail(Listt $l)
 {

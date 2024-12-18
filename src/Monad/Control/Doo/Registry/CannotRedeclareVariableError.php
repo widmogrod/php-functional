@@ -1,9 +1,12 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Widmogrod\Monad\Control\Doo\Registry;
 
-class CannotRedeclareVariableError extends \Exception
+use Exception;
+
+class CannotRedeclareVariableError extends Exception
 {
     public function __construct(string $name, array $registered)
     {

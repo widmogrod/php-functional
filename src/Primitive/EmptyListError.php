@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Widmogrod\Primitive;
 
-class EmptyListError extends \Exception
+use Exception;
+
+class EmptyListError extends Exception
 {
     public function __construct(string $method)
     {

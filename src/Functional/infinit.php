@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Widmogrod\Functional;
 
+use Closure;
 use Widmogrod\Primitive\EmptyListError;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\ListtCons;
@@ -22,9 +23,9 @@ const iterate = 'Widmogrod\Functional\iterate';
  * ```haskell
  * iterate f x == [x, f x, f (f x), ...]
  * ```
- * @param  callable       $fn
- * @param  mixed          $a
- * @return Listt|\Closure
+ * @param  callable      $fn
+ * @param  mixed         $a
+ * @return Listt|Closure
  */
 function iterate(callable $fn, $a = null)
 {
@@ -45,7 +46,7 @@ const repeat = 'Widmogrod\Functional\repeat';
  *
  * repeat x is an infinite list, with x the value of every element.
  *
- * @param $a
+ * @param            $a
  * @return ListtCons
  */
 function repeat($a)
@@ -66,9 +67,9 @@ const replicate = 'Widmogrod\Functional\replicate';
  * replicate n x is a list of length n with x the value of every element.
  * It is an instance of the more general genericReplicate, in which n may be of any integral type.
  *
- * @param  int            $n
- * @param  mixed          $a
- * @return Listt|\Closure
+ * @param  int           $n
+ * @param  mixed         $a
+ * @return Listt|Closure
  */
 function replicate(int $n, $a = null): Listt
 {
@@ -97,7 +98,7 @@ function cycle(Listt $xs): Listt
         throw new EmptyListError(__FUNCTION__);
     }
 
-    $cycle = function (Listt $xs, Listt $cycled) use (&$cycle) : Listt {
+    $cycle = function (Listt $xs, Listt $cycled) use (&$cycle): Listt {
         if ($cycled instanceof ListtNil) {
             return cycle($xs);
         }

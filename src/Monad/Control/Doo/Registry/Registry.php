@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Widmogrod\Monad\Control\Doo\Registry;
 
 class Registry

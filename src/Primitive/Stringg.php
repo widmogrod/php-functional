@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Widmogrod\Primitive;
 
-use Widmogrod\Common;
 use FunctionalPHP\FantasyLand;
+use Widmogrod\Common;
 
 class Stringg implements
     FantasyLand\Pointed,
@@ -13,7 +13,7 @@ class Stringg implements
     FantasyLand\Setoid,
     Common\ValueOfInterface
 {
-    const of = 'Widmogrod\Primitive\Stringg::of';
+    public const of = 'Widmogrod\Primitive\Stringg::of';
 
     use Common\PointedTrait;
     use Common\ValueOfTrait;

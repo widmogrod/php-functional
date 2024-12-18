@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace example;
 
 use FunctionalPHP\FantasyLand\Functor;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Monad\Free\MonadFree;
 use Widmogrod\Monad\Free\Pure;
 use Widmogrod\Monad\Identity;
 use Widmogrod\Primitive\Stringg;
 use Widmogrod\Useful\PatternMatcher;
-use function Widmogrod\Functional\compose;
+use Widmogrod\Useful\PatternNotMatchedError;
 use function Widmogrod\Functional\bindM2;
+use function Widmogrod\Functional\compose;
 use function Widmogrod\Monad\Free\foldFree;
 use function Widmogrod\Monad\Free\liftF;
 use function Widmogrod\Useful\matchPatterns;
@@ -126,7 +129,6 @@ class Multiply implements ExpF
     }
 }
 
-
 class Square implements ExpF
 {
     private $a;
@@ -197,7 +199,7 @@ const interpretInt = 'example\interpretInt';
  * interpretInt :: ExpF -> Identity Free Int
  *
  * @return Identity
- * @throws \Widmogrod\Useful\PatternNotMatchedError
+ * @throws PatternNotMatchedError
  */
 function interpretInt(ExpF $f)
 {
@@ -223,7 +225,7 @@ const interpretPrint = 'example\interpretPrint';
  * interpretInt :: ExpF -> Identity Free Stringg
  *
  * @return Identity
- * @throws \Widmogrod\Useful\PatternNotMatchedError
+ * @throws PatternNotMatchedError
  */
 function interpretPrint(ExpF $f)
 {
@@ -255,7 +257,7 @@ const optimizeCalc = 'example\optimizeCalc';
  * optimizeCalc :: ExpF ->  ExpF
  *
  * @return Identity
- * @throws \Widmogrod\Useful\PatternNotMatchedError
+ * @throws PatternNotMatchedError
  */
 function optimizeCalc(ExpF $f)
 {
@@ -277,57 +279,54 @@ function optimizeCalc(ExpF $f)
     ], $f);
 }
 
-class FreeCalculatorTest extends \PHPUnit\Framework\TestCase
+class FreeCalculatorTest extends TestCase
 {
-    /**
-     * @dataProvider provideCalculations
-     */
+    #[DataProvider('provideCalculations')]
     public function test_example_with_do_notation($calc, $expected)
     {
         $result = foldFree(interpretInt, $calc, Identity::of);
         $this->assertEquals(Identity::of($expected), $result);
     }
 
-    public function provideCalculations()
+    public static function provideCalculations()
     {
         return [
             '1' => [
-                '$calc' => int(1),
-                '$expected' => 1,
+                int(1),
+                1,
             ],
             '1 + 1' => [
-                '$calc' => sum(
+                sum(
                     int(1),
                     int(1)
                 ),
-                '$expected' => 2,
+                2,
             ],
             '2 * 3' => [
-                '$calc' => mul(
+                mul(
                     int(2),
                     int(3)
                 ),
-                '$expected' => 6,
+                6,
             ],
             '(1 + 1) * (2 * 3)' => [
-                '$calc' => mul(
+                mul(
                     sum(int(1), int(1)),
                     mul(
                         int(2),
                         int(3)
                     )
                 ),
-                '$expected' => 12,
+                12,
             ],
             '(2 * 3) ^ 2' => [
-                '$calc' =>
-                    square(
-                        mul(
-                            int(2),
-                            int(3)
-                        )
-                    ),
-                '$expected' => 36,
+                square(
+                    mul(
+                        int(2),
+                        int(3)
+                    )
+                ),
+                36,
             ],
         ];
     }

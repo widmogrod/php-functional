@@ -6,17 +6,17 @@ namespace test\Monad;
 
 use FunctionalPHP\FantasyLand\Applicative;
 use FunctionalPHP\FantasyLand\Functor;
-use Widmogrod\Functional as f;
 use FunctionalPHP\FantasyLand\Helpful\ApplicativeLaws;
 use FunctionalPHP\FantasyLand\Helpful\FunctorLaws;
 use FunctionalPHP\FantasyLand\Helpful\MonadLaws;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+use Widmogrod\Functional as f;
 use Widmogrod\Monad\Identity;
 
-class IdentityTest extends \PHPUnit\Framework\TestCase
+class IdentityTest extends TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_if_identity_monad_obeys_the_laws($f, $g, $x)
     {
         MonadLaws::test(
@@ -28,7 +28,7 @@ class IdentityTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         $addOne = function ($x) {
             return Identity::of($x + 1);
@@ -39,16 +39,14 @@ class IdentityTest extends \PHPUnit\Framework\TestCase
 
         return [
             'Identity' => [
-                '$f' => $addOne,
-                '$g' => $addTwo,
-                '$x' => 10,
+                $addOne,
+                $addTwo,
+                10,
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideApplicativeTestData
-     */
+    #[DataProvider('provideApplicativeTestData')]
     public function test_it_should_obey_applicative_laws(
         Applicative $u,
         Applicative $v,
@@ -67,30 +65,28 @@ class IdentityTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideApplicativeTestData()
+    public static function provideApplicativeTestData()
     {
         return [
             'default' => [
-                '$u' => Identity::of(function () {
+                Identity::of(function () {
                     return 1;
                 }),
-                '$v' => Identity::of(function () {
+                Identity::of(function () {
                     return 5;
                 }),
-                '$w' => Identity::of(function () {
+                Identity::of(function () {
                     return 7;
                 }),
-                '$f' => function ($x) {
+                function ($x) {
                     return $x + 400;
                 },
-                '$x' => 33
+                33
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideFunctorTestData
-     */
+    #[DataProvider('provideFunctorTestData')]
     public function test_it_should_obey_functor_laws(
         callable $f,
         callable $g,
@@ -104,17 +100,17 @@ class IdentityTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideFunctorTestData()
+    public static function provideFunctorTestData()
     {
         return [
             'Identity' => [
-                '$f' => function ($x) {
+                function ($x) {
                     return $x + 1;
                 },
-                '$g' => function ($x) {
+                function ($x) {
                     return $x + 5;
                 },
-                '$x' => Identity::of(123),
+                Identity::of(123),
             ],
         ];
     }

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Widmogrod\Primitive;
 
-use Widmogrod\Common;
 use FunctionalPHP\FantasyLand;
+use IteratorAggregate;
+use Traversable;
+use Widmogrod\Common;
 use Widmogrod\Functional as f;
 
-class ListtCons implements Listt, \IteratorAggregate
+class ListtCons implements Listt, IteratorAggregate
 {
     public const of = 'Widmogrod\Primitive\ListtCons::of';
 
@@ -35,7 +37,7 @@ class ListtCons implements Listt, \IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function getIterator(): \Traversable
+    public function getIterator(): Traversable
     {
         $tail = $this;
         do {

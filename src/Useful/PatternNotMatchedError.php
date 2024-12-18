@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Widmogrod\Useful;
 
-class PatternNotMatchedError extends \Exception
+use Exception;
+
+class PatternNotMatchedError extends Exception
 {
     public static function cannotMatch($value, array $patterns): self
     {

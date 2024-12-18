@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Widmogrod\Functional;
 
+use Closure;
 use FunctionalPHP\FantasyLand\Monoid;
 use FunctionalPHP\FantasyLand\Semigroup;
 
@@ -29,7 +30,7 @@ const concatM = 'Widmogrod\Functional\concatM';
  * @param Semigroup      $a
  * @param Semigroup|null $b
  *
- * @return Semigroup|\Closure
+ * @return Semigroup|Closure
  */
 function concatM(Semigroup $a, ?Semigroup $b = null)
 {

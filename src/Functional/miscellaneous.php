@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Widmogrod\Functional;
 
+use Closure;
+
 /**
  * @var callable
  */
@@ -39,8 +41,8 @@ const constt = 'Widmogrod\Functional\constt';
  *      [42,42,42,42]
  * ```
  *
- * @param $a
- * @param $b
+ * @param           $a
+ * @param           $b
  * @return callable
  */
 function constt($a, $b = null)
@@ -49,7 +51,6 @@ function constt($a, $b = null)
         return $a;
     })(...func_get_args());
 }
-
 
 /**
  * @var callable
@@ -70,7 +71,7 @@ const compose = 'Widmogrod\Functional\compose';
  * @param callable $a
  * @param callable $b,...
  *
- * @return \Closure func($value) : mixed
+ * @return Closure func($value) : mixed
  */
 function compose(callable $a, callable $b)
 {
@@ -94,7 +95,7 @@ const pipeline = 'Widmogrod\Functional\pipeline';
  * @param callable $a
  * @param callable $b,...
  *
- * @return \Closure func($value) : mixed
+ * @return Closure func($value) : mixed
  */
 function pipeline(callable $a, callable $b)
 {

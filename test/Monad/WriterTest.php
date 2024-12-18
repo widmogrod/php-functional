@@ -9,13 +9,13 @@ use FunctionalPHP\FantasyLand\Functor;
 use FunctionalPHP\FantasyLand\Helpful\ApplicativeLaws;
 use FunctionalPHP\FantasyLand\Helpful\FunctorLaws;
 use FunctionalPHP\FantasyLand\Helpful\MonadLaws;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Monad\Writer;
 
-class WriterTest extends \PHPUnit\Framework\TestCase
+class WriterTest extends TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_if_writer_monad_obeys_the_laws($f, $g, $x)
     {
         MonadLaws::test(
@@ -33,7 +33,7 @@ class WriterTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         $addOne = function ($x) {
             return Writer::of($x + 1);
@@ -44,16 +44,14 @@ class WriterTest extends \PHPUnit\Framework\TestCase
 
         return [
             'writer 0' => [
-                '$f' => $addOne,
-                '$g' => $addTwo,
-                '$x' => 10,
+                $addOne,
+                $addTwo,
+                10,
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideApplicativeTestData
-     */
+    #[DataProvider('provideApplicativeTestData')]
     public function test_it_should_obey_applicative_laws(
         $pure,
         Applicative $u,
@@ -79,31 +77,29 @@ class WriterTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideApplicativeTestData()
+    public static function provideApplicativeTestData()
     {
         return [
             'Writer' => [
-                '$pure' => Writer\pure,
-                '$u' => Writer\pure(function () {
+                Writer\pure,
+                Writer\pure(function () {
                     return 1;
                 }),
-                '$v' => Writer\pure(function () {
+                Writer\pure(function () {
                     return 5;
                 }),
-                '$w' => Writer\pure(function () {
+                Writer\pure(function () {
                     return 7;
                 }),
-                '$f' => function ($x) {
+                function ($x) {
                     return 400 + $x;
                 },
-                '$x' => 33,
+                33,
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideFunctorTestData
-     */
+    #[DataProvider('provideFunctorTestData')]
     public function test_it_should_obey_functor_laws(
         callable $f,
         callable $g,
@@ -123,17 +119,17 @@ class WriterTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideFunctorTestData()
+    public static function provideFunctorTestData()
     {
         return [
             'Writer' => [
-                '$f' => function ($x) {
+                function ($x) {
                     return $x + 1;
                 },
-                '$g' => function ($x) {
+                function ($x) {
                     return $x + 5;
                 },
-                '$x' => Writer\pure(3),
+                Writer\pure(3),
             ],
         ];
     }

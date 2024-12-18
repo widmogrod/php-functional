@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use Closure;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 
-class PipelineTest extends \PHPUnit\Framework\TestCase
+class PipelineTest extends TestCase
 {
     public function test_it_should_retun_function_accepting_arguments()
     {
-        $this->assertInstanceOf(\Closure::class, f\pipeline('strtolower', 'strtoupper'));
+        $this->assertInstanceOf(Closure::class, f\pipeline('strtolower', 'strtoupper'));
     }
 
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it_should_be_curried(
         $functions,
         $value,
@@ -28,13 +29,13 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'two function' => [
-                '$functions' => ['strtolower', 'strtoupper'],
-                '$value' => 'aBcD',
-                '$expected' => 'ABCD'
+                ['strtolower', 'strtoupper'],
+                'aBcD',
+                'ABCD'
             ],
         ];
     }

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace example;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 use Widmogrod\Monad\Maybe;
-use const Widmogrod\Monad\Maybe\maybeNull;
 use function Widmogrod\Monad\Maybe\just;
 use function Widmogrod\Monad\Maybe\nothing;
+use const Widmogrod\Monad\Maybe\maybeNull;
 
-class MaybeMonadAndCollectionTest extends \PHPUnit\Framework\TestCase
+class MaybeMonadAndCollectionTest extends TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it_should_extract_elements_which_exists($data)
     {
         // $get :: String a -> [b] -> Maybe b
@@ -40,9 +40,7 @@ class MaybeMonadAndCollectionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it_should_extract_elements_which_exists_alternative_solution($data)
     {
         // $get :: String a -> Maybe [b] -> Maybe b
@@ -66,11 +64,11 @@ class MaybeMonadAndCollectionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'default' => [
-                '$data' => [
+                [
                     ['id' => 1, 'meta' => ['images' => ['//first.jpg', '//second.jpg']]],
                     ['id' => 2, 'meta' => ['images' => ['//third.jpg']]],
                     ['id' => 3],

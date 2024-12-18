@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Widmogrod\Useful;
 
-class SnapshotIterator extends \IteratorIterator
+use IteratorIterator;
+
+class SnapshotIterator extends IteratorIterator
 {
     private $inMemoryValid;
     private $inMemoryCurrent;

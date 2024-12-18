@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad\Either;
 
+use Closure;
 use Widmogrod\Functional as f;
 use Widmogrod\Monad\Maybe;
 
@@ -80,7 +81,7 @@ const doubleMap = 'Widmogrod\Monad\Either\doubleMap';
  * @param callable $right
  * @param Either   $either
  *
- * @return Left|Right|\Closure
+ * @return Left|Right|Closure
  */
 function doubleMap(callable $left, ?callable $right = null, ?Either $either = null)
 {
@@ -104,7 +105,7 @@ const tryCatch = 'Widmogrod\Monad\Either\tryCatch';
  * @param callable $catchFunction (e -> c)
  * @param mixed    $value         a
  *
- * @return Either|\Closure
+ * @return Either|Closure
  */
 function tryCatch(?callable $function = null, ?callable $catchFunction = null, $value = null)
 {

@@ -6,14 +6,15 @@ namespace test\Functional;
 
 use Eris\Generator;
 use Eris\TestTrait;
-use const Widmogrod\Functional\identity;
+use PHPUnit\Framework\TestCase;
 use function Widmogrod\Functional\cycle;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\iterate;
 use function Widmogrod\Functional\length;
 use function Widmogrod\Functional\take;
+use const Widmogrod\Functional\identity;
 
-class CycleTest extends \PHPUnit\Framework\TestCase
+class CycleTest extends TestCase
 {
     use TestTrait;
 

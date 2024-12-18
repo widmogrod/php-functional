@@ -1,5 +1,5 @@
 # PHP Functional
-[![Build Status](https://travis-ci.org/widmogrod/php-functional.svg)](https://travis-ci.org/widmogrod/php-functional)
+![Build Status](https://github.com/widmogrod/php-functional/actions/workflows/ci.yml/badge.svg)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/895bddc952aefca0d82a/test_coverage)](https://codeclimate.com/github/widmogrod/php-functional/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/895bddc952aefca0d82a/maintainability)](https://codeclimate.com/github/widmogrod/php-functional/maintainability)
 ## Introduction

@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace example;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Monad\Identity;
 use Widmogrod\Monad\Maybe\Just;
 use Widmogrod\Monad\Maybe\Maybe;
 use Widmogrod\Primitive\EmptyListError;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\Stringg;
+use function is_numeric;
 use function Widmogrod\Functional\append;
 use function Widmogrod\Functional\bind;
 use function Widmogrod\Functional\concatM;
@@ -32,7 +35,6 @@ use const Widmogrod\Functional\fromValue;
 // Some dependencies are needed
 require_once __DIR__ . '/FreeCalculatorTest.php';
 require_once __DIR__ . '/FreeUnionTypeGeneratorTest.php';
-
 
 /**
  *      match      :: Monoid a, Semigroup a, Setoid a => (a -> Bool) -> [a] -> Maybe (a, [a])
@@ -60,7 +62,7 @@ require_once __DIR__ . '/FreeUnionTypeGeneratorTest.php';
  */
 
 // match :: Monoid a, Semigroup a, Setoid a => (a -> a -> Bool) -> [a] -> Maybe (a, [a])
-function matchP(callable $predicate, Listt $a = null)
+function matchP(callable $predicate, ?Listt $a = null)
 {
     return curryN(2, function (callable $predicate, Listt $a) {
         try {
@@ -97,12 +99,12 @@ const numbersP = 'example\\numbersP';
 function numbersP(Listt $a)
 {
     return matchP(function (Stringg $s) {
-        return \is_numeric($s->extract());
+        return is_numeric($s->extract());
     }, $a);
 }
 
 // char :: Char -> [a] -> Maybe (a, [a])
-function charP(string $char, Listt $a = null)
+function charP(string $char, ?Listt $a = null)
 {
     return curryN(2, function (string $char, Listt $a) {
         try {
@@ -131,7 +133,7 @@ function maybeMapFirst(callable $fn)
 }
 
 // tokenize' :: ([a] -> Maybe (a, [a])) -> (a -> b) -> [a] -> Maybe (b, [a])
-function tokenizeP(callable $matcher, callable $transform = null, Listt $a = null)
+function tokenizeP(callable $matcher, ?callable $transform = null, ?Listt $a = null)
 {
     return curryN(3, function (callable $matcher, callable $transform, Listt $a) {
         return bind(maybeMapFirst($transform), $matcher($a));
@@ -139,7 +141,7 @@ function tokenizeP(callable $matcher, callable $transform = null, Listt $a = nul
 }
 
 // allof' :: ([([a] -> Maybe (b, [a]))] -> ([b] -> b) -> [a] -> Maybe (b, [a])
-function allOfP(Listt $matchers, callable $transform = null, Listt $a = null)
+function allOfP(Listt $matchers, ?callable $transform = null, ?Listt $a = null)
 {
     return curryN(3, function (Listt $matchers, callable $transform, Listt $a) {
         $result = reduce(function (?Maybe $b, callable $matcher) use ($a) {
@@ -162,10 +164,9 @@ function allOfP(Listt $matchers, callable $transform = null, Listt $a = null)
     })(...func_get_args());
 }
 
-
 // many' :: ([([a] -> Maybe (b, [a]))] -> ([b] -> b) -> [a] -> Maybe (b, [a])
 // Zero or more.
-function manyP(Listt $matchers, callable $transform = null, Listt $a = null)
+function manyP(Listt $matchers, ?callable $transform = null, ?Listt $a = null)
 {
     return curryN(3, function (Listt $matchers, callable $transform, Listt $a) {
         $res = fromNil();
@@ -192,7 +193,7 @@ function manyP(Listt $matchers, callable $transform = null, Listt $a = null)
 }
 
 // oneof' :: ([([a] -> Maybe b)] -> [a] -> Maybe b
-function oneOfP(Listt $matchers, Listt $a = null)
+function oneOfP(Listt $matchers, ?Listt $a = null)
 {
     return curryN(2, function (Listt $matchers, Listt $a) {
         $result = reduce(function (?Maybe $b, callable $matcher) use ($a) {
@@ -208,7 +209,7 @@ function oneOfP(Listt $matchers, Listt $a = null)
 }
 
 // endByP :: ([a] -> Maybe b) -> ([a] -> Maybe b) -> [a] -> Maybe [b]
-function endByP(callable $matcher, callable $matcherEnd = null, callable $transform = null, Listt $a = null)
+function endByP(?callable $matcher, ?callable $matcherEnd = null, ?callable $transform = null, ?Listt $a = null)
 {
     return curryN(4, function (callable $matcher, callable $matcherEnd, callable $transform, Listt $a): Maybe {
         $before = fromNil();
@@ -250,7 +251,7 @@ function endByP(callable $matcher, callable $matcherEnd = null, callable $transf
     })(...func_get_args());
 }
 
-function maybeP(callable $matcher, Listt $a = null)
+function maybeP(callable $matcher, ?Listt $a = null)
 {
     return curryN(2, function (callable $matcher, Listt $a) {
         $r = $matcher($a);
@@ -261,9 +262,8 @@ function maybeP(callable $matcher, Listt $a = null)
     })(...func_get_args());
 }
 
-
 // lazyP :: ([a] -> Maybe b) -> [a] -> Maybe [b]
-function lazyP(callable $fn, Listt $a = null)
+function lazyP(callable $fn, ?Listt $a = null)
 {
     return curryN(2, function (callable $fn, Listt $a) {
         return $fn($a);
@@ -297,7 +297,7 @@ function tokens(string $input): Listt
     return $tokens;
 }
 
-class ParserTest extends \PHPUnit\Framework\TestCase
+class ParserTest extends TestCase
 {
     public function test_generated_ast()
     {
@@ -456,7 +456,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     public function test_generate_data_types_as_array()
     {
         // lexeme :: ([a] -> Maybe (a, [a])) -> [a] -> Maybe (a, [a])
-        $lexeme = function (callable $fn, Listt $a = null) {
+        $lexeme = function (callable $fn, ?Listt $a = null) {
             return curryN(2, function (callable $fn, Listt $a) {
                 // TODO Not optimal, for test only
                 $trimNil = dropWhile(function (Stringg $s) {
@@ -468,7 +468,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         };
 
         // lexeme :: ([a] -> Maybe (a, [a])) -> [a] -> Maybe (a, [a])
-        $lexeme2 = function (callable $fn, Listt $a = null) {
+        $lexeme2 = function (callable $fn, ?Listt $a = null) {
             return curryN(2, function (callable $fn, Listt $a) {
                 $trimNil = dropWhile(function (Stringg $s) {
                     return trim($s->extract(), " ") === "";
@@ -479,7 +479,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         };
 
         // lexeme :: ([a] -> Maybe (a, [a])) -> [a] -> Maybe (a, [a])
-        $lexemeOr = function (callable $fn, Listt $a = null) {
+        $lexemeOr = function (callable $fn, ?Listt $a = null) {
             return curryN(2, function (callable $fn, Listt $a) {
                 $trimNil = dropWhile(function (Stringg $s) {
                     return trim($s->extract(), " \0\n\t\r|") === "";
@@ -632,7 +632,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     public function buildParserForDataTypes()
     {
         // lexeme :: ([a] -> Maybe (a, [a])) -> [a] -> Maybe (a, [a])
-        $lexeme = function (callable $fn, Listt $a = null) {
+        $lexeme = function (callable $fn, ?Listt $a = null) {
             return curryN(2, function (callable $fn, Listt $a) {
                 // TODO Not optimal, for test only
                 $trimNil = dropWhile(function (Stringg $s) {
@@ -644,7 +644,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         };
 
         // lexeme :: ([a] -> Maybe (a, [a])) -> [a] -> Maybe (a, [a])
-        $lexeme2 = function (callable $fn, Listt $a = null) {
+        $lexeme2 = function (callable $fn, ?Listt $a = null) {
             return curryN(2, function (callable $fn, Listt $a) {
                 $trimNil = dropWhile(function (Stringg $s) {
                     return trim($s->extract(), " ") === "";
@@ -655,7 +655,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         };
 
         // lexeme :: ([a] -> Maybe (a, [a])) -> [a] -> Maybe (a, [a])
-        $lexemeOr = function (callable $fn, Listt $a = null) {
+        $lexemeOr = function (callable $fn, ?Listt $a = null) {
             return curryN(2, function (callable $fn, Listt $a) {
                 $trimNil = dropWhile(function (Stringg $s) {
                     return trim($s->extract(), " \0\n\t\r|") === "";
@@ -765,7 +765,6 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             return declaree($declaration, fromValue($derived));
         });
 
-
         $expression = manyP(fromIterable([
             $declarationDerived,
             $declaration,
@@ -776,9 +775,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         return $expression;
     }
 
-    /**
-     * @dataProvider provideGeneratedCode
-     */
+    #[DataProvider('provideGeneratedCode')]
     public function test_generate_data_types_as_free_string(string $input, string $expectedFileContents)
     {
         $tokens = tokens($input);
@@ -794,24 +791,24 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $generated);
     }
 
-    public function provideGeneratedCode()
+    public static function provideGeneratedCode()
     {
         return [
             'data A = B deriving (Show)' => [
-                '$declaration' => 'data A = B deriving (Show)',
-                '$toImplementation' => 'A.txt',
+                'data A = B deriving (Show)',
+                'A.txt',
             ],
             'data Maybe a = Just a | Nothing' => [
-                '$declaration' => 'data Maybe a = Just a | Nothing',
-                '$toImplementation' => 'Maybe.txt',
+                'data Maybe a = Just a | Nothing',
+                'Maybe.txt',
             ],
             'data Either a b = Left a | Right b' => [
-                '$declaration' => 'data Either a b = Left a | Right b',
-                '$toImplementation' => 'Either.txt',
+                'data Either a b = Left a | Right b',
+                'Either.txt',
             ],
             'data FreeT f a = Pure a | Free f (FreeT f a)' => [
-                '$declaration' => 'data FreeT f a = Pure a | Free f (FreeT f a)',
-                '$toImplementation' => 'FreeT.txt',
+                'data FreeT f a = Pure a | Free f (FreeT f a)',
+                'FreeT.txt',
             ],
         ];
     }

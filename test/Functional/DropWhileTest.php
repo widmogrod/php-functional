@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Primitive\Listt;
 use function Widmogrod\Functional\dropWhile;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
 use function Widmogrod\Functional\lt;
 
-class DropWhileTest extends \PHPUnit\Framework\TestCase
+class DropWhileTest extends TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it(
         Listt $a,
         callable $fn,
@@ -31,28 +31,28 @@ class DropWhileTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'should return empty list from when input is empty list' => [
-                '$a' => fromNil(),
-                '$fn' => lt(3),
-                '$expected' => fromNil(),
+                fromNil(),
+                lt(3),
+                fromNil(),
             ],
             'should provided list when < 100' => [
-                '$a' => fromIterable([1, 2, 3, 4, 5]),
-                '$fn' => lt(100),
-                '$expected' => fromIterable([]),
+                fromIterable([1, 2, 3, 4, 5]),
+                lt(100),
+                fromIterable([]),
             ],
             'should return part of finite list' => [
-                '$a' => fromIterable([1, 2, 3, 4, 5]),
-                '$fn' => lt(4),
-                '$expected' => fromIterable([4, 5]),
+                fromIterable([1, 2, 3, 4, 5]),
+                lt(4),
+                fromIterable([4, 5]),
             ],
             'should return nil list when drop more than in the list' => [
-                '$a' => fromIterable([1, 2, 3, 4, 5]),
-                '$fn' => lt(400),
-                '$expected' => fromNil(),
+                fromIterable([1, 2, 3, 4, 5]),
+                lt(400),
+                fromNil(),
             ],
         ];
     }

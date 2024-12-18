@@ -7,24 +7,24 @@ namespace test\Monad;
 use Eris\TestTrait;
 use FunctionalPHP\FantasyLand\Applicative;
 use FunctionalPHP\FantasyLand\Functor;
-use FunctionalPHP\FantasyLand\Monoid;
-use Widmogrod\Functional as f;
 use FunctionalPHP\FantasyLand\Helpful\ApplicativeLaws;
 use FunctionalPHP\FantasyLand\Helpful\FunctorLaws;
 use FunctionalPHP\FantasyLand\Helpful\MonadLaws;
 use FunctionalPHP\FantasyLand\Helpful\MonoidLaws;
-use const Widmogrod\Functional\fromValue;
+use FunctionalPHP\FantasyLand\Monoid;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+use Widmogrod\Functional as f;
 use function Eris\Generator\choose;
 use function Eris\Generator\vector;
 use function Widmogrod\Functional\fromNil;
+use const Widmogrod\Functional\fromValue;
 
-class ListtTest extends \PHPUnit\Framework\TestCase
+class ListtTest extends TestCase
 {
     use TestTrait;
 
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_if_list_obeys_the_laws($f, $g, $x)
     {
         MonadLaws::test(
@@ -36,7 +36,7 @@ class ListtTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         $addOne = function ($x) {
             return f\fromIterable([$x + 1]);
@@ -47,16 +47,14 @@ class ListtTest extends \PHPUnit\Framework\TestCase
 
         return [
             'Listt' => [
-                '$f' => $addOne,
-                '$g' => $addTwo,
-                '$x' => 10,
+                $addOne,
+                $addTwo,
+                10,
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideApplicativeTestData
-     */
+    #[DataProvider('provideApplicativeTestData')]
     public function test_it_should_obey_applicative_laws(
         $pure,
         Applicative $u,
@@ -76,31 +74,29 @@ class ListtTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideApplicativeTestData()
+    public static function provideApplicativeTestData()
     {
         return [
             'Listt' => [
-                '$pure' => fromValue,
-                '$u' => f\fromIterable([function () {
+                fromValue,
+                f\fromIterable([function () {
                     return 1;
                 }]),
-                '$v' => f\fromIterable([function () {
+                f\fromIterable([function () {
                     return 5;
                 }]),
-                '$w' => f\fromIterable([function () {
+                f\fromIterable([function () {
                     return 7;
                 }]),
-                '$f' => function ($x) {
+                function ($x) {
                     return $x + 400;
                 },
-                '$x' => 33
+                33
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideFunctorTestData
-     */
+    #[DataProvider('provideFunctorTestData')]
     public function test_it_should_obey_functor_laws(
         callable $f,
         callable $g,
@@ -114,24 +110,22 @@ class ListtTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideFunctorTestData()
+    public static function provideFunctorTestData()
     {
         return [
             'Listt' => [
-                '$f' => function ($x) {
+                function ($x) {
                     return $x + 1;
                 },
-                '$g' => function ($x) {
+                function ($x) {
                     return $x + 5;
                 },
-                '$x' => f\fromIterable([1, 2, 3]),
+                f\fromIterable([1, 2, 3]),
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideRandomizedData
-     */
+    #[DataProvider('provideRandomizedData')]
     public function test_it_should_obey_monoid_laws(Monoid $x, Monoid $y, Monoid $z)
     {
         MonoidLaws::test(
@@ -142,18 +136,18 @@ class ListtTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    private function randomize()
+    public static function randomize()
     {
         return f\fromIterable(array_keys(array_fill(0, random_int(20, 100), null)));
     }
 
-    public function provideRandomizedData()
+    public static function provideRandomizedData()
     {
         return array_map(function () {
             return [
-                $this->randomize(),
-                $this->randomize(),
-                $this->randomize(),
+                self::randomize(),
+                self::randomize(),
+                self::randomize(),
             ];
         }, array_fill(0, 50, null));
     }

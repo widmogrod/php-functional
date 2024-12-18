@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 
-class InvokeTest extends \PHPUnit\Framework\TestCase
+class InvokeTest extends TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it($method, $input, $output)
     {
         $curried = f\invoke($method);
@@ -18,13 +18,16 @@ class InvokeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($output, $curried($input));
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
-            'should return value from method' => ['getString', $this, 'this-is-my-string']
+            'should return value from method' => ['getString', new InvokeTest2, 'this-is-my-string']
         ];
     }
+}
 
+class InvokeTest2
+{
     public function getString()
     {
         return 'this-is-my-string';

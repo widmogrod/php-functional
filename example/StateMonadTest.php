@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace example;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Monad\Maybe;
 use Widmogrod\Monad\State as S;
 
@@ -88,11 +90,9 @@ function retrieveRelated($productName)
     });
 }
 
-class StateMonadTest extends \PHPUnit\Framework\TestCase
+class StateMonadTest extends TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_demonstrate_state_monad($expectedProducts)
     {
         $initialState = new InMemoryCache([]);
@@ -113,11 +113,11 @@ class StateMonadTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($outputState1, $outputState2);
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'default' => [
-                '$expectedProducts' => ['iPhone 5', 'iPhone 6s'],
+                ['iPhone 5', 'iPhone 6s'],
             ],
         ];
     }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad\Maybe;
 
-use Widmogrod\Common;
 use FunctionalPHP\FantasyLand;
+use Widmogrod\Common;
 
 interface Maybe extends
     FantasyLand\Monad,

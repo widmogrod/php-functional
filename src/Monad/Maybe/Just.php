@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad\Maybe;
 
-use Widmogrod\Common;
 use FunctionalPHP\FantasyLand;
+use Widmogrod\Common;
 use Widmogrod\Primitive\TypeMismatchError;
 use Widmogrod\Useful\PatternMatcher;
 
@@ -13,7 +13,7 @@ class Just implements Maybe, PatternMatcher
 {
     use Common\PointedTrait;
 
-    const of = 'Widmogrod\Monad\Maybe\Just::of';
+    public const of = 'Widmogrod\Monad\Maybe\Just::of';
 
     /**
      * @inheritdoc

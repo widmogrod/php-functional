@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Widmogrod\Functional;
 
+use Closure;
+
 const eql = 'Widmogrod\Functional\eql';
 
 /**
@@ -12,7 +14,7 @@ const eql = 'Widmogrod\Functional\eql';
  * @param mixed $expected
  * @param mixed $value
  *
- * @return bool|\Closure
+ * @return bool|Closure
  */
 function eql($expected, $value = null)
 {
@@ -29,7 +31,7 @@ const lt = 'Widmogrod\Functional\lt';
  * @param mixed $expected
  * @param mixed $value
  *
- * @return bool|\Closure
+ * @return bool|Closure
  */
 function lt($expected, $value = null)
 {
@@ -37,7 +39,6 @@ function lt($expected, $value = null)
         return $value < $expected;
     })(...func_get_args());
 }
-
 
 const orr = 'Widmogrod\Functional\orr';
 
@@ -48,7 +49,7 @@ const orr = 'Widmogrod\Functional\orr';
  * @param callable|null $predicateB
  * @param mixed         $value
  *
- * @return bool|\Closure
+ * @return bool|Closure
  */
 function orr(callable $predicateA, ?callable $predicateB = null, $value = null)
 {

@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/6.3/phpunit.xsd">
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         cacheDirectory=".phpunit.cache"
+         executionOrder="depends,defects"
+         shortenArraysForExportThreshold="10"
+         requireCoverageMetadata="false"
+         beStrictAboutCoverageMetadata="true"
+         beStrictAboutOutputDuringTests="true"
+         displayDetailsOnPhpunitDeprecations="true"
+         failOnPhpunitDeprecation="false"
+         failOnRisky="true"
+         failOnWarning="true">
     <testsuites>
         <testsuite name="Functional">
             <directory>./test/Functional</directory>
@@ -18,9 +29,16 @@
             <directory>./example/</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src/</directory>
-        </whitelist>
-    </filter>
+    <coverage>
+        <report>
+            <clover outputFile="./clover.xml"/>
+        </report>
+    </coverage>
+    <source ignoreIndirectDeprecations="true"
+            restrictNotices="true"
+            restrictWarnings="true">
+        <include>
+            <directory>src</directory>
+        </include>
+    </source>
 </phpunit>

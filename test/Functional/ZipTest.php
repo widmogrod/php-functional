@@ -6,6 +6,8 @@ namespace test\Functional;
 
 use Eris\Generator;
 use Eris\TestTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Primitive\Listt;
 use function Widmogrod\Functional\eql;
 use function Widmogrod\Functional\filter;
@@ -16,13 +18,11 @@ use function Widmogrod\Functional\repeat;
 use function Widmogrod\Functional\take;
 use function Widmogrod\Functional\zip;
 
-class ZipTest extends \PHPUnit\Framework\TestCase
+class ZipTest extends TestCase
 {
     use TestTrait;
 
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it_should_return_zipped_list(
         Listt $a,
         Listt $b,
@@ -39,37 +39,37 @@ class ZipTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'zipping of two empty lists should be an empty list' => [
-                '$a' => fromNil(),
-                '$b' => fromNil(),
-                '$expected' => fromNil(),
+                fromNil(),
+                fromNil(),
+                fromNil(),
             ],
             'zipping of two lists when left is an empty list' => [
-                '$a' => fromNil(),
-                '$b' => fromIterable([1, 2, 3, 4]),
-                '$expected' => fromNil(),
+                fromNil(),
+                fromIterable([1, 2, 3, 4]),
+                fromNil(),
             ],
             'zipping of two lists when right is an empty list' => [
-                '$a' => fromIterable([1, 2, 3, 4]),
-                '$b' => fromNil(),
-                '$expected' => fromNil(),
+                fromIterable([1, 2, 3, 4]),
+                fromNil(),
+                fromNil(),
             ],
             'zipping of two lists when left is shorter  list' => [
-                '$a' => fromIterable([1, 2, 3]),
-                '$b' => fromIterable(['a', 'b', 'c', 'd']),
-                '$expected' => fromIterable([
+                fromIterable([1, 2, 3]),
+                fromIterable(['a', 'b', 'c', 'd']),
+                fromIterable([
                     [1, 'a'],
                     [2, 'b'],
                     [3, 'c']
                 ]),
             ],
             'zipping of two lists when right is shorter  list' => [
-                '$a' => fromIterable([1, 2, 3, 4]),
-                '$b' => fromIterable(['a', 'b', 'c']),
-                '$expected' => fromIterable([
+                fromIterable([1, 2, 3, 4]),
+                fromIterable(['a', 'b', 'c']),
+                fromIterable([
                     [1, 'a'],
                     [2, 'b'],
                     [3, 'c']

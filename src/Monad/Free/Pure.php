@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad\Free;
 
-use Widmogrod\Common;
 use FunctionalPHP\FantasyLand;
+use Widmogrod\Common;
 
 class Pure implements MonadFree
 {
     use Common\PointedTrait;
 
-    const of = 'Widmogrod\Monad\Free\Pure::of';
+    public const of = 'Widmogrod\Monad\Free\Pure::of';
 
     /**
      * @inheritdoc

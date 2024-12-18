@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use ArgumentCountError;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use function Widmogrod\Functional\applicator;
 
-class ApplicatorTest extends \PHPUnit\Framework\TestCase
+class ApplicatorTest extends TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it_should_apply_value_as_a_argument_to_a_function(
         $value,
         callable $fn,
@@ -22,26 +23,24 @@ class ApplicatorTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @expectedException \ArgumentCountError
-     * @expectedExceptionMessage Too few arguments to function
-     */
-    public function test_it_should_fail_when_function_requires_more_argumetns()
+    public function test_it_should_fail_when_function_requires_more_arguments()
     {
+        $this->expectException(ArgumentCountError::class);
+        $this->expectExceptionMessage('Too few arguments to function');
         applicator(1, function (int $i, string $a): int {
             return 10 + $i;
         });
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'Single value function' => [
-                '$value' => 133,
-                '$fn' => function (int $i): int {
+                133,
+                function (int $i): int {
                     return 10 + $i;
                 },
-                '$expected' => 143,
+                143,
             ],
         ];
     }

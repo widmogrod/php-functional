@@ -6,6 +6,8 @@ namespace test\Functional;
 
 use Eris\Generator;
 use Eris\TestTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Primitive\Listt;
 use function Widmogrod\Functional\eql;
 use function Widmogrod\Functional\filter;
@@ -16,13 +18,11 @@ use function Widmogrod\Functional\repeat;
 use function Widmogrod\Functional\take;
 use function Widmogrod\Functional\unzip;
 
-class UnzipTest extends \PHPUnit\Framework\TestCase
+class UnzipTest extends TestCase
 {
     use TestTrait;
 
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it_should_return_zipped_list(
         Listt $a,
         array $expected
@@ -30,25 +30,24 @@ class UnzipTest extends \PHPUnit\Framework\TestCase
         [$a, $b] = unzip($a);
         [$ea, $eb] = $expected;
 
-
         $this->assertTrue($a->equals($ea));
         $this->assertTrue($b->equals($eb));
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'unzipping of empty lists should be an tuple of empty lists' => [
-                '$a' => fromNil(),
-                '$expected' => [fromNil(), fromNil()],
+                fromNil(),
+                [fromNil(), fromNil()],
             ],
             'unzipping of lists should be an tuple of lists' => [
-                '$a' => fromIterable([
+                fromIterable([
                     [1, 'a'],
                     [2, 'b'],
                     [3, 'c'],
                 ]),
-                '$expected' => [fromIterable([1, 2, 3]), fromIterable(['a', 'b', 'c'])],
+                [fromIterable([1, 2, 3]), fromIterable(['a', 'b', 'c'])],
             ],
         ];
     }

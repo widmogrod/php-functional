@@ -14,7 +14,7 @@ use function Widmogrod\Functional\bind;
  */
 class Free implements MonadFree
 {
-    const of = 'Widmogrod\Monad\Free\Free::of';
+    public const of = 'Widmogrod\Monad\Free\Free::of';
 
     /**
      * @var FantasyLand\Functor
@@ -113,7 +113,7 @@ class Free implements MonadFree
      */
     public function foldFree(callable $f, callable $return): FantasyLand\Monad
     {
-        return $f($this->f)->bind(function (MonadFree $next) use ($f, $return) : FantasyLand\Monad {
+        return $f($this->f)->bind(function (MonadFree $next) use ($f, $return): FantasyLand\Monad {
             return $next->foldFree($f, $return);
         });
     }

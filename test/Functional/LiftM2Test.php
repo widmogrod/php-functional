@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace test\Functional;
 
 use FunctionalPHP\FantasyLand\Monad;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Common\ValueOfInterface;
 use Widmogrod\Functional as f;
 use Widmogrod\Monad\Either;
 use Widmogrod\Monad\IO;
 use Widmogrod\Monad\Maybe;
 
-class LiftM2Test extends \PHPUnit\Framework\TestCase
+class LiftM2Test extends TestCase
 {
-    /**
-     * @dataProvider monadsProvider
-     */
+    #[DataProvider('monadsProvider')]
     public function test_it_should_lift2M(
         Monad $ma,
         Monad $mb,
@@ -31,14 +31,14 @@ class LiftM2Test extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function monadsProvider()
+    public static function monadsProvider()
     {
         $sumIntegers = static function (int $a, int $b) {
             return $a + $b;
         };
 
         $sameValueOf = f\curryN(2, function ($expected, ValueOfInterface $actual) {
-            $this->assertSame($expected, f\valueOf($actual));
+            self::assertSame($expected, f\valueOf($actual));
         });
 
         return [
@@ -105,7 +105,7 @@ class LiftM2Test extends \PHPUnit\Framework\TestCase
                 $sumIntegers,
                 IO::class,
                 function (IO $io) {
-                    $this->assertSame(3, $io->run());
+                    self::assertSame(3, $io->run());
                 }
             ]
         ];

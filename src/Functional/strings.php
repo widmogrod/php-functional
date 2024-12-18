@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Widmogrod\Functional;
 
+use Closure;
+
 const concatStrings = 'Widmogrod\Functional\concatStrings';
 
 /**
@@ -12,7 +14,7 @@ const concatStrings = 'Widmogrod\Functional\concatStrings';
  * @param string      $a
  * @param string|null $b
  *
- * @return string|\Closure
+ * @return string|Closure
  */
 function concatStrings($a, $b = null)
 {

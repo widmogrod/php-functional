@@ -6,13 +6,14 @@ namespace test\Functional;
 
 use Eris\Generator;
 use Eris\TestTrait;
+use PHPUnit\Framework\TestCase;
 use function Widmogrod\Functional\eql;
 use function Widmogrod\Functional\filter;
 use function Widmogrod\Functional\length;
 use function Widmogrod\Functional\repeat;
 use function Widmogrod\Functional\take;
 
-class RepeatTest extends \PHPUnit\Framework\TestCase
+class RepeatTest extends TestCase
 {
     use TestTrait;
 

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad\Either;
 
-use Widmogrod\Common;
 use FunctionalPHP\FantasyLand;
+use Widmogrod\Common;
 
 class Left implements Either
 {
     use Common\PointedTrait;
     use Common\ValueOfTrait;
 
-    const of = 'Widmogrod\Monad\Either\Left::of';
+    public const of = 'Widmogrod\Monad\Either\Left::of';
 
     /**
      * @inheritdoc

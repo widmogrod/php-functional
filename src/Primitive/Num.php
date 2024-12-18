@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Widmogrod\Primitive;
 
-use Widmogrod\Common;
 use FunctionalPHP\FantasyLand;
+use Widmogrod\Common;
 
 class Num implements
     FantasyLand\Pointed,
     FantasyLand\Setoid,
     Common\ValueOfInterface
 {
-    const of = 'Widmogrod\Primitive\Num::of';
+    public const of = 'Widmogrod\Primitive\Num::of';
 
     use Common\PointedTrait;
     use Common\ValueOfTrait;

@@ -6,17 +6,17 @@ namespace test\Monad;
 
 use FunctionalPHP\FantasyLand\Applicative;
 use FunctionalPHP\FantasyLand\Functor;
-use Widmogrod\Functional as f;
 use FunctionalPHP\FantasyLand\Helpful\ApplicativeLaws;
 use FunctionalPHP\FantasyLand\Helpful\FunctorLaws;
 use FunctionalPHP\FantasyLand\Helpful\MonadLaws;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+use Widmogrod\Functional as f;
 use Widmogrod\Monad\State;
 
-class StateTest extends \PHPUnit\Framework\TestCase
+class StateTest extends TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_if_state_monad_obeys_the_laws($f, $g, $x, $state)
     {
         MonadLaws::test(
@@ -34,7 +34,7 @@ class StateTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         $addOne = function ($x) {
             return State\value($x + 1);
@@ -45,17 +45,15 @@ class StateTest extends \PHPUnit\Framework\TestCase
 
         return [
             'state 0' => [
-                '$f' => $addOne,
-                '$g' => $addTwo,
-                '$x' => 10,
-                '$state' => 0,
+                $addOne,
+                $addTwo,
+                10,
+                0,
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideApplicativeTestData
-     */
+    #[DataProvider('provideApplicativeTestData')]
     public function test_it_should_obey_applicative_laws(
         $pure,
         Applicative $u,
@@ -82,32 +80,30 @@ class StateTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideApplicativeTestData()
+    public static function provideApplicativeTestData()
     {
         return [
             'State' => [
-                '$pure' => State\pure,
-                '$u' => State\pure(function () {
+                State\pure,
+                State\pure(function () {
                     return 1;
                 }),
-                '$v' => State\pure(function ($x) {
+                State\pure(function ($x) {
                     return 5;
                 }),
-                '$w' => State\pure(function ($x) {
+                State\pure(function ($x) {
                     return 7;
                 }),
-                '$f' => function ($x) {
+                function ($x) {
                     return 400 + $x;
                 },
-                '$x' => 33,
-                '$state' => 3,
+                33,
+                3,
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideFunctorTestData
-     */
+    #[DataProvider('provideFunctorTestData')]
     public function test_it_should_obey_functor_laws(
         callable $f,
         callable $g,
@@ -128,18 +124,18 @@ class StateTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideFunctorTestData()
+    public static function provideFunctorTestData()
     {
         return [
             'State' => [
-                '$f' => function ($x) {
+                function ($x) {
                     return $x + 1;
                 },
-                '$g' => function ($x) {
+                function ($x) {
                     return $x + 5;
                 },
-                '$x' => State\value(3),
-                '$state' => 'asd',
+                State\value(3),
+                'asd',
             ],
         ];
     }

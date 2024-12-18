@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Widmogrod\Functional;
 
+use Closure;
+use Exception;
 use FunctionalPHP\FantasyLand\Applicative;
 use FunctionalPHP\FantasyLand\Foldable;
 use FunctionalPHP\FantasyLand\Functor;
 use FunctionalPHP\FantasyLand\Monad;
 use FunctionalPHP\FantasyLand\Traversable;
+use ReflectionFunction;
 use Widmogrod\Common\ValueOfInterface;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\ListtCons;
@@ -83,7 +86,7 @@ function curryN($numberOfArguments, callable $function, array $args = [])
  */
 function curry(callable $function, array $args = [])
 {
-    $reflectionOfFunction = new \ReflectionFunction(\Closure::fromCallable($function));
+    $reflectionOfFunction = new ReflectionFunction(Closure::fromCallable($function));
 
     $numberOfArguments = count($reflectionOfFunction->getParameters());
     // We cant expect more arguments than are defined in function
@@ -123,7 +126,7 @@ const tee = 'Widmogrod\Functional\tee';
  * @param callable $function
  * @param mixed    $value
  *
- * @return \Closure
+ * @return Closure
  */
 function tee(callable $function, $value = null)
 {
@@ -144,9 +147,9 @@ const reverse = 'Widmogrod\Functional\reverse';
  *
  * Call $function with arguments in reversed order
  *
- * @return \Closure
+ * @param  callable $function
+ * @return Closure
  *
- * @param callable $function
  */
 function reverse(callable $function)
 {
@@ -163,10 +166,10 @@ const map = 'Widmogrod\Functional\map';
 /**
  * map :: Functor f => (a -> b) -> f a -> f b
  *
- * @return mixed|\Closure
+ * @param  callable      $transformation
+ * @param  Functor       $value
+ * @return mixed|Closure
  *
- * @param callable $transformation
- * @param Functor  $value
  */
 function map(callable $transformation, ?Functor $value = null)
 {
@@ -183,10 +186,10 @@ const bind = 'Widmogrod\Functional\bind';
 /**
  * bind :: Monad m => (a -> m b) -> m a -> m b
  *
- * @return mixed|\Closure
+ * @param  callable      $function
+ * @param  Monad         $value
+ * @return mixed|Closure
  *
- * @param callable $function
- * @param Monad    $value
  */
 function bind(callable $function, ?Monad $value = null)
 {
@@ -254,7 +257,7 @@ const foldr = 'Widmogrod\Functional\foldr';
  *
  * @return mixed
  */
-function foldr(callable $callable, $accumulator = null, ?Foldable $foldable = null)
+function foldr(callable $callback, mixed $initialValue = null, ?Foldable $inputFoldable = null)
 {
     return curryN(3, function (
         callable $callable,
@@ -280,7 +283,7 @@ const filter = 'Widmogrod\Functional\filter';
  * @param callable $predicate
  * @param Foldable $list
  *
- * @return Foldable|\Closure
+ * @return Foldable|Closure
  */
 function filter(callable $predicate, ?Foldable $list = null)
 {
@@ -305,7 +308,7 @@ const mpipeline = 'Widmogrod\Functional\mpipeline';
  * @param callable $a
  * @param callable $b,...
  *
- * @return \Closure func($mValue) : mixed
+ * @return Closure func($mValue) : mixed
  */
 function mpipeline(callable $a, callable $b)
 {
@@ -326,7 +329,7 @@ const mcompose = 'Widmogrod\Functional\mcompose';
  * @param callable $a
  * @param callable $b,...
  *
- * @return \Closure func($mValue) : mixed
+ * @return Closure func($mValue) : mixed
  */
 function mcompose(callable $a, callable $b)
 {
@@ -341,7 +344,7 @@ function mcompose(callable $a, callable $b)
  *
  * @param callable $function
  * @param callable $catchFunction
- * @param $value
+ * @param          $value
  *
  * @return mixed
  */
@@ -350,7 +353,7 @@ function tryCatch(callable $function, callable $catchFunction, $value)
     return curryN(3, function (callable $function, callable $catchFunction, $value) {
         try {
             return $function($value);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $catchFunction($e);
         }
     })(...func_get_args());
@@ -364,11 +367,11 @@ const reThrow = 'Widmogrod\Functional\reThrow';
 /**
  * reThrow :: Exception e => e -> a
  *
- * @param \Exception $e
+ * @param Exception $e
  *
- * @throws \Exception
+ * @throws Exception
  */
-function reThrow(\Exception $e)
+function reThrow(Exception $e)
 {
     throw $e;
 }
@@ -391,7 +394,7 @@ const liftM2 = 'Widmogrod\Functional\liftM2';
  * @param Monad    $ma
  * @param Monad    $mb
  *
- * @return Monad|\Closure
+ * @return Monad|Closure
  */
 function liftM2(
     ?callable $transformation = null,
@@ -416,7 +419,7 @@ const bindM2 = 'Widmogrod\Functional\bindM2';
  * @param Monad    $ma
  * @param Monad    $mb
  *
- * @return Monad|\Closure
+ * @return Monad|Closure
  */
 function bindM2(
     ?callable $transformation = null,
@@ -451,7 +454,7 @@ const liftA2 = 'Widmogrod\Functional\liftA2';
  * @param Applicative $fa
  * @param Applicative $fb
  *
- * @return Applicative|\Closure
+ * @return Applicative|Closure
  */
 function liftA2(
     ?callable $transformation = null,
@@ -489,7 +492,7 @@ const sequenceM = 'Widmogrod\Functional\sequenceM';
  * @param Monad $a
  * @param Monad $b
  *
- * @return Monad|\Closure
+ * @return Monad|Closure
  */
 function sequenceM(Monad $a, ?Monad $b = null): Monad
 {
@@ -517,7 +520,7 @@ const traverse = 'Widmogrod\Functional\traverse';
  * @param callable    $transformation (a -> f b)
  * @param Traversable $t              t a
  *
- * @return \Closure|Applicative f (t b)
+ * @return Closure|Applicative f (t b)
  */
 function traverse(callable $transformation, ?Traversable $t = null)
 {
@@ -540,7 +543,7 @@ function traverse(callable $transformation, ?Traversable $t = null)
  * @param callable $f  (a -> m Bool)
  * @param Foldable $xs [a]
  *
- * @return \Closure|Monad m [a]
+ * @return Closure|Monad m [a]
  */
 function filterM(callable $f, ?Foldable $xs = null)
 {

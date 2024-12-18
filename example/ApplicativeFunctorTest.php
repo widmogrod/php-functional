@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace example;
 
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Primitive\Listt;
 use function Widmogrod\Functional\fromIterable;
 
-class ApplicativeFunctorTest extends \PHPUnit\Framework\TestCase
+class ApplicativeFunctorTest extends TestCase
 {
     public function test_it_should_apply_every_function_in_collection_with_every_item_in_second()
     {

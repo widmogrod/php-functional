@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad\Either;
 
-use Widmogrod\Common;
 use FunctionalPHP\FantasyLand;
+use Widmogrod\Common;
 
 interface Either extends
     FantasyLand\Monad,

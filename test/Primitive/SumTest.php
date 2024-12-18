@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace test\Primitive;
 
-use Eris\TestTrait;
 use Eris\Generator;
+use Eris\TestTrait;
 use FunctionalPHP\FantasyLand\Helpful\MonoidLaws;
 use FunctionalPHP\FantasyLand\Helpful\SetoidLaws;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Primitive\Product;
 use Widmogrod\Primitive\Sum;
+use Widmogrod\Primitive\TypeMismatchError;
 
-class SumTest extends \PHPUnit\Framework\TestCase
+class SumTest extends TestCase
 {
     use TestTrait;
 
@@ -47,13 +49,10 @@ class SumTest extends \PHPUnit\Framework\TestCase
         });
     }
 
-
-    /**
-     * @expectedException \Widmogrod\Primitive\TypeMismatchError
-     * @expectedExceptionMessage Expected type is Widmogrod\Primitive\Sum but given Widmogrod\Primitive\Product
-     */
     public function test_it_should_reject_concat_on_different_type()
     {
+        $this->expectException(TypeMismatchError::class);
+        $this->expectExceptionMessage('Expected type is Widmogrod\Primitive\Sum but given Widmogrod\Primitive\Product');
         $this->forAll(
             Generator\int(),
             Generator\string()

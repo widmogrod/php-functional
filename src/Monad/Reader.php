@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad;
 
-use Widmogrod\Common;
 use FunctionalPHP\FantasyLand;
+use Widmogrod\Common;
 
 class Reader implements FantasyLand\Monad
 {
-    const of = 'Widmogrod\Monad\Reader::of';
+    public const of = 'Widmogrod\Monad\Reader::of';
 
     use Common\PointedTrait;
 

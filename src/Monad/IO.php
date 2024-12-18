@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad;
 
-use Widmogrod\Common;
 use FunctionalPHP\FantasyLand;
+use Widmogrod\Common;
 
 class IO implements
     FantasyLand\Monad,
     FantasyLand\Foldable
 {
-    const of = 'Widmogrod\Monad\IO::of';
+    public const of = 'Widmogrod\Monad\IO::of';
 
     use Common\PointedTrait;
 
