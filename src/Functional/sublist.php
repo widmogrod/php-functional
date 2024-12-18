@@ -23,7 +23,7 @@ const take = 'Widmogrod\Functional\take';
  * @param  Listt          $xs
  * @return Listt|\Closure
  */
-function take(int $n, Listt $xs = null)
+function take(int $n, ?Listt $xs = null)
 {
     return curryN(2, function (int $n, Listt $xs): Listt {
         if ($n < 1) {
@@ -49,7 +49,7 @@ const drop = 'Widmogrod\Functional\drop';
  * @param  Listt          $xs
  * @return Listt|\Closure
  */
-function drop(int $n, Listt $xs = null)
+function drop(int $n, ?Listt $xs = null)
 {
     return curryN(2, function (int $n, Listt $xs): Listt {
         if ($n < 1) {
@@ -84,7 +84,7 @@ const dropWhile = 'Widmogrod\Functional\dropWhile';
  * @param  Listt          $xs
  * @return Listt|\Closure
  */
-function dropWhile(callable $predicate, Listt $xs = null)
+function dropWhile(callable $predicate, ?Listt $xs = null)
 {
     return curryN(2, function (callable $predicate, Listt $xs): Listt {
         if ($xs instanceof ListtNil) {
@@ -126,7 +126,7 @@ const span = 'Widmogrod\Functional\span';
  * @param  Listt          $xs
  * @return array|\Closure
  */
-function span(callable $predicate, Listt $xs = null)
+function span(callable $predicate, ?Listt $xs = null)
 {
     return curryN(2, function (callable $predicate, Listt $xs): array {
         try {

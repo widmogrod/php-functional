@@ -21,7 +21,7 @@ class LiftM2Test extends \PHPUnit\Framework\TestCase
         Monad $mb,
         callable $transformation,
         string $expectedFQCN,
-        callable $valueAssertion = null
+        ?callable $valueAssertion = null
     ) {
         $mc = f\liftM2($transformation, $ma, $mb);
 

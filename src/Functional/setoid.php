@@ -16,7 +16,7 @@ const equal = 'Widmogrod\Functional\equal';
  *
  * @return bool|\Closure
  */
-function equal(Setoid $a, Setoid $b = null)
+function equal(Setoid $a, ?Setoid $b = null)
 {
     return curryN(2, function (Setoid $a, Setoid $b):bool {
         return $a->equals($b);

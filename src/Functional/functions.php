@@ -26,7 +26,7 @@ const applicator = 'Widmogrod\Functional\applicator';
  *
  * @return mixed
  */
-function applicator($x, callable $f = null)
+function applicator($x, ?callable $f = null)
 {
     return curryN(2, function ($y, callable $f) {
         return $f($y);
@@ -168,7 +168,7 @@ const map = 'Widmogrod\Functional\map';
  * @param callable $transformation
  * @param Functor  $value
  */
-function map(callable $transformation, Functor $value = null)
+function map(callable $transformation, ?Functor $value = null)
 {
     return curryN(2, function (callable $transformation, Functor $value) {
         return $value->map($transformation);
@@ -188,7 +188,7 @@ const bind = 'Widmogrod\Functional\bind';
  * @param callable $function
  * @param Monad    $value
  */
-function bind(callable $function, Monad $value = null)
+function bind(callable $function, ?Monad $value = null)
 {
     return curryN(2, function (callable $function, Monad $value) {
         return $value->bind($function);
@@ -226,7 +226,7 @@ const reduce = 'Widmogrod\Functional\reduce';
  *
  * @return mixed
  */
-function reduce(callable $callable, $accumulator = null, Foldable $foldable = null)
+function reduce(callable $callable, $accumulator = null, ?Foldable $foldable = null)
 {
     return curryN(3, function (
         callable $callable,
@@ -254,7 +254,7 @@ const foldr = 'Widmogrod\Functional\foldr';
  *
  * @return mixed
  */
-function foldr(callable $callable, $accumulator = null, Foldable $foldable = null)
+function foldr(callable $callable, $accumulator = null, ?Foldable $foldable = null)
 {
     return curryN(3, function (
         callable $callable,
@@ -282,7 +282,7 @@ const filter = 'Widmogrod\Functional\filter';
  *
  * @return Foldable|\Closure
  */
-function filter(callable $predicate, Foldable $list = null)
+function filter(callable $predicate, ?Foldable $list = null)
 {
     return curryN(2, function (callable $predicate, Foldable $list) {
         return reduce(function (Listt $list, $x) use ($predicate) {
@@ -394,9 +394,9 @@ const liftM2 = 'Widmogrod\Functional\liftM2';
  * @return Monad|\Closure
  */
 function liftM2(
-    callable $transformation = null,
-    Monad $ma = null,
-    Monad $mb = null
+    ?callable $transformation = null,
+    ?Monad $ma = null,
+    ?Monad $mb = null
 ) {
     return call_user_func_array(
         liftA2,
@@ -419,9 +419,9 @@ const bindM2 = 'Widmogrod\Functional\bindM2';
  * @return Monad|\Closure
  */
 function bindM2(
-    callable $transformation = null,
-    Monad $ma = null,
-    Monad $mb = null
+    ?callable $transformation = null,
+    ?Monad $ma = null,
+    ?Monad $mb = null
 ) {
     return curryN(
         3,
@@ -454,9 +454,9 @@ const liftA2 = 'Widmogrod\Functional\liftA2';
  * @return Applicative|\Closure
  */
 function liftA2(
-    callable $transformation = null,
-    Applicative $fa = null,
-    Applicative $fb = null
+    ?callable $transformation = null,
+    ?Applicative $fa = null,
+    ?Applicative $fb = null
 ) {
     return curryN(3, function (
         callable $transformation,
@@ -491,7 +491,7 @@ const sequenceM = 'Widmogrod\Functional\sequenceM';
  *
  * @return Monad|\Closure
  */
-function sequenceM(Monad $a, Monad $b = null): Monad
+function sequenceM(Monad $a, ?Monad $b = null): Monad
 {
     return curryN(2, function (Monad ...$monads): Monad {
         return array_reduce($monads, function (?Monad $a, Monad $b) {
@@ -519,7 +519,7 @@ const traverse = 'Widmogrod\Functional\traverse';
  *
  * @return \Closure|Applicative f (t b)
  */
-function traverse(callable $transformation, Traversable $t = null)
+function traverse(callable $transformation, ?Traversable $t = null)
 {
     return curryN(2, function (
         callable $transformation,
@@ -542,7 +542,7 @@ function traverse(callable $transformation, Traversable $t = null)
  *
  * @return \Closure|Monad m [a]
  */
-function filterM(callable $f, Foldable $xs = null)
+function filterM(callable $f, ?Foldable $xs = null)
 {
     return curryN(2, function (
         callable $f,
@@ -585,7 +585,7 @@ function filterM(callable $f, Foldable $xs = null)
  *
  * @return mixed m a
  */
-function foldM(callable $f, $z0 = null, Foldable $xs = null)
+function foldM(callable $f, $z0 = null, ?Foldable $xs = null)
 {
     return curryN(3, function (
         callable $f,

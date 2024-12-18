@@ -53,7 +53,7 @@ const maybe = 'Widmogrod\Monad\Maybe\maybe';
  *
  * @return mixed|\Closure
  */
-function maybe($default, callable $fn = null, Maybe $maybe = null)
+function maybe($default, ?callable $fn = null, ?Maybe $maybe = null)
 {
     return f\curryN(3, function ($default, callable $fn, Maybe $maybe) {
         if ($maybe instanceof Nothing) {
@@ -94,7 +94,7 @@ const fromMaybe = 'Widmogrod\Monad\Maybe\fromMaybe';
  *
  * @return mixed
  */
-function fromMaybe($default = null, Maybe $maybe = null)
+function fromMaybe($default = null, ?Maybe $maybe = null)
 {
     return f\curryN(2, function ($default, Maybe $maybe) {
         return maybe($default, f\identity, $maybe);

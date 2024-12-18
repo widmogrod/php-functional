@@ -50,7 +50,7 @@ const tryCatch = 'Widmogrod\Monad\IO\tryCatch';
  *
  * @return M\IO|\Closure
  */
-function tryCatch(M\IO $io = null, callable $catchFunction = null)
+function tryCatch(?M\IO $io = null, ?callable $catchFunction = null)
 {
     return f\curryN(2, function (M\IO $io, callable $catchFunction) {
         return M\IO::of(function () use ($io, $catchFunction) {

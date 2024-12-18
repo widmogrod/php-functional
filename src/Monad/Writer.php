@@ -11,7 +11,7 @@ class Writer implements FantasyLand\Monad
 {
     const of = 'Widmogrod\Monad\Writer::of';
 
-    public static function of($value, FantasyLand\Monoid $side = null)
+    public static function of($value, ?FantasyLand\Monoid $side = null)
     {
         return new static($value, $side === null ? S::mempty() : $side);
     }

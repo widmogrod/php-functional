@@ -62,7 +62,7 @@ const either = 'Widmogrod\Monad\Either\either';
  *
  * @return mixed c
  */
-function either(callable $left, callable $right = null, Either $either = null)
+function either(callable $left, ?callable $right = null, ?Either $either = null)
 {
     return f\curryN(3, function (callable $left, callable $right, Either $either) {
         return $either->either($left, $right);
@@ -82,7 +82,7 @@ const doubleMap = 'Widmogrod\Monad\Either\doubleMap';
  *
  * @return Left|Right|\Closure
  */
-function doubleMap(callable $left, callable $right = null, Either $either = null)
+function doubleMap(callable $left, ?callable $right = null, ?Either $either = null)
 {
     return f\curryN(3, function (callable $left, callable $right, Either $either) {
         return either(
@@ -106,7 +106,7 @@ const tryCatch = 'Widmogrod\Monad\Either\tryCatch';
  *
  * @return Either|\Closure
  */
-function tryCatch(callable $function = null, callable $catchFunction = null, $value = null)
+function tryCatch(?callable $function = null, ?callable $catchFunction = null, $value = null)
 {
     return f\curryN(3, function (callable $function, callable $catchFunction, $value) {
         return f\tryCatch(
@@ -140,9 +140,9 @@ const fromLeft = 'Widmogrod\Monad\Either\fromLeft';
  * @param  Either $either
  * @return mixed
  */
-function fromLeft($a, Either $either = null)
+function fromLeft($a, ?Either $either = null)
 {
-    return f\curryN(2, function ($a, Either $either = null) {
+    return f\curryN(2, function ($a, ?Either $either = null) {
         return either(f\identity, f\constt($a), $either);
     })(...func_get_args());
 }
@@ -156,9 +156,9 @@ const fromRight = 'Widmogrod\Monad\Either\fromRight';
  * @param  Either $either
  * @return mixed
  */
-function fromRight($a, Either $either = null)
+function fromRight($a, ?Either $either = null)
 {
-    return f\curryN(2, function ($a, Either $either = null) {
+    return f\curryN(2, function ($a, ?Either $either = null) {
         return either(f\constt($a), f\identity, $either);
     })(...func_get_args());
 }

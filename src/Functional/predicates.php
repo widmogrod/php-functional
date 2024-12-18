@@ -50,7 +50,7 @@ const orr = 'Widmogrod\Functional\orr';
  *
  * @return bool|\Closure
  */
-function orr(callable $predicateA, callable $predicateB = null, $value = null)
+function orr(callable $predicateA, ?callable $predicateB = null, $value = null)
 {
     return curryN(3, function (callable $a, callable $b, $value): bool {
         return $a($value) || $b($value);
