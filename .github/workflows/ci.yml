@@ -1,0 +1,60 @@
+name: PHP Test and Coverage
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [ 7.2, 7.3 ]
+        include:
+          - php: 7.2
+            coverage: yes
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, xml
+          coverage: ${{ matrix.coverage == 'yes' }}
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-source
+
+      - name: Prepare test coverage (if applicable)
+        if: ${{ matrix.coverage == 'yes' }}
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter before-build
+
+      - name: Run tests without coverage
+        if: ${{ matrix.coverage != 'yes' }}
+        run: composer test
+
+      - name: Run tests with coverage
+        if: ${{ matrix.coverage == 'yes' }}
+        run: composer testc
+
+      - name: Code checks
+        if: ${{ matrix.coverage == 'yes' }}
+        run: composer check-code
+
+      - name: Upload test coverage (if applicable)
+        if: ${{ matrix.coverage == 'yes' }}
+        run: ./cc-test-reporter after-build --coverage-input-type clover --exit-code ${{ steps.test.outcome }}
