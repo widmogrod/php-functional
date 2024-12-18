@@ -62,4 +62,4 @@ jobs:
 
       - name: Upload test coverage (if applicable)
         if: ${{ matrix.coverage == 'yes' }}
-        run: ./cc-test-reporter after-build --coverage-input-type clover --exit-code ${{ steps.test.outcome }}
+        run: ./cc-test-reporter after-build --coverage-input-type clover --exit-code 0
