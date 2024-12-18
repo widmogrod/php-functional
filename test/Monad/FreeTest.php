@@ -9,6 +9,7 @@ use FunctionalPHP\FantasyLand\Functor;
 use FunctionalPHP\FantasyLand\Helpful\ApplicativeLaws;
 use FunctionalPHP\FantasyLand\Helpful\FunctorLaws;
 use FunctionalPHP\FantasyLand\Helpful\MonadLaws;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Widmogrod\Monad\Free\MonadFree;
 use Widmogrod\Monad\Free\Pure;
 use Widmogrod\Monad\Identity;
@@ -19,9 +20,7 @@ use function Widmogrod\Monad\Free\liftF;
 
 class FreeTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider provideFunctorTestData
-     */
+    #[DataProvider('provideFunctorTestData')]
     public function test_it_should_obey_functor_laws(
         callable $f,
         callable $g,
@@ -41,33 +40,31 @@ class FreeTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideFunctorTestData()
+    public static function provideFunctorTestData()
     {
         return [
             'Pure' => [
-                '$f' => function (int $x) {
+                function (int $x) {
                     return $x + 1;
                 },
-                '$g' => function (int $x) {
+                function (int $x) {
                     return $x + 5;
                 },
-                '$x' => Pure::of(1),
+                Pure::of(1),
             ],
             'Free' => [
-                '$f' => function (int $x) {
+                function (int $x) {
                     return $x + 1;
                 },
-                '$g' => function (int $x) {
+                function (int $x) {
                     return $x + 5;
                 },
-                '$x' => liftF(Pure::of(1)),
+                liftF(Pure::of(1)),
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideMonadTestData
-     */
+    #[DataProvider('provideMonadTestData')]
     public function test_it_should_obey_monad_laws($f, $g, $x)
     {
         MonadLaws::test(
@@ -85,7 +82,7 @@ class FreeTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideMonadTestData()
+    public static function provideMonadTestData()
     {
         $addOne = function (int $x) {
             return Pure::of($x + 1);
@@ -96,16 +93,14 @@ class FreeTest extends \PHPUnit\Framework\TestCase
 
         return [
             'Identity' => [
-                '$f' => $addOne,
-                '$g' => $addTwo,
-                '$x' => 10,
+                $addOne,
+                $addTwo,
+                10,
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideApplicativeTestData
-     */
+    #[DataProvider('provideApplicativeTestData')]
     public function test_it_should_obey_applicative_laws(
         $pure,
         Applicative $u,
@@ -131,24 +126,24 @@ class FreeTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideApplicativeTestData()
+    public static function provideApplicativeTestData()
     {
         return [
             'Pure' => [
-                '$pure' => Pure::of,
-                '$u' => Pure::of(function () {
+                Pure::of,
+                Pure::of(function () {
                     return 1;
                 }),
-                '$v' => Pure::of(function () {
+                Pure::of(function () {
                     return 5;
                 }),
-                '$w' => Pure::of(function () {
+               Pure::of(function () {
                     return 7;
                 }),
-                '$f' => function ($x) {
+                function ($x) {
                     return 400 + $x;
                 },
-                '$x' => 33
+                33
             ],
         ];
     }

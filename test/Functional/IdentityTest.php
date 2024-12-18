@@ -4,33 +4,32 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Widmogrod\Functional as f;
 
 class IdentityTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it_should_return_given_value(
         $value
     ) {
         $this->assertEquals($value, f\identity($value));
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'integer' => [
-                '$value' => 1,
+                1,
             ],
             'string' => [
-                '$value' => 'bar',
+                'bar',
             ],
             'list' => [
-                '$value' => ['bar', 'baz'],
+                ['bar', 'baz'],
             ],
             'map' => [
-                '$value' => ['x' => 'bar', 'y' => 'baz'],
+                ['x' => 'bar', 'y' => 'baz'],
             ],
         ];
     }

@@ -101,7 +101,6 @@ class Union_ implements UnionF
     }
 }
 
-
 class Derived_ implements UnionF
 {
     private $a;
@@ -232,7 +231,6 @@ class GeneratorLazy
         $constructorWithProps = sprintf($constructorWithProps, $privates, $const, $set);
 
         $constructorWithProps = count($args) ? $constructorWithProps : '';
-
 
         return Stringg::of(sprintf(
             "class %s implements %s {

@@ -9,13 +9,12 @@ use FunctionalPHP\FantasyLand\Functor;
 use FunctionalPHP\FantasyLand\Helpful\ApplicativeLaws;
 use FunctionalPHP\FantasyLand\Helpful\FunctorLaws;
 use FunctionalPHP\FantasyLand\Helpful\MonadLaws;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Widmogrod\Monad\Reader;
 
 class ReaderTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_if_reader_monad_obeys_the_laws($f, $g, $x, $env)
     {
         MonadLaws::test(
@@ -33,7 +32,7 @@ class ReaderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         $hello = function ($x) {
             return Reader\value($x + 1);
@@ -44,17 +43,15 @@ class ReaderTest extends \PHPUnit\Framework\TestCase
 
         return [
             'reader 0' => [
-                '$f' => $hello,
-                '$g' => $hi,
-                '$x' => 54,
-                '$env' => 666,
+                $hello,
+                $hi,
+                54,
+                666,
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideApplicativeTestData
-     */
+    #[DataProvider('provideApplicativeTestData')]
     public function test_it_should_obey_applicative_laws(
         $pure,
         Applicative $u,
@@ -63,7 +60,8 @@ class ReaderTest extends \PHPUnit\Framework\TestCase
         callable $f,
         $x,
         $reader
-    ) {
+    )
+    {
         ApplicativeLaws::test(
             function (Reader $a, Reader $b, $message) use ($reader) {
                 $this->assertEquals(
@@ -81,38 +79,37 @@ class ReaderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideApplicativeTestData()
+    public static function provideApplicativeTestData()
     {
         return [
             'Reader' => [
-                '$pure' => Reader\pure,
-                '$u' => Reader\pure(function () {
+                Reader\pure,
+                Reader\pure(function () {
                     return 1;
                 }),
-                '$v' => Reader\pure(function () {
+                Reader\pure(function () {
                     return 5;
                 }),
-                '$w' => Reader\pure(function () {
+                Reader\pure(function () {
                     return 7;
                 }),
-                '$f' => function ($x) {
+                function ($x) {
                     return 400 + $x;
                 },
-                '$x' => 33,
-                '$reader' => 3,
+                33,
+                3,
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideFunctorTestData
-     */
+    #[DataProvider('provideFunctorTestData')]
     public function test_it_should_obey_functor_laws(
         callable $f,
         callable $g,
-        Functor $x,
-        $reader
-    ) {
+        Functor  $x,
+                 $reader
+    )
+    {
         FunctorLaws::test(
             function (Reader $a, Reader $b, $message) use ($reader) {
                 $this->assertEquals(
@@ -127,18 +124,18 @@ class ReaderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideFunctorTestData()
+    public static function provideFunctorTestData()
     {
         return [
             'Reader' => [
-                '$f' => function ($x) {
+                function ($x) {
                     return $x + 1;
                 },
-                '$g' => function ($x) {
+                function ($x) {
                     return $x + 5;
                 },
-                '$x' => Reader\value(3),
-                '$reader' => 'asd',
+                Reader\value(3),
+                'asd',
             ],
         ];
     }

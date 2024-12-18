@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Primitive\Listt;
 use function Widmogrod\Functional\drop;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
 
-class DropTest extends \PHPUnit\Framework\TestCase
+class DropTest extends TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it(
         Listt $a,
-        int $n,
+        int   $n,
         Listt $expected
-    ) {
+    )
+    {
         $result = drop($n, $a);
 
         $r = print_r($result->extract(), true);
@@ -30,33 +31,33 @@ class DropTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'should return empty list from when input is empty list' => [
-                '$a' => fromNil(),
-                '$n' => 1,
-                '$expected' => fromNil(),
+                fromNil(),
+                1,
+                fromNil(),
             ],
             'should provided list when n is zero' => [
-                '$a' => fromIterable([1, 2, 3, 4, 5]),
-                '$n' => 0,
-                '$expected' => fromIterable([1, 2, 3, 4, 5]),
+                fromIterable([1, 2, 3, 4, 5]),
+                0,
+                fromIterable([1, 2, 3, 4, 5]),
             ],
             'should provided list when n is negative' => [
-                '$a' => fromIterable([1, 2, 3, 4, 5]),
-                '$n' => random_int(-1000, -1),
-                '$expected' => fromIterable([1, 2, 3, 4, 5]),
+                fromIterable([1, 2, 3, 4, 5]),
+                random_int(-1000, -1),
+                fromIterable([1, 2, 3, 4, 5]),
             ],
             'should return part of finite list' => [
-                '$a' => fromIterable([1, 2, 3, 4, 5]),
-                '$n' => 3,
-                '$expected' => fromIterable([4, 5]),
+                fromIterable([1, 2, 3, 4, 5]),
+                3,
+                fromIterable([4, 5]),
             ],
             'should return nil list when drop more than in the list' => [
-                '$a' => fromIterable([1, 2, 3, 4, 5]),
-                '$n' => 3000,
-                '$expected' => fromNil(),
+                fromIterable([1, 2, 3, 4, 5]),
+                3000,
+                fromNil(),
             ],
         ];
     }

@@ -6,11 +6,12 @@ namespace test\Monad;
 
 use FunctionalPHP\FantasyLand\Applicative;
 use FunctionalPHP\FantasyLand\Functor;
-use Widmogrod\Functional as f;
 use FunctionalPHP\FantasyLand\Helpful\ApplicativeLaws;
 use FunctionalPHP\FantasyLand\Helpful\FunctorLaws;
 use FunctionalPHP\FantasyLand\Helpful\MonadLaws;
 use FunctionalPHP\FantasyLand\Helpful\MonoidLaws;
+use PHPUnit\Framework\Attributes\DataProvider;
+use Widmogrod\Functional as f;
 use Widmogrod\Monad\Maybe;
 use Widmogrod\Monad\Maybe\Just;
 use Widmogrod\Monad\Maybe\Nothing;
@@ -18,9 +19,7 @@ use Widmogrod\Primitive\Stringg;
 
 class MaybeTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_if_maybe_monad_obeys_the_laws($return, $f, $g, $x)
     {
         MonadLaws::test(
@@ -32,35 +31,33 @@ class MaybeTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'Just' => [
-                '$return' => Just::of,
-                '$f' => function ($x) {
+                Just::of,
+                function ($x) {
                     return Just::of($x + 1);
                 },
-                '$g' => function ($x) {
+                function ($x) {
                     return Just::of($x + 2);
                 },
-                '$x' => 10,
+                10,
             ],
             'Nothing' => [
-                '$return' => Nothing::of,
-                '$f' => function ($x) {
+                Nothing::of,
+                function ($x) {
                     return Nothing::of($x + 1);
                 },
-                '$g' => function ($x) {
+                function ($x) {
                     return Nothing::of($x + 2);
                 },
-                '$x' => 10,
+                10,
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideApplicativeTestData
-     */
+    #[DataProvider('provideApplicativeTestData')]
     public function test_it_should_obey_applicative_laws(
         $pure,
         Applicative $u,
@@ -68,7 +65,8 @@ class MaybeTest extends \PHPUnit\Framework\TestCase
         Applicative $w,
         callable $f,
         $x
-    ) {
+    )
+    {
         ApplicativeLaws::test(
             [$this, 'assertEquals'],
             f\curryN(1, $pure),
@@ -80,47 +78,45 @@ class MaybeTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideApplicativeTestData()
+    public static function provideApplicativeTestData()
     {
         return [
             'Just' => [
-                '$pure' => Maybe\pure,
-                '$u' => Just::of(function () {
+                Maybe\pure,
+                Just::of(function () {
                     return 1;
                 }),
-                '$v' => Just::of(function () {
+                Just::of(function () {
                     return 5;
                 }),
-                '$w' => Just::of(function () {
+                Just::of(function () {
                     return 7;
                 }),
-                '$f' => function ($x) {
+                function ($x) {
                     return $x + 400;
                 },
-                '$x' => 33
+                33
             ],
             'Nothing' => [
-                '$pure' => Maybe\pure,
-                '$u' => Nothing::of(function () {
+                Maybe\pure,
+                Nothing::of(function () {
                     return 1;
                 }),
-                '$v' => Nothing::of(function () {
+                Nothing::of(function () {
                     return 5;
                 }),
-                '$w' => Nothing::of(function () {
+                Nothing::of(function () {
                     return 7;
                 }),
-                '$f' => function ($x) {
+                function ($x) {
                     return $x + 400;
                 },
-                '$x' => 33
+                33
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideMonoidTestData
-     */
+    #[DataProvider('provideMonoidTestData')]
     public function test_it_should_obey_monoid_laws($x, $y, $z)
     {
         MonoidLaws::test(
@@ -131,40 +127,39 @@ class MaybeTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideMonoidTestData()
+    public static function provideMonoidTestData()
     {
         return [
             'Just' => [
-                '$x' => Just::of(f\fromIterable([1])),
-                '$y' => Just::of(f\fromIterable([2])),
-                '$z' => Just::of(f\fromIterable([3]))
+                Just::of(f\fromIterable([1])),
+                Just::of(f\fromIterable([2])),
+                Just::of(f\fromIterable([3]))
             ],
             'Nothing' => [
-                '$x' => Nothing::mempty(),
-                '$y' => Nothing::mempty(),
-                '$z' => Nothing::mempty(),
+                Nothing::mempty(),
+                Nothing::mempty(),
+                Nothing::mempty(),
             ],
             'Just String' => [
-                '$x' => Just::of(Stringg::of("Hello")),
-                '$y' => Just::of(Stringg::of(" ")),
-                '$z' => Just::of(Stringg::of("World"))
+                Just::of(Stringg::of("Hello")),
+                Just::of(Stringg::of(" ")),
+                Just::of(Stringg::of("World"))
             ],
             'Maybe String' => [
-                '$x' => Just::of(Stringg::of("Hello")),
-                '$y' => Nothing::mempty(),
-                '$z' => Just::of(Stringg::of("World"))
+                Just::of(Stringg::of("Hello")),
+                Nothing::mempty(),
+                Just::of(Stringg::of("World"))
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideFunctorTestData
-     */
+    #[DataProvider('provideFunctorTestData')]
     public function test_it_should_obey_functor_laws(
         callable $f,
         callable $g,
-        Functor $x
-    ) {
+        Functor  $x
+    )
+    {
         FunctorLaws::test(
             [$this, 'assertEquals'],
             $f,
@@ -173,26 +168,26 @@ class MaybeTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideFunctorTestData()
+    public static function provideFunctorTestData()
     {
         return [
             'Just' => [
-                '$f' => function ($x) {
+                function ($x) {
                     return $x + 1;
                 },
-                '$g' => function ($x) {
+                function ($x) {
                     return $x + 5;
                 },
-                '$x' => Just::of(1),
+                Just::of(1),
             ],
             'Nothing' => [
-                '$f' => function ($x) {
+                function ($x) {
                     return $x + 1;
                 },
-                '$g' => function ($x) {
+                function ($x) {
                     return $x + 5;
                 },
-                '$x' => Nothing::of(1),
+                Nothing::of(1),
             ],
         ];
     }

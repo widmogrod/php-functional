@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Widmogrod\Functional as f;
 
 class ComposeTest extends \PHPUnit\Framework\TestCase
@@ -13,14 +14,13 @@ class ComposeTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(\Closure::class, f\compose('strtolower', 'strtoupper'));
     }
 
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it_should_be_curried(
         $functions,
         $value,
         $expected
-    ) {
+    )
+    {
         $fn = f\compose(...$functions);
         $this->assertEquals(
             $expected,
@@ -28,13 +28,13 @@ class ComposeTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'two function' => [
-                '$functions' => ['strtolower', 'strtoupper'],
-                '$value' => 'aBcD',
-                '$expected' => 'abcd'
+                ['strtolower', 'strtoupper'],
+                'aBcD',
+                'abcd'
             ],
         ];
     }

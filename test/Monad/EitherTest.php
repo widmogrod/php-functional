@@ -6,6 +6,7 @@ namespace test\Monad;
 
 use FunctionalPHP\FantasyLand\Applicative;
 use FunctionalPHP\FantasyLand\Functor;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Widmogrod\Functional as f;
 use FunctionalPHP\FantasyLand\Helpful\ApplicativeLaws;
 use FunctionalPHP\FantasyLand\Helpful\FunctorLaws;
@@ -16,9 +17,7 @@ use Widmogrod\Monad\Either\Right;
 
 class EitherTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_if_maybe_monad_obeys_the_laws($return, $f, $g, $x)
     {
         MonadLaws::test(
@@ -30,36 +29,34 @@ class EitherTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'Right' => [
-                '$return' => Right::of,
-                '$f' => function ($x) {
+                 Right::of,
+                function ($x) {
                     return Right::of($x + 1);
                 },
-                '$g' => function ($x) {
+                function ($x) {
                     return Right::of($x + 2);
                 },
-                '$x' => 10,
+                10,
             ],
             // I don't know if Left should be tested?
             'Left' => [
-                '$return' => Left::of,
-                '$f' => function ($x) {
+                 Left::of,
+                function ($x) {
                     return Left::of($x);
                 },
-                '$g' => function ($x) {
+                function ($x) {
                     return Left::of($x);
                 },
-                '$x' => 10,
+                10,
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideApplicativeTestData
-     */
+    #[DataProvider('provideApplicativeTestData')]
     public function test_it_should_obey_applicative_laws(
         $pure,
         Applicative $u,
@@ -79,47 +76,45 @@ class EitherTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideApplicativeTestData()
+    public static function provideApplicativeTestData()
     {
         return [
             'Right' => [
-                '$pure' => Either\pure,
-                '$u' => Right::of(function () {
+                Either\pure,
+                Right::of(function () {
                     return 1;
                 }),
-                '$v' => Right::of(function () {
+               Right::of(function () {
                     return 5;
                 }),
-                '$w' => Right::of(function () {
+                Right::of(function () {
                     return 7;
                 }),
-                '$f' => function ($x) {
+                function ($x) {
                     return $x + 400;
                 },
-                '$x' => 33
+                33
             ],
             'Left' => [
-                '$pure' => Either\pure,
-                '$u' => Left::of(function () {
+                Either\pure,
+                Left::of(function () {
                     return 1;
                 }),
-                '$v' => Left::of(function () {
+               Left::of(function () {
                     return 5;
                 }),
-                '$w' => Left::of(function () {
+                Left::of(function () {
                     return 7;
                 }),
-                '$f' => function ($x) {
+                function ($x) {
                     return $x + 400;
                 },
-                '$x' => 33
+                33
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideFunctorTestData
-     */
+    #[DataProvider('provideFunctorTestData')]
     public function test_it_should_obey_functor_laws(
         callable $f,
         callable $g,
@@ -133,26 +128,26 @@ class EitherTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideFunctorTestData()
+    public static function provideFunctorTestData()
     {
         return [
             'Right' => [
-                '$f' => function ($x) {
+                function ($x) {
                     return $x + 1;
                 },
-                '$g' => function ($x) {
+                function ($x) {
                     return $x + 5;
                 },
-                '$x' => Right::of(1),
+                Right::of(1),
             ],
             'Left' => [
-                '$f' => function ($x) {
+                function ($x) {
                     return $x + 1;
                 },
-                '$g' => function ($x) {
+                function ($x) {
                     return $x + 5;
                 },
-                '$x' => Left::of(1),
+                Left::of(1),
             ],
         ];
     }

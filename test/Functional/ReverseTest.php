@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use function Widmogrod\Functional\reverse;
 
 class ReverseTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it_should_create_function_that_accept_args_in_reverse_order(
         callable $function,
         array $args
@@ -30,26 +29,26 @@ class ReverseTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'non argument function' => [
-                '$function' => function () {
+                function () {
                     return 1;
                 },
-                '$value' => [],
+                [],
             ],
             'non argument function but with args' => [
-                '$function' => function () {
+                function () {
                     return 1;
                 },
-                '$value' => [1, 2, 3],
+                [1, 2, 3],
             ],
             'many args' => [
-                '$function' => function ($a, $b, $c, $d) {
+                function ($a, $b, $c, $d) {
                     return ($a - $c) * pow($b, $d);
                 },
-                '$value' => [
+                [
                     random_int(-10, 10),
                     random_int(-10, 10),
                     random_int(-10, 10),
@@ -57,10 +56,10 @@ class ReverseTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
             'variadic args' => [
-                '$function' => function (...$args) {
+                function (...$args) {
                     return array_product($args);
                 },
-                '$value' => [
+                [
                     random_int(-10, 10),
                     random_int(-10, 10),
                     random_int(-10, 10),

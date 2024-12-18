@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use function Widmogrod\Functional\foldM;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
@@ -12,9 +13,7 @@ use function Widmogrod\Monad\Maybe\nothing;
 
 class FoldMTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it_should_work_with_maybe(
         $list,
         $expected
@@ -28,24 +27,24 @@ class FoldMTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'just' => [
-                '$list' => fromIterable([1, 3, 5, 7]),
-                '$expected' => just(16)
+                fromIterable([1, 3, 5, 7]),
+                just(16)
             ],
             'nothing' => [
-                '$list' => fromIterable([1, 3, 42, 7]),
-                '$expected' => nothing(),
+                fromIterable([1, 3, 42, 7]),
+                nothing(),
             ],
             'empty array' => [
-                '$list' => fromNil(),
-                '$expected' => fromNil(),
+                fromNil(),
+                fromNil(),
             ],
             'traversable' => [
-                '$list' => fromIterable(new \ArrayIterator([1, 3, 5, 7])),
-                '$expected' => just(16)
+                fromIterable(new \ArrayIterator([1, 3, 5, 7])),
+                just(16)
             ],
         ];
     }

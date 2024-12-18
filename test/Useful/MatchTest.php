@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace test\Useful;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Widmogrod\Useful\PatternMatcher;
 use Widmogrod\Useful\PatternNotMatchedError;
 use function Widmogrod\Useful\matchPatterns;
@@ -12,55 +13,53 @@ use const Widmogrod\Useful\any;
 
 class MatchTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider provideInvalidPatterns
-     */
+    #[DataProvider('provideInvalidPatterns')]
     public function test_it_should_fail_on_not_matched_patterns(
         array $patterns,
-        $value,
-        $expectedMessage
-    ) {
+              $value,
+              $expectedMessage
+    )
+    {
         $this->expectException(PatternNotMatchedError::class);
         $this->expectExceptionMessage($expectedMessage);
 
         matchPatterns($patterns, $value);
     }
 
-    public function provideInvalidPatterns()
+    public static function provideInvalidPatterns()
     {
         return [
             'Empty pattern list' => [
-                '$patterns' => [],
-                '$value' => random_int(-1000, 1000),
-                '$expectedMessage' => 'Cannot match "integer" type. List of patterns is empty.',
+                [],
+                random_int(-1000, 1000),
+                'Cannot match "integer" type. List of patterns is empty.',
             ],
             'Value not in pattern list' => [
-                '$patterns' => [
+                [
                     self::class => identity,
                     "RandomString" => identity,
                 ],
-                '$value' => random_int(-1000, 1000),
-                '$expectedMessage' => 'Cannot match "integer" type. Defined patterns are: "test\Useful\MatchTest", "RandomString"',
+                random_int(-1000, 1000),
+                'Cannot match "integer" type. Defined patterns are: "test\Useful\MatchTest", "RandomString"',
             ],
             'Value not in tuple pattern list' => [
-                '$patterns' => [
+                [
                     [[self::class, \stdClass::class], identity],
                     [["RandomString"], identity],
                 ],
-                '$value' => [random_int(-1000, 1000)],
-                '$expectedMessage' => 'Cannot match "array" type. Defined patterns are: "0", "1"',
+                [random_int(-1000, 1000)],
+                'Cannot match "array" type. Defined patterns are: "0", "1"',
             ],
         ];
     }
 
-    /**
-     * @dataProvider providePatterns
-     */
+    #[DataProvider('providePatterns')]
     public function test_it_should_match_given_value(
         array $patterns,
-        $value,
-        $expected
-    ) {
+              $value,
+              $expected
+    )
+    {
         $result = matchPatterns($patterns, $value);
         $this->assertSame(
             $expected,
@@ -68,7 +67,7 @@ class MatchTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function providePatterns()
+    public static function providePatterns()
     {
         $std = new \stdClass();
         $e = new \Exception();
@@ -76,40 +75,40 @@ class MatchTest extends \PHPUnit\Framework\TestCase
 
         return [
             'single pattern' => [
-                '$patterns' => [
+                [
                     \stdClass::class => identity,
                 ],
-                '$value' => $std,
-                '$expected' => $std,
+                $std,
+                $std,
             ],
             'single pattern fallback to any' => [
-                '$patterns' => [
+                [
                     \stdClass::class => identity,
                     any => identity,
                 ],
-                '$value' => $e,
-                '$expected' => $e,
+                $e,
+                $e,
             ],
             'many patterns' => [
-                '$patterns' => [
+                [
                     \Exception::class => identity,
                     self::class => identity,
                     \stdClass::class => identity,
                 ],
-                '$value' => $std,
-                '$expected' => $std,
+                $std,
+                $std,
             ],
             'tuple patterns' => [
-                '$patterns' => [
+                [
                     [[\stdClass::class, \stdClass::class], function () {
                         return func_get_args();
                     }],
                 ],
-                '$value' => [$std, $std],
-                '$expected' => [$std, $std],
+                [$std, $std],
+                [$std, $std],
             ],
             'tuple fallback to any patterns' => [
-                '$patterns' => [
+                [
                     [[\stdClass::class, \stdClass::class], function () {
                         return func_get_args();
                     }],
@@ -117,11 +116,11 @@ class MatchTest extends \PHPUnit\Framework\TestCase
                         return ['any', func_get_args()];
                     }],
                 ],
-                '$value' => [$std, $m],
-                '$expected' => ['any', [$std, $m]],
+                [$std, $m],
+                ['any', [$std, $m]],
             ],
             'value as a PatternMatcher patterns' => [
-                '$patterns' => [
+                [
                     \Exception::class => identity,
                     self::class => identity,
                     \stdClass::class => identity,
@@ -129,8 +128,8 @@ class MatchTest extends \PHPUnit\Framework\TestCase
                         return $a + $b;
                     }
                 ],
-                '$value' => new MyPatternMatcher(100, 123),
-                '$expected' => 223,
+                new MyPatternMatcher(100, 123),
+                223,
             ],
         ];
     }

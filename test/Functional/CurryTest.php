@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Widmogrod\Functional as f;
 
 class CurryTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider provideFunctionToCurry
-     */
+    #[DataProvider('provideFunctionToCurry')]
     public function test_it_should_detect_automatically_number_of_arguments_to_curry(
         $fn,
         $resultAfterCurries
@@ -32,35 +31,33 @@ class CurryTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideFunctionToCurry()
+    public static function provideFunctionToCurry()
     {
         return [
             'args = 0' => [
-                '$fn' => function () {
+                function () {
                 },
-                '$resultAfterCurries' => 1,
+                1,
             ],
             'args = 1' => [
-                '$fn' => function ($a) {
+                function ($a) {
                 },
-                '$resultAfterCurries' => 1,
+                1,
             ],
             'args = 2' => [
-                '$fn' => function ($a, $b) {
+                function ($a, $b) {
                 },
-                '$resultAfterCurries' => 2,
+                2,
             ],
             'args = 2 with default' => [
-                '$fn' => function ($a, $b = null) {
+                function ($a, $b = null) {
                 },
-                '$resultAfterCurries' => 2,
+                2,
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideFunctionsToCurry
-     */
+    #[DataProvider('provideFunctionsToCurry')]
     public function test_it_curry_with_lest_arguments_if_defaults_are_provided(
         $result,
         $function
@@ -71,44 +68,42 @@ class CurryTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideFunctionsToCurry()
+    public static function provideFunctionsToCurry()
     {
         return [
             'curry args = 0 and default = 0' => [
-                '$result' => null,
-                '$function' => f\curry(function () {
+                null,
+                f\curry(function () {
                 }, [])
             ],
             'curry args = 1 and default = 1' => [
-                '$result' => [1],
-                '$function' => f\curry(function ($a) {
+                [1],
+                f\curry(function ($a) {
                     return [$a];
                 }, [1])
             ],
             'curry args = 2 and default = 2' => [
-                '$result' => [1, 2],
-                '$function' => f\curry(function ($a, $b) {
+                [1, 2],
+                f\curry(function ($a, $b) {
                     return [$a, $b];
                 }, [1, 2])
             ],
             'curry args = 2 and default = 3' => [
-                '$result' => [1, 2, 3],
-                '$function' => f\curry(function ($a) {
+                [1, 2, 3],
+                f\curry(function ($a) {
                     return func_get_args();
                 }, [1, 2, 3])
             ],
             'curry args = 2 and default = 4' => [
-                '$result' => [1, 2],
-                '$function' => f\curry(function ($a, $b) {
+                [1, 2],
+                f\curry(function ($a, $b) {
                     return [$a, $b];
                 }, [1, 2, 3, 4])
             ],
         ];
     }
 
-    /**
-     * @dataProvider provideCallablesToTest
-     */
+    #[DataProvider('provideCallablesToTest')]
     public function test_it_curry_every_type_of_callable(callable $callable)
     {
         $curried = f\curry($callable);
@@ -118,7 +113,7 @@ class CurryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([1, 2], $curried(1)(2));
     }
 
-    public function provideCallablesToTest()
+    public static function provideCallablesToTest()
     {
         return [
             'closure' => [
@@ -153,7 +148,7 @@ class CurryTest extends \PHPUnit\Framework\TestCase
     }
 }
 
-namespace  test\Functional\inner;
+namespace test\Functional\inner;
 
 function my_named_function($a, $b)
 {

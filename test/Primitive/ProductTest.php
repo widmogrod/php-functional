@@ -47,12 +47,10 @@ class ProductTest extends \PHPUnit\Framework\TestCase
         });
     }
 
-    /**
-     * @expectedException \Widmogrod\Primitive\TypeMismatchError
-     * @expectedExceptionMessage Expected type is Widmogrod\Primitive\Product but given Widmogrod\Primitive\Stringg
-     */
     public function test_it_should_reject_concat_on_different_type()
     {
+        $this->expectException(\Widmogrod\Primitive\TypeMismatchError::class);
+        $this->expectExceptionMessage('Expected type is Widmogrod\Primitive\Product but given Widmogrod\Primitive\Stringg');
         $this->forAll(
             Generator\int(),
             Generator\string()

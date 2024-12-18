@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Widmogrod\Primitive\Listt;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
@@ -12,9 +13,7 @@ use function Widmogrod\Functional\take;
 
 class TakeTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it(
         Listt $a,
         int $n,
@@ -31,38 +30,38 @@ class TakeTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'should return empty list from when input is empty list' => [
-                '$a' => fromNil(),
-                '$n' => 1,
-                '$expected' => fromNil(),
+                fromNil(),
+                 1,
+               fromNil(),
             ],
             'should empty list when n is zero' => [
-                '$a' => fromIterable([1, 2, 3, 4, 5]),
-                '$n' => 0,
-                '$expected' => fromNil(),
+                fromIterable([1, 2, 3, 4, 5]),
+                 0,
+               fromNil(),
             ],
             'should empty list when n is negative' => [
-                '$a' => fromIterable([1, 2, 3, 4, 5]),
-                '$n' => random_int(-1000, -1),
-                '$expected' => fromNil(),
+                fromIterable([1, 2, 3, 4, 5]),
+                 random_int(-1000, -1),
+               fromNil(),
             ],
             'should return part of finite list' => [
-                '$a' => fromIterable([1, 2, 3, 4, 5]),
-                '$n' => 3,
-                '$expected' => fromIterable([1, 2, 3]),
+                fromIterable([1, 2, 3, 4, 5]),
+                 3,
+               fromIterable([1, 2, 3]),
             ],
             'should return whole list when take more than in the list' => [
-                '$a' => fromIterable([1, 2, 3, 4, 5]),
-                '$n' => 3000,
-                '$expected' => fromIterable([1, 2, 3, 4, 5]),
+                fromIterable([1, 2, 3, 4, 5]),
+                 3000,
+               fromIterable([1, 2, 3, 4, 5]),
             ],
             'should return part of infinite list' => [
-                '$a' => repeat('a'),
-                '$n' => 3,
-                '$expected' => fromIterable(['a', 'a', 'a']),
+                repeat('a'),
+                 3,
+               fromIterable(['a', 'a', 'a']),
             ],
         ];
     }

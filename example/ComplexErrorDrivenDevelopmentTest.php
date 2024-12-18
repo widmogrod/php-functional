@@ -3,6 +3,7 @@
 declare(strict_types=1);
 require_once 'vendor/autoload.php';
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Widmogrod\Functional as f;
 use Widmogrod\Monad\Either as E;
 
@@ -89,9 +90,7 @@ function handleRequest(array $request)
 
 class ComplexErrorDrivenDevelopmentTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it_should_be_prepared_of_errors(array $request, $isError, $expected)
     {
         $result = handleRequest($request);
@@ -104,40 +103,40 @@ class ComplexErrorDrivenDevelopmentTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, f\valueOf($result));
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'success case' => [
-                '$request' => [
+                 [
                     'name' => 'Jone Doe',
                     'email' => 'test@example.com'
                 ],
-                '$isError' => false,
-                '$expected' => ['status' => 200],
+                false,
+                 ['status' => 200],
             ],
             'username to short' => [
-                '$request' => [
+                 [
                     'name' => '',
                     'email' => 'test@example.com'
                 ],
-                '$isError' => true,
-                '$expected' => ['error' => 'Request name is empty'],
+                true,
+                 ['error' => 'Request name is empty'],
             ],
             'username to long' => [
-                '$request' => [
+                 [
                     'name' => 'asd asdasdlaks askl djalskd jalskdjaslkdjasldjadsa asd',
                     'email' => 'test@example.com'
                 ],
-                '$isError' => true,
-                '$expected' => ['error' => 'Request name is to long'],
+                true,
+                 ['error' => 'Request name is to long'],
             ],
             'email empty' => [
-                '$request' => [
+                 [
                     'name' => 'Jone Doe',
                     'email' => ''
                 ],
-                '$isError' => true,
-                '$expected' => ['error' => 'Request e-mail is empty'],
+                true,
+                 ['error' => 'Request e-mail is empty'],
             ],
         ];
     }

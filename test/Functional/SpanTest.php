@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace test\Functional;
 
 use Eris\TestTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use function Widmogrod\Functional\constt;
 use function Widmogrod\Functional\fromNil;
 use Widmogrod\Primitive\Listt;
@@ -15,9 +16,7 @@ class SpanTest extends \PHPUnit\Framework\TestCase
 {
     use TestTrait;
 
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it_should_return_spanned_list(
         callable $predicate,
         Listt $xs,
@@ -41,7 +40,7 @@ class SpanTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         $lessThanTwo = function ($x) {
             return $x < 2;
@@ -49,38 +48,38 @@ class SpanTest extends \PHPUnit\Framework\TestCase
 
         return [
             'span on empty list should be tuple of empty lists' => [
-                '$predicate' => $lessThanTwo,
-                '$xs' => fromNil(),
-                '$expected' => [fromNil(), fromNil()],
+                $lessThanTwo,
+                fromNil(),
+                 [fromNil(), fromNil()],
             ],
             'span on finite list should be tuple of lists' => [
-                '$predicate' => $lessThanTwo,
-                '$xs' => fromIterable([0, 1, 2, 3, 4]),
-                '$expected' => [fromIterable([0, 1]), fromIterable([2, 3, 4])],
+                $lessThanTwo,
+                fromIterable([0, 1, 2, 3, 4]),
+                 [fromIterable([0, 1]), fromIterable([2, 3, 4])],
             ],
             'span on finite list when predicate is always false should be:' => [
-                '$predicate' => constt(false),
-                '$xs' => fromIterable([0, 1, 2, 3, 4]),
-                '$expected' => [fromNil(), fromIterable([0, 1, 2, 3, 4])],
+                constt(false),
+                fromIterable([0, 1, 2, 3, 4]),
+                 [fromNil(), fromIterable([0, 1, 2, 3, 4])],
             ],
             'span on finite list when predicate is always true should be:' => [
-                '$predicate' => constt(true),
-                '$xs' => fromIterable([0, 1, 2, 3, 4]),
-                '$expected' => [fromIterable([0, 1, 2, 3, 4]), fromNil()],
+                constt(true),
+                fromIterable([0, 1, 2, 3, 4]),
+                 [fromIterable([0, 1, 2, 3, 4]), fromNil()],
             ],
         ];
     }
-//
-//    public function test_it_should_work_on_infinite_lists()
-//    {
-//        $this->forAll(
-//            Generator\choose(1, 100),
-//            Generator\string(),
-//            Generator\string()
-//        )->then(function ($n, $a, $b) {
-//            $list = take($n, zip(repeat($a), repeat($b)));
-//
-//            $this->assertEquals($n, length(filter(eql([$a, $b]), $list)));
-//        });
-//    }
+    //
+    //    public function test_it_should_work_on_infinite_lists()
+    //    {
+    //        $this->forAll(
+    //            Generator\choose(1, 100),
+    //            Generator\string(),
+    //            Generator\string()
+    //        )->then(function ($n, $a, $b) {
+    //            $list = take($n, zip(repeat($a), repeat($b)));
+    //
+    //            $this->assertEquals($n, length(filter(eql([$a, $b]), $list)));
+    //        });
+    //    }
 }

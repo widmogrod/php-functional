@@ -111,7 +111,6 @@ function then_(string $assertion): MonadFree
     return liftF(new Then($assertion, Pure::of('-then-')));
 }
 
-
 class Scenario
 {
     private $free;
@@ -265,7 +264,8 @@ class FreeBddStyleDSLTest extends \PHPUnit\Framework\TestCase
             },
         ]);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
+
         $this->assertArrayHasKey('productsCount', $result);
         $this->assertArrayHasKey('products', $result);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Widmogrod\Monad\Identity;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\valueOf;
@@ -12,9 +13,7 @@ use function Widmogrod\Monad\Maybe\nothing;
 
 class ValueOfTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it_should_return_boxed_value(
         $value,
         $expected
@@ -25,36 +24,36 @@ class ValueOfTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'Native int should be return as is' => [
-                '$value' => 1023,
-                '$expected' => 1023,
+                1023,
+               1023,
             ],
             'Native string should be return as is' => [
-                '$value' => 'Something amazing',
-                '$expected' => 'Something amazing',
+                'Something amazing',
+               'Something amazing',
             ],
             'Native array should be return as is' => [
-                '$value' => [1, 2, 3],
-                '$expected' => [1, 2, 3],
+                [1, 2, 3],
+               [1, 2, 3],
             ],
             'Identity 6' => [
-                '$value' => Identity::of(6),
-                '$expected' => 6
+                Identity::of(6),
+               6
             ],
             'Just 6' => [
-                '$value' => just(6),
-                '$expected' => 6
+                just(6),
+               6
             ],
             'Nothing' => [
-                '$value' => nothing(),
-                '$expected' => null
+                nothing(),
+               null
             ],
             'Listt' => [
-                '$value' => fromIterable([1, 2, 3]),
-                '$expected' => [1, 2, 3]
+                fromIterable([1, 2, 3]),
+               [1, 2, 3]
             ],
         ];
     }

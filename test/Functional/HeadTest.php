@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Widmogrod\Primitive\Listt;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
@@ -11,9 +12,7 @@ use function Widmogrod\Functional\head;
 
 class HeadTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function test_it_should_return_boxed_value(
         Listt $listt,
         $expected
@@ -24,26 +23,24 @@ class HeadTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideData()
+    public static function provideData()
     {
         return [
             'Should return head from finite array' => [
-                '$listt' => fromIterable([1, 2, 3]),
-                '$expected' => 1,
+                fromIterable([1, 2, 3]),
+                1,
             ],
             'Should return head from finite iterator' => [
-                '$listt' => fromIterable(new \ArrayIterator([1, 2, 3])),
-                '$expected' => 1,
+                fromIterable(new \ArrayIterator([1, 2, 3])),
+                1,
             ],
         ];
     }
 
-    /**
-     * @expectedException \Widmogrod\Primitive\EmptyListError
-     * @expectedExceptionMessage Cannot call head() on empty list
-     */
     public function test_it_should_throw_exception_when_list_is_empty()
     {
+        $this->expectException(\Widmogrod\Primitive\EmptyListError::class);
+        $this->expectExceptionMessage('Cannot call head() on empty list');
         head(fromNil());
     }
 }
