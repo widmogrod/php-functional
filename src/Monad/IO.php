@@ -11,7 +11,7 @@ class IO implements
     FantasyLand\Monad,
     FantasyLand\Foldable
 {
-    const of = 'Widmogrod\Monad\IO::of';
+    public const of = 'Widmogrod\Monad\IO::of';
 
     use Common\PointedTrait;
 

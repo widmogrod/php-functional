@@ -9,7 +9,7 @@ use Widmogrod\Useful\PatternMatcher;
 
 class Nothing implements Maybe, PatternMatcher
 {
-    const of = 'Widmogrod\Monad\Maybe\Nothing::of';
+    public const of = 'Widmogrod\Monad\Maybe\Nothing::of';
 
     /**
      * @inheritdoc

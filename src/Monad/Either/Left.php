@@ -12,7 +12,7 @@ class Left implements Either
     use Common\PointedTrait;
     use Common\ValueOfTrait;
 
-    const of = 'Widmogrod\Monad\Either\Left::of';
+    public const of = 'Widmogrod\Monad\Either\Left::of';
 
     /**
      * @inheritdoc

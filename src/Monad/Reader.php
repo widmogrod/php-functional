@@ -9,7 +9,7 @@ use FunctionalPHP\FantasyLand;
 
 class Reader implements FantasyLand\Monad
 {
-    const of = 'Widmogrod\Monad\Reader::of';
+    public const of = 'Widmogrod\Monad\Reader::of';
 
     use Common\PointedTrait;
 

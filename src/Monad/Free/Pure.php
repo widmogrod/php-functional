@@ -11,7 +11,7 @@ class Pure implements MonadFree
 {
     use Common\PointedTrait;
 
-    const of = 'Widmogrod\Monad\Free\Pure::of';
+    public const of = 'Widmogrod\Monad\Free\Pure::of';
 
     /**
      * @inheritdoc

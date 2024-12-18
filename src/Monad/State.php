@@ -9,7 +9,7 @@ use FunctionalPHP\FantasyLand;
 
 class State implements FantasyLand\Monad
 {
-    const of = 'Widmogrod\Monad\State::of';
+    public const of = 'Widmogrod\Monad\State::of';
 
     use Common\PointedTrait;
 

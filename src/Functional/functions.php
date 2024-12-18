@@ -254,7 +254,7 @@ const foldr = 'Widmogrod\Functional\foldr';
  *
  * @return mixed
  */
-function foldr(callable $callable, $accumulator = null, ?Foldable $foldable = null)
+function foldr(callable $callback, mixed $initialValue = null, ?Foldable $inputFoldable = null)
 {
     return curryN(3, function (
         callable $callable,
@@ -341,7 +341,7 @@ function mcompose(callable $a, callable $b)
  *
  * @param callable $function
  * @param callable $catchFunction
- * @param $value
+ * @param          $value
  *
  * @return mixed
  */

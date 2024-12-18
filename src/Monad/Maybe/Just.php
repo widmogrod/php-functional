@@ -13,7 +13,7 @@ class Just implements Maybe, PatternMatcher
 {
     use Common\PointedTrait;
 
-    const of = 'Widmogrod\Monad\Maybe\Just::of';
+    public const of = 'Widmogrod\Monad\Maybe\Just::of';
 
     /**
      * @inheritdoc

@@ -12,7 +12,7 @@ class Num implements
     FantasyLand\Setoid,
     Common\ValueOfInterface
 {
-    const of = 'Widmogrod\Primitive\Num::of';
+    public const of = 'Widmogrod\Primitive\Num::of';
 
     use Common\PointedTrait;
     use Common\ValueOfTrait;

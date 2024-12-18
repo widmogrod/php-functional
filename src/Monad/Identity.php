@@ -11,7 +11,7 @@ class Identity implements
     FantasyLand\Monad,
     Common\ValueOfInterface
 {
-    const of = 'Widmogrod\Monad\Identity::of';
+    public const of = 'Widmogrod\Monad\Identity::of';
 
     use Common\PointedTrait;
     use Common\ValueOfTrait;

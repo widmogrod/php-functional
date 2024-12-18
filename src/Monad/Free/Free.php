@@ -14,7 +14,7 @@ use function Widmogrod\Functional\bind;
  */
 class Free implements MonadFree
 {
-    const of = 'Widmogrod\Monad\Free\Free::of';
+    public const of = 'Widmogrod\Monad\Free\Free::of';
 
     /**
      * @var FantasyLand\Functor

@@ -13,7 +13,7 @@ class Stringg implements
     FantasyLand\Setoid,
     Common\ValueOfInterface
 {
-    const of = 'Widmogrod\Primitive\Stringg::of';
+    public const of = 'Widmogrod\Primitive\Stringg::of';
 
     use Common\PointedTrait;
     use Common\ValueOfTrait;

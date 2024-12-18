@@ -9,7 +9,6 @@ use Widmogrod\Monad\Control\Doo\Algebra\In;
 use Widmogrod\Monad\Control\Doo\Algebra\Let;
 use Widmogrod\Monad\Control\Doo\Registry\Registry;
 use Widmogrod\Monad\Free\MonadFree;
-use Widmogrod\Monad\Free\Pure;
 use Widmogrod\Monad\Reader;
 use const Widmogrod\Monad\Reader\pure;
 use function Widmogrod\Functional\sequenceM;

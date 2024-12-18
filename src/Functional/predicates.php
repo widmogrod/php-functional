@@ -38,7 +38,6 @@ function lt($expected, $value = null)
     })(...func_get_args());
 }
 
-
 const orr = 'Widmogrod\Functional\orr';
 
 /**

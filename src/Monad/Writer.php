@@ -9,7 +9,7 @@ use Widmogrod\Primitive\Stringg as S;
 
 class Writer implements FantasyLand\Monad
 {
-    const of = 'Widmogrod\Monad\Writer::of';
+    public const of = 'Widmogrod\Monad\Writer::of';
 
     public static function of($value, ?FantasyLand\Monoid $side = null)
     {

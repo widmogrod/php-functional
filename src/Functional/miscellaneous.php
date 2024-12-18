@@ -39,8 +39,8 @@ const constt = 'Widmogrod\Functional\constt';
  *      [42,42,42,42]
  * ```
  *
- * @param $a
- * @param $b
+ * @param           $a
+ * @param           $b
  * @return callable
  */
 function constt($a, $b = null)
@@ -49,7 +49,6 @@ function constt($a, $b = null)
         return $a;
     })(...func_get_args());
 }
-
 
 /**
  * @var callable

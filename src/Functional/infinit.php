@@ -45,7 +45,7 @@ const repeat = 'Widmogrod\Functional\repeat';
  *
  * repeat x is an infinite list, with x the value of every element.
  *
- * @param $a
+ * @param            $a
  * @return ListtCons
  */
 function repeat($a)
