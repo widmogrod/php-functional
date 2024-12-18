@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace example;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Monad\Maybe;
 use Widmogrod\Monad\State as S;
 
@@ -89,7 +90,7 @@ function retrieveRelated($productName)
     });
 }
 
-class StateMonadTest extends \PHPUnit\Framework\TestCase
+class StateMonadTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_demonstrate_state_monad($expectedProducts)

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Widmogrod\Functional;
 
+use Closure;
 use Widmogrod\Primitive\EmptyListError;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\ListtCons;
@@ -19,9 +20,9 @@ const zip = 'Widmogrod\Functional\zip';
  * zip takes two lists and returns a list of corresponding pairs. If one input list is short, excess elements of the longer list are discarded.
  * zip is right-lazy:
  *
- * @param  Listt          $xs
- * @param  Listt|null     $ys
- * @return Listt|\Closure
+ * @param Listt $xs
+ * @param Listt|null $ys
+ * @return Listt|Closure
  */
 function zip(Listt $xs, ?Listt $ys = null)
 {
@@ -52,7 +53,7 @@ const unzip = 'Widmogrod\Functional\unzip';
  *
  * unzip transforms a list of pairs into a list of first components and a list of second components.
  *
- * @param  Listt $xs
+ * @param Listt $xs
  * @return array
  */
 function unzip(Listt $xs): array

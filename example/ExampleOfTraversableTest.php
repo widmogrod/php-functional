@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace example;
 
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 use Widmogrod\Monad\Maybe as m;
 
@@ -12,7 +13,7 @@ function value_is($x)
     return $x % 2 == 1 ? m\nothing() : m\just($x);
 }
 
-class ExampleOfTraversableTest extends \PHPUnit\Framework\TestCase
+class ExampleOfTraversableTest extends TestCase
 {
     public function test_it_traverse_just()
     {

@@ -10,10 +10,11 @@ use FunctionalPHP\FantasyLand\Helpful\ApplicativeLaws;
 use FunctionalPHP\FantasyLand\Helpful\FunctorLaws;
 use FunctionalPHP\FantasyLand\Helpful\MonadLaws;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 use Widmogrod\Monad\State;
 
-class StateTest extends \PHPUnit\Framework\TestCase
+class StateTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_if_state_monad_obeys_the_laws($f, $g, $x, $state)

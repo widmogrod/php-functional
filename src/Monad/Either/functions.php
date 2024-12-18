@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad\Either;
 
+use Closure;
 use Widmogrod\Functional as f;
 use Widmogrod\Monad\Maybe;
 
@@ -56,9 +57,9 @@ const either = 'Widmogrod\Monad\Either\either';
  *
  * either :: (a -> c) -> (b -> c) -> Either a b -> c
  *
- * @param callable $left   (a -> c)
- * @param callable $right  (b -> c)
- * @param Either   $either Either a b
+ * @param callable $left (a -> c)
+ * @param callable $right (b -> c)
+ * @param Either $either Either a b
  *
  * @return mixed c
  */
@@ -78,9 +79,9 @@ const doubleMap = 'Widmogrod\Monad\Either\doubleMap';
  *
  * @param callable $left
  * @param callable $right
- * @param Either   $either
+ * @param Either $either
  *
- * @return Left|Right|\Closure
+ * @return Left|Right|Closure
  */
 function doubleMap(callable $left, ?callable $right = null, ?Either $either = null)
 {
@@ -100,11 +101,11 @@ const tryCatch = 'Widmogrod\Monad\Either\tryCatch';
  *
  * tryCatch :: Exception e => (a -> b) -> (e -> c) -> a -> Either c b
  *
- * @param callable $function      (a -> b)
+ * @param callable $function (a -> b)
  * @param callable $catchFunction (e -> c)
- * @param mixed    $value         a
+ * @param mixed $value a
  *
- * @return Either|\Closure
+ * @return Either|Closure
  */
 function tryCatch(?callable $function = null, ?callable $catchFunction = null, $value = null)
 {
@@ -136,8 +137,8 @@ const fromLeft = 'Widmogrod\Monad\Either\fromLeft';
 /**
  * fromLeft :: a -> Either a b -> a
  *
- * @param  mixed  $a
- * @param  Either $either
+ * @param mixed $a
+ * @param Either $either
  * @return mixed
  */
 function fromLeft($a, ?Either $either = null)
@@ -152,8 +153,8 @@ const fromRight = 'Widmogrod\Monad\Either\fromRight';
 /**
  * fromRight :: b -> Either a b -> b
  *
- * @param  mixed  $a
- * @param  Either $either
+ * @param mixed $a
+ * @param Either $either
  * @return mixed
  */
 function fromRight($a, ?Either $either = null)

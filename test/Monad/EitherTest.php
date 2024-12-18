@@ -6,16 +6,17 @@ namespace test\Monad;
 
 use FunctionalPHP\FantasyLand\Applicative;
 use FunctionalPHP\FantasyLand\Functor;
-use PHPUnit\Framework\Attributes\DataProvider;
-use Widmogrod\Functional as f;
 use FunctionalPHP\FantasyLand\Helpful\ApplicativeLaws;
 use FunctionalPHP\FantasyLand\Helpful\FunctorLaws;
 use FunctionalPHP\FantasyLand\Helpful\MonadLaws;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+use Widmogrod\Functional as f;
 use Widmogrod\Monad\Either;
 use Widmogrod\Monad\Either\Left;
 use Widmogrod\Monad\Either\Right;
 
-class EitherTest extends \PHPUnit\Framework\TestCase
+class EitherTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_if_maybe_monad_obeys_the_laws($return, $f, $g, $x)
@@ -33,7 +34,7 @@ class EitherTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'Right' => [
-                 Right::of,
+                Right::of,
                 function ($x) {
                     return Right::of($x + 1);
                 },
@@ -44,7 +45,7 @@ class EitherTest extends \PHPUnit\Framework\TestCase
             ],
             // I don't know if Left should be tested?
             'Left' => [
-                 Left::of,
+                Left::of,
                 function ($x) {
                     return Left::of($x);
                 },
@@ -64,7 +65,8 @@ class EitherTest extends \PHPUnit\Framework\TestCase
         Applicative $w,
         callable $f,
         $x
-    ) {
+    )
+    {
         ApplicativeLaws::test(
             [$this, 'assertEquals'],
             f\curryN(1, $pure),
@@ -84,7 +86,7 @@ class EitherTest extends \PHPUnit\Framework\TestCase
                 Right::of(function () {
                     return 1;
                 }),
-               Right::of(function () {
+                Right::of(function () {
                     return 5;
                 }),
                 Right::of(function () {
@@ -100,7 +102,7 @@ class EitherTest extends \PHPUnit\Framework\TestCase
                 Left::of(function () {
                     return 1;
                 }),
-               Left::of(function () {
+                Left::of(function () {
                     return 5;
                 }),
                 Left::of(function () {
@@ -118,8 +120,9 @@ class EitherTest extends \PHPUnit\Framework\TestCase
     public function test_it_should_obey_functor_laws(
         callable $f,
         callable $g,
-        Functor $x
-    ) {
+        Functor  $x
+    )
+    {
         FunctorLaws::test(
             [$this, 'assertEquals'],
             $f,

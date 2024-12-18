@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace test\Functional;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 
-class InvokeTest extends \PHPUnit\Framework\TestCase
+class InvokeTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_it($method, $input, $output)

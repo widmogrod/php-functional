@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 use Widmogrod\Monad\Maybe\Just;
 use Widmogrod\Monad\Maybe\Maybe;
@@ -12,7 +13,7 @@ use function Widmogrod\Monad\Maybe\just;
 use function Widmogrod\Monad\Maybe\maybeNull;
 use const Widmogrod\Monad\Maybe\maybeNull;
 
-class MaybeMonoidTest extends \PHPUnit\Framework\TestCase
+class MaybeMonoidTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_it_should_concat_only_strings_and_skip_nulls(array $data, array $expected, string $asString)

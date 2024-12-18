@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad\IO;
 
-class IOError extends \Exception
+use Exception;
+
+class IOError extends Exception
 {
 }

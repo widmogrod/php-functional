@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Widmogrod\Monad\Control\Doo\Registry;
 
 class Registry
@@ -8,7 +9,7 @@ class Registry
     private $data = [];
 
     /**
-     * @param  string                   $name
+     * @param string $name
      * @return mixed
      * @throws VariableNotDeclaredError
      */
@@ -22,8 +23,8 @@ class Registry
     }
 
     /**
-     * @param  string                       $name
-     * @param  mixed                        $value
+     * @param string $name
+     * @param mixed $value
      * @return mixed
      * @throws CannotRedeclareVariableError
      */

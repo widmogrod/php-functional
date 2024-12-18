@@ -6,21 +6,23 @@ namespace test\Functional;
 
 use FunctionalPHP\FantasyLand\Monad;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Monad\Identity;
 use Widmogrod\Monad\State;
-use const Widmogrod\Functional\identity;
 use function Widmogrod\Functional\flip;
 use function Widmogrod\Functional\join;
 use function Widmogrod\Monad\Maybe\just;
+use const Widmogrod\Functional\identity;
 
-class JoinTest extends \PHPUnit\Framework\TestCase
+class JoinTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_it_should_remove_one_level_of_monadic_structure(
-        Monad $monad,
+        Monad    $monad,
         callable $run,
-        $expected
-    ) {
+                 $expected
+    )
+    {
         $result = join($monad);
         $this->assertEquals($expected, $run($result));
     }

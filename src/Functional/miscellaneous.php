@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Widmogrod\Functional;
 
+use Closure;
+
 /**
  * @var callable
  */
@@ -69,7 +71,7 @@ const compose = 'Widmogrod\Functional\compose';
  * @param callable $a
  * @param callable $b,...
  *
- * @return \Closure func($value) : mixed
+ * @return Closure func($value) : mixed
  */
 function compose(callable $a, callable $b)
 {
@@ -93,7 +95,7 @@ const pipeline = 'Widmogrod\Functional\pipeline';
  * @param callable $a
  * @param callable $b,...
  *
- * @return \Closure func($value) : mixed
+ * @return Closure func($value) : mixed
  */
 function pipeline(callable $a, callable $b)
 {
@@ -121,16 +123,17 @@ const pipe = 'Widmogrod\Functional\pipe';
  * strtoupper(strtolower('aBc')) ≡ 'ABC'
  * </code>
  *
- * @param  mixed    $in
- * @param  callable $fab
- * @param  callable ...$fbc
+ * @param mixed $in
+ * @param callable $fab
+ * @param callable ...$fbc
  * @return mixed
  */
 function pipe(
     $in,
     callable $fab,
     callable ...$fbc
-) {
+)
+{
     $callables = count($fbc) > 0
         ? $fbc
         : [identity];

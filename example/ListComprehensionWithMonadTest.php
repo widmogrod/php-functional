@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace example;
 
+use PHPUnit\Framework\TestCase;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromValue;
 
-class ListComprehensionWithMonadTest extends \PHPUnit\Framework\TestCase
+class ListComprehensionWithMonadTest extends TestCase
 {
     public function test_it_should_combine_two_lists()
     {

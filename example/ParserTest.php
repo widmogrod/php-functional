@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace example;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Monad\Identity;
 use Widmogrod\Monad\Maybe\Just;
 use Widmogrod\Monad\Maybe\Maybe;
 use Widmogrod\Primitive\EmptyListError;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\Stringg;
+use function is_numeric;
 use function Widmogrod\Functional\append;
 use function Widmogrod\Functional\bind;
 use function Widmogrod\Functional\concatM;
@@ -97,7 +99,7 @@ const numbersP = 'example\\numbersP';
 function numbersP(Listt $a)
 {
     return matchP(function (Stringg $s) {
-        return \is_numeric($s->extract());
+        return is_numeric($s->extract());
     }, $a);
 }
 
@@ -295,7 +297,7 @@ function tokens(string $input): Listt
     return $tokens;
 }
 
-class ParserTest extends \PHPUnit\Framework\TestCase
+class ParserTest extends TestCase
 {
     public function test_generated_ast()
     {
@@ -381,7 +383,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     public function test_integration_with_free_calc()
     {
         $literal = tokenizeP(numbersP, function (Stringg $a) {
-            return int((int) $a->extract());
+            return int((int)$a->extract());
         });
         $opAdd = tokenizeP(charP('+'), function (Stringg $a) {
             return sum;
@@ -793,20 +795,20 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'data A = B deriving (Show)' => [
-                 'data A = B deriving (Show)',
-                 'A.txt',
+                'data A = B deriving (Show)',
+                'A.txt',
             ],
             'data Maybe a = Just a | Nothing' => [
-                 'data Maybe a = Just a | Nothing',
-                 'Maybe.txt',
+                'data Maybe a = Just a | Nothing',
+                'Maybe.txt',
             ],
             'data Either a b = Left a | Right b' => [
-                 'data Either a b = Left a | Right b',
-                 'Either.txt',
+                'data Either a b = Left a | Right b',
+                'Either.txt',
             ],
             'data FreeT f a = Pure a | Free f (FreeT f a)' => [
-                 'data FreeT f a = Pure a | Free f (FreeT f a)',
-                 'FreeT.txt',
+                'data FreeT f a = Pure a | Free f (FreeT f a)',
+                'FreeT.txt',
             ],
         ];
     }

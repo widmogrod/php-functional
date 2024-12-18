@@ -6,22 +6,24 @@ namespace test\Functional;
 
 use Eris\TestTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
-use function Widmogrod\Functional\constt;
-use function Widmogrod\Functional\fromNil;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Primitive\Listt;
+use function Widmogrod\Functional\constt;
 use function Widmogrod\Functional\fromIterable;
+use function Widmogrod\Functional\fromNil;
 use function Widmogrod\Functional\span;
 
-class SpanTest extends \PHPUnit\Framework\TestCase
+class SpanTest extends TestCase
 {
     use TestTrait;
 
     #[DataProvider('provideData')]
     public function test_it_should_return_spanned_list(
         callable $predicate,
-        Listt $xs,
-        array $expected
-    ) {
+        Listt    $xs,
+        array    $expected
+    )
+    {
         [$left, $right] = span($predicate, $xs);
         [$eleft, $eright] = $expected;
 
@@ -50,22 +52,22 @@ class SpanTest extends \PHPUnit\Framework\TestCase
             'span on empty list should be tuple of empty lists' => [
                 $lessThanTwo,
                 fromNil(),
-                 [fromNil(), fromNil()],
+                [fromNil(), fromNil()],
             ],
             'span on finite list should be tuple of lists' => [
                 $lessThanTwo,
                 fromIterable([0, 1, 2, 3, 4]),
-                 [fromIterable([0, 1]), fromIterable([2, 3, 4])],
+                [fromIterable([0, 1]), fromIterable([2, 3, 4])],
             ],
             'span on finite list when predicate is always false should be:' => [
                 constt(false),
                 fromIterable([0, 1, 2, 3, 4]),
-                 [fromNil(), fromIterable([0, 1, 2, 3, 4])],
+                [fromNil(), fromIterable([0, 1, 2, 3, 4])],
             ],
             'span on finite list when predicate is always true should be:' => [
                 constt(true),
                 fromIterable([0, 1, 2, 3, 4]),
-                 [fromIterable([0, 1, 2, 3, 4]), fromNil()],
+                [fromIterable([0, 1, 2, 3, 4]), fromNil()],
             ],
         ];
     }

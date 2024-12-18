@@ -8,10 +8,12 @@ use Eris\Generator;
 use Eris\TestTrait;
 use FunctionalPHP\FantasyLand\Helpful\MonoidLaws;
 use FunctionalPHP\FantasyLand\Helpful\SetoidLaws;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Primitive\Product;
 use Widmogrod\Primitive\Stringg;
+use Widmogrod\Primitive\TypeMismatchError;
 
-class StringgTest extends \PHPUnit\Framework\TestCase
+class StringgTest extends TestCase
 {
     use TestTrait;
 
@@ -49,7 +51,7 @@ class StringgTest extends \PHPUnit\Framework\TestCase
 
     public function test_it_should_reject_concat_on_different_type()
     {
-        $this->expectException(\Widmogrod\Primitive\TypeMismatchError::class);
+        $this->expectException(TypeMismatchError::class);
         $this->expectExceptionMessage('Expected type is Widmogrod\Primitive\Stringg but given Widmogrod\Primitive\Product');
         $this->forAll(
             Generator\string(),

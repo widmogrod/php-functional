@@ -6,9 +6,10 @@ namespace test\Functional;
 
 use Eris\Generator;
 use Eris\TestTrait;
+use PHPUnit\Framework\TestCase;
 use function Widmogrod\Functional\constt;
 
-class ConsttTest extends \PHPUnit\Framework\TestCase
+class ConsttTest extends TestCase
 {
     use TestTrait;
 

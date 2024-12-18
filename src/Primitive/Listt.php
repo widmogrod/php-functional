@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Widmogrod\Primitive;
 
-use Widmogrod\Common;
 use FunctionalPHP\FantasyLand;
+use Widmogrod\Common;
 
 /**
  * data List a = Nil | Cons a (List a)
@@ -30,7 +30,7 @@ interface Listt extends
     /**
      * tail :: [a] -> [a]
      *
-     * @return \Widmogrod\Primitive\Listt
+     * @return Listt
      *
      * @throws EmptyListError
      */

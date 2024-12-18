@@ -4,6 +4,7 @@ declare(strict_types=1);
 require_once 'vendor/autoload.php';
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 use Widmogrod\Monad\Either as E;
 
@@ -52,7 +53,7 @@ function updateDatabaseStep(array $request)
 {
     return E\tryCatch(
         f\tee('updateDatabase'),
-        function (\Exception $e) {
+        function (Exception $e) {
             return $e->getMessage();
         }
     )($request);
@@ -74,7 +75,7 @@ function returnMessage(array $request)
 function returnFailure($data)
 {
     return [
-        'error' => (string) $data,
+        'error' => (string)$data,
     ];
 }
 
@@ -88,7 +89,7 @@ function handleRequest(array $request)
     )($request);
 }
 
-class ComplexErrorDrivenDevelopmentTest extends \PHPUnit\Framework\TestCase
+class ComplexErrorDrivenDevelopmentTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_it_should_be_prepared_of_errors(array $request, $isError, $expected)
@@ -107,36 +108,36 @@ class ComplexErrorDrivenDevelopmentTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'success case' => [
-                 [
+                [
                     'name' => 'Jone Doe',
                     'email' => 'test@example.com'
                 ],
                 false,
-                 ['status' => 200],
+                ['status' => 200],
             ],
             'username to short' => [
-                 [
+                [
                     'name' => '',
                     'email' => 'test@example.com'
                 ],
                 true,
-                 ['error' => 'Request name is empty'],
+                ['error' => 'Request name is empty'],
             ],
             'username to long' => [
-                 [
+                [
                     'name' => 'asd asdasdlaks askl djalskd jalskdjaslkdjasldjadsa asd',
                     'email' => 'test@example.com'
                 ],
                 true,
-                 ['error' => 'Request name is to long'],
+                ['error' => 'Request name is to long'],
             ],
             'email empty' => [
-                 [
+                [
                     'name' => 'Jone Doe',
                     'email' => ''
                 ],
                 true,
-                 ['error' => 'Request e-mail is empty'],
+                ['error' => 'Request e-mail is empty'],
             ],
         ];
     }

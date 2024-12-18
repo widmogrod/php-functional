@@ -5,20 +5,22 @@ declare(strict_types=1);
 namespace test\Functional;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Primitive\Listt;
 use function Widmogrod\Functional\dropWhile;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
 use function Widmogrod\Functional\lt;
 
-class DropWhileTest extends \PHPUnit\Framework\TestCase
+class DropWhileTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_it(
-        Listt $a,
+        Listt    $a,
         callable $fn,
-        Listt $expected
-    ) {
+        Listt    $expected
+    )
+    {
         $result = dropWhile($fn, $a);
 
         $r = print_r($result->extract(), true);

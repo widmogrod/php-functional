@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace example;
 
 use FunctionalPHP\FantasyLand\Functor;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Monad\Free\MonadFree;
 use Widmogrod\Monad\Free\Pure;
 use Widmogrod\Monad\Identity;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\Stringg;
 use Widmogrod\Useful\PatternMatcher;
+use Widmogrod\Useful\PatternNotMatchedError;
 use function Widmogrod\Functional\compose;
 use function Widmogrod\Functional\curryN;
 use function Widmogrod\Functional\fromIterable;
@@ -255,9 +257,9 @@ class GeneratorLazy
 const interpretTypesAndGenerate = 'example\interpretTypesAndGenerate';
 
 /**
- * @param  UnionF                                   $f
+ * @param UnionF $f
  * @return Identity
- * @throws \Widmogrod\Useful\PatternNotMatchedError
+ * @throws PatternNotMatchedError
  */
 function interpretTypesAndGenerate(UnionF $f): Identity
 {
@@ -283,9 +285,9 @@ function interpretTypesAndGenerate(UnionF $f): Identity
             return Identity::of($a)->map($next);
         }
     ], $f);
-};
+}
 
-class FreeUnionTypeGeneratorTest extends \PHPUnit\Framework\TestCase
+class FreeUnionTypeGeneratorTest extends TestCase
 {
     public function test_example_1()
     {

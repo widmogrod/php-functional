@@ -6,11 +6,13 @@ namespace example;
 
 use FunctionalPHP\FantasyLand\Functor;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Monad\Free\MonadFree;
 use Widmogrod\Monad\Free\Pure;
 use Widmogrod\Monad\Identity;
 use Widmogrod\Primitive\Stringg;
 use Widmogrod\Useful\PatternMatcher;
+use Widmogrod\Useful\PatternNotMatchedError;
 use function Widmogrod\Functional\bindM2;
 use function Widmogrod\Functional\compose;
 use function Widmogrod\Monad\Free\foldFree;
@@ -197,7 +199,7 @@ const interpretInt = 'example\interpretInt';
  * interpretInt :: ExpF -> Identity Free Int
  *
  * @return Identity
- * @throws \Widmogrod\Useful\PatternNotMatchedError
+ * @throws PatternNotMatchedError
  */
 function interpretInt(ExpF $f)
 {
@@ -223,7 +225,7 @@ const interpretPrint = 'example\interpretPrint';
  * interpretInt :: ExpF -> Identity Free Stringg
  *
  * @return Identity
- * @throws \Widmogrod\Useful\PatternNotMatchedError
+ * @throws PatternNotMatchedError
  */
 function interpretPrint(ExpF $f)
 {
@@ -255,7 +257,7 @@ const optimizeCalc = 'example\optimizeCalc';
  * optimizeCalc :: ExpF ->  ExpF
  *
  * @return Identity
- * @throws \Widmogrod\Useful\PatternNotMatchedError
+ * @throws PatternNotMatchedError
  */
 function optimizeCalc(ExpF $f)
 {
@@ -277,7 +279,7 @@ function optimizeCalc(ExpF $f)
     ], $f);
 }
 
-class FreeCalculatorTest extends \PHPUnit\Framework\TestCase
+class FreeCalculatorTest extends TestCase
 {
     #[DataProvider('provideCalculations')]
     public function test_example_with_do_notation($calc, $expected)

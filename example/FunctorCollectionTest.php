@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace example;
 
+use PHPUnit\Framework\TestCase;
 use function Widmogrod\Functional\fromIterable;
 
-class FunctorCollectionTest extends \PHPUnit\Framework\TestCase
+class FunctorCollectionTest extends TestCase
 {
     public function test_it_should_return_new_map()
     {

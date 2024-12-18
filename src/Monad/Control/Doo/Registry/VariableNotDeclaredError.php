@@ -1,9 +1,12 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Widmogrod\Monad\Control\Doo\Registry;
 
-class VariableNotDeclaredError extends \Exception
+use Exception;
+
+class VariableNotDeclaredError extends Exception
 {
     public function __construct(string $name)
     {

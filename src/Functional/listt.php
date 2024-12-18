@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Widmogrod\Functional;
 
+use ArrayObject;
+use Closure;
 use FunctionalPHP\FantasyLand\Foldable;
+use IteratorAggregate;
+use Widmogrod\Primitive\EmptyListError;
 use Widmogrod\Primitive\Listt;
 use Widmogrod\Primitive\ListtCons;
 use Widmogrod\Useful\SnapshotIterator;
@@ -19,16 +23,16 @@ const fromIterable = 'Widmogrod\Functional\fromIterable';
  *
  * Adapt any native PHP value that is iterable into Listt.
  *
- * @param  iterable $i
+ * @param iterable $i
  * @return Listt
  */
 function fromIterable(iterable $i): Listt
 {
     if (is_array($i)) {
-        $i = new \ArrayObject($i);
+        $i = new ArrayObject($i);
     }
 
-    if ($i instanceof \IteratorAggregate) {
+    if ($i instanceof IteratorAggregate) {
         $i = $i->getIterator();
     }
 
@@ -42,7 +46,7 @@ function fromIterable(iterable $i): Listt
  * Utility function. Must not be used directly.
  * Use fromValue() or fromIterable()
  *
- * @param  SnapshotIterator $i
+ * @param SnapshotIterator $i
  * @return Listt
  */
 function fromSnapshotIterator(SnapshotIterator $i): Listt
@@ -69,7 +73,7 @@ const fromValue = 'Widmogrod\Functional\fromValue';
  *
  * Create list containing only one value.
  *
- * @param  mixed $value
+ * @param mixed $value
  * @return Listt
  */
 function fromValue($value): Listt
@@ -128,9 +132,9 @@ const prepend = 'Widmogrod\Functional\prepend';
 /**
  * prepend :: a -> [a] -> [a]
  *
- * @param  mixed          $x
- * @param  Listt          $xs
- * @return Listt|\Closure
+ * @param mixed $x
+ * @param Listt $xs
+ * @return Listt|Closure
  */
 function prepend($x, ?Listt $xs = null)
 {
@@ -156,8 +160,8 @@ const append = 'Widmogrod\Functional\append';
  *
  * If the first list is not finite, the result is the first list.
  *
- * @param  Listt          $a
- * @param  Listt|null     $b
+ * @param Listt $a
+ * @param Listt|null $b
  * @return Listt|callable
  */
 function append(Listt $a, ?Listt $b = null)
@@ -177,9 +181,9 @@ const head = 'Widmogrod\Functional\head';
  *
  * Extract the first element of a list, which must be non-empty.
  *
- * @param  Listt                               $l
+ * @param Listt $l
  * @return mixed
- * @throws \Widmogrod\Primitive\EmptyListError
+ * @throws EmptyListError
  */
 function head(Listt $l)
 {
@@ -196,9 +200,9 @@ const tail = 'Widmogrod\Functional\tail';
  *
  * Extract the elements after the head of a list, which must be non-empty.
  *
- * @param  Listt                               $l
+ * @param Listt $l
  * @return Listt
- * @throws \Widmogrod\Primitive\EmptyListError
+ * @throws EmptyListError
  */
 function tail(Listt $l)
 {
@@ -217,7 +221,7 @@ const length = 'Widmogrod\Functional\length';
  * The default implementation is optimized for structures that are similar to cons-lists,
  * because there is no general way to do better.
  *
- * @param  Foldable $t
+ * @param Foldable $t
  * @return int
  */
 function length(Foldable $t): int

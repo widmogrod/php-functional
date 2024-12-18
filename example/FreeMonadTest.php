@@ -6,16 +6,17 @@ namespace example2;
 
 use FunctionalPHP\FantasyLand\Functor;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 use Widmogrod\Monad\Free as ff;
 use Widmogrod\Monad\Free\MonadFree;
 use Widmogrod\Monad\IO;
 use Widmogrod\Monad\State;
 use Widmogrod\Primitive\Listt;
-use const Widmogrod\Monad\IO\pure;
-use const Widmogrod\Monad\State\value;
 use function Widmogrod\Functional\fromNil;
 use function Widmogrod\Useful\matchPatterns;
+use const Widmogrod\Monad\IO\pure;
+use const Widmogrod\Monad\State\value;
 
 interface TeletypeF extends Functor
 {
@@ -180,7 +181,7 @@ function echo_composition_()
     )();
 }
 
-class FreeMonadTest extends \PHPUnit\Framework\TestCase
+class FreeMonadTest extends TestCase
 {
     #[DataProvider('provideEchoImplementation')]
     public function test_it_should_allow_to_interpret_as_a_state_monad(MonadFree $echo)

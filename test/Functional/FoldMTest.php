@@ -4,20 +4,23 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use ArrayIterator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use function Widmogrod\Functional\foldM;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
 use function Widmogrod\Monad\Maybe\just;
 use function Widmogrod\Monad\Maybe\nothing;
 
-class FoldMTest extends \PHPUnit\Framework\TestCase
+class FoldMTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_it_should_work_with_maybe(
         $list,
         $expected
-    ) {
+    )
+    {
         $addSingleDigit = function ($acc, $i) {
             return $i > 9 ? nothing() : just($acc + $i);
         };
@@ -43,7 +46,7 @@ class FoldMTest extends \PHPUnit\Framework\TestCase
                 fromNil(),
             ],
             'traversable' => [
-                fromIterable(new \ArrayIterator([1, 3, 5, 7])),
+                fromIterable(new ArrayIterator([1, 3, 5, 7])),
                 just(16)
             ],
         ];

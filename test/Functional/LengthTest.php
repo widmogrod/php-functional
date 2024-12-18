@@ -6,17 +6,19 @@ namespace test\Functional;
 
 use FunctionalPHP\FantasyLand\Foldable;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
 use function Widmogrod\Functional\length;
 
-class LengthTest extends \PHPUnit\Framework\TestCase
+class LengthTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_it_should_return_boxed_value(
         Foldable $t,
-        int $expected
-    ) {
+        int      $expected
+    )
+    {
         $this->assertEquals(length($t), ($expected));
     }
 

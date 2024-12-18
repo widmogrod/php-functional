@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use Closure;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 
-class PipelineTest extends \PHPUnit\Framework\TestCase
+class PipelineTest extends TestCase
 {
     public function test_it_should_retun_function_accepting_arguments()
     {
-        $this->assertInstanceOf(\Closure::class, f\pipeline('strtolower', 'strtoupper'));
+        $this->assertInstanceOf(Closure::class, f\pipeline('strtolower', 'strtoupper'));
     }
 
     #[DataProvider('provideData')]

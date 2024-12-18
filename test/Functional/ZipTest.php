@@ -7,6 +7,7 @@ namespace test\Functional;
 use Eris\Generator;
 use Eris\TestTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Primitive\Listt;
 use function Widmogrod\Functional\eql;
 use function Widmogrod\Functional\filter;
@@ -17,7 +18,7 @@ use function Widmogrod\Functional\repeat;
 use function Widmogrod\Functional\take;
 use function Widmogrod\Functional\zip;
 
-class ZipTest extends \PHPUnit\Framework\TestCase
+class ZipTest extends TestCase
 {
     use TestTrait;
 
@@ -26,7 +27,8 @@ class ZipTest extends \PHPUnit\Framework\TestCase
         Listt $a,
         Listt $b,
         Listt $expected
-    ) {
+    )
+    {
         $result = zip($a, $b);
 
         $r = print_r($result->extract(), true);

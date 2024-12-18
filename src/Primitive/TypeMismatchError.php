@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Widmogrod\Primitive;
 
-class TypeMismatchError extends \Exception
+use Exception;
+
+class TypeMismatchError extends Exception
 {
     public function __construct($value, $expected)
     {

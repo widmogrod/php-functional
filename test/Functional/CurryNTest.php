@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace test\Functional;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 
-class CurryNTest extends \PHPUnit\Framework\TestCase
+class CurryNTest extends TestCase
 {
     #[DataProvider('provideArgumentsWithFunctions')]
     public function test_it_should_return_function_event_if_function_not_accept_arguments(
@@ -16,7 +17,7 @@ class CurryNTest extends \PHPUnit\Framework\TestCase
         $default
     )
     {
-        $this->assertIsCallable( f\curryN($numberOfArguments, $function, $default));
+        $this->assertIsCallable(f\curryN($numberOfArguments, $function, $default));
     }
 
     public static function provideArgumentsWithFunctions()

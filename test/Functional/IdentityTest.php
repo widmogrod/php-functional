@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace test\Functional;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 
-class IdentityTest extends \PHPUnit\Framework\TestCase
+class IdentityTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_it_should_return_given_value(
         $value
-    ) {
+    )
+    {
         $this->assertEquals($value, f\identity($value));
     }
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad\Either;
 
-use Widmogrod\Common;
 use FunctionalPHP\FantasyLand;
+use Widmogrod\Common;
 
 interface Either extends
     FantasyLand\Monad,
@@ -14,7 +14,7 @@ interface Either extends
     /**
      * Depending on if is Left or is Right then it apply corresponding function
      *
-     * @param callable $left  (a -> b)
+     * @param callable $left (a -> b)
      * @param callable $right (c -> b)
      *
      * @return mixed b

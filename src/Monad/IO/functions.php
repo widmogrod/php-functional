@@ -29,9 +29,9 @@ const until = 'Widmogrod\Monad\IO\until';
  * until :: (a -> Bool) -> (a -> b -> b) -> b -> IO a -> IO b
  *
  * @param callable $predicate (a -> Bool)
- * @param callable $do        (a -> b -> a)
- * @param mixed    $base      b
- * @param M\IO     $ioValue   IO a
+ * @param callable $do (a -> b -> a)
+ * @param mixed $base b
+ * @param M\IO $ioValue IO a
  *
  * @return M\IO
  */
@@ -53,9 +53,9 @@ function until(callable $predicate, callable $do, $base, M\IO $ioValue)
 const getChar = 'Widmogrod\Monad\IO\getChar';
 
 /**
+ * @return M\IO
  * @throws IOError
  *
- * @return M\IO
  */
 function getChar()
 {
@@ -75,9 +75,9 @@ const getLine = 'Widmogrod\Monad\IO\getLine';
 /**
  * getLine :: IO String
  *
+ * @return M\IO
  * @throws IOError
  *
- * @return M\IO
  */
 function getLine()
 {
@@ -107,9 +107,9 @@ const readFile = 'Widmogrod\Monad\IO\readFile';
  *
  * @param $fileName
  *
+ * @return M\IO
  * @throws IOError
  *
- * @return M\IO
  */
 function readFile($fileName)
 {
@@ -135,9 +135,9 @@ const writeFile = 'Widmogrod\Monad\IO\writeFile';
  * @param string $fileName
  * @param string $content
  *
+ * @return M\IO
  * @throws IOError
  *
- * @return M\IO
  */
 function writeFile($fileName, $content)
 {
@@ -162,9 +162,9 @@ const getArgs = 'Widmogrod\Monad\IO\getArgs';
  *
  * Computation getArgs returns a list of the program's command line arguments (not including the program name).
  *
+ * @return M\IO
  * @throws IOError
  *
- * @return M\IO
  */
 function getArgs()
 {
@@ -186,9 +186,9 @@ const getEnv = 'Widmogrod\Monad\IO\getEnv';
  *
  * @param string $name
  *
+ * @return M\IO
  * @throws IOError
  *
- * @return M\IO
  */
 function getEnv($name)
 {

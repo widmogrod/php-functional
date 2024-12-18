@@ -6,22 +6,24 @@ namespace test\Functional;
 
 use FunctionalPHP\FantasyLand\Monad;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Common\ValueOfInterface;
 use Widmogrod\Functional as f;
 use Widmogrod\Monad\Either;
 use Widmogrod\Monad\IO;
 use Widmogrod\Monad\Maybe;
 
-class LiftM2Test extends \PHPUnit\Framework\TestCase
+class LiftM2Test extends TestCase
 {
     #[DataProvider('monadsProvider')]
     public function test_it_should_lift2M(
-        Monad $ma,
-        Monad $mb,
-        callable $transformation,
-        string $expectedFQCN,
+        Monad     $ma,
+        Monad     $mb,
+        callable  $transformation,
+        string    $expectedFQCN,
         ?callable $valueAssertion = null
-    ) {
+    )
+    {
         $mc = f\liftM2($transformation, $ma, $mb);
 
         $this->assertInstanceOf($expectedFQCN, $mc);

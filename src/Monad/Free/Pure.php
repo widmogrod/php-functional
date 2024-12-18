@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Widmogrod\Monad\Free;
 
-use Widmogrod\Common;
 use FunctionalPHP\FantasyLand;
+use Widmogrod\Common;
 
 class Pure implements MonadFree
 {

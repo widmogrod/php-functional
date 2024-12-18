@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Widmogrod\Primitive;
 
-use Widmogrod\Common;
 use FunctionalPHP\FantasyLand;
+use Widmogrod\Common;
 
 class Num implements
     FantasyLand\Pointed,

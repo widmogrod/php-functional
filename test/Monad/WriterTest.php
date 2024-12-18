@@ -10,9 +10,10 @@ use FunctionalPHP\FantasyLand\Helpful\ApplicativeLaws;
 use FunctionalPHP\FantasyLand\Helpful\FunctorLaws;
 use FunctionalPHP\FantasyLand\Helpful\MonadLaws;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Monad\Writer;
 
-class WriterTest extends \PHPUnit\Framework\TestCase
+class WriterTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_if_writer_monad_obeys_the_laws($f, $g, $x)

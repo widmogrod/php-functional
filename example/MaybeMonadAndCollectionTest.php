@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace example;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 use Widmogrod\Monad\Maybe;
 use function Widmogrod\Monad\Maybe\just;
 use function Widmogrod\Monad\Maybe\nothing;
 use const Widmogrod\Monad\Maybe\maybeNull;
 
-class MaybeMonadAndCollectionTest extends \PHPUnit\Framework\TestCase
+class MaybeMonadAndCollectionTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_it_should_extract_elements_which_exists($data)

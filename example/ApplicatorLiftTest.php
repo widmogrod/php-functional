@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace example;
 
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 use Widmogrod\Primitive\Listt;
 
@@ -12,7 +13,7 @@ function sum_($a, $b)
     return $a + $b;
 }
 
-class ApplicatorLiftTest extends \PHPUnit\Framework\TestCase
+class ApplicatorLiftTest extends TestCase
 {
     public function test_it_should_sum_all_from_one_list_with_elements_from_second()
     {

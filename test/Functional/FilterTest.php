@@ -4,18 +4,21 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use ArrayIterator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use function Widmogrod\Functional\filter;
 use function Widmogrod\Functional\fromIterable;
 use function Widmogrod\Functional\fromNil;
 
-class FilterTest extends \PHPUnit\Framework\TestCase
+class FilterTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_it_should_filter_with_maybe(
         $list,
         $expected
-    ) {
+    )
+    {
         $filter = function (int $i): bool {
             return $i % 2 === 1;
         };
@@ -38,7 +41,7 @@ class FilterTest extends \PHPUnit\Framework\TestCase
                 fromNil()
             ],
             'traversable' => [
-                fromIterable(new \ArrayIterator([1, 2, 3, 4, 5])),
+                fromIterable(new ArrayIterator([1, 2, 3, 4, 5])),
                 fromIterable([1, 3, 5]),
             ],
         ];

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use ArgumentCountError;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use function Widmogrod\Functional\applicator;
 
-class ApplicatorTest extends \PHPUnit\Framework\TestCase
+class ApplicatorTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_it_should_apply_value_as_a_argument_to_a_function(
@@ -24,7 +26,7 @@ class ApplicatorTest extends \PHPUnit\Framework\TestCase
 
     public function test_it_should_fail_when_function_requires_more_arguments()
     {
-        $this->expectException(\ArgumentCountError::class);
+        $this->expectException(ArgumentCountError::class);
         $this->expectExceptionMessage('Too few arguments to function');
         applicator(1, function (int $i, string $a): int {
             return 10 + $i;

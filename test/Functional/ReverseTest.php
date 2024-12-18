@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace test\Functional;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use function Widmogrod\Functional\reverse;
 
-class ReverseTest extends \PHPUnit\Framework\TestCase
+class ReverseTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_it_should_create_function_that_accept_args_in_reverse_order(
         callable $function,
-        array $args
-    ) {
+        array    $args
+    )
+    {
         $reversed = reverse($function);
         $original = reverse($reversed);
 

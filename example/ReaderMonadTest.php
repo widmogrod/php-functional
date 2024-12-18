@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace example;
 
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Monad\Reader as R;
 
 function hello($name)
@@ -19,7 +20,7 @@ function ask($content)
     });
 }
 
-class ReaderMonadTest extends \PHPUnit\Framework\TestCase
+class ReaderMonadTest extends TestCase
 {
     public function test_it_should_pass_the_name_around()
     {

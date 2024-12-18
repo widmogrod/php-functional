@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Widmogrod\Common;
 
+use function Widmogrod\Functional\valueOf;
+
 trait ValueOfTrait
 {
     /**
@@ -13,6 +15,6 @@ trait ValueOfTrait
      */
     public function extract()
     {
-        return \Widmogrod\Functional\valueOf($this->value);
+        return valueOf($this->value);
     }
 }

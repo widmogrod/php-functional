@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Widmogrod\Primitive;
 
+use ArrayObject;
 use FunctionalPHP\FantasyLand;
+use IteratorAggregate;
+use Traversable;
 use Widmogrod\Common;
 
-class ListtNil implements Listt, \IteratorAggregate
+class ListtNil implements Listt, IteratorAggregate
 {
     use Common\PointedTrait;
 
@@ -127,8 +130,8 @@ class ListtNil implements Listt, \IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function getIterator(): \Traversable
+    public function getIterator(): Traversable
     {
-        return new \ArrayObject();
+        return new ArrayObject();
     }
 }

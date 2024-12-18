@@ -7,19 +7,20 @@ namespace test\Monad;
 use Eris\TestTrait;
 use FunctionalPHP\FantasyLand\Applicative;
 use FunctionalPHP\FantasyLand\Functor;
-use FunctionalPHP\FantasyLand\Monoid;
-use PHPUnit\Framework\Attributes\DataProvider;
-use Widmogrod\Functional as f;
 use FunctionalPHP\FantasyLand\Helpful\ApplicativeLaws;
 use FunctionalPHP\FantasyLand\Helpful\FunctorLaws;
 use FunctionalPHP\FantasyLand\Helpful\MonadLaws;
 use FunctionalPHP\FantasyLand\Helpful\MonoidLaws;
-use const Widmogrod\Functional\fromValue;
+use FunctionalPHP\FantasyLand\Monoid;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+use Widmogrod\Functional as f;
 use function Eris\Generator\choose;
 use function Eris\Generator\vector;
 use function Widmogrod\Functional\fromNil;
+use const Widmogrod\Functional\fromValue;
 
-class ListtTest extends \PHPUnit\Framework\TestCase
+class ListtTest extends TestCase
 {
     use TestTrait;
 
@@ -61,7 +62,8 @@ class ListtTest extends \PHPUnit\Framework\TestCase
         Applicative $w,
         callable $f,
         $x
-    ) {
+    )
+    {
         ApplicativeLaws::test(
             [$this, 'assertEquals'],
             f\curryN(1, $pure),
@@ -77,17 +79,17 @@ class ListtTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'Listt' => [
-                 fromValue,
-                 f\fromIterable([function () {
+                fromValue,
+                f\fromIterable([function () {
                     return 1;
                 }]),
-                 f\fromIterable([function () {
+                f\fromIterable([function () {
                     return 5;
                 }]),
-                 f\fromIterable([function () {
+                f\fromIterable([function () {
                     return 7;
                 }]),
-                 function ($x) {
+                function ($x) {
                     return $x + 400;
                 },
                 33
@@ -99,8 +101,9 @@ class ListtTest extends \PHPUnit\Framework\TestCase
     public function test_it_should_obey_functor_laws(
         callable $f,
         callable $g,
-        Functor $x
-    ) {
+        Functor  $x
+    )
+    {
         FunctorLaws::test(
             [$this, 'assertEquals'],
             $f,
@@ -113,7 +116,7 @@ class ListtTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'Listt' => [
-                 function ($x) {
+                function ($x) {
                     return $x + 1;
                 },
                 function ($x) {

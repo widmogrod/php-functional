@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Widmogrod\Functional;
 
+use Closure;
 use FunctionalPHP\FantasyLand\Setoid;
 
 const equal = 'Widmogrod\Functional\equal';
@@ -14,11 +15,11 @@ const equal = 'Widmogrod\Functional\equal';
  * @param Setoid $a
  * @param Setoid $b
  *
- * @return bool|\Closure
+ * @return bool|Closure
  */
 function equal(Setoid $a, ?Setoid $b = null)
 {
-    return curryN(2, function (Setoid $a, Setoid $b):bool {
+    return curryN(2, function (Setoid $a, Setoid $b): bool {
         return $a->equals($b);
     })(...func_get_args());
 }

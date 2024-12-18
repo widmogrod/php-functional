@@ -10,22 +10,24 @@ use FunctionalPHP\FantasyLand\Helpful\ApplicativeLaws;
 use FunctionalPHP\FantasyLand\Helpful\FunctorLaws;
 use FunctionalPHP\FantasyLand\Helpful\MonadLaws;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Monad\Free\MonadFree;
 use Widmogrod\Monad\Free\Pure;
 use Widmogrod\Monad\Identity;
-use const Widmogrod\Functional\identity;
 use function Widmogrod\Functional\curryN;
 use function Widmogrod\Monad\Free\foldFree;
 use function Widmogrod\Monad\Free\liftF;
+use const Widmogrod\Functional\identity;
 
-class FreeTest extends \PHPUnit\Framework\TestCase
+class FreeTest extends TestCase
 {
     #[DataProvider('provideFunctorTestData')]
     public function test_it_should_obey_functor_laws(
         callable $f,
         callable $g,
-        Functor $x
-    ) {
+        Functor  $x
+    )
+    {
         FunctorLaws::test(
             function (MonadFree $a, MonadFree $b, $message) {
                 $this->assertEquals(
@@ -108,7 +110,8 @@ class FreeTest extends \PHPUnit\Framework\TestCase
         Applicative $w,
         callable $f,
         $x
-    ) {
+    )
+    {
         ApplicativeLaws::test(
             function (MonadFree $a, MonadFree $b, $message) {
                 $this->assertEquals(
@@ -137,7 +140,7 @@ class FreeTest extends \PHPUnit\Framework\TestCase
                 Pure::of(function () {
                     return 5;
                 }),
-               Pure::of(function () {
+                Pure::of(function () {
                     return 7;
                 }),
                 function ($x) {

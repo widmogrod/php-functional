@@ -113,7 +113,7 @@ class Free implements MonadFree
      */
     public function foldFree(callable $f, callable $return): FantasyLand\Monad
     {
-        return $f($this->f)->bind(function (MonadFree $next) use ($f, $return) : FantasyLand\Monad {
+        return $f($this->f)->bind(function (MonadFree $next) use ($f, $return): FantasyLand\Monad {
             return $next->foldFree($f, $return);
         });
     }

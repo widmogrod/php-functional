@@ -11,13 +11,14 @@ use FunctionalPHP\FantasyLand\Helpful\FunctorLaws;
 use FunctionalPHP\FantasyLand\Helpful\MonadLaws;
 use FunctionalPHP\FantasyLand\Helpful\MonoidLaws;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 use Widmogrod\Monad\Maybe;
 use Widmogrod\Monad\Maybe\Just;
 use Widmogrod\Monad\Maybe\Nothing;
 use Widmogrod\Primitive\Stringg;
 
-class MaybeTest extends \PHPUnit\Framework\TestCase
+class MaybeTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_if_maybe_monad_obeys_the_laws($return, $f, $g, $x)

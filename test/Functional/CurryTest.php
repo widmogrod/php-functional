@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use Closure;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 
-class CurryTest extends \PHPUnit\Framework\TestCase
+class CurryTest extends TestCase
 {
     #[DataProvider('provideFunctionToCurry')]
     public function test_it_should_detect_automatically_number_of_arguments_to_curry(
         $fn,
         $resultAfterCurries
-    ) {
+    )
+    {
         $times = 0;
         $curried = f\curry($fn);
 
@@ -61,7 +64,8 @@ class CurryTest extends \PHPUnit\Framework\TestCase
     public function test_it_curry_with_lest_arguments_if_defaults_are_provided(
         $result,
         $function
-    ) {
+    )
+    {
         $this->assertEquals(
             $result,
             $function()
@@ -108,8 +112,8 @@ class CurryTest extends \PHPUnit\Framework\TestCase
     {
         $curried = f\curry($callable);
 
-        $this->assertInstanceOf(\Closure::class, $curried);
-        $this->assertInstanceOf(\Closure::class, $curried(1));
+        $this->assertInstanceOf(Closure::class, $curried);
+        $this->assertInstanceOf(Closure::class, $curried(1));
         $this->assertSame([1, 2], $curried(1)(2));
     }
 

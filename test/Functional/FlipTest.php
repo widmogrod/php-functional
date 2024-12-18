@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace test\Functional;
 
+use Closure;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 
-class FlipTest extends \PHPUnit\Framework\TestCase
+class FlipTest extends TestCase
 {
     #[DataProvider('provideFunctions')]
     public function test_it_should_flip_func_arguments(
         callable $func,
-        array $args,
-        $expected
-    ) {
+        array    $args,
+                 $expected
+    )
+    {
         $flipped = f\flip($func);
 
         $this->assertEquals(
@@ -46,12 +49,13 @@ class FlipTest extends \PHPUnit\Framework\TestCase
     #[DataProvider('provideFunctionsWithNotEnoughArgs')]
     public function test_it_should_curry_if_not_enough_args_passed(
         callable $func,
-        array $args
-    ) {
+        array    $args
+    )
+    {
         $curried = f\curry($func);
 
         $this->assertInstanceOf(
-            \Closure::class,
+            Closure::class,
             $curried(...$args)
         );
     }

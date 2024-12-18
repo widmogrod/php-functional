@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace example;
 
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Monad\Identity;
 use function Widmogrod\Monad\Control\Doo\doo;
 use function Widmogrod\Monad\Control\Doo\in;
 use function Widmogrod\Monad\Control\Doo\let;
 
-class FreeDooDSLTest extends \PHPUnit\Framework\TestCase
+class FreeDooDSLTest extends TestCase
 {
     public function test_example_with_do_notation()
     {

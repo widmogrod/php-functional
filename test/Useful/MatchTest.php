@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace test\Useful;
 
+use Exception;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+use stdClass;
 use Widmogrod\Useful\PatternMatcher;
 use Widmogrod\Useful\PatternNotMatchedError;
 use function Widmogrod\Useful\matchPatterns;
 use const Widmogrod\Functional\identity;
 use const Widmogrod\Useful\any;
 
-class MatchTest extends \PHPUnit\Framework\TestCase
+class MatchTest extends TestCase
 {
     #[DataProvider('provideInvalidPatterns')]
     public function test_it_should_fail_on_not_matched_patterns(
@@ -44,7 +47,7 @@ class MatchTest extends \PHPUnit\Framework\TestCase
             ],
             'Value not in tuple pattern list' => [
                 [
-                    [[self::class, \stdClass::class], identity],
+                    [[self::class, stdClass::class], identity],
                     [["RandomString"], identity],
                 ],
                 [random_int(-1000, 1000)],
@@ -69,21 +72,21 @@ class MatchTest extends \PHPUnit\Framework\TestCase
 
     public static function providePatterns()
     {
-        $std = new \stdClass();
-        $e = new \Exception();
+        $std = new stdClass();
+        $e = new Exception();
         $m = new MyPatternMatcher(100, 123);
 
         return [
             'single pattern' => [
                 [
-                    \stdClass::class => identity,
+                    stdClass::class => identity,
                 ],
                 $std,
                 $std,
             ],
             'single pattern fallback to any' => [
                 [
-                    \stdClass::class => identity,
+                    stdClass::class => identity,
                     any => identity,
                 ],
                 $e,
@@ -91,16 +94,16 @@ class MatchTest extends \PHPUnit\Framework\TestCase
             ],
             'many patterns' => [
                 [
-                    \Exception::class => identity,
+                    Exception::class => identity,
                     self::class => identity,
-                    \stdClass::class => identity,
+                    stdClass::class => identity,
                 ],
                 $std,
                 $std,
             ],
             'tuple patterns' => [
                 [
-                    [[\stdClass::class, \stdClass::class], function () {
+                    [[stdClass::class, stdClass::class], function () {
                         return func_get_args();
                     }],
                 ],
@@ -109,7 +112,7 @@ class MatchTest extends \PHPUnit\Framework\TestCase
             ],
             'tuple fallback to any patterns' => [
                 [
-                    [[\stdClass::class, \stdClass::class], function () {
+                    [[stdClass::class, stdClass::class], function () {
                         return func_get_args();
                     }],
                     [[any, any], function () {
@@ -121,9 +124,9 @@ class MatchTest extends \PHPUnit\Framework\TestCase
             ],
             'value as a PatternMatcher patterns' => [
                 [
-                    \Exception::class => identity,
+                    Exception::class => identity,
                     self::class => identity,
-                    \stdClass::class => identity,
+                    stdClass::class => identity,
                     MyPatternMatcher::class => function ($a, $b) {
                         return $a + $b;
                     }

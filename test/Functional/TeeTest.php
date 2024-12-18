@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace test\Functional;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Widmogrod\Functional as f;
 
-class TeeTest extends \PHPUnit\Framework\TestCase
+class TeeTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_it_should_be_curried(
