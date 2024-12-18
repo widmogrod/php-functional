@@ -1,5 +1,6 @@
 name: PHP Test and Coverage
-
+env:
+  CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
 on:
   pull_request:
   push:
