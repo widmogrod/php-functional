@@ -20,8 +20,8 @@ const any = 'Widmogrod\Useful\PatternAny';
 /**
  * match :: #{ Pattern -> (a -> b)} -> a -> b
  *
- * @param array $patterns
- * @param mixed $value
+ * @param  array                  $patterns
+ * @param  mixed                  $value
  * @return mixed
  * @throws PatternNotMatchedError
  *

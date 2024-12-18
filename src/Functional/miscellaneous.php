@@ -123,17 +123,16 @@ const pipe = 'Widmogrod\Functional\pipe';
  * strtoupper(strtolower('aBc')) ≡ 'ABC'
  * </code>
  *
- * @param mixed $in
- * @param callable $fab
- * @param callable ...$fbc
+ * @param  mixed    $in
+ * @param  callable $fab
+ * @param  callable ...$fbc
  * @return mixed
  */
 function pipe(
     $in,
     callable $fab,
     callable ...$fbc
-)
-{
+) {
     $callables = count($fbc) > 0
         ? $fbc
         : [identity];

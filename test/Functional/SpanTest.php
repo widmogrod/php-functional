@@ -20,10 +20,9 @@ class SpanTest extends TestCase
     #[DataProvider('provideData')]
     public function test_it_should_return_spanned_list(
         callable $predicate,
-        Listt    $xs,
-        array    $expected
-    )
-    {
+        Listt $xs,
+        array $expected
+    ) {
         [$left, $right] = span($predicate, $xs);
         [$eleft, $eright] = $expected;
 

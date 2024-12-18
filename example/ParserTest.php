@@ -383,7 +383,7 @@ class ParserTest extends TestCase
     public function test_integration_with_free_calc()
     {
         $literal = tokenizeP(numbersP, function (Stringg $a) {
-            return int((int)$a->extract());
+            return int((int) $a->extract());
         });
         $opAdd = tokenizeP(charP('+'), function (Stringg $a) {
             return sum;

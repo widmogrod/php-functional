@@ -15,8 +15,7 @@ class CurryNTest extends TestCase
         $numberOfArguments,
         $function,
         $default
-    )
-    {
+    ) {
         $this->assertIsCallable(f\curryN($numberOfArguments, $function, $default));
     }
 
@@ -53,16 +52,14 @@ class CurryNTest extends TestCase
     #[DataProvider('provideCurriedSumFunction')]
     public function test_it_should_evaluate_curried_function_if_number_of_arguments_is_fulfilled(
         callable $curriedSum
-    )
-    {
+    ) {
         $this->assertSame(3, $curriedSum(1, 2));
     }
 
     #[DataProvider('provideCurriedSumFunction')]
     public function test_it_should_be_able_to_curry_multiple_times(
         callable $curriedSum
-    )
-    {
+    ) {
         $addOne = $curriedSum(1);
         $this->assertSame(2, $addOne(1));
         $this->assertSame(3, $addOne(2));
@@ -72,8 +69,7 @@ class CurryNTest extends TestCase
     #[DataProvider('provideCurriedSumFunction')]
     public function test_it_should_be_able_to_curry_few_variants_and_evaluate_them(
         callable $curriedSum
-    )
-    {
+    ) {
         $addOne = $curriedSum(1);
         $addTwo = $curriedSum(2);
 
@@ -103,8 +99,7 @@ class CurryNTest extends TestCase
     #[DataProvider('provideCurriedReturnArgsFunction')]
     public function test_it_should_be_able_to_curry_even_if_more_arguments_is_applied(
         callable $returnArgs
-    )
-    {
+    ) {
         $this->assertSame([1, 2, 3], $returnArgs(1, 2, 3));
     }
 

@@ -61,8 +61,7 @@ class ReaderTest extends TestCase
         callable $f,
         $x,
         $reader
-    )
-    {
+    ) {
         ApplicativeLaws::test(
             function (Reader $a, Reader $b, $message) use ($reader) {
                 $this->assertEquals(
@@ -107,10 +106,9 @@ class ReaderTest extends TestCase
     public function test_it_should_obey_functor_laws(
         callable $f,
         callable $g,
-        Functor  $x,
-                 $reader
-    )
-    {
+        Functor $x,
+        $reader
+    ) {
         FunctorLaws::test(
             function (Reader $a, Reader $b, $message) use ($reader) {
                 $this->assertEquals(

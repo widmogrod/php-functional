@@ -16,8 +16,7 @@ class ConcatTest extends TestCase
     public function test_it_should_concat_values_to_array(
         $value,
         $expected
-    )
-    {
+    ) {
         $this->assertEquals($expected, f\concat($value));
     }
 

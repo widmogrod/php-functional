@@ -66,8 +66,7 @@ class MaybeTest extends TestCase
         Applicative $w,
         callable $f,
         $x
-    )
-    {
+    ) {
         ApplicativeLaws::test(
             [$this, 'assertEquals'],
             f\curryN(1, $pure),
@@ -158,9 +157,8 @@ class MaybeTest extends TestCase
     public function test_it_should_obey_functor_laws(
         callable $f,
         callable $g,
-        Functor  $x
-    )
-    {
+        Functor $x
+    ) {
         FunctorLaws::test(
             [$this, 'assertEquals'],
             $f,

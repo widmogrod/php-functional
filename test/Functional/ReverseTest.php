@@ -13,9 +13,8 @@ class ReverseTest extends TestCase
     #[DataProvider('provideData')]
     public function test_it_should_create_function_that_accept_args_in_reverse_order(
         callable $function,
-        array    $args
-    )
-    {
+        array $args
+    ) {
         $reversed = reverse($function);
         $original = reverse($reversed);
 

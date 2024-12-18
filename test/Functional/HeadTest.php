@@ -18,9 +18,8 @@ class HeadTest extends TestCase
     #[DataProvider('provideData')]
     public function test_it_should_return_boxed_value(
         Listt $listt,
-              $expected
-    )
-    {
+        $expected
+    ) {
         $this->assertSame(
             $expected,
             head($listt)

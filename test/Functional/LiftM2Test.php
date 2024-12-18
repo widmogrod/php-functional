@@ -17,13 +17,12 @@ class LiftM2Test extends TestCase
 {
     #[DataProvider('monadsProvider')]
     public function test_it_should_lift2M(
-        Monad     $ma,
-        Monad     $mb,
-        callable  $transformation,
-        string    $expectedFQCN,
+        Monad $ma,
+        Monad $mb,
+        callable $transformation,
+        string $expectedFQCN,
         ?callable $valueAssertion = null
-    )
-    {
+    ) {
         $mc = f\liftM2($transformation, $ma, $mb);
 
         $this->assertInstanceOf($expectedFQCN, $mc);

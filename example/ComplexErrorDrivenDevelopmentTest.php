@@ -75,7 +75,7 @@ function returnMessage(array $request)
 function returnFailure($data)
 {
     return [
-        'error' => (string)$data,
+        'error' => (string) $data,
     ];
 }
 

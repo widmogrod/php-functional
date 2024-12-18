@@ -16,10 +16,9 @@ class DropTest extends TestCase
     #[DataProvider('provideData')]
     public function test_it(
         Listt $a,
-        int   $n,
+        int $n,
         Listt $expected
-    )
-    {
+    ) {
         $result = drop($n, $a);
 
         $r = print_r($result->extract(), true);

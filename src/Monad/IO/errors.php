@@ -47,7 +47,7 @@ const tryCatch = 'Widmogrod\Monad\IO\tryCatch';
 /**
  * tryCatch :: Exception e => IO a -> (e -> IO a) -> IO a
  *
- * @param M\IO $io
+ * @param M\IO     $io
  * @param callable $catchFunction
  *
  * @return M\IO|Closure

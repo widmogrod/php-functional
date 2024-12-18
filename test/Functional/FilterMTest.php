@@ -18,8 +18,7 @@ class FilterMTest extends TestCase
     public function test_it_should_filter_with_maybe(
         $list,
         $expected
-    )
-    {
+    ) {
         $filter = function ($i) {
             return just($i % 2 == 1);
         };

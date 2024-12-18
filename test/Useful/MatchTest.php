@@ -19,10 +19,9 @@ class MatchTest extends TestCase
     #[DataProvider('provideInvalidPatterns')]
     public function test_it_should_fail_on_not_matched_patterns(
         array $patterns,
-              $value,
-              $expectedMessage
-    )
-    {
+        $value,
+        $expectedMessage
+    ) {
         $this->expectException(PatternNotMatchedError::class);
         $this->expectExceptionMessage($expectedMessage);
 
@@ -59,10 +58,9 @@ class MatchTest extends TestCase
     #[DataProvider('providePatterns')]
     public function test_it_should_match_given_value(
         array $patterns,
-              $value,
-              $expected
-    )
-    {
+        $value,
+        $expected
+    ) {
         $result = matchPatterns($patterns, $value);
         $this->assertSame(
             $expected,

@@ -16,9 +16,8 @@ class LengthTest extends TestCase
     #[DataProvider('provideData')]
     public function test_it_should_return_boxed_value(
         Foldable $t,
-        int      $expected
-    )
-    {
+        int $expected
+    ) {
         $this->assertEquals(length($t), ($expected));
     }
 

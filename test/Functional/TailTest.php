@@ -19,8 +19,7 @@ class TailTest extends TestCase
     public function test_it_should_return_boxed_value(
         Listt $listt,
         Listt $expected
-    )
-    {
+    ) {
         $this->assertTrue(tail($listt)->equals($expected));
     }
 

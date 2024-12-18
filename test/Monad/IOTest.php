@@ -68,8 +68,7 @@ class IOTest extends TestCase
         Applicative $w,
         callable $f,
         $x
-    )
-    {
+    ) {
         ApplicativeLaws::test(
             function (IO $a, IO $b, $message) {
                 $this->assertEquals(
@@ -113,9 +112,8 @@ class IOTest extends TestCase
     public function test_it_should_obey_functor_laws(
         callable $f,
         callable $g,
-        Functor  $x
-    )
-    {
+        Functor $x
+    ) {
         FunctorLaws::test(
             function (IO $a, IO $b, $message) {
                 $this->assertEquals(

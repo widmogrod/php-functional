@@ -66,7 +66,7 @@ const runReader = 'Widmogrod\Monad\Reader\runReader';
  * Unwrap a reader monad computation as a function.
  *
  * @param M\Reader $reader
- * @param mixed $env
+ * @param mixed    $env
  *
  * @return mixed
  */

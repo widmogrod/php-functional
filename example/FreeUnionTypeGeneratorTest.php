@@ -257,7 +257,7 @@ class GeneratorLazy
 const interpretTypesAndGenerate = 'example\interpretTypesAndGenerate';
 
 /**
- * @param UnionF $f
+ * @param  UnionF                 $f
  * @return Identity
  * @throws PatternNotMatchedError
  */

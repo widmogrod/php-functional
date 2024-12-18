@@ -26,7 +26,7 @@ const interpretation = 'Widmogrod\Monad\Control\Doo\interpretation';
 /**
  * interpretationOfDoo :: DooF f -> Reader Registry MonadFree
  *
- * @param DooF $f
+ * @param  DooF   $f
  * @return Reader
  *
  * @throws PatternNotMatchedError

@@ -15,8 +15,7 @@ class CurryTest extends TestCase
     public function test_it_should_detect_automatically_number_of_arguments_to_curry(
         $fn,
         $resultAfterCurries
-    )
-    {
+    ) {
         $times = 0;
         $curried = f\curry($fn);
 
@@ -64,8 +63,7 @@ class CurryTest extends TestCase
     public function test_it_curry_with_lest_arguments_if_defaults_are_provided(
         $result,
         $function
-    )
-    {
+    ) {
         $this->assertEquals(
             $result,
             $function()

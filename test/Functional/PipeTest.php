@@ -15,8 +15,7 @@ class PipeTest extends TestCase
         $functions,
         $value,
         $expected
-    )
-    {
+    ) {
         $this->assertEquals(
             $expected,
             f\pipe($value, ...$functions)

@@ -17,8 +17,7 @@ class FilterTest extends TestCase
     public function test_it_should_filter_with_maybe(
         $list,
         $expected
-    )
-    {
+    ) {
         $filter = function (int $i): bool {
             return $i % 2 === 1;
         };

@@ -16,11 +16,10 @@ class DropWhileTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_it(
-        Listt    $a,
+        Listt $a,
         callable $fn,
-        Listt    $expected
-    )
-    {
+        Listt $expected
+    ) {
         $result = dropWhile($fn, $a);
 
         $r = print_r($result->extract(), true);

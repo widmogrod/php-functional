@@ -16,8 +16,7 @@ class ApplicatorTest extends TestCase
         $value,
         callable $fn,
         $expected
-    )
-    {
+    ) {
         $this->assertSame(
             $expected,
             applicator($value, $fn)

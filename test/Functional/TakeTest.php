@@ -17,10 +17,9 @@ class TakeTest extends TestCase
     #[DataProvider('provideData')]
     public function test_it(
         Listt $a,
-        int   $n,
+        int $n,
         Listt $expected
-    )
-    {
+    ) {
         $result = take($n, $a);
 
         $r = print_r($result->extract(), true);

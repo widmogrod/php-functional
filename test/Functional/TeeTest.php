@@ -14,8 +14,7 @@ class TeeTest extends TestCase
     public function test_it_should_be_curried(
         $function,
         $value
-    )
-    {
+    ) {
         $curried = f\tee($function);
         $this->assertEquals($value, $curried($value));
     }
@@ -24,8 +23,7 @@ class TeeTest extends TestCase
     public function test_it_should_return_input_value(
         $function,
         $value
-    )
-    {
+    ) {
         $this->assertEquals($value, f\tee($function, $value));
     }
 

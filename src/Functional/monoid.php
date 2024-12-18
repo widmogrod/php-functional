@@ -27,7 +27,7 @@ const concatM = 'Widmogrod\Functional\concatM';
 /**
  * concatM :: a -> a -> a
  *
- * @param Semigroup $a
+ * @param Semigroup      $a
  * @param Semigroup|null $b
  *
  * @return Semigroup|Closure

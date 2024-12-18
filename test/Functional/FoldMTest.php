@@ -19,8 +19,7 @@ class FoldMTest extends TestCase
     public function test_it_should_work_with_maybe(
         $list,
         $expected
-    )
-    {
+    ) {
         $addSingleDigit = function ($acc, $i) {
             return $i > 9 ? nothing() : just($acc + $i);
         };

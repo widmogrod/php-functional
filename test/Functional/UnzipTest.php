@@ -26,8 +26,7 @@ class UnzipTest extends TestCase
     public function test_it_should_return_zipped_list(
         Listt $a,
         array $expected
-    )
-    {
+    ) {
         [$a, $b] = unzip($a);
         [$ea, $eb] = $expected;
 

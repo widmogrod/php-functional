@@ -14,7 +14,7 @@ interface Either extends
     /**
      * Depending on if is Left or is Right then it apply corresponding function
      *
-     * @param callable $left (a -> b)
+     * @param callable $left  (a -> b)
      * @param callable $right (c -> b)
      *
      * @return mixed b

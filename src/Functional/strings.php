@@ -11,7 +11,7 @@ const concatStrings = 'Widmogrod\Functional\concatStrings';
 /**
  * concatStrings :: String -> String -> String
  *
- * @param string $a
+ * @param string      $a
  * @param string|null $b
  *
  * @return string|Closure

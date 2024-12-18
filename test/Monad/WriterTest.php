@@ -59,8 +59,7 @@ class WriterTest extends TestCase
         Applicative $w,
         callable $f,
         $x
-    )
-    {
+    ) {
         ApplicativeLaws::test(
             function (Writer $a, Writer $b, $message) {
                 $this->assertEquals(
@@ -104,9 +103,8 @@ class WriterTest extends TestCase
     public function test_it_should_obey_functor_laws(
         callable $f,
         callable $g,
-        Functor  $x
-    )
-    {
+        Functor $x
+    ) {
         FunctorLaws::test(
             function (Writer $a, Writer $b, $message) {
                 $this->assertEquals(

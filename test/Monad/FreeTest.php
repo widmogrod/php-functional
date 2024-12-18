@@ -25,9 +25,8 @@ class FreeTest extends TestCase
     public function test_it_should_obey_functor_laws(
         callable $f,
         callable $g,
-        Functor  $x
-    )
-    {
+        Functor $x
+    ) {
         FunctorLaws::test(
             function (MonadFree $a, MonadFree $b, $message) {
                 $this->assertEquals(
@@ -110,8 +109,7 @@ class FreeTest extends TestCase
         Applicative $w,
         callable $f,
         $x
-    )
-    {
+    ) {
         ApplicativeLaws::test(
             function (MonadFree $a, MonadFree $b, $message) {
                 $this->assertEquals(

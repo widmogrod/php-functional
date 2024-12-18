@@ -15,8 +15,7 @@ class PushTest extends TestCase
         $array,
         $value,
         $expected
-    )
-    {
+    ) {
         $this->assertEquals($expected, f\push_($array, $value));
     }
 

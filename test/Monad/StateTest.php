@@ -62,8 +62,7 @@ class StateTest extends TestCase
         callable $f,
         $x,
         $state
-    )
-    {
+    ) {
         ApplicativeLaws::test(
             function (State $a, State $b, $message) use ($state) {
                 $this->assertEquals(
@@ -108,10 +107,9 @@ class StateTest extends TestCase
     public function test_it_should_obey_functor_laws(
         callable $f,
         callable $g,
-        Functor  $x,
-                 $state
-    )
-    {
+        Functor $x,
+        $state
+    ) {
         FunctorLaws::test(
             function (State $a, State $b, $message) use ($state) {
                 $this->assertEquals(

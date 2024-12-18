@@ -27,8 +27,7 @@ class ZipTest extends TestCase
         Listt $a,
         Listt $b,
         Listt $expected
-    )
-    {
+    ) {
         $result = zip($a, $b);
 
         $r = print_r($result->extract(), true);

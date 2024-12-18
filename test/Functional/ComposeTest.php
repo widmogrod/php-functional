@@ -21,8 +21,7 @@ class ComposeTest extends TestCase
         $functions,
         $value,
         $expected
-    )
-    {
+    ) {
         $fn = f\compose(...$functions);
         $this->assertEquals(
             $expected,

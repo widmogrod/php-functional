@@ -57,9 +57,9 @@ const either = 'Widmogrod\Monad\Either\either';
  *
  * either :: (a -> c) -> (b -> c) -> Either a b -> c
  *
- * @param callable $left (a -> c)
- * @param callable $right (b -> c)
- * @param Either $either Either a b
+ * @param callable $left   (a -> c)
+ * @param callable $right  (b -> c)
+ * @param Either   $either Either a b
  *
  * @return mixed c
  */
@@ -79,7 +79,7 @@ const doubleMap = 'Widmogrod\Monad\Either\doubleMap';
  *
  * @param callable $left
  * @param callable $right
- * @param Either $either
+ * @param Either   $either
  *
  * @return Left|Right|Closure
  */
@@ -101,9 +101,9 @@ const tryCatch = 'Widmogrod\Monad\Either\tryCatch';
  *
  * tryCatch :: Exception e => (a -> b) -> (e -> c) -> a -> Either c b
  *
- * @param callable $function (a -> b)
+ * @param callable $function      (a -> b)
  * @param callable $catchFunction (e -> c)
- * @param mixed $value a
+ * @param mixed    $value         a
  *
  * @return Either|Closure
  */
@@ -137,8 +137,8 @@ const fromLeft = 'Widmogrod\Monad\Either\fromLeft';
 /**
  * fromLeft :: a -> Either a b -> a
  *
- * @param mixed $a
- * @param Either $either
+ * @param  mixed  $a
+ * @param  Either $either
  * @return mixed
  */
 function fromLeft($a, ?Either $either = null)
@@ -153,8 +153,8 @@ const fromRight = 'Widmogrod\Monad\Either\fromRight';
 /**
  * fromRight :: b -> Either a b -> b
  *
- * @param mixed $a
- * @param Either $either
+ * @param  mixed  $a
+ * @param  Either $either
  * @return mixed
  */
 function fromRight($a, ?Either $either = null)

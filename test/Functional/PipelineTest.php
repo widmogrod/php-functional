@@ -21,8 +21,7 @@ class PipelineTest extends TestCase
         $functions,
         $value,
         $expected
-    )
-    {
+    ) {
         $fn = f\pipeline(...$functions);
         $this->assertEquals(
             $expected,

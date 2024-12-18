@@ -18,11 +18,10 @@ class JoinTest extends TestCase
 {
     #[DataProvider('provideData')]
     public function test_it_should_remove_one_level_of_monadic_structure(
-        Monad    $monad,
+        Monad $monad,
         callable $run,
-                 $expected
-    )
-    {
+        $expected
+    ) {
         $result = join($monad);
         $this->assertEquals($expected, $run($result));
     }

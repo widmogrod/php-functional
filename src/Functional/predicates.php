@@ -45,9 +45,9 @@ const orr = 'Widmogrod\Functional\orr';
 /**
  * orr :: (a -> Bool) -> (a -> Bool) -> a -> Bool
  *
- * @param callable $predicateA
+ * @param callable      $predicateA
  * @param callable|null $predicateB
- * @param mixed $value
+ * @param mixed         $value
  *
  * @return bool|Closure
  */

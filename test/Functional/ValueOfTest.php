@@ -18,8 +18,7 @@ class ValueOfTest extends TestCase
     public function test_it_should_return_boxed_value(
         $value,
         $expected
-    )
-    {
+    ) {
         $this->assertSame(
             $expected,
             valueOf($value)

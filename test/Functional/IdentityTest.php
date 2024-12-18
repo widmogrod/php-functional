@@ -13,8 +13,7 @@ class IdentityTest extends TestCase
     #[DataProvider('provideData')]
     public function test_it_should_return_given_value(
         $value
-    )
-    {
+    ) {
         $this->assertEquals($value, f\identity($value));
     }
 

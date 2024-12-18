@@ -15,7 +15,7 @@ interface MonadFree extends FantasyLand\Monad
      * foldFree f (Free as) = f as >>= foldFree f
      * ```
      *
-     * @param callable $f (f x -> m x)
+     * @param callable $f      (f x -> m x)
      * @param callable $return
      *
      * @return FantasyLand\Monad

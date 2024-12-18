@@ -24,7 +24,7 @@ const applicator = 'Widmogrod\Functional\applicator';
 /**
  * applicator :: a -> (a -> b) -> b
  *
- * @param mixed $x
+ * @param mixed    $x
  * @param callable $f
  *
  * @return mixed
@@ -45,7 +45,7 @@ const invoke = 'Widmogrod\Functional\invoke';
  * invoke :: a -> #{a: (_ -> b)} -> b
  *
  * @param string $method
- * @param mixed $object
+ * @param mixed  $object
  *
  * @return mixed
  */
@@ -59,9 +59,9 @@ function invoke($method, $object = null)
 /**
  * Curry function
  *
- * @param int $numberOfArguments
+ * @param int      $numberOfArguments
  * @param callable $function
- * @param array $args
+ * @param array    $args
  *
  * @return callable
  */
@@ -80,7 +80,7 @@ function curryN($numberOfArguments, callable $function, array $args = [])
  * Curry function
  *
  * @param callable $function
- * @param array $args
+ * @param array    $args
  *
  * @return callable
  */
@@ -124,7 +124,7 @@ const tee = 'Widmogrod\Functional\tee';
  * Call $function with $value and return $value
  *
  * @param callable $function
- * @param mixed $value
+ * @param mixed    $value
  *
  * @return Closure
  */
@@ -147,7 +147,7 @@ const reverse = 'Widmogrod\Functional\reverse';
  *
  * Call $function with arguments in reversed order
  *
- * @param callable $function
+ * @param  callable $function
  * @return Closure
  *
  */
@@ -166,8 +166,8 @@ const map = 'Widmogrod\Functional\map';
 /**
  * map :: Functor f => (a -> b) -> f a -> f b
  *
- * @param callable $transformation
- * @param Functor $value
+ * @param  callable      $transformation
+ * @param  Functor       $value
  * @return mixed|Closure
  *
  */
@@ -186,8 +186,8 @@ const bind = 'Widmogrod\Functional\bind';
 /**
  * bind :: Monad m => (a -> m b) -> m a -> m b
  *
- * @param callable $function
- * @param Monad $value
+ * @param  callable      $function
+ * @param  Monad         $value
  * @return mixed|Closure
  *
  */
@@ -223,8 +223,8 @@ const reduce = 'Widmogrod\Functional\reduce';
 /**
  * reduce :: Foldable t => (b -> a -> b) -> b -> t a -> b
  *
- * @param callable $callable Binary function ($accumulator, $value)
- * @param mixed $accumulator
+ * @param callable $callable    Binary function ($accumulator, $value)
+ * @param mixed    $accumulator
  * @param Foldable $foldable
  *
  * @return mixed
@@ -233,7 +233,7 @@ function reduce(callable $callable, $accumulator = null, ?Foldable $foldable = n
 {
     return curryN(3, function (
         callable $callable,
-                 $accumulator,
+        $accumulator,
         Foldable $foldable
     ) {
         return $foldable->reduce($callable, $accumulator);
@@ -251,8 +251,8 @@ const foldr = 'Widmogrod\Functional\foldr';
  * Foldr is expresed by foldl (reduce) so it loose some properties.
  * For more reading please read this article https://wiki.haskell.org/Foldl_as_foldr
  *
- * @param callable $callable Binary function ($value, $accumulator)
- * @param mixed $accumulator
+ * @param callable $callable    Binary function ($value, $accumulator)
+ * @param mixed    $accumulator
  * @param Foldable $foldable
  *
  * @return mixed
@@ -261,7 +261,7 @@ function foldr(callable $callback, mixed $initialValue = null, ?Foldable $inputF
 {
     return curryN(3, function (
         callable $callable,
-                 $accumulator,
+        $accumulator,
         Foldable $foldable
     ) {
         return reduce(
@@ -391,17 +391,16 @@ const liftM2 = 'Widmogrod\Functional\liftM2';
  *  liftM2 (+) (Just 1) Nothing = Nothing
  *
  * @param callable $transformation
- * @param Monad $ma
- * @param Monad $mb
+ * @param Monad    $ma
+ * @param Monad    $mb
  *
  * @return Monad|Closure
  */
 function liftM2(
     ?callable $transformation = null,
-    ?Monad    $ma = null,
-    ?Monad    $mb = null
-)
-{
+    ?Monad $ma = null,
+    ?Monad $mb = null
+) {
     return call_user_func_array(
         liftA2,
         func_get_args()
@@ -417,23 +416,22 @@ const bindM2 = 'Widmogrod\Functional\bindM2';
  * bindM2 :: Monad m => (a -> b -> m c) -> m a -> m b -> m c
  *
  * @param callable $transformation
- * @param Monad $ma
- * @param Monad $mb
+ * @param Monad    $ma
+ * @param Monad    $mb
  *
  * @return Monad|Closure
  */
 function bindM2(
     ?callable $transformation = null,
-    ?Monad    $ma = null,
-    ?Monad    $mb = null
-)
-{
+    ?Monad $ma = null,
+    ?Monad $mb = null
+) {
     return curryN(
         3,
         function (
             callable $transformation,
-            Monad    $ma,
-            Monad    $mb
+            Monad $ma,
+            Monad $mb
         ) {
             return $ma->bind(function ($a) use ($mb, $transformation) {
                 return $mb->bind(function ($b) use ($a, $transformation) {
@@ -452,20 +450,19 @@ const liftA2 = 'Widmogrod\Functional\liftA2';
 /**
  * liftA2 :: Applicative f => (a -> b -> c) -> f a -> f b -> f c
  *
- * @param callable $transformation
+ * @param callable    $transformation
  * @param Applicative $fa
  * @param Applicative $fb
  *
  * @return Applicative|Closure
  */
 function liftA2(
-    ?callable    $transformation = null,
+    ?callable $transformation = null,
     ?Applicative $fa = null,
     ?Applicative $fb = null
-)
-{
+) {
     return curryN(3, function (
-        callable    $transformation,
+        callable $transformation,
         Applicative $fa,
         Applicative $fb
     ) {
@@ -520,15 +517,15 @@ const traverse = 'Widmogrod\Functional\traverse';
  *
  * Map each element of a structure to an action, evaluate these actions from left to right, and collect the results
  *
- * @param callable $transformation (a -> f b)
- * @param Traversable $t t a
+ * @param callable    $transformation (a -> f b)
+ * @param Traversable $t              t a
  *
  * @return Closure|Applicative f (t b)
  */
 function traverse(callable $transformation, ?Traversable $t = null)
 {
     return curryN(2, function (
-        callable    $transformation,
+        callable $transformation,
         Traversable $t
     ) {
         return $t->traverse($transformation);
@@ -543,7 +540,7 @@ function traverse(callable $transformation, ?Traversable $t = null)
  * foldr :: (a -> b -> b) -> b -> t a -> b
  * liftA2 :: (a -> b -> c) -> f a -> f b -> f c
  *```
- * @param callable $f (a -> m Bool)
+ * @param callable $f  (a -> m Bool)
  * @param Foldable $xs [a]
  *
  * @return Closure|Monad m [a]
@@ -552,7 +549,7 @@ function filterM(callable $f, ?Foldable $xs = null)
 {
     return curryN(2, function (
         callable $f,
-                 $xs
+        $xs
     ) {
         $result = foldr(function ($x, $ys) use ($f) {
             $y = $f($x);
@@ -585,8 +582,8 @@ function filterM(callable $f, ?Foldable $xs = null)
  * foldr :: (a -> b -> b) -> b -> t a -> b
  * ```
  *
- * @param callable $f (a -> b -> m a)
- * @param null $z0
+ * @param callable $f  (a -> b -> m a)
+ * @param null     $z0
  * @param Foldable $xs [b]
  *
  * @return mixed m a
@@ -595,8 +592,8 @@ function foldM(callable $f, $z0 = null, ?Foldable $xs = null)
 {
     return curryN(3, function (
         callable $f,
-                 $z0,
-                 $xs
+        $z0,
+        $xs
     ) {
         $result = foldr(function ($x, $k) use ($f, $z0) {
             if ($k === null) {
