@@ -9,22 +9,22 @@ The purpose of this library is to explore `Functors`, `Applicative Functors`
 and `Monads` in OOP PHP, and provide examples of real world use case.
 
 Monad types available in the project:
- * `State Monad`
- * `IO Monad`
- * `Free Monad`
- * `Either Monad`
- * `Maybe Monad`
- * `Reader Monad`
- * `Writer Monad`
+* `State Monad`
+* `IO Monad`
+* `Free Monad`
+* `Either Monad`
+* `Maybe Monad`
+* `Reader Monad`
+* `Writer Monad`
 
 Exploring functional programing space I noticed that working with primitive values from PHP 
 is very hard and complicates implementation of many functional structures.
 To simplify this experience, set of higher order primitives is introduced in library:
- * `Num`
- * `Sum`
- * `Product`
- * `Stringg`
- * `Listt` (a.k.a List Monad, since `list` is a protected keyword in PHP)
+* `Num`
+* `Sum`
+* `Product`
+* `Stringg`
+* `Listt` (a.k.a. List Monad, since `list` is a protected keyword in PHP)
  
 ## Applications
 Known applications of this project
@@ -240,9 +240,9 @@ assert($r->runReader('World') === 'HELLO GILLES! HOW ARE YOU?')
 
 ### Free Monad in PHP
 Imagine that you first write business logic and don't care about implementation details like:
-  - how and from where get user discounts
-  - how and where save products in basket
-  - and more ...
+* how and where to get user discounts
+* how and where to save products in the basket
+* and more...
 
 When your business logic is complete, then you can concentrate on those details.
 
@@ -314,8 +314,8 @@ $this->assertEquals(
 ## Haskell `do notation` in PHP
 Why Haskell's do notation is interesting?
 
-In Haskell is just an "syntax sugar" and in many ways is not needed, 
-but in PHP control flow of monads can be hard to track.
+In Haskell it's just syntactic sugar and, in many ways, isn't needed,
+but in PHP, the control flow of monads can be hard to track.
 
 Consider example, that use only chaining `bind()` 
 and compare it to the same version but with `do notation` in PHP.
@@ -364,12 +364,12 @@ In recently published book  [`Functional PHP` by Gilles Crettenand](https://www.
 
 ## References
 Here links to their articles`/`libraries that help me understood the domain:
- * http://drboolean.gitbooks.io/mostly-adequate-guide
- * https://github.com/fantasyland/fantasy-land
- * http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html
- * http://learnyouahaskell.com/functors-applicative-functors-and-monoids
- * http://learnyouahaskell.com/starting-out#im-a-list-comprehension
- * http://robotlolita.me/2013/12/08/a-monad-in-practicality-first-class-failures.html
- * http://robotlolita.me/2014/03/20/a-monad-in-practicality-controlling-time.html
- * https://github.com/folktale/data.either
- * https://github.com/widmogrod/php-algorithm-w
+* [Mostly Adequate Guide](http://drboolean.gitbooks.io/mostly-adequate-guide)
+* [Fantasy Land](https://github.com/fantasyland/fantasy-land)
+* [Functors, Applicatives, and Monads in Pictures](http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html)
+* [LYAH: Functors, Applicative Functors, and Monoids](http://learnyouahaskell.com/functors-applicative-functors-and-monoids)
+* [LYAH: List Comprehension](http://learnyouahaskell.com/starting-out#im-a-list-comprehension)
+* [A Monad in Practicality: First-Class Failures](http://robotlolita.me/2013/12/08/a-monad-in-practicality-first-class-failures.html)
+* [A Monad in Practicality: Controlling Time](http://robotlolita.me/2014/03/20/a-monad-in-practicality-controlling-time.html)
+* [folktale/data.either](https://github.com/folktale/data.either)
+* [widmogrod/php-algorithm-w](https://github.com/widmogrod/php-algorithm-w)
